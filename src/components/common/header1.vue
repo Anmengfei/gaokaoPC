@@ -2,44 +2,35 @@
   <div>
    
 
-    <div class="navbar-wrapper">
+    <div class="">
       <div class="container">
 
-        <nav class="navbar navbar-inverse navbar-static-top nav_border">
+        <nav class=" ">
           <div class="container">
             <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
+             
               <a class="navbar-brand" href="#" @click="gotoHomepage">
-                <img src="../../assets/header-logo.png" class="img-logo">
+                <img src="../../assets/logo.png" class="img-logo">
               </a>
             </div>
             <div id="navbar" class="navbar-collapse collapse nav_ul">
-              <ul class="nav navbar-nav ">
+              <ul class="nav navbar-nav nav_moreList">
                 <li  @click="gotoHomepage"><a>首页</a></li>
-                <li @click="gotoAllclasses"><a>全部课程</a></li>
-                <li @click="gotoWork"><a>在线课堂</a></li>
-                <li @click="gotoOnline"><a>在线教学</a></li>
-                <li @click="gotoStudy"><a>科技研学</a></li>
+                <li @click="gotoAllclasses"><a>院校优先</a></li>
+                <li @click="gotoWork"><a>专业优先</a></li>
+                <li @click="gotoOnline"><a>志愿表</a></li>
+                <li @click="gotoStudy"><a>志愿VIP</a></li>
+                <li @click="gotoPlat"><a>1V1专家</a></li>
 
-                <li @click="gotoPlat"><a>资源云平台</a></li>
-                <li @click="gotoCompetition"><a>比赛服务</a></li>
-
-                
               </ul>
               <ul class="nav navbar-nav ul2_nav">
                 <li>
-                  <a v-if="flag_login === '已登录'" class="nav_a">
+                  <a v-if="flag_state === true" class="nav_a">
                     <user-setting-popover ></user-setting-popover>
-
                   </a>
 
-                  <a v-if="flag_login !== '已登录'" >
-                    <!-- <Logout ></Logout> -->
+                  <a v-else  class="nav_logout">
+                    <Logout ></Logout>
                   </a>
                 </li>
 
@@ -54,15 +45,15 @@
 </template>
 
 <script>
-// import userSettingPopover from '@/components/userSetting/userSettingPopover'
-// import Logout from '@/components/userSetting/logout'
+import userSettingPopover from '@/components/userSetting/userSettingPopover'
+import Logout from '@/components/userSetting/logout'
 export default {
   name: 'header',
-  // components: { userSettingPopover, Logout },
+  components: { userSettingPopover, Logout },
   data () {
     return {
       flag_login: '未登录',
-      flag_state: true
+      flag_state: false
     }
   },
   props: {
@@ -76,6 +67,7 @@ export default {
     } else {
       this.flag_state = false
     }
+    this.flag_state = false
   },
   mounted () {
   },
@@ -190,47 +182,21 @@ export default {
 </script>
 
 <style scoped>
-  /*.navbar-container {*/
-    /*!*height: 80px;*!*/
-    /*padding: 20px;*/
-    /*background-color: rgba(0, 0, 0, 0.3);*/
-    /*position: absolute;*/
-    /*top: 0;*/
-    /*right: 0;*/
-    /*left: 0;*/
-    /*z-index: 20;*/
-  /*}*/
-  /*.logo {*/
-    /*float: left;*/
-  /*}*/
-  /*.nav-list {*/
-    /*padding-left: 5px;*/
-    /*padding-right: 5px;*/
-    /*float: left;*/
-    /*margin-left: 500px;*/
-    /*!*line-height: 80px;*!*/
-  /*}*/
-  /*.nav-list ul li {*/
-    /*float: left;*/
-    /*list-style: none;*/
-    /*color: white;*/
-    /*margin-right: 60px;*/
-  /*}*/
-  /*.header-img {*/
-    /*float: right;*/
-  /*}*/
+  
   @import "carousel.css";
   .nav li {
     margin-right: 70px;
+    margin-top: 10px;
   }
   .nav li a {
     color: white;
     cursor: pointer;
     font-size: 20px;
   }
-  .nav li a:hover {
-   color: #16bcb4;
-    font-weight: bolder;
+  .nav_moreList li a:hover {
+    color: #16bcb4;
+    /* font-weight: bolder; */
+    background-color: transparent; 
   }
   .container {
     width: 100%;
@@ -245,8 +211,13 @@ export default {
     margin-left: 300px;
   }
   .ul2_nav {
+   
     margin-right: 20px;
     float: right;
+  }
+  .ul2_nav li a:hover {
+   
+    background-color: transparent; 
   }
   .nav_border {
     border-bottom: rgba(0, 0, 0, 0);
@@ -258,10 +229,10 @@ export default {
     padding: 0;
     margin-top: 10px;
   }
+ 
   .img-logo {
     height: 49px;
-    margin-left: 60px;
-    /*margin-top: 5px;*/
+    margin-left: 5px;
   }
   .navbar-brand {
     padding: 15px;
