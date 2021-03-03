@@ -167,13 +167,22 @@
       </div>
        
       <div class="fiveRow-box">
-        <div class="box-content" v-if="loginStatus === false">
+        <div class="box-content" v-if="loginStatus !== false">
           <a href="#">登录添加成绩信息</a><br />
           <h>大数据+AI智能准确推荐合适你的院校</h>
         </div>
         <div v-else>
-          <ul >
-            <li></li>
+          <ul class="default-list">
+            <li class="commend-item" v-for="(item, index) in recommandList" @click="selectSchoolItem(index, item)">
+               <img :src="item.url" class="commend-item-image">
+               <h4 class="commend-item-title textOverflow">{{item.name}}</h4>
+               <p class="commend-item-code">招生代码 {{item.code}}</p>
+               <p class="commend-item-des">{{item.des}}</p>
+            </li>
+            <li class="commend-item">
+              <i class="el-icon-arrow-right moreIcn"></i>
+              <h4 class="commend-item-title more">查看更多</h4>
+            </li>
           </ul>
         </div>
       </div>
@@ -185,7 +194,7 @@
         <a href="#">查看更多>></a>
       </div>
       <div class="sixRow-box">
-        <div class="item_01">
+        <!-- <div class="item_01">
           <div class="picture">
             <img src="../../assets/logo34.png" alt="" />
           </div>
@@ -214,15 +223,30 @@
             <h6>【山东】 2020年招生计划、批次线、录取概率全部更新</h6>
           </div>
           <div class="date2">2020.07.27</div>
+        </div> -->
+        <div class="wap">
+          <div class="skeleton">
+            <ul class="list">
+              <li class="item" v-for="(item, index) in zixunList" @click="selectZixun(item, index)">
+                <div class="image">
+                  <img :src="item.url" class="zixunImage" />
+                </div>
+                <div class="content">
+                  <div class="content-title content-title-gray">
+                    <span class="title">{{item.title}}</span>
+                    <span class="time">{{item.time}}</span>
+                  </div>
+                  <div class="news" maxlines="2" font-size="14">
+                    {{item.news}}
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-    <div class="sixRow_1">
-      <el-container>
-        <el-header>Header</el-header>
-        <el-main>Main</el-main>
-      </el-container>
-    </div>
+    
     <div class="sevenRow">
       <div class="sevenRow-header">
         <span class="shuxian"></span>
@@ -233,6 +257,7 @@
         <div class="video1">
           <div class="video1-header">
             <img src="../../assets/logo66.png" alt="" class="image" />
+            <img src="../../assets/play_05.png"  class="play-btn">
           </div>
           <div class="video1-box">
             <p>iPIN牵手新东方，展开教育+人工智能深度合作</p>
@@ -241,6 +266,7 @@
         <div class="video2">
           <div class="video1-header">
             <img src="../../assets/logo66.png" alt="" class="image" />
+            <img src="../../assets/play_05.png"  class="play-btn">
           </div>
           <div class="video1-box">
             <p>完美志愿做客郑州教育电视台</p>
@@ -249,12 +275,15 @@
         <div class="video3">
           <div class="video1-header">
             <img src="../../assets/logo66.png" alt="" class="image" />
+            <img src="../../assets/play_05.png"  class="play-btn">
           </div>
           <div class="video1-box">
             <p>俞敏洪、杨洋、晨露对谈:高考志愿能否决定你的未来？</p>
           </div>
         </div>
       </div>
+      
+
     </div>
     <div class="eightRow">
       <div class="eR-l">
@@ -311,6 +340,74 @@ export default {
   components: { HomeHeader, Footer },
   data() {
     return {
+      recommandList: [
+        {
+          id:1,
+          url: 'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
+          name: '首都师范大学',
+          code: '1052[01]',
+          des: '北京'
+        },
+        {
+          id:2,
+          url: 'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
+          name: '北京大学',
+          code: '1052[01]',
+          des: '北京'
+        },
+        {
+          id:3,
+          url: 'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
+          name: '上海师范大学',
+          code: '1052[01]',
+          des: '北京'
+        },
+        {
+          id:4,
+          url: 'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
+          name: '华中师范大学',
+          code: '1052[01]',
+          des: '北京'
+        },
+         {
+          id:5,
+          url: 'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
+          name: '华中师范大学',
+          code: '1052[01]',
+          des: '北京'
+        },
+         {
+          id:6,
+          url: 'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
+          name: '华中师范大学',
+          code: '1052[01]',
+          des: '北京'
+        }
+
+      ],
+      zixunList: [
+        {
+          id: 1,
+          url: 'https://storage-oss.ipin.com/oss-data/articleimage-20200728121805278842.png',
+          title: '【北京】本科批志愿填报倒计时最后1天',
+          time: '2020.07.31',
+          news: '【北京】本科批志愿填报倒计时最后1天'
+        },
+        {
+          id: 2,
+          url: 'https://storage-oss.ipin.com/oss-data/articleimage-20200728121805278842.png',
+          title: '【北京】本科批志愿填报倒计时最后1天',
+          time: '2020.07.31',
+          news: '【北京】本科批志愿填报倒计时最后1天'
+        },
+        {
+          id: 3,
+          url: 'https://storage-oss.ipin.com/oss-data/articleimage-20200728121805278842.png',
+          title: '【北京】本科批志愿填报倒计时最后1天',
+          time: '2020.07.31',
+          news: '【北京】本科批志愿填报倒计时最后1天'
+        }
+      ],
       form: {
         name: ''
       },
@@ -769,7 +866,7 @@ li a {
   color: #a5a5a5;
 }
 .sixRow {
-  height: 760px;
+  height: 560px;
   width: 1400px;
   margin: 0 auto;
 }
@@ -891,6 +988,7 @@ li a {
   height: 450px;
   width: 1400px;
   margin: 0 auto;
+  margin-top: 50px;
 }
 .sevenRow-header {
   margin-top: 10px;
@@ -941,15 +1039,34 @@ li a {
   height: 250px;
   width: 450px;
   background-color: #f95e5a;
+  position: relative;
 }
 .video1-header .image {
   height: 100%;
   width: 100%;
+  border-radius: 10px 10px 0 0;
 }
+
+ .play-btn {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    z-index: 100;
+    top:30%;
+    left: 40%;
+  }
+
 .video1-box {
-  height: 100px;
+  /* height: 100px;
   width: 450px;
-  font-weight: bold;
+  font-weight: bold; */
+  /* margin: 20px 30px 10px 30px; */
+  text-align: center;
+    color: rgba(0,0,0,0.8);
+    font-size: 18px;
+    line-height: 28px;
+    -webkit-transition: all 0.2s linear;
+    transition: all 0.2s linear;
 }
 .video1-box p {
   display: inline-block;
@@ -1022,5 +1139,147 @@ li a {
     width: 100%;
     height: 100%;
   }
+  
+.default-list {
+    position: relative;
+    width: 1400px;
+    padding: 0px 35px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: rgb(0 0 0 / 4%) 0px 2px 4px 0px;
+}
+.commend-item {
+  float: left;
+  margin: 20px 30px 20px 10px;
+  background: rgb(255, 255, 255);
+  padding: 15px 0px;
+  border-radius: 10px;
+  width: 150px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s linear 0s;
+}
+.commend-item:hover {
+  box-shadow: rgb(0 0 0 / 8%) 0px 3px 8px 0px;
+  transform: translate3d(0px, -8px, 0px);
+}
+.commend-item-image {
+  display: block;
+  width: 60px;
+  height: 60px;
+  margin: 0px auto;
+}
+.commend-item-title {
+  margin: 15px auto 9px;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 14px;
+  width: 115px;
+}
+.textOverflow {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+.commend-item-code {
+  background: rgb(242, 242, 242);
+  border-radius: 12px;
+  display: inline-block;
+  font-size: 12px;
+  color: rgb(120, 120, 120);
+  padding: 3px 8px;
+  margin-bottom: 7px;
+}
+.commend-item-des {
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 12px;
+  letter-spacing: 0px;
+}
+.moreIcn {
+  font-size: 80px;
+  color:#00a4ff;
+}
+.commend-item-title {
+    margin: 15px auto 9px;
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 14px;
+    width: 115px;
+}
+
+ .more {
+   margin-top: 25px;
+    font-size: 14px;
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.5);
+ }
+.wap {
+  padding: 0px 20px;
+  background: rgb(255, 255, 255);
+  box-shadow: rgb(0 0 0 / 4%) 0px 2px 4px 0px;
+  border-radius: 10px;
+  width: 1400px;
+  height: 450px;
+   
+}
+.wap .skeleton .list{
+  
+  background: rgb(255, 255, 255);
+  z-index: 0;
+}
+.wap .skeleton .list::after{
+  display: table;
+  content: ''
+}
+.wap .skeleton .list .item {
+  width: 80%;
+  position: relative;
+  padding: 20px 0px;
+  margin: 5px 10px;;
+  cursor: pointer;
+  font-weight: 600;
+  border-bottom: 1px solid rgb(239, 239, 239);
+}
+.wap .list .image {
+  width: 150px;
+    height: 100px;
+    border-radius: 10px;
+    margin-right: 40px;
+}
+.wap .list .image .zixunImage {
+  width: 150px;
+    border-radius: 10px;
+    height: 100px;
+}
+.wap .content {
+  position: absolute;
+    width: 1000px;
+    top: 30px;
+    left: 190px;
+}
+.wap .content .content-title {
+  font-size: 18px;
+    color: rgb(30, 30, 30);
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.wap .content .content-title-gray {
+      color: rgb(124, 124, 124);
+}
+.wap .time {
+    float: right;
+    margin-right: 50px;
+    font-size: 12px;
+    color: rgb(174, 174, 174);
+    display: inline-block;
+}
+.wap .news {
+  font-size: 14px;
+    color: rgb(124, 124, 124);
+    letter-spacing: 0px;
+    text-align: justify;
+    line-height: 22px;
+    width: 800px;
+    height: 44px;
+}
   
 </style>
