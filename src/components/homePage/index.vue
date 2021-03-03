@@ -90,10 +90,15 @@
       <HomeHeader :flagInfo="loginStatus"></HomeHeader>
     </div>
     <div class="fourRow">
-       <div class="carouselList">
-        <el-carousel class="carousel-img" height="400px" >
-          <el-carousel-item  v-for="(item, index) in schna" :key="index" class="carousel-item" @click.native="itemClick(item, index)">
-            <img :src="item" alt="" >
+      <div class="carouselList">
+        <el-carousel class="carousel-img" height="400px">
+          <el-carousel-item
+            v-for="(item, index) in schna"
+            :key="index"
+            class="carousel-item"
+            @click.native="itemClick(item, index)"
+          >
+            <img :src="item" alt="" />
           </el-carousel-item>
         </el-carousel>
       </div>
@@ -103,7 +108,7 @@
           <el-tag class="denglu-label" type="warning"
             >登录后，推荐适合你的院校</el-tag
           >
-          <div class="form-item" >
+          <div class="form-item">
             <div class="gaokaozongfen">
               <span class="span1">高考总分</span
               ><span class="span2">输入预估总分</span>
@@ -121,23 +126,52 @@
       <div class="zhiyuan" v-else>
         <div class="content">
           <div class="header">模拟高考志愿填报</div>
-          
+
           <div class="form-item2">
             <div>
-                <div class="editScore" >
-                  <i class="el-icon-edit"></i><span>修改成绩</span>
+              <div class="editScore">
+                <i class="el-icon-edit"></i><span>修改成绩</span>
+              </div>
+              <div>
+                <div class="score-item">
+                  <span class="label">高考省份</span>&nbsp;&nbsp;<span
+                    class="value"
+                    >北京</span
+                  >
                 </div>
-                <div>
-                  <div class="score-item"><span class="label">高考省份</span>&nbsp;&nbsp;<span class="value">北京</span></div>
-                  <div class="score-item"><span class="label">科目类型</span>&nbsp;&nbsp;<span class="value">物理/化学/生物</span></div>
-                  <div class="score-item"><span class="label">高考总分</span>&nbsp;&nbsp;<span class="value">572</span></div>
-                  <div class="score-item"><span class="label">本科预估排名</span>&nbsp;&nbsp;<span class="value">13923</span></div>
-                  <div class="score-item"><span class="label">语数外总分</span>&nbsp;&nbsp;<span class="value">360</span></div>
-                  <div class="score-item"><span class="label">专科预估排名</span>&nbsp;&nbsp;<span class="value">28</span></div>
+                <div class="score-item">
+                  <span class="label">科目类型</span>&nbsp;&nbsp;<span
+                    class="value"
+                    >物理/化学/生物</span
+                  >
                 </div>
-                
+                <div class="score-item">
+                  <span class="label">高考总分</span>&nbsp;&nbsp;<span
+                    class="value"
+                    >572</span
+                  >
+                </div>
+                <div class="score-item">
+                  <span class="label">本科预估排名</span>&nbsp;&nbsp;<span
+                    class="value"
+                    >13923</span
+                  >
+                </div>
+                <div class="score-item">
+                  <span class="label">语数外总分</span>&nbsp;&nbsp;<span
+                    class="value"
+                    >360</span
+                  >
+                </div>
+                <div class="score-item">
+                  <span class="label">专科预估排名</span>&nbsp;&nbsp;<span
+                    class="value"
+                    >28</span
+                  >
+                </div>
+              </div>
             </div>
-           
+
             <div class="tuijianButton">
               <el-button class="btn" type="primary" round>智能推荐</el-button>
             </div>
@@ -151,28 +185,27 @@
         <span class="shuxian"></span>
         <div class="shuxian-l">院校推荐</div>
         <div v-if="loginStatus !== false">
-           <div class="btn" >
-              <a href="#">登录</a>
-            </div>
-            <div class="shuxian-r">推荐更合适你的院校</div>
+          <div class="btn">
+            <a href="#">登录</a>
+          </div>
+          <div class="shuxian-r">推荐更合适你的院校</div>
         </div>
         <div v-else>
           <div class="shuxian-r">
-            <span>北京</span>&nbsp;&nbsp;
-            <span>物/化/生</span>&nbsp;&nbsp;
+            <span>北京</span>&nbsp;&nbsp; <span>物/化/生</span>&nbsp;&nbsp;
             <span>本科</span>&nbsp;&nbsp;
             <span>572</span>
           </div>
         </div>
       </div>
-       
+
       <div class="fiveRow-box">
         <div class="box-content" v-if="loginStatus === false">
           <a href="#">登录添加成绩信息</a><br />
           <h>大数据+AI智能准确推荐合适你的院校</h>
         </div>
         <div v-else>
-          <ul >
+          <ul>
             <li></li>
           </ul>
         </div>
@@ -290,6 +323,51 @@
         <p class="p2">工作日：9:30-18:30</p>
       </div>
     </div>
+    <div class="zy-table">
+      <div class="zy-content">
+        <h3>模拟高考志愿</h3>
+        <h5>输入成绩信息，为您精准推荐</h5>
+        <div>
+          <div class="sf">
+            <el-row>
+              <el-col :span="8"><div class="sf-o1">高考省份</div></el-col>
+              <el-col :span="8"
+                ><div class="sf-02">
+                  <el-dropdown>
+                    <el-button type="primary">
+                      安徽<i class="el-icon-arrow-down el-icon--right"></i>
+                    </el-button>
+                    <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item>黄金糕</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </el-dropdown>
+                </div></el-col
+              >
+              <el-col :span="8"
+                ><div class="grid-content bg-purple">
+                  <el-dropdown>
+                    <el-button type="primary">
+                      普通招生<i class="el-icon-arrow-down el-icon--right"></i>
+                    </el-button>
+                    <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item>黄金糕</el-dropdown-item>
+                      <el-dropdown-item>狮子头</el-dropdown-item>
+                      <el-dropdown-item>螺蛳粉</el-dropdown-item>
+                      <el-dropdown-item>双皮奶</el-dropdown-item>
+                      <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </el-dropdown>
+                </div></el-col
+              >
+            </el-row>
+          </div>
+          <div class="km"></div>
+          <div class="zf-pm"></div>
+          <div class="year"></div>
+          <button></button>
+        </div>
+      </div>
+    </div>
     <!-- <el-backtop :bottom="60" class="backtop-style">
       <div class="backtop-text">
         <span>返回顶部</span>
@@ -312,7 +390,7 @@ export default {
   data() {
     return {
       form: {
-        name: ''
+        name: "",
       },
       loginStatus: false,
       value1: "5",
@@ -328,8 +406,11 @@ export default {
       selectProvince: "",
       provincesList: ["北京", "上海", "广州", "深圳"],
       searchValue: "",
-      schna: [ 'https://www.zhongkeruitong.top/CCZX_image/newBanner2.jpg','https://www.zhongkeruitong.top/CCZX_image/banner5.png','https://www.zhongkeruitong.top/CCZX_image/photo2.jpg'],
-
+      schna: [
+        "https://www.zhongkeruitong.top/CCZX_image/newBanner2.jpg",
+        "https://www.zhongkeruitong.top/CCZX_image/banner5.png",
+        "https://www.zhongkeruitong.top/CCZX_image/photo2.jpg",
+      ],
     };
   },
   created() {
@@ -474,7 +555,6 @@ a {
   background-color: #f95e5a;
   width: 100%;
   height: 70px;
-  
 }
 .knl-nav {
   float: left;
@@ -515,13 +595,12 @@ li a {
   color: #fff;
   text-align: center;
   line-height: 70px;
-  
 }
 /*第四行  高考志愿百科*/
 .fourRow {
   width: 1500px;
   height: 420px;
-  
+
   /* background: url(../../assets/u23.png);
   background-size: 100%; */
 }
@@ -530,7 +609,6 @@ li a {
   height: 100%;
   position: absolute;
   z-index: 1;
-
 }
 .zhiyuan {
   /* margin-top:20px; */
@@ -541,7 +619,6 @@ li a {
   position: absolute;
 }
 .zhiyuan .content {
-  
   width: 100%;
   height: 100%;
   background-color: #fff;
@@ -563,50 +640,45 @@ li a {
   text-align: center;
 }
 .form-style {
-    width: 100%;
-
-  }
-  .form-item-style {
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    margin-top: 20px;
-  }
-  .input-style >>> .el-input__inner{
-    border: 0;
-    
-  }
-  .form-item2 {
-    margin-top: 10px;
-    padding: 15px 20px;
-    background-color: rgba(0,175,240,0.05);
-    border-radius: 10px;
-    
-  }
-  .editScore {
-    color:#00a4ff;
-    float: right;
-  }
-  .score-item {
-    margin-bottom: 10px;
-    position: relative;
-    height: 20px;
-    
-    
-  }
-  .score-item .label {
-    margin-left: 10px;
-    display: inline-block;
-    width: 100px;
-    color: rgba(0,0,0,0.5);
-    font-size: 14px;
-    text-align: left;
-  }
-  .score-item .value {
-    margin-left: 10px;
-    display: inline-block;
-    color: rgba(0,0,0,0.8);
-    font-size: 14px;
-  }
+  width: 100%;
+}
+.form-item-style {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin-top: 20px;
+}
+.input-style >>> .el-input__inner {
+  border: 0;
+}
+.form-item2 {
+  margin-top: 10px;
+  padding: 15px 20px;
+  background-color: rgba(0, 175, 240, 0.05);
+  border-radius: 10px;
+}
+.editScore {
+  color: #00a4ff;
+  float: right;
+}
+.score-item {
+  margin-bottom: 10px;
+  position: relative;
+  height: 20px;
+}
+.score-item .label {
+  margin-left: 10px;
+  display: inline-block;
+  width: 100px;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+  text-align: left;
+}
+.score-item .value {
+  margin-left: 10px;
+  display: inline-block;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 14px;
+}
 .gaokaozongfen {
   margin-top: 20px;
   width: 100%;
@@ -675,7 +747,7 @@ li a {
   width: 340px;
   height: 45px;
 }
-.tuijianButton .btn{
+.tuijianButton .btn {
   margin-top: 20px;
   width: 340px;
   height: 45px;
@@ -683,8 +755,8 @@ li a {
 .viewTable {
   display: block;
   float: left;
-  margin-left:45%;
-  color:#00a4ff;
+  margin-left: 45%;
+  color: #00a4ff;
   margin-top: 10px;
   font-size: 13px;
 }
@@ -748,8 +820,8 @@ li a {
   font-size: 15px;
 }
 .shuxian-r span {
-  color: rgba(0,0,0,0.5);
-}   
+  color: rgba(0, 0, 0, 0.5);
+}
 .box-content {
   width: 400px;
   height: 80px;
@@ -1015,12 +1087,28 @@ li a {
   color: #fff;
 }
 .carousel-img {
-    width: 100%;
-    /*height: 665px;*/
-  }
-  .carousel-img img {
-    width: 100%;
-    height: 100%;
-  }
-  
+  width: 100%;
+  /*height: 665px;*/
+}
+.carousel-img img {
+  width: 100%;
+  height: 100%;
+}
+.zy-table {
+  height: 700px;
+  width: 700px;
+  background-color: pink;
+  margin: 0 auto;
+}
+.zy-content {
+  margin: 20px 10px 20px 10px;
+}
+.zy-content h3 {
+  display: block;
+}
+.zy-content h5 {
+  display: block;
+  margin-top: 20px;
+  color: #7d7d7d;
+}
 </style>
