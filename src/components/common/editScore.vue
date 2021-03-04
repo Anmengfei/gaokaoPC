@@ -133,7 +133,7 @@ export default {
 <style scoped>
 .score {
     box-sizing: border-box;
-    width: 560px;
+    width: 580px;
     padding: 20px 20px 30px;
     font-size: 14px;
     line-height: 20px;
@@ -194,7 +194,7 @@ h3 .jsx-3804238702 {
     color: rgb(30, 30, 30);
 }
 .btn {
-    margin-left:20px;
+    margin-left:60px;
     margin-top:10px;
     color: #fff;
     border-radius: 10px;
