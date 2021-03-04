@@ -124,7 +124,7 @@
           
           <div class="form-item2">
             <div>
-                <div class="editScore" >
+                <div class="editScore" @click="modifyScore">
                   <i class="el-icon-edit"></i><span>修改成绩</span>
                 </div>
                 <div>
@@ -328,18 +328,24 @@
     </el-backtop>
 
     <Footer></Footer> -->
+
+    <el-dialog :visible.sync="scoreDialog" width="34%">
+      <edit-score class="editScoreStyle"></edit-score>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
+import EditScore from "@/components/common/editScore";
 import $ from "jquery";
 export default {
   name: "index",
-  components: { HomeHeader, Footer },
+  components: { HomeHeader, Footer, EditScore },
   data() {
     return {
+      scoreDialog: false,
       recommandList: [
         {
           id:1,
@@ -458,6 +464,10 @@ export default {
     this.getInfo();
   },
   methods: {
+    modifyScore() {
+      console.log("123")
+      this.scoreDialog = true
+    },
     login() {
       // alert(1)
     },
@@ -688,13 +698,16 @@ li a {
     
   }
   .editScore {
+    position: relative;
     color:#00a4ff;
     float: right;
+    z-index: 999;
   }
   .score-item {
     margin-bottom: 10px;
     position: relative;
     height: 20px;
+    z-index: 900;
     
     
   }
@@ -1293,5 +1306,8 @@ li a {
   .selectProvinceStyle {
     width: 200px;
      margin-right: 10px;
+  }
+  .editScoreStyle {
+    margin-top: -40px;
   }
 </style>
