@@ -75,7 +75,7 @@ export default {
       // } else {
       //   this.$router.push('/AllCourses')
       // }
-      this.$router.push("/BasicInfo");
+      this.$router.push("/SchoolRecommand");
     },
     openInfo() {
       this.$confirm("请尽快完善个人资料,完善个人资料后开放此模块", "提示信息", {

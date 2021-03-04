@@ -39,7 +39,7 @@
             v-model="selectProvince"
             placeholder="请选择省份"
             clearable
-            style="width: 200px; margin-right: 10px"
+            class="selectProvinceStyle"
           >
             <el-option
               v-for="dict in provincesList"
@@ -91,7 +91,7 @@
     </div>
     <div class="fourRow">
        <div class="carouselList">
-        <el-carousel class="carousel-img" height="400px" >
+        <el-carousel class="carousel-img" height="300px" >
           <el-carousel-item  v-for="(item, index) in schna" :key="index" class="carousel-item" @click.native="itemClick(item, index)">
             <img :src="item" alt="" >
           </el-carousel-item>
@@ -461,6 +461,11 @@ export default {
     login() {
       // alert(1)
     },
+    selectSchoolItem(item, index) {
+      console.log("item", item)
+      console.log("index", index)
+      this.$router.push("/SchoolInfo")
+    },
     regist() {},
     setBannerH() {
       this.bannerH = document.body.clientWidth / 4;
@@ -588,9 +593,12 @@ a {
   width: 1500px;
   height: 70px;
 }
-
 li {
-  float: left;
+  list-style: none;
+}
+
+.el-select-dropdown__list li {
+  
   list-style: none;
   padding-left: 30px;
 }
@@ -617,14 +625,14 @@ li a {
 /*第四行  高考志愿百科*/
 .fourRow {
   width: 1500px;
-  height: 420px;
+  height: 400px;
   
   /* background: url(../../assets/u23.png);
   background-size: 100%; */
 }
 .carouselList {
   width: 100%;
-  height: 100%;
+  height: inherit;
   position: absolute;
   z-index: 1;
 
@@ -634,7 +642,7 @@ li a {
   z-index: 2;
   margin-left: 1300px;
   width: 500px;
-  height: 400px;
+  height: 350px;
   position: absolute;
 }
 .zhiyuan .content {
@@ -643,11 +651,11 @@ li a {
   height: 100%;
   background-color: #fff;
   border-radius: 10px;
-  padding: 30px;
+  padding: 5px 30px 5px 30px;
 }
 .content .header {
   font-size: 24px;
-  margin-top: 20px;
+  /* margin-top: 20px; */
   font-weight: bold;
   color: rgba(0, 0, 0, 0.8);
   text-align: center;
@@ -1148,7 +1156,7 @@ li a {
     border-radius: 10px;
     box-shadow: rgb(0 0 0 / 4%) 0px 2px 4px 0px;
 }
-.commend-item {
+.default-list li {
   float: left;
   margin: 20px 30px 20px 10px;
   background: rgb(255, 255, 255);
@@ -1159,7 +1167,8 @@ li a {
   cursor: pointer;
   transition: all 0.2s linear 0s;
 }
-.commend-item:hover {
+.default-list li:hover {
+  cursor: pointer;
   box-shadow: rgb(0 0 0 / 8%) 0px 3px 8px 0px;
   transform: translate3d(0px, -8px, 0px);
 }
@@ -1281,5 +1290,8 @@ li a {
     width: 800px;
     height: 44px;
 }
-  
+  .selectProvinceStyle {
+    width: 200px;
+     margin-right: 10px;
+  }
 </style>
