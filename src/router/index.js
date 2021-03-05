@@ -20,6 +20,11 @@ export default new Router({
             name: 'SchoolInfo',
             component: resolve => require(['@/components/schoolInfo/index'], resolve)
         },
+        {
+            path: '/Recruit',
+            name: 'Recruit',
+            component: resolve => require(['@/components/recruit/index'], resolve)
+        },
 
     ]
 })
