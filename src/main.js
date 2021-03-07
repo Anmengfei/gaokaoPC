@@ -20,7 +20,6 @@ Vue.prototype.$axios = axios
 
 Vue.prototype.clipboard = clipboard
 
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

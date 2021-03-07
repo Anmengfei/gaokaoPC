@@ -212,9 +212,9 @@
 </template>
 
 <script>
-  import Footer from '@/components/common/footer1'
-  import md5 from 'js-md5';
-  import $ from 'jquery'
+import Footer from '@/components/common/footer1'
+import md5 from 'js-md5'
+import $ from 'jquery'
 export default {
   name: 'index',
   components: { Footer },
@@ -309,7 +309,7 @@ export default {
     }
   },
   computed: {
-    showNum() {
+    showNum () {
       if (this.phoneNum === '') {
         return true
       } else {
@@ -317,41 +317,40 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
   },
   methods: {
     applyuser () {
       this.show1 = false
     },
-    getCodes() {
+    getCodes () {
       if (this.phoneNum !== '') {
-        var url = 'https://www.zhongkeruitong.top/towerImg/cms/user/getCode?phone='+this.phoneNum
-        this.$axios.get(url).then((res)=> {
-          if(res.data.code === 0) {
+        var url = 'https://www.zhongkeruitong.top/towerImg/cms/user/getCode?phone=' + this.phoneNum
+        this.$axios.get(url).then((res) => {
+          if (res.data.code === 0) {
             this.timeCode = res.data.data.time
             this.strCode = res.data.data.str
             this.$message.success(res.data.msg)
           } else {
             this.$message.error(res.data.msg)
           }
-          
         })
         this.countNum = 60
         this.showCountNum = false
-        setInterval(()=> {
-          this.countNum = this.countNum-1
+        setInterval(() => {
+          this.countNum = this.countNum - 1
           if (this.countNum === -1) {
             // this.countNum = 0
-            clearInterval();
+            clearInterval()
             this.showCountNum = true
           }
         }, 1000)
       }
     },
-    switchLogin() {
+    switchLogin () {
       this.tagsShow = '登录'
     },
-    switchRegister() {
+    switchRegister () {
       this.tagsShow = '注册'
       this.tagsShow2 = '1'
     },
@@ -364,7 +363,7 @@ export default {
           if (this.radio === '') {
             this.$message.warning('请选择需要注册的角色')
           } else {
-           // var url = 'https://www.zhongkeruitong.top/towerImg/cms/user/register?username=' + this.ruleForm2.username + '&password=' + this.ruleForm2.password1 + '&schoolname=' + this.ruleForm2.class_name + '&role=' + this.radio+ '&phone=' + this.phoneNum
+            // var url = 'https://www.zhongkeruitong.top/towerImg/cms/user/register?username=' + this.ruleForm2.username + '&password=' + this.ruleForm2.password1 + '&schoolname=' + this.ruleForm2.class_name + '&role=' + this.radio+ '&phone=' + this.phoneNum
             var url = `http://58.119.112.14:11020/cms/register?username=${this.ruleForm2.username}&password=${this.ruleForm2.password1}&schoolname=${this.ruleForm2.class_name}&phone=${this.phoneNum}&email=${this.ruleForm2.email}`
             this.$axios.post(url).then((res) => {
               if (res.data.code === 200) {
@@ -380,16 +379,14 @@ export default {
       })
     },
     login () {
-      console.log('token是',localStorage.getItem('token'))
+      console.log('token是', localStorage.getItem('token'))
       if (this.ruleForm1.username === '' || this.ruleForm1.password === '') {
         this.$message.warning('请输入用户名或密码！')
       } else {
-        //var url = 'https://www.zhongkeruitong.top/towerImg/cms/user/login?username=' + this.ruleForm1.username + '&password=' + this.ruleForm1.password
+        // var url = 'https://www.zhongkeruitong.top/towerImg/cms/user/login?username=' + this.ruleForm1.username + '&password=' + this.ruleForm1.password
         var url = `http://58.119.112.14:11020/cms/login?username=${this.ruleForm1.username}&password=${this.ruleForm1.password}`
         this.$axios.post(url).then((res) => {
-          
           if (res.data.code === 200) {
-            
             this.$message.success('登录成功！')
             localStorage.setItem('flag_class', '已登录')
             localStorage.setItem('userId', res.data.userid)
@@ -398,7 +395,7 @@ export default {
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('schoolname', this.ruleForm2.class_name)
             localStorage.setItem('password', this.ruleForm1.password)
-            console.log("登录后的token是", localStorage.getItem('token'))
+            console.log('登录后的token是', localStorage.getItem('token'))
             this.$router.push('/')
             // this.$router.push({
             //   path: '/',
@@ -407,14 +404,13 @@ export default {
             //   }
             // })
           } else {
-            
             this.$message.error(res.data.message)
           }
         })
       }
     },
-    nextButton() {
-      var num = this.duanxinNum.toString()+this.timeCode.toString()
+    nextButton () {
+      var num = this.duanxinNum.toString() + this.timeCode.toString()
       // console.log(num)
       var str = md5(num)
       // console.log(str)

@@ -24,12 +24,12 @@
                                         :value="item">
                                     </el-option>
                                 </el-select>
-                                
+
                             </el-form-item>
                             <p class="provinceTs">高考地区一经确认不可修改</p>
                         </el-form-item>
                     </el-col>
-                    
+
                 </el-row>
 
                 <el-row>
@@ -38,10 +38,10 @@
                             <el-checkbox-group v-model="form.checkSubjectList" @change="selectSubject">
                                 <el-checkbox-button v-for="item in subjects" :label="item" :key="item">{{item}}</el-checkbox-button>
                             </el-checkbox-group>
-                            
+
                         </el-form-item>
                     </el-col>
-                    
+
                 </el-row>
 
                 <el-row :gutter="10">
@@ -77,58 +77,54 @@
         </div>
     </div>
 
-    
 </template>
-
 
 <script>
 export default {
-    name: "BasicInfo",
-    data() {
-        return {
-            form: {
-                province: '',
-                zsType: '',
-                checkSubjectList: [],
-                totalScore: '',
-                ranking: '',
-                mainTotalScore: '',
-                zRanking: ''
-            },
-            rules: {
-                province: [
-                    { required: true, message: '请选择高考省份', trigger: 'blur' },
-                ],
-                checkSubjectList: [
-                    { required: true, message: '请选择科目', trigger: 'blur' },
-                ],
-                totalScore: [
-                    { required: true, message: '请填写高考总分', trigger: 'blur' },
-                ],
-                mainTotalScore: [
-                     { required: true, message: '请填写语数外总分', trigger: 'blur' }
-                ]
-            },
-            provinceList: ['北京', '上海', '广州', '深圳'],
-            zsTypeList: ['普通招生', '自主招生'],
-            subjects: ['物理', '化学', '生物', '政治', '历史', '地理' ],
-            checkSubjectList: []
-        }
-    },
-    methods: {
-        selectSubject(val) {
-            console.log(val)
-            if(val.length > 3) {
-                alert("不能超过3个")
-                console.log(val.pop())
-                console.log("val", val)
-            }
-            
-        }
+  name: 'BasicInfo',
+  data () {
+    return {
+      form: {
+        province: '',
+        zsType: '',
+        checkSubjectList: [],
+        totalScore: '',
+        ranking: '',
+        mainTotalScore: '',
+        zRanking: ''
+      },
+      rules: {
+        province: [
+          { required: true, message: '请选择高考省份', trigger: 'blur' }
+        ],
+        checkSubjectList: [
+          { required: true, message: '请选择科目', trigger: 'blur' }
+        ],
+        totalScore: [
+          { required: true, message: '请填写高考总分', trigger: 'blur' }
+        ],
+        mainTotalScore: [
+          { required: true, message: '请填写语数外总分', trigger: 'blur' }
+        ]
+      },
+      provinceList: ['北京', '上海', '广州', '深圳'],
+      zsTypeList: ['普通招生', '自主招生'],
+      subjects: ['物理', '化学', '生物', '政治', '历史', '地理' ],
+      checkSubjectList: []
     }
+  },
+  methods: {
+    selectSubject (val) {
+      console.log(val)
+      if (val.length > 3) {
+        alert('不能超过3个')
+        console.log(val.pop())
+        console.log('val', val)
+      }
+    }
+  }
 }
 </script>
-
 
 <style scoped>
 .score {
@@ -158,7 +154,7 @@ h3 .jsx-3804238702 {
 }
 .select-style {
     width:180px;
-   
+
     border-radius: 10px;
 }
 .form-style {
@@ -181,7 +177,7 @@ h3 .jsx-3804238702 {
 }
 .input-style {
    width:150px;
-   
+
 }
 .input-style >>> .el-input__inner {
     border-radius: 10px;

@@ -7,21 +7,21 @@
 
 <script>
 export default {
-  name: "logout",
+  name: 'logout',
   methods: {
     // gotoLogin: function () {
     //   alert(123);
     // },
-    gotoLogin() {
-      alert(12345);
+    gotoLogin () {
+      alert(12345)
       // this.$router.push('/login')
     },
-    gotoRegister() {
-      alert(2);
+    gotoRegister () {
+      alert(2)
       // this.$router.push('/login')
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>

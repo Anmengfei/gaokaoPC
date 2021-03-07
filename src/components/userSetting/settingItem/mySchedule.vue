@@ -13,7 +13,7 @@
                         <p>上课时间：{{item.startTime}} - {{item.endTime}}</p>
                     </el-card>
             </el-timeline-item>
-                    
+
         </el-timeline>
     </div>
   </div>
@@ -25,32 +25,31 @@ export default {
   data () {
     return {
       tableData: [],
-      userId: 2,
-      
+      userId: 2
+
     }
   },
-  mounted() {
+  mounted () {
     this.getList()
   },
   methods: {
-    
-    getList () {
-        var url =  `http://58.119.112.14:11020/cms/course/currWeekCourse?userId=${localStorage.getItem('userId')}`
-        this.$axios.get(url, {headers:{Authorization:'Bearer ' + localStorage.getItem('token')}}).then((res) => {
-            console.log(res.data.data)
-            var arr = res.data.data
-            // var arrTmp = []
-            // for(var i = 0; i < arr.length; i++) {
-            //     arr[i].week = '2020/11/11'
 
-            // }
-            this.tableData = arr
-            console.log("AAA", this.tableData)
-        
+    getList () {
+      var url = `http://58.119.112.14:11020/cms/course/currWeekCourse?userId=${localStorage.getItem('userId')}`
+      this.$axios.get(url, {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then((res) => {
+        console.log(res.data.data)
+        var arr = res.data.data
+        // var arrTmp = []
+        // for(var i = 0; i < arr.length; i++) {
+        //     arr[i].week = '2020/11/11'
+
+        // }
+        this.tableData = arr
+        console.log('AAA', this.tableData)
       })
     },
-     changeCard(id) {
-      console.log("didididi", id);
+    changeCard (id) {
+      console.log('didididi', id)
       // this.$router.push("/ClassShowTwo");
       this.$router.push({
         path: '/CourseInfo',
@@ -58,7 +57,7 @@ export default {
           courseId: id
         }
       })
-    },
+    }
   }
 }
 </script>

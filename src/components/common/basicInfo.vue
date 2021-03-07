@@ -49,11 +49,11 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
-      radio: "1",
-    };
-  },
+      radio: '1'
+    }
+  }
   // name: "header",
   // data() {
   //   return {
@@ -74,7 +74,7 @@ export default {
   //     console.log("submit!");
   //   },
   // },
-};
+}
 </script>
 
 <style scoped>

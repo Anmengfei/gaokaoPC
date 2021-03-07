@@ -34,13 +34,13 @@
 export default {
   name: 'footer',
   methods: {
-    gotoAboutUs() {
+    gotoAboutUs () {
       this.$router.push('/AboutUs')
     },
-    gotoLink() {
+    gotoLink () {
       this.$router.push('/BlogRoll')
     },
-    gotoCooper() {
+    gotoCooper () {
       this.$router.push('/cooperation')
     }
   }

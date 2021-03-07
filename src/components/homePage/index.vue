@@ -1,71 +1,7 @@
 <template>
   <div class="app_container">
     <!-- <Header :flags = flag_class class="header" :flagInfo="infoState"></Header> -->
-    <div class="bgGrey">
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <span class="ml50">欢迎来到大数据智能高考志愿填报平台</span>
-        </el-col>
-        <el-col :span="7"> &nbsp; </el-col>
-        <el-col :span="9">
-          <el-row :gutter="20">
-            <el-col :span="7">
-              <span>高考志愿填报QQ群</span>
-            </el-col>
-            <el-col :span="5">
-              <span>手机APP</span>
-            </el-col>
-            <el-col :span="6">
-              <span>微信公众号</span>
-            </el-col>
-            <el-col :span="6">
-              <span>志愿VIP卡激活</span>
-            </el-col>
-          </el-row>
-        </el-col>
-      </el-row>
-    </div>
-
-    <div class="mt20 secondRow">
-      <el-row :gutter="20">
-        <el-col :span="2">
-          <img src="../../assets/logo.jpg" class="img-logo ml50" />
-        </el-col>
-        <el-col :span="3">
-          <div class="plateName">考哪儿</div>
-        </el-col>
-        <el-col :span="3">
-          <el-select
-            v-model="selectProvince"
-            placeholder="请选择省份"
-            clearable
-            class="selectProvinceStyle"
-          >
-            <el-option
-              v-for="dict in provincesList"
-              :key="dict"
-              :label="dict"
-              :value="dict"
-            ></el-option>
-          </el-select>
-        </el-col>
-        <el-col :span="3">&nbsp;</el-col>
-        <el-col :span="5">
-          <el-input
-            v-model="searchValue"
-            placeholder="搜大学/查专业"
-            suffix-icon="el-icon-search"
-          ></el-input>
-        </el-col>
-        <el-col :span="2">&nbsp;</el-col>
-        <el-col :span="6">
-          <div>
-            <span class="tishiOne">祝广大考生金榜提名</span>
-            <span class="tishiTwo">开通VIP</span>
-          </div>
-        </el-col>
-      </el-row>
-    </div>
+    <top-header></top-header>
     <div class="mt20 thirdRow">
       <!-- <div class="knl-nav">考哪儿</div>
       <div class="box-nav">
@@ -121,7 +57,7 @@
       <div class="zhiyuan" v-else>
         <div class="content">
           <div class="header">模拟高考志愿填报</div>
-          
+
           <div class="form-item2">
             <div>
                 <div class="editScore" @click="modifyScore">
@@ -135,9 +71,9 @@
                   <div class="score-item"><span class="label">语数外总分</span>&nbsp;&nbsp;<span class="value">360</span></div>
                   <div class="score-item"><span class="label">专科预估排名</span>&nbsp;&nbsp;<span class="value">28</span></div>
                 </div>
-                
+
             </div>
-           
+
             <div class="tuijianButton">
               <el-button class="btn" type="primary" round>智能推荐</el-button>
             </div>
@@ -165,7 +101,7 @@
           </div>
         </div>
       </div>
-       
+
       <div class="fiveRow-box">
         <div class="box-content" v-if="loginStatus !== false">
           <a href="#">登录添加成绩信息</a><br />
@@ -246,7 +182,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="sevenRow">
       <div class="sevenRow-header">
         <span class="shuxian"></span>
@@ -282,7 +218,6 @@
           </div>
         </div>
       </div>
-      
 
     </div>
     <div class="eightRow">
@@ -336,54 +271,55 @@
 </template>
 
 <script>
-import HomeHeader from "@/components/common/header1";
-import Footer from "@/components/common/footer1";
-import EditScore from "@/components/common/editScore";
-import $ from "jquery";
+import TopHeader from '@/components/common/topheader'
+import HomeHeader from '@/components/common/header1'
+import Footer from '@/components/common/footer1'
+import EditScore from '@/components/common/editScore'
+import $ from 'jquery'
 export default {
-  name: "index",
-  components: { HomeHeader, Footer, EditScore },
-  data() {
+  name: 'index',
+  components: { TopHeader, HomeHeader, Footer, EditScore },
+  data () {
     return {
       scoreDialog: false,
       recommandList: [
         {
-          id:1,
+          id: 1,
           url: 'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
           name: '首都师范大学',
           code: '1052[01]',
           des: '北京'
         },
         {
-          id:2,
+          id: 2,
           url: 'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
           name: '北京大学',
           code: '1052[01]',
           des: '北京'
         },
         {
-          id:3,
+          id: 3,
           url: 'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
           name: '上海师范大学',
           code: '1052[01]',
           des: '北京'
         },
         {
-          id:4,
+          id: 4,
           url: 'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
           name: '华中师范大学',
           code: '1052[01]',
           des: '北京'
         },
-         {
-          id:5,
+        {
+          id: 5,
           url: 'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
           name: '华中师范大学',
           code: '1052[01]',
           des: '北京'
         },
-         {
-          id:6,
+        {
+          id: 6,
           url: 'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
           name: '华中师范大学',
           code: '1052[01]',
@@ -418,126 +354,126 @@ export default {
         name: ''
       },
       loginStatus: false,
-      value1: "5",
+      value1: '5',
       navBarFixed: false,
-      bannerH: "",
+      bannerH: '',
       page: 1,
       size: 100,
       list: [],
       infoState: false,
-      flag_class: "未登录",
+      flag_class: '未登录',
       flag_state: true,
 
-      selectProvince: "",
-      provincesList: ["北京", "上海", "广州", "深圳"],
-      searchValue: "",
-      schna: [ 'https://www.zhongkeruitong.top/CCZX_image/newBanner2.jpg','https://www.zhongkeruitong.top/CCZX_image/banner5.png','https://www.zhongkeruitong.top/CCZX_image/photo2.jpg'],
+      selectProvince: '',
+      provincesList: ['北京', '上海', '广州', '深圳'],
+      searchValue: '',
+      schna: [ 'https://www.zhongkeruitong.top/CCZX_image/newBanner2.jpg', 'https://www.zhongkeruitong.top/CCZX_image/banner5.png', 'https://www.zhongkeruitong.top/CCZX_image/photo2.jpg']
 
-    };
+    }
   },
-  created() {
-    if (localStorage.getItem("flag_class") === null) {
-      this.flag_state = true;
+  created () {
+    if (localStorage.getItem('flag_class') === null) {
+      this.flag_state = true
     } else {
-      this.flag_state = false;
+      this.flag_state = false
     }
   },
   computed: {
-    username() {
-      if (localStorage.getItem("name") === null) {
-        return "ceshi";
+    username () {
+      if (localStorage.getItem('name') === null) {
+        return 'ceshi'
       } else {
-        return localStorage.getItem("name");
+        return localStorage.getItem('name')
       }
-    },
+    }
   },
-  mounted() {
-    window.addEventListener("scroll", this.watchScroll);
-    this.setBannerH();
+  mounted () {
+    window.addEventListener('scroll', this.watchScroll)
+    this.setBannerH()
     window.addEventListener(
-      "resize",
+      'resize',
       () => {
-        this.setBannerH();
+        this.setBannerH()
       },
       false
-    );
-    this.getInfo();
+    )
+    this.getInfo()
   },
   methods: {
-    modifyScore() {
-      console.log("123")
+    modifyScore () {
+      console.log('123')
       this.scoreDialog = true
     },
-    login() {
+    login () {
       // alert(1)
     },
-    selectSchoolItem(item, index) {
-      console.log("item", item)
-      console.log("index", index)
-      this.$router.push("/SchoolInfo")
+    selectSchoolItem (item, index) {
+      console.log('item', item)
+      console.log('index', index)
+      this.$router.push('/SchoolInfo')
     },
-    regist() {},
-    setBannerH() {
-      this.bannerH = document.body.clientWidth / 4;
+    regist () {},
+    setBannerH () {
+      this.bannerH = document.body.clientWidth / 4
     },
-    watchScroll() {
+    watchScroll () {
       var scrollTop =
         window.pageYOffset ||
         document.documentElement.scrollTop ||
-        document.body.scrollTop;
+        document.body.scrollTop
       if (scrollTop > 49) {
-        this.navBarFixed = true;
+        this.navBarFixed = true
       } else {
-        this.navBarFixed = false;
+        this.navBarFixed = false
       }
     },
 
-    getInfo() {
+    getInfo () {
       if (this.flag_state === false) {
         var url = `http://58.119.112.14:11020/cms/system/user/${localStorage.getItem(
-          "userId"
-        )}`;
+          'userId'
+        )}`
 
         this.$axios
           .get(
             url,
             {
               headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-              },
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+              }
             },
             {
               headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-              },
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+              }
             }
           )
           .then((res) => {
-            if (localStorage.getItem("userId")) {
-              this.infoState = false;
+            if (localStorage.getItem('userId')) {
+              this.infoState = false
             } else {
-              this.infoState = true;
+              this.infoState = true
             }
 
             if (this.infoState === true) {
-              this.openInfo();
+              this.openInfo()
             }
-          });
+          })
       }
     },
-    openInfo() {
-      this.$confirm("请尽快完善个人资料", "提示信息", {
-        confirmButtonText: "立即前往",
-        type: "warning",
-        center: true,
+    openInfo () {
+      this.$confirm('请尽快完善个人资料', '提示信息', {
+        confirmButtonText: '立即前往',
+        type: 'warning',
+        center: true
       })
         .then(() => {
-          this.$router.push("/userSetting/personalInformation");
+          this.$router.push('/userSetting/personalInformation')
         })
-        .catch(() => {});
-    },
-  },
-};
+        .catch(() => {})
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -550,6 +486,7 @@ a {
 }
 .app_container {
   background-color: #f3f5f7;
+  overflow-x: hidden;
 }
 .ml50 {
   margin-left: 50px;
@@ -586,7 +523,7 @@ a {
   background-color: #f95e5a;
   width: 100%;
   height: 70px;
-  
+
 }
 .knl-nav {
   float: left;
@@ -608,7 +545,7 @@ li {
 }
 
 .el-select-dropdown__list li {
-  
+
   list-style: none;
   padding-left: 30px;
 }
@@ -630,13 +567,13 @@ li a {
   color: #fff;
   text-align: center;
   line-height: 70px;
-  
+
 }
 /*第四行  高考志愿百科*/
 .fourRow {
   width: 1500px;
   height: 400px;
-  
+
   /* background: url(../../assets/u23.png);
   background-size: 100%; */
 }
@@ -656,7 +593,7 @@ li a {
   position: absolute;
 }
 .zhiyuan .content {
-  
+
   width: 100%;
   height: 100%;
   background-color: #fff;
@@ -688,14 +625,14 @@ li a {
   }
   .input-style >>> .el-input__inner{
     border: 0;
-    
+
   }
   .form-item2 {
     margin-top: 10px;
     padding: 15px 20px;
     background-color: rgba(0,175,240,0.05);
     border-radius: 10px;
-    
+
   }
   .editScore {
     position: relative;
@@ -708,8 +645,7 @@ li a {
     position: relative;
     height: 20px;
     z-index: 900;
-    
-    
+
   }
   .score-item .label {
     margin-left: 10px;
@@ -867,7 +803,7 @@ li a {
 }
 .shuxian-r span {
   color: rgba(0,0,0,0.5);
-}   
+}
 .box-content {
   width: 400px;
   height: 80px;
@@ -1160,7 +1096,7 @@ li a {
     width: 100%;
     height: 100%;
   }
-  
+
 .default-list {
     position: relative;
     width: 1400px;
@@ -1241,10 +1177,10 @@ li a {
   border-radius: 10px;
   width: 1400px;
   height: 450px;
-   
+
 }
 .wap .skeleton .list{
-  
+
   background: rgb(255, 255, 255);
   z-index: 0;
 }

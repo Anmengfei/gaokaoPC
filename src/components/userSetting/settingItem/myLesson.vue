@@ -5,7 +5,7 @@
         <el-tab-pane label="任务式学习" name="first" class="tabPane">
            <div class="courseContainer courseNav" v-if="renwuFlag">
             <div class="coursesList" v-for="(item, index) in courseList">
-           
+
               <div class="course-card-container" @click="jumpPage(item.id)">
                 <div class="course-card-top">
                   <img class="course-banner" :src="getImgUrl(item.pic)"/>
@@ -19,13 +19,12 @@
                         <i class="iconfont ymq-iconuser xl-iconfont"></i>
                         {{item.people}}
                       </span>
-                      
+
                     </div>
                   </div>
                 </div>
               </div>
 
-            
             </div>
 
             <!-- <div class="pagination">
@@ -41,9 +40,6 @@
               ></el-pagination>
             </div> -->
 
-          
-          
-        
         </div>
         <div class="second-container" v-else>
             <div class="picture">
@@ -57,7 +53,7 @@
         <el-tab-pane label="自由式学习" name="second">
           <div class="courseContainer courseNav" v-if="ziyouFlag">
             <div class="coursesList" v-for="(item, index) in courseList2">
-           
+
               <div class="course-card-container" @click="jumpPage2(item.id)">
                 <div class="course-card-top">
                   <img class="course-banner" :src="getImgUrl(item.pic)"/>
@@ -71,13 +67,12 @@
                         <i class="iconfont ymq-iconuser xl-iconfont"></i>
                         {{item.people}}
                       </span>
-                      
+
                     </div>
                   </div>
                 </div>
               </div>
 
-            
             </div>
 
               <!-- <div class="pagination">
@@ -93,9 +88,6 @@
                 ></el-pagination>
               </div> -->
 
-          
-          
-        
           </div>
           <div class="second-container" v-else>
             <div class="picture">
@@ -109,7 +101,7 @@
         <el-tab-pane label="课程收藏" name="third">
           <div class="courseContainer courseNav" v-if="collectFlag">
             <div class="coursesList" v-for="(item, index) in courseList3">
-           
+
               <div class="course-card-container" @click="jumpPage3(item.id)">
                 <div class="course-card-top">
                   <img class="course-banner" :src="getImgUrl(item.pic)"/>
@@ -123,13 +115,12 @@
                         <i class="iconfont ymq-iconuser xl-iconfont"></i>
                         {{item.people}}
                       </span>
-                      
+
                     </div>
                   </div>
                 </div>
               </div>
 
-            
             </div>
 
               <!-- <div class="pagination">
@@ -145,9 +136,6 @@
                 ></el-pagination>
               </div> -->
 
-          
-          
-        
           </div>
           <div class="second-container" v-else>
             <div class="picture">
@@ -178,117 +166,114 @@ export default {
       pictwo: require('@/assets/picturetwo.jpg'),
       nocontent: require('@/assets/nocontent.png'),
       list: [],
-      imgList: ['https://www.zhongkeruitong.top/CCZX_image/hot-card-img1.png','https://www.zhongkeruitong.top/CCZX_image/hot-card-img2.png','https://www.zhongkeruitong.top/CCZX_image/hot-card-img3.png', 'https://www.zhongkeruitong.top/CCZX_image/hot-card-img4.png', 'https://www.zhongkeruitong.top/CCZX_image/timg590.jpg', 'https://www.zhongkeruitong.top/CCZX_image/timg5678.jpg', 'https://www.zhongkeruitong.top/CCZX_image/timg9090.jpg']
+      imgList: ['https://www.zhongkeruitong.top/CCZX_image/hot-card-img1.png', 'https://www.zhongkeruitong.top/CCZX_image/hot-card-img2.png', 'https://www.zhongkeruitong.top/CCZX_image/hot-card-img3.png', 'https://www.zhongkeruitong.top/CCZX_image/hot-card-img4.png', 'https://www.zhongkeruitong.top/CCZX_image/timg590.jpg', 'https://www.zhongkeruitong.top/CCZX_image/timg5678.jpg', 'https://www.zhongkeruitong.top/CCZX_image/timg9090.jpg']
     }
   },
-  mounted() {
+  mounted () {
     this.getList()
     this.getOnlineList()
     this.getOfflineList()
     this.getCollectList()
   },
   methods: {
-    getOnlineList() {
+    getOnlineList () {
       var url = `http://58.119.112.14:11020/cms/course/findOnlineCourse?userId=${localStorage.getItem('userId')}`
       this.$axios.get(url, {
-          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
-        }).then((res) => {
-          console.log("在线课堂的列表", res.data.data)
-          if(res.data.data.length === 0) {
-            this.renwuFlag = false
-          } else {
-            this.courseList = res.data.data
-            this.renwuFlag = true
-          }
-          
-        })
+        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+      }).then((res) => {
+        console.log('在线课堂的列表', res.data.data)
+        if (res.data.data.length === 0) {
+          this.renwuFlag = false
+        } else {
+          this.courseList = res.data.data
+          this.renwuFlag = true
+        }
+      })
     },
-    getOfflineList() {
+    getOfflineList () {
       var url = `http://58.119.112.14:11020/cms/course/findOfflineCourse?userId=${localStorage.getItem('userId')}`
       this.$axios.get(url, {
-          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
-        }).then((res) => {
-          console.log("在线课堂的列表", res.data.data)
-          if(res.data.data.length === 0) {
-            this.ziyouFlag = false
-          } else {
-            this.ziyouFlag = true
-            this.courseList2 = res.data.data
-          }
-          
-        })
+        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+      }).then((res) => {
+        console.log('在线课堂的列表', res.data.data)
+        if (res.data.data.length === 0) {
+          this.ziyouFlag = false
+        } else {
+          this.ziyouFlag = true
+          this.courseList2 = res.data.data
+        }
+      })
     },
-    getCollectList() {
+    getCollectList () {
       var url = `http://58.119.112.14:11020/cms/course/findCollectCourse?userid=${localStorage.getItem('userId')}`
       this.$axios.get(url, {
-          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
-        }).then((res) => {
-          console.log("在线课堂的列表", res.data.data)
-          if(res.data.data.length === 0) {
-            this.collectFlag = false
-          } else {
-            this.courseList3 = res.data.data
-            this.collectFlag = true
-          }
-          
-        })
-    },
-    getDifficult(code) {
-        if(code === '200001') {
-          return "简单"
-        } else if(code === '200002') {
-          return '中等'
+        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+      }).then((res) => {
+        console.log('在线课堂的列表', res.data.data)
+        if (res.data.data.length === 0) {
+          this.collectFlag = false
         } else {
-          return '困难'
+          this.courseList3 = res.data.data
+          this.collectFlag = true
         }
-      },
-    getImgUrl(url) {
-        return `http://${url}`
-      },
-    jumpPage(id) {
-        console.log("id", id)
-        this.$router.push({
-          path: '/CourseInfo',
-          query: {
-            courseId: id
-          }
-        })
-      },
-      jumpPage2(id) {
-        console.log("id", id)
-        this.$router.push({
-          path: '/CourseInfo',
-          query: {
-            courseId: id
-          }
-        })
-      },
-      jumpPage3(id) {
-        console.log("id", id)
-        this.$router.push({
-          path: '/CourseInfo',
-          query: {
-            courseId: id
-          }
-        })
-      },
+      })
+    },
+    getDifficult (code) {
+      if (code === '200001') {
+        return '简单'
+      } else if (code === '200002') {
+        return '中等'
+      } else {
+        return '困难'
+      }
+    },
+    getImgUrl (url) {
+      return `http://${url}`
+    },
+    jumpPage (id) {
+      console.log('id', id)
+      this.$router.push({
+        path: '/CourseInfo',
+        query: {
+          courseId: id
+        }
+      })
+    },
+    jumpPage2 (id) {
+      console.log('id', id)
+      this.$router.push({
+        path: '/CourseInfo',
+        query: {
+          courseId: id
+        }
+      })
+    },
+    jumpPage3 (id) {
+      console.log('id', id)
+      this.$router.push({
+        path: '/CourseInfo',
+        query: {
+          courseId: id
+        }
+      })
+    },
     handleClick (tab, event) {
       console.log(tab, event)
     },
     getList () {
       // var url = 'http://58.119.112.14:11020/cms/user/coursePub/list/1/8'
       var url = 'https://www.zhongkeruitong.top/towerImg/cms/user/coursePub/mylist/1/30?username=' + localStorage.getItem('userId')
-      this.$axios.get(url, {headers:{Authorization:'Bearer ' + localStorage.getItem('token')}}).then((res) => {
+      this.$axios.get(url, {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then((res) => {
         // if (localStorage.getItem('city') === '临沂市' || localStorage.getItem('city') === '泰安市') {
         //   this.list = res.data.queryResult.list.slice(2,9)
-        //   // var arr = 
+        //   // var arr =
         // } else {
         //   this.list = res.data.queryResult.list.slice(2, 6)
         // }
         var temp = []
         var arr = res.data.queryResult.list
-        for(var i = 0; i < arr.length; i++) {
-          if(arr[i].users === '中科院') {
+        for (var i = 0; i < arr.length; i++) {
+          if (arr[i].users === '中科院') {
             temp.push(arr[i])
           }
         }
@@ -313,7 +298,7 @@ export default {
           class_id: id
         }
       })
-    },
+    }
   }
 }
 </script>
@@ -446,7 +431,7 @@ export default {
     margin-top: -15px;
   }
   .course-card-info {
-    
+
     font-size: 12px;
     color: #93999f;
     line-height: 24px;
@@ -454,7 +439,7 @@ export default {
   }
   .course-card-info span {
     margin-right: 45px;
-    
+
   }
   .course-card-info .courseType {
     color:rgba(48, 197, 122, 0.9);

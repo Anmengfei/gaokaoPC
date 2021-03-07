@@ -1,5 +1,5 @@
 const TokenKey = 'token'
 
-export function getToken() {
+export function getToken () {
   return localStorage.getItem(TokenKey)
 }

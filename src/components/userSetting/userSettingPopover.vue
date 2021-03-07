@@ -60,7 +60,7 @@
 
 <script>
 export default {
-  inject:['reload'],
+  inject: ['reload'],
   name: 'userSettingPopover',
   data () {
     return {
@@ -77,7 +77,7 @@ export default {
     this.role = localStorage.getItem('role')
     // this.headerImg = localStorage.getItem('headimg')
     this.username = localStorage.getItem('userId')
-    console.log("userId111", this.username)
+    console.log('userId111', this.username)
     if (localStorage.getItem('name') === 'admin') {
       this.name = '管理员'
     } else {
@@ -85,8 +85,8 @@ export default {
     }
     // this.name = localStorage.getItem('name')
   },
- 
-  mounted() {
+
+  mounted () {
     this.getInfo()
   },
   methods: {
@@ -95,61 +95,57 @@ export default {
       this.$router.push('/userSetting')
     },
     gotoMyclass: function () {
-      if(this.infoState === false) {
+      if (this.infoState === false) {
         this.openInfo()
       } else {
         this.$router.push('/userSetting/myLesson')
       }
-
     },
     gotoLiveclass: function () {
       console.log('我要跳转界面了')
-      if(this.infoState === false) {
+      if (this.infoState === false) {
         this.openInfo()
       } else {
         this.$router.push('/userSetting/liveLesson')
       }
-
     },
     gotoInformation: function () {
       console.log('我要跳转界面了')
       this.$router.push('/userSetting/personalInformation')
     },
-    gotoOrderCenter() {
+    gotoOrderCenter () {
       this.$router.push('/OrderCenter')
     },
-    gotoworked() {
+    gotoworked () {
       this.$router.push('/WorkShow')
     },
-    gotoinfo() {
+    gotoinfo () {
       this.$router.push('/Workinfo')
     },
     gotoVideoShow () {
       this.$router.push('/videoShow')
     },
     gotoupdate () {
-      if(this.infoState === false) {
+      if (this.infoState === false) {
         this.openInfo()
       } else {
         var url = 'http://58.119.112.14:11020/cms/#/course/list?username=' + this.username
         window.open(url)
       }
-
-
     },
     gotolive () {
-      var userId = localStorage.getItem("userId")
+      var userId = localStorage.getItem('userId')
       var url = 'https://www.zhongkeruitong.top/towerImg/cms/video/pushVideo?username=' + userId
-      this.$axios.get(url, {headers:{Authorization:'Bearer ' + localStorage.getItem('token')}}).then((res) => {
-       this.LiveUrl = res.data
+      this.$axios.get(url, {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then((res) => {
+        this.LiveUrl = res.data
         this.dialogVisible = true
       })
     },
-    openInfo() {
+    openInfo () {
       this.$confirm('请尽快完善个人资料', '提示信息', {
         confirmButtonText: '立即前往',
         type: 'warning',
-        center: true,
+        center: true
       }).then(() => {
         this.$router.push('/userSetting/personalInformation')
       }).catch(() => {
@@ -157,8 +153,8 @@ export default {
     },
 
     copyUrl () {
-      let _this = this;
-      let clipboard = new this.clipboard(".cobyOrderSn");
+      let _this = this
+      let clipboard = new this.clipboard('.cobyOrderSn')
       clipboard.on('success', function () {
         _this.dialogVisible = false
         _this.$message.success('复制成功')
@@ -170,7 +166,7 @@ export default {
       clipboard.destroyed()
     },
     logout () {
-      var url =  `http://58.119.112.14:11020/cms/logout`
+      var url = `http://58.119.112.14:11020/cms/logout`
       // this.$axios({
       //   url: url,
       //   method: 'post',
@@ -195,18 +191,17 @@ export default {
       this.reload()
       this.$message.info('已退出')
     },
-    getInfo() {
-     // var url = `http://58.119.112.14:11020/cms/system/user/${localStorage.getItem('userId')}`
+    getInfo () {
+      // var url = `http://58.119.112.14:11020/cms/system/user/${localStorage.getItem('userId')}`
       var url = `http://58.119.112.14:11020/cms/system/user/profile`
-      this.$axios.get(url, {headers:{Authorization:'Bearer ' + localStorage.getItem('token')}}).then((res) => {
+      this.$axios.get(url, {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then((res) => {
         localStorage.setItem('headimg', res.data.avatar)
-        //this.headerImg = `http://58.119.112.14:11013/cms-manager${res.data.data.avatar}`
-         
-        this.infoState = true
+        // this.headerImg = `http://58.119.112.14:11013/cms-manager${res.data.data.avatar}`
 
+        this.infoState = true
       })
     },
-    gotoupdatePass() {
+    gotoupdatePass () {
       this.$router.push('/userSetting/UpdatePassword')
       console.log('修改密码')
     }

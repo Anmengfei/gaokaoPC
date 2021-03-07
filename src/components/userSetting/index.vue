@@ -89,17 +89,16 @@
       </el-container>
     </div>
 
-
     <Footer class="footer-style"></Footer>
   </div>
 </template>
 
 <script>
-  import Header from '@/components/common/header1'
-  import Footer from '@/components/common/footer1'
+import Header from '@/components/common/header1'
+import Footer from '@/components/common/footer1'
 import userSettingPopover from '@/components/userSetting/userSettingPopover'
 export default {
-  inject:['reload'],
+  inject: ['reload'],
   name: 'index',
   components: { userSettingPopover, Header, Footer },
   data () {
@@ -118,7 +117,7 @@ export default {
     }
   },
   computed: {
-    username() {
+    username () {
       if (localStorage.getItem('name') === 'admin') {
         return '管理员'
       } else {
@@ -126,7 +125,7 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     this.getInfo()
   },
   methods: {
@@ -148,27 +147,26 @@ export default {
       console.log('我要跳转界面了')
       this.$router.push('/')
     },
-    update_img() {
+    update_img () {
       this.dialogVisible = true
     },
-    getInfo() {
+    getInfo () {
       // var url = `http://58.119.112.14:11020/cms/system/user/${localStorage.getItem('userId')}`
       var url = `http://58.119.112.14:11020/cms/system/user/profile`
-      this.$axios.get(url, {headers:{Authorization:'Bearer ' + localStorage.getItem('token')}}).then((res) => {
-        
+      this.$axios.get(url, {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then((res) => {
         this.headimg = `http://58.119.112.14:11013/cms-manager${res.data.data.avatar}`
       })
     },
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
+    handleRemove (file, fileList) {
+      console.log(file, fileList)
     },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible2 = true;
+    handlePictureCardPreview (file) {
+      this.dialogImageUrl = file.url
+      this.dialogVisible2 = true
     },
-    handleAvatarSuccess(res, file) {
-      if(res.code === 200) {
-        console.log("SSSSSS", res)
+    handleAvatarSuccess (res, file) {
+      if (res.code === 200) {
+        console.log('SSSSSS', res)
         this.$message.success('头像上传成功！')
         // var str = res.imgUrl
         // str.slice(0,5)
@@ -180,11 +178,9 @@ export default {
         this.$message.error('头像上传失败，请重新上传！')
         this.dialogVisible = false
       }
-      
     },
-    closeDia() {
+    closeDia () {
       this.dialogVisible = false
-
     }
   }
 }
@@ -194,7 +190,7 @@ export default {
   .contaier {
     width: 1500px;
     margin: 0 auto;
-    margin-top: 120px; 
+    margin-top: 120px;
   }
   a {
     color: #050505;

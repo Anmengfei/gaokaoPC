@@ -25,104 +25,103 @@
 </template>
 
 <script>
-    export default {
-        name: "UpdatePassword",
-      data() {
-        var validatePass = (rule, value, callback) => {
-          if (value === '') {
-            callback(new Error('请输入密码'));
-          } else {
-            if (this.ruleForm.checkPass !== '') {
-              this.$refs.ruleForm.validateField('checkPass');
-            }
-            callback();
-          }
-        };
-        var validatePass2 = (rule, value, callback) => {
-          if (value === '') {
-            callback(new Error('请再次输入密码'));
-          } else if (value !== this.ruleForm.pass) {
-            callback(new Error('两次输入密码不一致!'));
-          } else {
-            callback();
-          }
-        };
-        var validatePass3 = (rule, value, callback) => {
-          if (value === '') {
-            callback(new Error('请输入原始密码'));
-          } else if (value.toString() !== localStorage.getItem('password')) {
-            callback(new Error('请输入正确的原始密码'));
-          } else {
-            callback();
-          }
-        };
-          return {
-            ruleForm: {
-              oldPassword: '',
-              pass: '',
-              checkPass: ''
-            },
-            rules: {
-              pass: [
-                { validator: validatePass, trigger: 'blur' }
-              ],
-              checkPass: [
-                { validator: validatePass2, trigger: 'blur' }
-              ],
-              oldPassword: [
-                {
-                  validator: validatePass3, trigger: 'blur'
-                }
-              ]
-            }
-          }
-      },
-      mounted() {
-          // console.log(localStorage.getItem('password'))
-      },
-      methods: {
-        
-        submitForm(formName) {
-          console.log("用户名", localStorage.getItem('name'))
-          this.$refs[formName].validate((valid) => {
-            if (valid) {
-              //var url = 'https://zhongkeruitong.top/towerImg/cms/user/resetPasswd?oldpassword=' + this.ruleForm.oldPassword + '&newpassword=' + this.ruleForm.pass + '&username=' + localStorage.getItem('name')
-              var url = `http://58.119.112.14:11020/cms/system/user/profile/updatePwd?oldPassword=${this.ruleForm.oldPassword}&newPassword=${this.ruleForm.pass}`
-              //var url = `http://58.119.112.14:11020/cms/user/resetPasswd?username=${localStorage.getItem('name')}&oldpassword=${this.ruleForm.oldPassword}&newpassword=${this.ruleForm.pass}`
-              this.$axios({
-                method: 'put',
-                url: url,
-                headers: {
-                  'Authorization': 'Bearer ' + localStorage.getItem('token')
-                }
-              }).then((res) => {
-                if (res.data.code === 200) {
-                  localStorage.setItem('password', this.ruleForm.pass)
-                  this.$message({
-                    type: 'success',
-                    message: '密码修改成功！'
-                  })
-                  
-                  this.resetForm(formName)
-                } else {
-                  this.$message({
-                    type: 'danger',
-                    message: '密码修改失败！'
-                  })
-                }
-              })
-              
-            } else {
-              console.log('error submit!!');
-              return false;
-            }
-          });
-        },
-        resetForm(formName) {
-          this.$refs[formName].resetFields();
+export default {
+  name: 'UpdatePassword',
+  data () {
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'))
+      } else {
+        if (this.ruleForm.checkPass !== '') {
+          this.$refs.ruleForm.validateField('checkPass')
         }
+        callback()
       }
     }
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.ruleForm.pass) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
+    var validatePass3 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入原始密码'))
+      } else if (value.toString() !== localStorage.getItem('password')) {
+        callback(new Error('请输入正确的原始密码'))
+      } else {
+        callback()
+      }
+    }
+    return {
+      ruleForm: {
+        oldPassword: '',
+        pass: '',
+        checkPass: ''
+      },
+      rules: {
+        pass: [
+          { validator: validatePass, trigger: 'blur' }
+        ],
+        checkPass: [
+          { validator: validatePass2, trigger: 'blur' }
+        ],
+        oldPassword: [
+          {
+            validator: validatePass3, trigger: 'blur'
+          }
+        ]
+      }
+    }
+  },
+  mounted () {
+    // console.log(localStorage.getItem('password'))
+  },
+  methods: {
+
+    submitForm (formName) {
+      console.log('用户名', localStorage.getItem('name'))
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // var url = 'https://zhongkeruitong.top/towerImg/cms/user/resetPasswd?oldpassword=' + this.ruleForm.oldPassword + '&newpassword=' + this.ruleForm.pass + '&username=' + localStorage.getItem('name')
+          var url = `http://58.119.112.14:11020/cms/system/user/profile/updatePwd?oldPassword=${this.ruleForm.oldPassword}&newPassword=${this.ruleForm.pass}`
+          // var url = `http://58.119.112.14:11020/cms/user/resetPasswd?username=${localStorage.getItem('name')}&oldpassword=${this.ruleForm.oldPassword}&newpassword=${this.ruleForm.pass}`
+          this.$axios({
+            method: 'put',
+            url: url,
+            headers: {
+              'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+          }).then((res) => {
+            if (res.data.code === 200) {
+              localStorage.setItem('password', this.ruleForm.pass)
+              this.$message({
+                type: 'success',
+                message: '密码修改成功！'
+              })
+
+              this.resetForm(formName)
+            } else {
+              this.$message({
+                type: 'danger',
+                message: '密码修改失败！'
+              })
+            }
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
+    }
+  }
+}
 </script>
 
 <style scoped>

@@ -153,7 +153,7 @@
           </div>
         </div>
       </div>
-      
+
     </el-dialog> -->
     <!--<div class="distpickerss">-->
      <!---->
@@ -163,20 +163,20 @@
 </template>
 
 <script>
-  import VDistpicker from 'v-distpicker'
-  import md5 from 'js-md5';
+import VDistpicker from 'v-distpicker'
+import md5 from 'js-md5'
 export default {
-  inject:['reload'],
+  inject: ['reload'],
   name: 'personalInformation',
   components: { VDistpicker },
   data () {
     var validatePass = (rule, value, callback) => {
       if (this.form.province === null || this.form.city === null || this.form.district === null) {
-        callback(new Error('请选择所在地区'));
+        callback(new Error('请选择所在地区'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       username: localStorage.getItem('name'),
       schoolname: localStorage.getItem('schoolname'),
@@ -209,7 +209,7 @@ export default {
         ],
         area: [
           {
-            validator: validatePass,  trigger: 'change'
+            validator: validatePass, trigger: 'change'
           }
         ],
         sex: [
@@ -229,7 +229,7 @@ export default {
         value: '学生',
         label: '学生'
       }, {
-          value: '其他',
+        value: '其他',
         label: '其他'
       }],
       options2: [{
@@ -256,7 +256,7 @@ export default {
     }
   },
   computed: {
-    showNum() {
+    showNum () {
       if (this.phoneNum === '') {
         return true
       } else {
@@ -264,14 +264,13 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     this.getInfo()
-    
   },
   methods: {
-    getInfo() {
+    getInfo () {
       var url = `http://58.119.112.14:11020/cms/system/user/profile`
-      this.$axios.get(url, {headers:{Authorization:'Bearer ' + localStorage.getItem('token')}}).then((res) => {
+      this.$axios.get(url, {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then((res) => {
         this.form.username = res.data.data.userName
         this.form.email = res.data.data.email
         this.form.remark = res.data.data.remark
@@ -279,50 +278,50 @@ export default {
         this.form.userId = res.data.data.userId
       })
     },
-    showDis() {
+    showDis () {
       this.dialogVisible2 = true
     },
-    getCodes() {
+    getCodes () {
       if (this.phoneNum !== '') {
-        var url = 'https://www.zhongkeruitong.top/towerImg/cms/user/getCode?phone='+this.phoneNum
-        this.$axios.get(url, {headers:{Authorization:'Bearer ' + localStorage.getItem('token')}}).then((res)=> {
+        var url = 'https://www.zhongkeruitong.top/towerImg/cms/user/getCode?phone=' + this.phoneNum
+        this.$axios.get(url, {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then((res) => {
           this.timeCode = res.data.data.time
           this.strCode = res.data.data.str
         })
         this.countNum = 60
         this.showCountNum = false
-        setInterval(()=> {
-          this.countNum = this.countNum-1
+        setInterval(() => {
+          this.countNum = this.countNum - 1
           if (this.countNum === -1) {
             // this.countNum = 0
-            clearInterval();
+            clearInterval()
             this.showCountNum = true
           }
         }, 1000)
       }
     },
-    
-    gettext(item) {
+
+    gettext (item) {
       if (item === null) {
         return '未设置'
       } else {
         return item
       }
     },
-    edit_info() {
+    edit_info () {
       this.dialogVisible = true
     },
-    onSelected(data) {
+    onSelected (data) {
       console.log(data)
       this.form.province = data.province.value
       this.form.city = data.city.value
       this.form.district = data.area.value
     },
-    onSubmit_info(formName) {
+    onSubmit_info (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          var url = 'https://zhongkeruitong.top/towerImg/cms/user/updateUserInfo?username=' + this.username + '&nickname=' + this.form.nickname + '&sex=' + this.form.sex + '&education=' + this.form.education + '&profession=' + this.form.profession + '&province='+ this.form.province + '&city=' + this.form.city + '&district=' + this.form.district + '&mail=' + this.form.mail
-          this.$axios.post(url, {headers:{Authorization:'Bearer ' + localStorage.getItem('token')}}).then((res) => {
+          var url = 'https://zhongkeruitong.top/towerImg/cms/user/updateUserInfo?username=' + this.username + '&nickname=' + this.form.nickname + '&sex=' + this.form.sex + '&education=' + this.form.education + '&profession=' + this.form.profession + '&province=' + this.form.province + '&city=' + this.form.city + '&district=' + this.form.district + '&mail=' + this.form.mail
+          this.$axios.post(url, {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then((res) => {
             if (res.data.code === 200) {
               this.$message.success('修改成功！')
               this.dialogVisible = false
@@ -332,16 +331,16 @@ export default {
           })
         } else {
           // console.log('error submit!!')
-          return false;
+          return false
         }
-      });
+      })
     },
-    resetForm(formName) {
+    resetForm (formName) {
       this.$refs[formName].resetFields()
       this.dialogVisible = false
     },
-    nextButton() {
-      var num = this.duanxinNum.toString()+this.timeCode.toString()
+    nextButton () {
+      var num = this.duanxinNum.toString() + this.timeCode.toString()
       // console.log(num)
       var str = md5(num)
       // console.log(str)
@@ -352,9 +351,9 @@ export default {
         alert('验证码输入错误！')
       }
     },
-    resetPhone() {
+    resetPhone () {
       var url = 'https://www.zhongkeruitong.top/towerImg/cms/user/resetPhone?phone=' + this.phoneNum + '&username=' + this.username
-      this.$axios.post(url, {headers:{Authorization:'Bearer ' + localStorage.getItem('token')}}).then((res) => {
+      this.$axios.post(url, {headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}}).then((res) => {
         if (res.data.code === 200) {
           this.$message.success('手机号绑定成功')
           this.dialogVisible2 = false
