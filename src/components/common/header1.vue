@@ -127,13 +127,6 @@ export default {
         this.$router.push('/ClassShowTen')
       }
     },
-    gotoOnline () {
-      if (this.flag_state === true) {
-        alert('请先登录！')
-        this.$router.push('/login')
-      } else {
-        this.$router.push('/OnlineTeach')
-      }
     gotoOnline() {
       // if (this.flag_state === true) {
       //   alert("请先登录！");

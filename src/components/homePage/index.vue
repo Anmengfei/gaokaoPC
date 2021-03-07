@@ -317,7 +317,7 @@ import TopHeader from '@/components/common/topheader'
 import HomeHeader from '@/components/common/header1'
 import Footer from '@/components/common/footer1'
 import EditScore from '@/components/common/editScore'
-import $ from 'jquery'
+// import $ from 'jquery'
 export default {
   name: 'index',
   components: { TopHeader, HomeHeader, Footer, EditScore },
@@ -328,12 +328,7 @@ export default {
         {
           id: 1,
           url:
-            "https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg",
-          name: "首都师范大学",
-          code: "1052[01]",
-          des: "北京",
-          id: 1,
-          url: 'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
+            'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
           name: '首都师范大学',
           code: '1052[01]',
           des: '北京'
@@ -344,22 +339,11 @@ export default {
           name: '北京大学',
           code: '1052[01]',
           des: '北京'
-          id: 2,
-          url:
-            "https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg",
-          name: "北京大学",
-          code: "1052[01]",
-          des: "北京",
         },
         {
           id: 3,
           url:
-            "https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg",
-          name: "上海师范大学",
-          code: "1052[01]",
-          des: "北京",
-          id: 3,
-          url: 'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
+            'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
           name: '上海师范大学',
           code: '1052[01]',
           des: '北京'
@@ -370,12 +354,6 @@ export default {
           name: '华中师范大学',
           code: '1052[01]',
           des: '北京'
-          id: 4,
-          url:
-            "https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg",
-          name: "华中师范大学",
-          code: "1052[01]",
-          des: "北京",
         },
         {
           id: 5,
@@ -383,13 +361,6 @@ export default {
           name: '华中师范大学',
           code: '1052[01]',
           des: '北京'
-        {
-          id: 5,
-          url:
-            "https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg",
-          name: "华中师范大学",
-          code: "1052[01]",
-          des: "北京",
         },
         {
           id: 6,
@@ -398,44 +369,35 @@ export default {
           code: '1052[01]',
           des: '北京'
         }
-
-        {
-          id: 6,
-          url:
-            "https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg",
-          name: "华中师范大学",
-          code: "1052[01]",
-          des: "北京",
-        },
       ],
       zixunList: [
         {
           id: 1,
           url:
-            "https://storage-oss.ipin.com/oss-data/articleimage-20200728121805278842.png",
-          title: "【北京】本科批志愿填报倒计时最后1天",
-          time: "2020.07.31",
-          news: "【北京】本科批志愿填报倒计时最后1天",
+            'https://storage-oss.ipin.com/oss-data/articleimage-20200728121805278842.png',
+          title: '【北京】本科批志愿填报倒计时最后1天',
+          time: '2020.07.31',
+          news: '【北京】本科批志愿填报倒计时最后1天'
         },
         {
           id: 2,
           url:
-            "https://storage-oss.ipin.com/oss-data/articleimage-20200728121805278842.png",
-          title: "【北京】本科批志愿填报倒计时最后1天",
-          time: "2020.07.31",
-          news: "【北京】本科批志愿填报倒计时最后1天",
+            'https://storage-oss.ipin.com/oss-data/articleimage-20200728121805278842.png',
+          title: '【北京】本科批志愿填报倒计时最后1天',
+          time: '2020.07.31',
+          news: '【北京】本科批志愿填报倒计时最后1天'
         },
         {
           id: 3,
           url:
-            "https://storage-oss.ipin.com/oss-data/articleimage-20200728121805278842.png",
-          title: "【北京】本科批志愿填报倒计时最后1天",
-          time: "2020.07.31",
-          news: "【北京】本科批志愿填报倒计时最后1天",
-        },
+            'https://storage-oss.ipin.com/oss-data/articleimage-20200728121805278842.png',
+          title: '【北京】本科批志愿填报倒计时最后1天',
+          time: '2020.07.31',
+          news: '【北京】本科批志愿填报倒计时最后1天'
+        }
       ],
       form: {
-        name: "",
+        name: ''
       },
       loginStatus: false,
       value1: '5',
@@ -448,20 +410,14 @@ export default {
       flag_class: '未登录',
       flag_state: true,
 
-      selectProvince: "",
-      provincesList: ["北京", "上海", "广州", "深圳"],
-      searchValue: "",
-      schna: [
-        "https://www.zhongkeruitong.top/CCZX_image/newBanner2.jpg",
-        "https://www.zhongkeruitong.top/CCZX_image/banner5.png",
-        "https://www.zhongkeruitong.top/CCZX_image/photo2.jpg",
-      ],
-    };
       selectProvince: '',
       provincesList: ['北京', '上海', '广州', '深圳'],
       searchValue: '',
-      schna: [ 'https://www.zhongkeruitong.top/CCZX_image/newBanner2.jpg', 'https://www.zhongkeruitong.top/CCZX_image/banner5.png', 'https://www.zhongkeruitong.top/CCZX_image/photo2.jpg']
-
+      schna: [
+        'https://www.zhongkeruitong.top/CCZX_image/newBanner2.jpg',
+        'https://www.zhongkeruitong.top/CCZX_image/banner5.png',
+        'https://www.zhongkeruitong.top/CCZX_image/photo2.jpg'
+      ]
     }
   },
   created () {
@@ -754,8 +710,6 @@ li a {
     color: rgba(0,0,0,0.8);
     font-size: 14px;
   }
-  width: 100%;
-}
 .form-item-style {
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -903,7 +857,7 @@ li a {
   width: 6px;
   height: 35px;
   margin-top: 3px;
-  margin-right: 16ox;
+  margin-right: 16px;
   border-radius: 3px;
   background-color: #00aff0;
 }
@@ -939,8 +893,7 @@ li a {
 .shuxian-r span {
   color: rgba(0,0,0,0.5);
 }
-  color: rgba(0, 0, 0, 0.5);
-}
+
 .box-content {
   width: 400px;
   height: 80px;
@@ -1316,7 +1269,6 @@ li a {
   height: 450px;
 
 }
-.wap .skeleton .list{
 
 .wap .skeleton .list {
   background: rgb(255, 255, 255);

@@ -18,27 +18,27 @@ export default new Router({
     path: '/SchoolInfo',
     name: 'SchoolInfo',
     component: resolve => require(['@/components/schoolInfo/index'], resolve)
+  },
+  {
+    path: '/',
+    name: 'homepage',
+    component: resolve => require(['@/components/homePage/index'], resolve)
+  },
+  {
+    path: '/SchoolRecommand',
+    name: 'SchoolRecommand',
+    component: resolve => require(['@/components/schoolRecommand/index'], resolve)
+  },
+  {
+    path: '/SchoolInfo',
+    name: 'SchoolInfo',
+    component: resolve => require(['@/components/schoolInfo/index'], resolve)
+  },
+  {
+    path: '/Recruit',
+    name: 'Recruit',
+    component: resolve => require(['@/components/recruit/index'], resolve)
   }
-    routes: [{
-            path: '/',
-            name: 'homepage',
-            component: resolve => require(['@/components/homePage/index'], resolve),
-        },
-        {
-            path: '/SchoolRecommand',
-            name: 'SchoolRecommand',
-            component: resolve => require(['@/components/schoolRecommand/index'], resolve)
-        },
-        {
-            path: '/SchoolInfo',
-            name: 'SchoolInfo',
-            component: resolve => require(['@/components/schoolInfo/index'], resolve)
-        },
-        {
-            path: '/Recruit',
-            name: 'Recruit',
-            component: resolve => require(['@/components/recruit/index'], resolve)
-        },
 
   ]
 })
