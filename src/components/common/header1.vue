@@ -134,6 +134,14 @@ export default {
       } else {
         this.$router.push('/OnlineTeach')
       }
+    gotoOnline() {
+      // if (this.flag_state === true) {
+      //   alert("请先登录！");
+      //   this.$router.push("/login");
+      // } else {
+      //   this.$router.push("/OnlineTeach");
+      // }
+      this.$router.push("/Recruit");
     },
     gotoPlat () {
       if (this.flag_state === true) {
