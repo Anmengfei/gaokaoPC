@@ -38,35 +38,35 @@
 </template>
 
 <script>
-import userSettingPopover from '@/components/userSetting/userSettingPopover'
-import Logout from '@/components/userSetting/logout'
+import userSettingPopover from "@/components/userSetting/userSettingPopover";
+import Logout from "@/components/userSetting/logout";
 export default {
-  name: 'header',
+  name: "header",
   components: { userSettingPopover, Logout },
-  data () {
+  data() {
     return {
-      flag_login: '未登录',
-      flag_state: false
-    }
+      flag_login: "未登录",
+      flag_state: false,
+    };
   },
   props: {
     flags: String,
-    flagInfo: Boolean
+    flagInfo: Boolean,
   },
-  created () {
-    this.flag_login = localStorage.getItem('flag_class')
-    if (localStorage.getItem('flag_class') === null) {
-      this.flag_state = true
+  created() {
+    this.flag_login = localStorage.getItem("flag_class");
+    if (localStorage.getItem("flag_class") === null) {
+      this.flag_state = true;
     } else {
-      this.flag_state = false
+      this.flag_state = false;
     }
-    this.flag_state = false
+    this.flag_state = false;
   },
-  mounted () {},
+  mounted() {},
   methods: {
     goToCourseIndex: function () {
-      console.log('我要跳转界面了')
-      this.$router.push('/coursestudy')
+      console.log("我要跳转界面了");
+      this.$router.push("/coursestudy");
     },
     gotoAllclasses: function () {
       // if (this.flag_state === true) {
@@ -75,56 +75,57 @@ export default {
       // } else {
       //   this.$router.push('/AllCourses')
       // }
-      this.$router.push('/SchoolRecommand')
+      this.$router.push("/SchoolRecommand");
     },
-    openInfo () {
-      this.$confirm('请尽快完善个人资料,完善个人资料后开放此模块', '提示信息', {
-        confirmButtonText: '立即前往',
-        type: 'warning',
-        center: true
+    openInfo() {
+      this.$confirm("请尽快完善个人资料,完善个人资料后开放此模块", "提示信息", {
+        confirmButtonText: "立即前往",
+        type: "warning",
+        center: true,
       })
         .then(() => {
-          this.$router.push('/userSetting/personalInformation')
+          this.$router.push("/userSetting/personalInformation");
         })
-        .catch(() => {})
+        .catch(() => {});
     },
-    gotoWork () {
-      if (this.flag_state === true) {
-        alert('请先登录！')
-        this.$router.push('/login')
-      } else {
-        this.$router.push('/WorkIndex')
-      }
+    gotoWork() {
+      // if (this.flag_state === true) {
+      //   alert("请先登录！");
+      //   this.$router.push("/login");
+      // } else {
+      //   this.$router.push("/WorkIndex");
+      // }
+      this.$router.push("/Zhangshengyuanxiao");
     },
-    gotoWorkUpdate () {
+    gotoWorkUpdate() {
       if (this.flag_state === true) {
-        alert('请先登录！')
-        this.$router.push('/login')
+        alert("请先登录！");
+        this.$router.push("/login");
       } else {
         if (this.flagInfo === false) {
-          this.openInfo()
+          this.openInfo();
         } else {
-          this.$router.push('/WorkUpdate')
+          this.$router.push("/WorkUpdate");
         }
       }
     },
-    gotoHomepage () {
-      this.$router.push('/')
+    gotoHomepage() {
+      this.$router.push("/");
     },
-    gotoStudy () {
+    gotoStudy() {
       if (this.flag_state === true) {
-        alert('请先登录！')
-        this.$router.push('/login')
+        alert("请先登录！");
+        this.$router.push("/login");
       } else {
-        this.$router.push('/StudyProject')
+        this.$router.push("/StudyProject");
       }
     },
-    gotoTeacher () {
+    gotoTeacher() {
       if (this.flag_state === true) {
-        alert('请先登录！')
-        this.$router.push('/login')
+        alert("请先登录！");
+        this.$router.push("/login");
       } else {
-        this.$router.push('/ClassShowTen')
+        this.$router.push("/ClassShowTen");
       }
     },
     gotoOnline() {
@@ -136,39 +137,39 @@ export default {
       // }
       this.$router.push("/Recruit");
     },
-    gotoPlat () {
+    gotoPlat() {
       if (this.flag_state === true) {
-        alert('请先登录！')
-        this.$router.push('/login')
+        alert("请先登录！");
+        this.$router.push("/login");
       } else {
-        var role = localStorage.getItem('role')
-        if (role === '0') {
-          this.$message.warning('没有权限访问该功能，请申请升级权限!')
+        var role = localStorage.getItem("role");
+        if (role === "0") {
+          this.$message.warning("没有权限访问该功能，请申请升级权限!");
         } else {
           window.location.href = `http://58.119.112.14:11013?userId=${localStorage.getItem(
-            'userId'
-          )}`
+            "userId"
+          )}`;
         }
       }
     },
     gotoCompetition: function () {
       if (this.flag_state === true) {
-        alert('请先登录！')
-        this.$router.push('/login')
+        alert("请先登录！");
+        this.$router.push("/login");
       } else {
-        this.$router.push('/competition')
+        this.$router.push("/competition");
       }
       // console.log('我要跳转界面了')
       // this.$router.push('/competition')
     },
-    gotoAboutUs () {
-      this.$router.push('/AboutUs')
+    gotoAboutUs() {
+      this.$router.push("/AboutUs");
     },
-    gotocooperation () {
-      this.$router.push('/cooperation')
-    }
-  }
-}
+    gotocooperation() {
+      this.$router.push("/cooperation");
+    },
+  },
+};
 </script>
 
 <style scoped>
