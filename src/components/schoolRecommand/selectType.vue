@@ -170,16 +170,20 @@
     </div>
 
     <div class="box2">
-      <school-list></school-list>
+      <school-list :schoolList="schoolList1"></school-list>
     </div>
   </div>
 </template>
 
 <script>
 import SchoolList from '../schoolRecommand/schoolList'
+import {getAllSchool} from '@/api/schoolInfo.js'
 export default {
   name: 'selectType',
   components: { SchoolList },
+  mounted () {
+    this.getAllSchoolData()
+  },
   data () {
     return {
       selectTabs: 'favoriteSchool',
@@ -200,10 +204,23 @@ export default {
 
       schoolboxList: ['不限'],
       cengciboxList: ['不限'],
-      xingzhiboxList: ['不限']
+      xingzhiboxList: ['不限'],
+      schoolList1: []
     }
   },
   methods: {
+    getAllSchoolData () {
+      getAllSchool({
+        page: 0
+      }).then(res => {
+        if (res.status === 200) {
+          this.schoolList1 = res.data.data
+          console.log('this.schoolList1数据', this.schoolList1)
+        } else {
+          console.log('无法取得数据')
+        }
+      })
+    },
     handleClick () {},
     zhakai () {
       this.showAll = true
