@@ -3,27 +3,23 @@
     <el-tab-pane label="冲（**）" name="first">
       <div class="container">
         <ul>
-          <li>
+          <li v-for="(item,index) in this.schoolList" :key="index">
             <div class="icon">
-              <img src="https://storage-oss.ipin.com/school-icon/52ac2e9a747aec013fcf5190.jpg">
+              <img :src="item.logo">
             </div>
             <div class="desc">
-              <div><a href="#">北京大学</a></div>
-              <div>985 211 双一流</div>
+              <div>
+                <span class="name">{{ item.schoolname }}</span>
+                <span class="province">{{ item.province }}</span>
+              </div>
+              <div class="schooltags">
+                <span v-for="(itemtag,index) in item.tags" :key="index">{{ itemtag }}</span>
+              </div>
             </div>
-          </li>
-          <li>
-            <div class="icon">
-              <img src="https://storage-oss.ipin.com/school-icon/52ac2e9a747aec013fcf5190.jpg">
-            </div>
-            <div class="desc">
-              <div>北京大学</div>
-              <div>985 211 双一流</div>
-            </div>
+            <div class="smallSanjiao"><button type="button" class="chooseMajor">选择意向专业<img src="../../assets/drop_down_menu.png"></button></div>
           </li>
         </ul>
       </div>
-
     </el-tab-pane>
     <el-tab-pane label="稳（**）" name="second">稳</el-tab-pane>
     <el-tab-pane label="保（**）" name="third">保</el-tab-pane>
@@ -31,9 +27,33 @@
 </template>
 
 <script>
+import {getAllSchool} from '@/api/schoolInfo.js'
+
 export default {
   name: 'schoolList',
+  data () {
+    return {
+      activeName: 'first',
+      schoolList: []
+
+    }
+  },
+  mounted () {
+    this.getAllSchoolData()
+  },
   methods: {
+    getAllSchoolData () {
+      getAllSchool({
+        page: 0
+      }).then(res => {
+        if (res.status === 200) {
+          this.schoolList = res.data.data
+          console.log("this.schoolList数据",this.schoolList)
+        } else {
+          console.log('无法取得数据')
+        }
+      })
+    }
 
   }
 
@@ -46,10 +66,10 @@ export default {
   margin: 0;
   font-size: 100%;
 }
-
 .container ul li{
   overflow: hidden;
   margin-top: 1%;
+  border-bottom: .001rem dashed #e4e4e4;
 }
 .container .desc{
   float: left;
@@ -62,9 +82,45 @@ export default {
   margin-left: 1%;
 }
 .container .icon img {
-  /*float: left;*/
-  width: 95px;
-  height: 95px;
+  width: 1rem;
+  height: 1rem;
+}
+.container .desc .schooltags span{
+  display: inline-block;
+  margin-right: .25rem;
+  margin-top: .1rem;
+  padding: .1rem .15rem;
+  color: rgb(153, 153, 153);
+  font-size: .05rem;
+  border: .02rem solid rgb(228, 228, 228);
+  border-radius: .15rem;
+}
+.container .desc .name {
+  font-weight: 800;
+}
+.container .desc .province{
+  font-size: .15rem;
+  margin-left: .2rem;
+}
+.container .chooseMajor {
+  margin-top: .2rem;
+  float: right;
+  border:.02rem solid #00aff0;
+  padding: .1rem;
+  border-radius: .08rem;
+  font-size: .1rem;
+  background-color: transparent;
+  outline: none;
+
+}
+.container .chooseMajor img{
+  height: .25rem;
+  border-radius: .2rem;
+  letter-spacing: 0;
+}
+.container .smallSanjiao {
+  float: right;
+
 }
 
 </style>

@@ -342,7 +342,7 @@
 </template>
 <script>
 import HomeHeader from '@/components/common/header1'
-import Footer from '@/components/common/footer1'
+import Footer from '@/components/common/footer'
 export default {
   name: 'SchoolInfo',
   components: { HomeHeader, Footer },

@@ -9,6 +9,10 @@
       <div>
         <select-type></select-type>
       </div>
+      <div class="pagination">
+        <el-pagination background layout="prev, pager, next" :total="100"></el-pagination>
+      </div>
+      <Footer></Footer>
 
     </div>
 </template>
@@ -16,7 +20,7 @@
 <script>
 import TopHeader from '@/components/common/topheader'
 import HomeHeader from '@/components/common/header1'
-import Footer from '@/components/common/footer1'
+import Footer from '@/components/common/footer'
 import CjList from './schoolList'
 import SelectType from '../schoolRecommand/selectType'
 export default {
@@ -50,6 +54,16 @@ a {
   width: 100%;
   height: 70px;
 
+}
+
+.pagination {
+  width: 100%;
+  height: 30px;
+  text-align: center;
+}
+.pagination el-pagination {
+  width: 100px;
+  height: 80%;
 }
 
 </style>
