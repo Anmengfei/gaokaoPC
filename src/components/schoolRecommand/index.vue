@@ -20,7 +20,7 @@
 <script>
 import TopHeader from '@/components/common/topheader'
 import HomeHeader from '@/components/common/header1'
-import Footer from '@/components/common/footer'
+import Footer from '@/components/common/footer1'
 import CjList from './schoolList'
 import SelectType from '../schoolRecommand/selectType'
 export default {

@@ -12,6 +12,7 @@ import 'video.js/dist/video-js.css'
 import clipboard from 'clipboard'
 import 'videojs-flash'
 import store from './store'
+import './components/common/flexible'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)

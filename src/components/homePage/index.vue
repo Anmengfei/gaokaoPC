@@ -1,5 +1,5 @@
 <template>
-  <div class="app_container" style="overflow-x: hidden">
+  <div class="app_container">
     <!-- <Header :flags = flag_class class="header" :flagInfo="infoState"></Header> -->
     <top-header></top-header>
     <div class="mt20 thirdRow">
@@ -260,9 +260,9 @@
           </div>
         </div>
       </div>
-
     </div>
-    <div>
+
+    <div class="footer">
       <Footer></Footer>
     </div>
 
@@ -274,16 +274,13 @@
 
     </el-backtop>-->
 
-    <el-dialog :visible.sync="scoreDialog" width="34%">
-      <edit-score class="editScoreStyle"></edit-score>
-    </el-dialog>
   </div>
 </template>
 
 <script>
 import TopHeader from '@/components/common/topheader'
 import HomeHeader from '@/components/common/header1'
-import Footer from '@/components/common/footer'
+import Footer from '@/components/common/footer1'
 import EditScore from '@/components/common/editScore'
 // import $ from 'jquery'
 export default {
@@ -503,39 +500,12 @@ a {
 }
 .app_container {
   background-color: #f3f5f7;
-  overflow-x: hidden;
-}
-.ml50 {
-  margin-left: 50px;
+  width: 100%;
 }
 .mt20 {
   margin-top: 20px;
 }
-.bgGrey {
-  background-color: rgba(155, 155, 155, 0.3);
-  font-size: 14px;
-}
-.secondRow {
-  height: 50px;
-  line-height: 50px;
-}
-.img-logo {
-  width: 50px;
-  height: 50px;
-}
-.plateName {
-  font-size: 30px;
-  font-weight: bolder;
-}
-.tishiOne {
-  border: 1px solid red;
-  color: rgb(235, 16, 16);
-}
-.tishiTwo {
-  border: 1px solid red;
-  background-color: red;
-  color: white;
-}
+
 .thirdRow {
   background-color: #f95e5a;
   width: 100%;
@@ -758,29 +728,6 @@ li a {
   line-height: 45px;
   padding-left: 35px;
 }
-
-/* .desc {
-  height: 50px;
-  width: 400px;
-  background-color: #eed8c9;
-  border-radius: 15px;
-  font-size: 20px;
-  text-align: center;
-  line-height: 50px;
-  color: #ff6900;
-} */
-/* .form-item {
-  height: 70px;
-  width: 400px;
-  background-color: orange;
-  border-radius: 15px;
-} */
-/* .button {
-  height: 70px;
-  width: 400px;
-  background-color: blue;
-  border-radius: 15px;
-} */
 .button .btn {
   margin-top: 20px;
   width: 340px;
@@ -877,25 +824,10 @@ li a {
   color: #00aff0;
 }
 
-.box-content h {
-  color: #a5a5a5;
-}
 .sixRow {
   height: 560px;
   width: 1400px;
   margin: 0 auto;
-}
-.el-header {
-  background-color: #b3c0d1;
-  color: #333;
-  text-align: center;
-  line-height: 60px;
-}
-.el-main {
-  background-color: #e9eef3;
-  color: #333;
-  text-align: center;
-  line-height: 160px;
 }
 .sixRow-header {
   margin-top: 10px;
@@ -936,74 +868,21 @@ li a {
   font-weight: bold;
   color: black;
 }
-.item_01 {
-  width: 1400px;
-  height: 220px;
-  background-color: #fff;
-}
-.item_02 {
-  width: 1400px;
-  height: 220px;
-  background-color: #fff;
-}
-.item_03 {
-  width: 1400px;
-  height: 220px;
-  background-color: #fff;
-}
-.picture {
-  float: left;
-}
-.word {
-  float: left;
-  margin-left: 30px;
-  margin-top: 20px;
-}
 .word h6 {
   margin-top: 15px;
-}
-.date1 {
-  float: right;
-  font-size: 10px;
-  color: #a5a5a5;
-  margin-top: 30px;
-  margin-right: 35px;
-}
-.word1 {
-  float: left;
-  margin-left: 30px;
-  margin-top: 20px;
 }
 .word1 h6 {
   margin-top: 15px;
 }
-.date2 {
-  float: right;
-  font-size: 10px;
-  color: #a5a5a5;
-  margin-top: 30px;
-  margin-right: 35px;
-}
-.word2 {
-  float: left;
-  margin-left: 30px;
-  margin-top: 20px;
-}
+
 .word2 h6 {
   margin-top: 15px;
 }
-.date {
-  float: right;
-  font-size: 10px;
-  color: #a5a5a5;
-  margin-top: 30px;
-  margin-right: 35px;
-}
+
 .sevenRow {
   height: 450px;
   width: 1400px;
-  margin: 0 auto;
-  margin-top: 50px;
+  margin: 50px auto 0;
 }
 .sevenRow-header {
   margin-top: 10px;
@@ -1119,24 +998,6 @@ li a {
   color: #7d7d7d;
 }
 
-.eR-r {
-  float: left;
-  height: 420px;
-  width: 400px;
-  background-color: #333333;
-}
-.p1 {
-  display: block;
-  margin-top: 80px;
-  margin-left: 80px;
-  color: #fff;
-}
-.p2 {
-  display: block;
-  margin-top: 30px;
-  margin-left: 80px;
-  color: #fff;
-}
 .carousel-img {
     width: 100%;
     /*height: 665px;*/
@@ -1287,12 +1148,5 @@ li a {
   line-height: 22px;
   width: 800px;
   height: 44px;
-}
-.selectProvinceStyle {
-  width: 200px;
-  margin-right: 10px;
-}
-.editScoreStyle {
-  margin-top: -40px;
 }
 </style>
