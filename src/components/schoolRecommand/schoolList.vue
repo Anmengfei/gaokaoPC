@@ -27,33 +27,19 @@
 </template>
 
 <script>
-import {getAllSchool} from '@/api/schoolInfo.js'
 
 export default {
   name: 'schoolList',
+  props: {
+    schoolList: Object
+  },
   data () {
     return {
-      activeName: 'first',
-      schoolList: []
+      activeName: 'first'
 
     }
   },
-  mounted () {
-    this.getAllSchoolData()
-  },
   methods: {
-    getAllSchoolData () {
-      getAllSchool({
-        page: 0
-      }).then(res => {
-        if (res.status === 200) {
-          this.schoolList = res.data.data
-          console.log("this.schoolList数据",this.schoolList)
-        } else {
-          console.log('无法取得数据')
-        }
-      })
-    }
 
   }
 
