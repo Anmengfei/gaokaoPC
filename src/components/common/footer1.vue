@@ -37,42 +37,43 @@
 
 <script>
 export default {
-  name: 'footer'
+  name: 'footer1'
 }
 </script>
 
 <style scoped>
 .eightRow {
-  height: 420px;
+  float: left;
+  height: 100%;
+  width: 100%;
   background-color: #333333;
-  margin-top: 40px;
+  margin-top: .5rem;
 }
 .eR-l {
   float: left;
-  height: 420px;
-  width: 1400px;
+  height: 100%;
+  width: 70%;
   background-color: #333333;
 }
 .eightRow dl {
   float: left;
-  margin-top: 30px;
+  margin-top: .4rem;
   margin-left: 120px;
 }
 .eightRow dt {
-  font-size: 16px;
+  font-size: .05rem;
   color: #fff;
 }
 .eightRow dl dd {
-  margin-top: 10px;
-  font-size: 12px;
+  margin-top: .2rem;
+  font-size: 100%;
   color: #7d7d7d;
 }
 
 .eR-r {
-  float: left;
-  height: 420px;
-  width: 400px;
-  background-color: #333333;
+  float: right;
+  width: 30%;
+  background-color:#333333;
 }
 .p1 {
   display: block;

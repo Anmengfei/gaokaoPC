@@ -1,39 +1,33 @@
 <template>
-  <div>
-    <div class="">
-      <div class="container">
-        <nav class=" ">
-          <div class="container">
-            <div class="navbar-header">
-              <a class="navbar-brand" href="#" @click="gotoHomepage">
-                <img src="../../assets/logo.png" class="img-logo" />
+  <div class="container">
+    <nav>
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#" @click="gotoHomepage">
+            <img src="../../assets/logo.png" class="img-logo" />
+          </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse nav_ul">
+          <ul class="nav navbar-nav nav_moreList">
+            <li @click="gotoHomepage"><a>首页</a></li>
+            <li @click="gotoAllclasses"><a>院校优先</a></li>
+            <li @click="gotoWork"><a>专业优先</a></li>
+            <li @click="gotoOnline"><a>志愿表</a></li>
+            <li @click="gotoStudy"><a>志愿VIP</a></li>
+            <li @click="gotoPlat"><a>1V1专家</a></li>
+          </ul>
+          <ul class="nav navbar-nav ul2_nav">
+            <li>
+              <a v-if="flag_state !== true" class="nav_a">
+                <user-setting-popover></user-setting-popover>
               </a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse nav_ul">
-              <ul class="nav navbar-nav nav_moreList">
-                <li @click="gotoHomepage"><a>首页</a></li>
-                <li @click="gotoAllclasses"><a>院校优先</a></li>
-                <li @click="gotoWork"><a>专业优先</a></li>
-                <li @click="gotoOnline"><a>志愿表</a></li>
-                <li @click="gotoStudy"><a>志愿VIP</a></li>
-                <li @click="gotoPlat"><a>1V1专家</a></li>
-              </ul>
-              <ul class="nav navbar-nav ul2_nav">
-                <li>
-                  <a v-if="flag_state !== true" class="nav_a">
-                    <user-setting-popover></user-setting-popover>
-                  </a>
 
-                  <a v-else class="nav_logout">
-                    <Logout></Logout>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-      </div>
-    </div>
+              <a v-else class="nav_logout">
+                <Logout></Logout>
+              </a>
+            </li>
+          </ul>
+        </div>
+    </nav>
   </div>
 </template>
 
@@ -41,7 +35,7 @@
 import userSettingPopover from '@/components/userSetting/userSettingPopover'
 import Logout from '@/components/userSetting/logout'
 export default {
-  name: 'header',
+  name: 'header1',
   components: { userSettingPopover, Logout },
   data () {
     return {
@@ -127,14 +121,14 @@ export default {
         this.$router.push('/ClassShowTen')
       }
     },
-    gotoOnline() {
+    gotoOnline () {
       // if (this.flag_state === true) {
       //   alert("请先登录！");
       //   this.$router.push("/login");
       // } else {
       //   this.$router.push("/OnlineTeach");
       // }
-      this.$router.push("/Recruit");
+      this.$router.push('/Recruit')
     },
     gotoPlat () {
       if (this.flag_state === true) {
@@ -172,55 +166,52 @@ export default {
 </script>
 
 <style scoped>
-@import "carousel.css";
+*{
+  padding: 0;
+  margin: 0;
+}
+.container{
+  height: 100%;
+  width: 100%;
+  font-size: 100%;
+}
 .nav li {
-  margin-right: 70px;
-  margin-top: 10px;
+  margin-right: 1rem;
+  text-align: center;
 }
 .nav li a {
   color: white;
   cursor: pointer;
-  font-size: 20px;
 }
 .nav_moreList li a:hover {
   color: #16bcb4;
   /* font-weight: bolder; */
   background-color: transparent;
 }
-.container {
-  width: 100%;
-}
-.navbar {
-  background-color: rgba(0, 0, 0, 0.3);
-  /*padding: 5px;*/
-}
 .nav_ul {
   /*margin-left: 10%;*/
-  margin-left: 300px;
+  margin-left: 3rem;
 }
 .ul2_nav {
-  margin-right: 20px;
+  margin-right: .5rem;
   float: right;
 }
 .ul2_nav li a:hover {
   background-color: transparent;
 }
-.nav_border {
-  border-bottom: rgba(0, 0, 0, 0);
-}
-/*.nav>li>a {*/
-/*padding: 17px 0;*/
-/*}*/
+
 .nav_a {
   padding: 0;
-  margin-top: 10px;
+  margin-top: .1rem;
 }
 
 .img-logo {
-  height: 49px;
-  margin-left: 5px;
+  height: 80%;
+  margin-top: .2rem;
+  margin-left: .2rem;
 }
 .navbar-brand {
-  padding: 15px;
+  padding-top: .1rem;
+  padding-left: 1.5rem;
 }
 </style>

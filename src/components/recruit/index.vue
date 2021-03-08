@@ -225,24 +225,24 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       tableData1: [
         {
-          year: "2021",
-          pici: "本科一批",
-        },
+          year: '2021',
+          pici: '本科一批'
+        }
       ],
       tableData2: [],
-      tableData3: [],
-    };
+      tableData3: []
+    }
   },
   methods: {
-    handleClick() {
-      alert("button click");
-    },
-  },
-};
+    handleClick () {
+      alert('button click')
+    }
+  }
+}
 </script>
 <style scoped>
 .box-content {
