@@ -262,49 +262,17 @@
       </div>
 
     </div>
-    <div class="eightRow">
-      <div class="eR-l">
-        <dl>
-          <dt>常见问题</dt>
-          <dd>产品白皮书</dd>
-          <dd>产品说明书</dd>
-        </dl>
-        <dl>
-          <dt>关于我们</dt>
-          <dd>团队介绍</dd>
-          <dd>联系我们</dd>
-          <dd>隐私政策</dd>
-          <dd>用户协议</dd>
-        </dl>
-        <dl>
-          <dt>2020微信群</dt>
-        </dl>
-        <dl>
-          <dt>合作伙伴</dt>
-          <dd>合作机构</dd>
-          <dd>合作导师</dd>
-        </dl>
-        <dl>
-          <dt>关注微信公众号</dt>
-        </dl>
-        <dl>
-          <dt>商务合作</dt>
-        </dl>
-      </div>
-      <div class="eR-r">
-        <p class="p1">考哪儿期待为您服务</p>
-        <p class="p2">工作日：9:30-18:30</p>
-      </div>
+    <div>
+      <Footer></Footer>
     </div>
+
     <!-- <el-backtop :bottom="60" class="backtop-style">
       <div class="backtop-text">
         <span>返回顶部</span>
       </div>
       <i class="el-icon-caret-top backtop-icon" ></i>
 
-    </el-backtop>
-
-    <Footer></Footer> -->
+    </el-backtop>-->
 
     <el-dialog :visible.sync="scoreDialog" width="34%">
       <edit-score class="editScoreStyle"></edit-score>
@@ -315,7 +283,7 @@
 <script>
 import TopHeader from '@/components/common/topheader'
 import HomeHeader from '@/components/common/header1'
-import Footer from '@/components/common/footer1'
+import Footer from '@/components/common/footer'
 import EditScore from '@/components/common/editScore'
 // import $ from 'jquery'
 export default {
@@ -1135,11 +1103,7 @@ li a {
   background-color: #fff;
   margin-left: 25px;
 }
-.eightRow {
-  height: 420px;
-  background-color: #333333;
-  margin-top: 40px;
-}
+
 .eightRow dl {
   float: left;
   margin-top: 30px;
@@ -1154,12 +1118,7 @@ li a {
   font-size: 12px;
   color: #7d7d7d;
 }
-.eR-l {
-  float: left;
-  height: 420px;
-  width: 1400px;
-  background-color: #333333;
-}
+
 .eR-r {
   float: left;
   height: 420px;
