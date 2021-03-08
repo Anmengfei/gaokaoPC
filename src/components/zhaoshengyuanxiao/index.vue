@@ -19,11 +19,9 @@
             <!-- gutter:格子之间的间隔 -->
             <!-- 所在区域 -->
             <el-row :gutter="20">
-              <el-col :span="4"
-                ><div class="grid-content bg-purple">所在区域</div></el-col
-              >
+              <el-col :span="4"><div>所在区域</div></el-col>
               <el-col :span="16"
-                ><div class="grid-content bg-purple-light">
+                ><div>
                   <el-checkbox-group v-model="checkboxList">
                     <el-checkbox
                       v-for="(item, index) in originList"
@@ -36,11 +34,11 @@
             </el-row>
             <!-- 院校类型 -->
             <el-row :gutter="20">
-              <el-col :span="4"
-                ><div class="grid-content bg-purple">院校类型</div>
+              <el-col :span="4">
+                <div>院校类型</div>
               </el-col>
               <el-col :span="16">
-                <div class="grid-content bg-purple-light">
+                <div>
                   <el-checkbox-group v-model="schoolboxList">
                     <el-checkbox
                       v-for="(item, index) in schoolList"
@@ -57,11 +55,9 @@
             </el-row>
             <!-- 学历层次 -->
             <el-row :gutter="20" v-if="showAll">
-              <el-col :span="4"
-                ><div class="grid-content bg-purple">学历层次</div>
-              </el-col>
+              <el-col :span="4"><div>学历层次</div> </el-col>
               <el-col :span="16">
-                <div class="grid-content bg-purple-light">
+                <div>
                   <el-checkbox-group v-model="xueliboxList">
                     <el-checkbox
                       v-for="(item, index) in xueliList"
@@ -75,11 +71,9 @@
             </el-row>
             <!-- 院校层次 -->
             <el-row :gutter="20" v-if="showAll">
-              <el-col :span="4"
-                ><div class="grid-content bg-purple">院校层次</div>
-              </el-col>
+              <el-col :span="4"><div>院校层次</div> </el-col>
               <el-col :span="16">
-                <div class="grid-content bg-purple-light">
+                <div>
                   <el-checkbox-group v-model="cengciboxList">
                     <el-checkbox
                       v-for="(item, index) in cengciList"
@@ -93,11 +87,9 @@
             </el-row>
             <!-- 办学性质 -->
             <el-row :gutter="20" v-if="showAll">
-              <el-col :span="4"
-                ><div class="grid-content bg-purple">办学性质</div>
-              </el-col>
+              <el-col :span="4"><div>办学性质</div> </el-col>
               <el-col :span="16">
-                <div class="grid-content bg-purple-light">
+                <div>
                   <el-checkbox-group v-model="xingzhiboxList">
                     <el-checkbox
                       v-for="(item, index) in xingzhiList"
@@ -111,11 +103,9 @@
             </el-row>
             <!-- 研究生点 -->
             <el-row :gutter="20" v-if="showAll">
-              <el-col :span="4"
-                ><div class="grid-content bg-purple">研究生点</div>
-              </el-col>
+              <el-col :span="4"><div>研究生点</div> </el-col>
               <el-col :span="16">
-                <div class="grid-content bg-purple-light">
+                <div>
                   <el-radio-group v-model="yjsPoint">
                     <el-radio :label="0" :disabled="isVip">不限</el-radio>
                     <el-radio :label="1" :disabled="isVip">有</el-radio>
@@ -126,11 +116,9 @@
             </el-row>
             <!-- 独立学院 -->
             <el-row :gutter="20" v-if="showAll">
-              <el-col :span="4"
-                ><div class="grid-content bg-purple">独立学院</div>
-              </el-col>
+              <el-col :span="4"><div>独立学院</div> </el-col>
               <el-col :span="16">
-                <div class="grid-content bg-purple-light">
+                <div>
                   <el-radio-group v-model="dlxueyuan">
                     <el-radio :label="0" :disabled="isVip">不限</el-radio>
                     <el-radio :label="1" :disabled="isVip">是</el-radio>
@@ -142,7 +130,7 @@
             <el-row v-if="showAll">
               <div class="tiaojian" @click="zhedie">收起筛选条件</div>
             </el-row>
-            <el-divider></el-divider>
+            <!-- <el-divider></el-divider> -->
             <!-- <p class="tishixinghao">
               “*”表示排名来源于一分一段表，否则源于录取数据。
             </p> -->
@@ -150,25 +138,24 @@
         </div>
       </div>
     </div>
-    <div class="tag">
-      <div class="left-tag">
-        共找到&nbsp;
-        <span>15</span>
-        &nbsp;学校
-      </div>
-      <div class="right-tag">
-        <span>数据说明</span>
-      </div>
+    <div class="container">
+      <school-list :schoolList="schoolListByPage"></school-list>
     </div>
-    <div class="school-list"></div>
   </div>
 </template>
 <script>
 // import selectType from "../schoolRecommand/selectType";
+import SchoolList from "../schoolRecommand/schoolList";
+import { getAllSchool } from "@/api/schoolInfo.js";
 export default {
-  //   components: { selectType },
+  name: "index",
+  components: { SchoolList },
+  mounted() {
+    this.getSchoolListByPage();
+  },
   data() {
     return {
+      schoolListByPage: [],
       isVip: true,
       showAll: false,
       checkboxList: ["不限"],
@@ -236,6 +223,15 @@ export default {
     };
   },
   methods: {
+    getSchoolListByPage() {
+      getAllSchool({
+        page: 0,
+      }).then((val) => {
+        console.log(val.data);
+        this.schoolListByPage = val.data.data;
+        console.log(typeof this.schoolListByPage);
+      });
+    },
     zhakai() {
       this.showAll = true;
     },
@@ -246,29 +242,43 @@ export default {
 };
 </script>
 <style scoped>
-.bg-purple {
-  background: #d3dce6;
-}
-.bg-purple-light {
-  background: #e5e9f2;
-}
-.grid-content {
-  border-radius: 4px;
-  min-height: 36px;
+/* 问题一 */
+* {
+  padding: 0;
+  margin: 0;
+  /* 作用？ */
+  box-sizing: border-box;
+  background: transparent;
 }
 .content {
-  position: relative;
+  /* 问题二 */
+  /* 通过margin给与content盒子的宽度，相对于整个页面的大小 */
+  margin-top: 2%;
+  margin-left: 5%;
+  margin-right: 5%;
+  /* background-color: pink; */
+  /* background-color: #00aff0; */
+  /* position: relative;
   width: 1200px;
   padding-bottom: 80px;
-  margin: 0px auto;
+  margin: 0px auto; */
+  /* background-color: pink; */
 }
 .wrapper {
-  position: relative;
+  /* 设置2%看不出来，设置10%就可以看出来了 */
+  margin-top: 2%;
+  background-color: #f3f5f7;
+  /* background-color: pink; */
+  /* position: relative; */
+}
+.container {
+  margin-top: 2%;
+  margin-bottom: 10px;
 }
 .introduce-box {
-  margin-top: 60px;
   padding-bottom: 30px;
   position: relative;
+  /* background-color: #00aff0; */
 }
 .title-box {
   height: 32px;
@@ -349,17 +359,5 @@ export default {
   cursor: pointer;
   font-size: 10px;
   color: #00aff0 !important;
-}
-.tag {
-  margin-bottom: 10px;
-  color: rgb(153, 153, 153);
-  font-size: 14px;
-  letter-spacing: 0px;
-}
-.left-tag {
-  float: left;
-}
-.right-tag {
-  float: right;
 }
 </style>

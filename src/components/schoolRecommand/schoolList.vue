@@ -3,9 +3,9 @@
     <el-tab-pane label="冲（**）" name="first">
       <div class="container">
         <ul>
-          <li v-for="(item,index) in this.schoolList" :key="index">
+          <li v-for="(item, index) in this.schoolList" :key="index">
             <div class="icon">
-              <img :src="item.logo">
+              <img :src="item.logo" />
             </div>
             <div class="desc">
               <div>
@@ -13,10 +13,16 @@
                 <span class="province">{{ item.province }}</span>
               </div>
               <div class="schooltags">
-                <span v-for="(itemtag,index) in item.tags" :key="index">{{ itemtag }}</span>
+                <span v-for="(itemtag, index) in item.tags" :key="index">{{
+                  itemtag
+                }}</span>
               </div>
             </div>
-            <div class="smallSanjiao"><button type="button" class="chooseMajor">选择意向专业<img src="../../assets/drop_down_menu.png"></button></div>
+            <div class="smallSanjiao">
+              <button type="button" class="chooseMajor">
+                选择意向专业<img src="../../assets/drop_down_menu.png" />
+              </button>
+            </div>
           </li>
         </ul>
       </div>
@@ -27,41 +33,38 @@
 </template>
 
 <script>
-
 export default {
-  name: 'schoolList',
+  name: "schoolList",
   props: {
-    schoolList: Object
+    schoolList: Array,
   },
-  data () {
+  data() {
     return {
-      activeName: 'first'
-
-    }
+      activeName: "first",
+    };
   },
   methods: {
-
-  }
-
-}
+    handleClick() {},
+  },
+};
 </script>
 
 <style scoped>
-*{
+* {
   padding: 0;
   margin: 0;
   font-size: 100%;
 }
-.container ul li{
+.container ul li {
   overflow: hidden;
   margin-top: 1%;
-  border-bottom: .001rem dashed #e4e4e4;
+  border-bottom: 0.001rem dashed #e4e4e4;
 }
-.container .desc{
+.container .desc {
   float: left;
-  padding-top: .2rem;
-  padding-bottom: .2rem;
-  padding-left: .4rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  padding-left: 0.4rem;
 }
 .container .icon {
   float: left;
@@ -71,42 +74,39 @@ export default {
   width: 1rem;
   height: 1rem;
 }
-.container .desc .schooltags span{
+.container .desc .schooltags span {
   display: inline-block;
-  margin-right: .25rem;
-  margin-top: .1rem;
-  padding: .1rem .15rem;
+  margin-right: 0.25rem;
+  margin-top: 0.1rem;
+  padding: 0.1rem 0.15rem;
   color: rgb(153, 153, 153);
-  font-size: .05rem;
-  border: .02rem solid rgb(228, 228, 228);
-  border-radius: .15rem;
+  font-size: 0.05rem;
+  border: 0.02rem solid rgb(228, 228, 228);
+  border-radius: 0.15rem;
 }
 .container .desc .name {
   font-weight: 800;
 }
-.container .desc .province{
-  font-size: .15rem;
-  margin-left: .2rem;
+.container .desc .province {
+  font-size: 0.15rem;
+  margin-left: 0.2rem;
 }
 .container .chooseMajor {
-  margin-top: .2rem;
+  margin-top: 0.2rem;
   float: right;
-  border:.02rem solid #00aff0;
-  padding: .1rem;
-  border-radius: .08rem;
-  font-size: .1rem;
+  border: 0.02rem solid #00aff0;
+  padding: 0.1rem;
+  border-radius: 0.08rem;
+  font-size: 0.1rem;
   background-color: transparent;
   outline: none;
-
 }
-.container .chooseMajor img{
-  height: .25rem;
-  border-radius: .2rem;
+.container .chooseMajor img {
+  height: 0.25rem;
+  border-radius: 0.2rem;
   letter-spacing: 0;
 }
 .container .smallSanjiao {
   float: right;
-
 }
-
 </style>
