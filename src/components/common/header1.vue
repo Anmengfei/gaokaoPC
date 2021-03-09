@@ -20,7 +20,6 @@
               <a v-if="flag_state !== true" class="nav_a">
                 <user-setting-popover></user-setting-popover>
               </a>
-
               <a v-else class="nav_logout">
                 <Logout></Logout>
               </a>
@@ -206,12 +205,11 @@ export default {
 }
 
 .img-logo {
-  height: 80%;
+  height: 60%;
   margin-top: .2rem;
   margin-left: .2rem;
 }
 .navbar-brand {
-  padding-top: .1rem;
   padding-left: 1.5rem;
 }
 </style>

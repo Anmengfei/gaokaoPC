@@ -37,7 +37,7 @@
         <!-- <img :src="headerImg" class="img-header"> -->
          <img src="../../assets/logo.jpg" class="img-header">
         <span class="name-text">
-            {{name}}
+            {{name}}123456
             </span>
 
       </div>
