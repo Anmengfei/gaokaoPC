@@ -4,12 +4,12 @@
       <el-tabs v-model="selectTabs" type="card" @tab-click="handleClick">
         <el-tab-pane label="心仪的院校" name="favoriteSchool">
           <div class="content">
+
             <el-row :gutter="20">
               <el-col :span="2" >
                 所在区域
               </el-col>
               <el-col :span="16">
-
                 <el-checkbox-group v-model="checkboxList" >
                   <el-checkbox v-for="(item, index) in  originList" :label="item" :key="index" :disabled="isVip"></el-checkbox>
                 </el-checkbox-group>
@@ -21,12 +21,12 @@
                 院校类型
               </el-col>
               <el-col :span="16">
-
                 <el-checkbox-group v-model="schoolboxList" >
                   <el-checkbox v-for="(item, index) in  schoolList" :label="item" :key="index" :disabled="isVip"></el-checkbox>
                 </el-checkbox-group>
               </el-col>
             </el-row>
+
             <el-row v-if="!showAll">
               <div class="tiaojian" @click="zhakai">展开更多筛选条件</div>
             </el-row>
@@ -170,19 +170,19 @@
     </div>
 
     <div class="box2">
-      <school-list :schoolList="schoolList1"></school-list>
+      <school-list></school-list>
     </div>
   </div>
 </template>
 
 <script>
 import SchoolList from '../schoolRecommand/schoolList'
-import {getAllSchool} from '@/api/schoolInfo.js'
+
 export default {
   name: 'selectType',
   components: { SchoolList },
   mounted () {
-    this.getAllSchoolData()
+
   },
   data () {
     return {
@@ -205,22 +205,11 @@ export default {
       schoolboxList: ['不限'],
       cengciboxList: ['不限'],
       xingzhiboxList: ['不限'],
-      schoolList1: []
+
+
     }
   },
   methods: {
-    getAllSchoolData () {
-      getAllSchool({
-        page: 0
-      }).then(res => {
-        if (res.status === 200) {
-          this.schoolList1 = res.data.data
-          console.log('this.schoolList1数据', this.schoolList1)
-        } else {
-          console.log('无法取得数据')
-        }
-      })
-    },
     handleClick () {},
     zhakai () {
       this.showAll = true
@@ -248,14 +237,16 @@ div {
   margin-right: 5%;
 }
 .box1{
+  width: 100%;
   margin-top: 2%;
   background-color: #f3f5f7;
+  font-size: 100%;
 }
 .box2{
+  width: 100%;
   margin-top: 2%;
-  margin-bottom: 10px;
-
 }
+
 .box .box1 .content{
   margin: 1% 2%;
 }
@@ -275,5 +266,6 @@ div {
   font-size: 10px;
   color: #00AFF0 !important;
 }
+
 
 </style>

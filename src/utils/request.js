@@ -82,7 +82,7 @@ import qs from 'qs'
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: 'https://www.zytb.top/NEMT/gk/schoolApp/'
+  baseURL: 'https://www.zytb.top/NEMT/gk/'
 })
 // request拦截器
 service.interceptors.request.use(config => {
