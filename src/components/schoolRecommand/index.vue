@@ -10,9 +10,6 @@
       <div>
         <select-type></select-type>
       </div>
-      <div class="pagination">
-        <el-pagination background layout="prev, pager, next" :total="100"></el-pagination>
-      </div>
       <Footer></Footer>
 
     </div>
@@ -46,7 +43,6 @@ a {
 }
 .app_container {
   background-color: white;
-  overflow-x: hidden;
 }
 .mt20 {
   margin-top: 20px;
@@ -57,15 +53,4 @@ a {
   height: 70px;
 
 }
-
-.pagination {
-  width: 100%;
-  height: 30px;
-  text-align: center;
-}
-.pagination el-pagination {
-  width: 100px;
-  height: 80%;
-}
-
 </style>

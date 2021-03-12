@@ -74,7 +74,7 @@
     </div>
 
     <div class="box2">
-      <school-list :schoolList="schoolList1"></school-list>
+      <school-list></school-list>
     </div>
   </div>
 </template>
@@ -116,7 +116,8 @@ export default {
       schoolboxList: ['不限'],
       cengciboxList: ['不限'],
       xingzhiboxList: ['不限'],
-      schoolList1: []
+
+
     }
   },
   mounted () {
@@ -199,14 +200,16 @@ div {
   margin-right: 5%;
 }
 .box1{
+  width: 100%;
   margin-top: 2%;
   background-color: #f3f5f7;
+  font-size: 100%;
 }
 .box2{
+  width: 100%;
   margin-top: 2%;
-  margin-bottom: 10px;
-
 }
+
 .box .box1 .content{
   margin: 1% 2%;
 }
