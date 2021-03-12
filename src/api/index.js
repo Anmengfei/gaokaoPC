@@ -27,7 +27,7 @@ export function getAllLevel (data) {
 //获取所有专业大类
 export function getAllMajorType (data) {
   return request({
-    url: '/majorApp/findAllFirstSubject',
+    url: '/majorWX/findAllFirstSubject',
     method: 'get',
     params: data
   })

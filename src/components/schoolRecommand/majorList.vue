@@ -3,7 +3,7 @@
     <ul>
       <li v-for="(item,index) in majorlist" :key="index">
         <el-row>
-          <el-col :span="23">
+          <el-col :span="18">
             <div class="text">
               <div class="majorinfo">
                 <span class="name">{{ item.majorName }}</span>

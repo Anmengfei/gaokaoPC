@@ -14,6 +14,11 @@ export default new Router({
     name: 'SchoolRecommand',
     component: resolve => require(['@/components/schoolRecommand/index'], resolve)
   },
+    {
+      path: '/WorkIndex',
+      name: 'WorkIndex',
+      component: resolve => require(['@/components/schoolRecommand/index'], resolve)
+    },
   {
     path: '/SchoolInfo',
     name: 'SchoolInfo',
