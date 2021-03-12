@@ -55,6 +55,7 @@ export default {
     }
     this.flag_state = false
   },
+
   mounted () {},
   methods: {
     goToCourseIndex: function () {
@@ -68,7 +69,8 @@ export default {
       // } else {
       //   this.$router.push('/AllCourses')
       // }
-      this.$router.push('/SchoolRecommand')
+      // this.$router.push('/SchoolRecommand')
+      this.$router.push({ name: 'SchoolRecommand', params: { tab: 'favoriteSchool' }})
     },
     openInfo () {
       this.$confirm('请尽快完善个人资料,完善个人资料后开放此模块', '提示信息', {
@@ -82,12 +84,13 @@ export default {
         .catch(() => {})
     },
     gotoWork () {
-      if (this.flag_state === true) {
-        alert('请先登录！')
-        this.$router.push('/login')
-      } else {
-        this.$router.push('/WorkIndex')
-      }
+      // if (this.flag_state === true) {
+      //   alert('请先登录！')
+      //   this.$router.push('/login')
+      // } else {
+      //   this.$router.push('/WorkIndex')
+      this.$router.push({ name: 'WorkIndex', params: { tab: 'favoriteMajor' }})
+      // }
     },
     gotoWorkUpdate () {
       if (this.flag_state === true) {

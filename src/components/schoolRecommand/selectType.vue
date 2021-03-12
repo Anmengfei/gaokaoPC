@@ -52,15 +52,28 @@
           <div class="filter-list">
             <span class="filter-list-title">专业选择</span>
             <div class="filter-list-tags">
-              <span class="tag active">不限</span>
-              <span class="tag" v-for="item in majorType">{{item.category}}</span>
+              <span class="tag"  :class="{active : majoractive == ''}" @click="selectmajortag('')">不限</span>
+              <span class="tag" v-for="item in majorType" :key="item.category" :class="{active : majoractive == item.category}" @click="selectmajortag(item.category)">{{item.category}}</span>
             </div>
           </div>
-          <div class="filter-list">
+          <div class="filter-list" v-if="majoractive !== ''">
+            <span class="filter-list-title" style="opacity: 0;">专业选择</span>
             <div class="filter-list-tags">
-              <span style="opacity: 0;">专业选择</span>
-              <span class="tag active">不限</span>
-<!--              <span class="tag" v-for="type in item.firSubList">{{type.name}}</span>-->
+              <span class="tag" :class="{active : majorsecondactive == ''}" @click="selectmajorsecondtag('')">全部</span>
+              <span class="tag" v-for="type in majorSecond" :key="type.name" :class="{active : majorsecondactive == type.name}" @click="selectmajorsecondtag(type.name)">{{type.name}}</span>
+            </div>
+          </div>
+          <div class="customer-college">
+            <span class="customer-college-title">我的关注：</span>
+            <div class="customer-college-input">
+              <el-input
+                type="text"
+                clearable
+                size="small"
+
+                placeholder="请输入专业名称（至少2个字）"
+                v-model="textarea1">
+              </el-input>
             </div>
           </div>
         </el-tab-pane>
@@ -92,12 +105,14 @@ export default {
       typeactive:'',
       levelactive:'',
       sortactive:'',
-      majorType:[],
+      majorsecondactive:'',
+      majoractive:'',
+      majorType:{},
       provincesList:[],
       collegeType:[],
       collegeLevel:[],
+      majorSecond:[],
       collegeSortType:['录取概率','计划人数','大学排名'],
-      selectTabs: 'favoriteSchool',
       checkboxList: ['不限'],
       showAll: false,
       loginStatus: true,
@@ -120,10 +135,16 @@ export default {
 
     }
   },
+  computed: {
+    selectTabs() {
+      console.log(this.$route.params.tab)
+      return this.$route.params.tab || 'favoriteSchool'
+    }
+  },
   mounted () {
     this.getProvincesinit()
     this.getcollegeType()
-    // this.getMajortypelist()
+    this.getMajortypelist()
     this.getAllSchoolData()
   },
   methods: {
@@ -138,6 +159,18 @@ export default {
     },
     selectsorttag(item){
       this.sortactive = item
+    },
+    selectmajortag(item){
+      this.majoractive = item
+      this.majorType.forEach( tag => {
+        if(tag.category == item){
+          this.majorSecond = tag.firSubList
+        }
+      })
+
+    },
+    selectmajorsecondtag(item) {
+      this.majorsecondactive  = item;
     },
     getProvincesinit(){
       getAllprovinces().then(res => {
@@ -155,12 +188,13 @@ export default {
 
 
     },
-    // getMajortypelist(){
-    //   getAllMajorType().then(res => {
-    //     this.majorType = res.data
-    //     console.log('1'+this.majorType)
-    //   })
-    // },
+    getMajortypelist(){
+      getAllMajorType().then(res => {
+        console.log('111'+res)
+        this.majorType = res.data
+        // console.log('1'+this.majorType)
+      })
+    },
     getAllSchoolData () {
       getAllSchool({
         page: 0
