@@ -77,7 +77,7 @@ export default {
     this.role = localStorage.getItem('role')
     // this.headerImg = localStorage.getItem('headimg')
     this.username = localStorage.getItem('userId')
-    console.log('userId111', this.username)
+    // console.log('userId111', this.username)
     if (localStorage.getItem('name') === 'admin') {
       this.name = '管理员'
     } else {

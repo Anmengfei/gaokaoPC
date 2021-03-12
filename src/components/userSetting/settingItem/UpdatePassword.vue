@@ -87,7 +87,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // var url = 'https://zhongkeruitong.top/towerImg/cms/user/resetPasswd?oldpassword=' + this.ruleForm.oldPassword + '&newpassword=' + this.ruleForm.pass + '&username=' + localStorage.getItem('name')
-          var url = `http://58.119.112.14:11020/cms/system/user/profile/updatePwd?oldPassword=${this.ruleForm.oldPassword}&newPassword=${this.ruleForm.pass}`
+          // var url = `http://58.119.112.14:11020/cms/system/user/profile/updatePwd?oldPassword=${this.ruleForm.oldPassword}&newPassword=${this.ruleForm.pass}`
           // var url = `http://58.119.112.14:11020/cms/user/resetPasswd?username=${localStorage.getItem('name')}&oldpassword=${this.ruleForm.oldPassword}&newpassword=${this.ruleForm.pass}`
           this.$axios({
             method: 'put',

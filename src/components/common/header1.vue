@@ -3,7 +3,7 @@
     <nav>
         <div class="navbar-header">
           <a class="navbar-brand" href="#" @click="gotoHomepage">
-            <img src="../../assets/logo.png" class="img-logo" />
+<!--            <img src="../../assets/logo.png" class="img-logo" />-->
           </a>
         </div>
         <div id="navbar" class="navbar-collapse collapse nav_ul">

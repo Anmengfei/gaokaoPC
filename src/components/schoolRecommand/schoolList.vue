@@ -1,5 +1,5 @@
 <template>
-  <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+  <el-tabs v-model="activeName" type="card">
     <el-tab-pane label="冲（**）" name="first">
       <div class="container">
         <ul>
@@ -31,7 +31,7 @@
 export default {
   name: 'schoolList',
   props: {
-    schoolList: Object
+    schoolList: Array
   },
   data () {
     return {
