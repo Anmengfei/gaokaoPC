@@ -1,0 +1,19 @@
+.el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active {
+  color: #f95e5a;
+}
+.el-tabs--border-card>.el-tabs__header .el-tabs__item:not(.is-disabled):hover{
+  color: #f95e5a;
+}
+
+.el-tabs--border-card>.el-tabs__header .el-tabs__item {
+
+  font-size: 0.15rem;
+}
+.customer-college .customer-college-input .el-input__inner:focus {
+  border-color: #e9302d;
+}
+.customer-college .customer-college-input .el-input--small .el-input__inner {
+  height: 0.4rem;
+  line-height: 0.4rem;
+
+}

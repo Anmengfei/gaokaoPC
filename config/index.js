@@ -10,7 +10,17 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      // '/api': {
+      //   target: 'https://www.zytb.top/NEMT/gk',//后端接口地址
+      //   changeOrigin: true,//是否允许跨越
+      //   ws: true,
+      //   secure: false,
+      //   pathRewrite: {
+      //     '^/api': '',//重写,
+      //   }
+      // }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

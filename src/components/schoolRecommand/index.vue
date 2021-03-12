@@ -4,7 +4,8 @@
         <top-header></top-header>
       </div>
         <div class="mt20 thirdRow">
-            <HomeHeader :flagInfo="loginStatus"></HomeHeader>
+<!--            <HomeHeader :flagInfo="loginStatus"></HomeHeader>-->
+            <HomeHeader :flagInfo="true"></HomeHeader>
         </div>
       <div>
         <select-type></select-type>
@@ -22,6 +23,7 @@ import CjList from './schoolList'
 import SelectType from '../schoolRecommand/selectType'
 export default {
   name: 'SchoolRecommand',
+  loginStatus:true,
   components: {TopHeader, HomeHeader, Footer, CjList, SelectType},
   data() {
     return {}

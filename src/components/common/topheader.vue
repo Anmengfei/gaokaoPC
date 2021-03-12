@@ -68,8 +68,28 @@
 </template>
 
 <script>
+import {getAllprovinces} from '@/api/index'
 export default {
-  name: 'top-header'
+  name: 'top-header',
+  data(){
+    return {
+      selectProvince:'',
+      searchValue:'',
+      provincesList:[],
+
+    }
+  },
+  mounted() {
+    this.getProvincesinit()
+  },
+  methods: {
+    getProvincesinit(){
+      getAllprovinces().then(res => {
+        this.provincesList = res.data
+      })
+    },
+  }
+
 }
 </script>
 
