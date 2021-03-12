@@ -6,12 +6,12 @@
           <ul>
             <li v-for="(item,index) in this.schoolList" :key="index">
               <el-row>
-                <el-col :span="1.5">
+                <el-col :span="2">
                   <div class="icon">
                     <img :src="item.logo">
                   </div>
                 </el-col>
-                <el-col :span="17.5">
+                <el-col :span="18">
                   <div class="desc">
                     <div>
                       <span class="name">{{ item.schoolname }}</span>
@@ -22,7 +22,7 @@
                     </div>
                   </div>
                 </el-col>
-                <el-col :span="12">
+                <el-col :span="4">
                   <div class="chooseBtn">
                     <button type="button" class="chooseMajor" v-show="btnFlag[index]" @click="btnShow(index)">
                       <span >选择意向专业</span>
@@ -37,7 +37,7 @@
                 </el-col>
               </el-row>
               <div id="major-list" v-show="majorShow[index]">
-                <MajorList></MajorList>
+                <MajorList :schoolname="item.schoolname"></MajorList>
               </div>
             </li>
           </ul>
@@ -75,7 +75,7 @@ export default {
     return {
       activeName: 'first',
       btnFlag: [true, true, true, true, true, true, true, true, true, true], // 控制显示“选择意向专业”“收起专业”
-      majorShow: [false, false, false, false, false, false, false, false, false, false,], // 控制显示“学校专业”
+      majorShow: [false, false, false, false, false, false, false, false, false, false], // 控制显示“学校专业”
       schoolList: [],
       pageInfo: {
         pagenum: 0, // 当前页数
@@ -200,6 +200,7 @@ export default {
   height: 6rem;
   overflow-y: scroll;
   width: 95%;
+  padding-left: 1rem;
 }
 
 /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/

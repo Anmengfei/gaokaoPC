@@ -17,7 +17,7 @@
               </div>
             </div>
           </el-col>
-          <el-col :span="24">
+          <el-col :span="1">
             <div class="btn">
               <button class="chooseWill">加入意向</button>
             </div>
@@ -32,6 +32,9 @@
 import {getMajorofSchool} from '../../api/schoolInfo'
 export default {
   name: 'majorList',
+  props: {
+    schoolname: String
+  },
   mounted () {
     this.getMajorInfo()
   },
@@ -42,7 +45,9 @@ export default {
   },
   methods: {
     getMajorInfo () {
-      getMajorofSchool({schoolName: '清华大学'}).then(res => {
+      getMajorofSchool({
+        schoolName: this.schoolname
+      }).then(res => {
         console.log(res.data)
         if (res.data.msg === '成功') {
           this.majorlist = res.data.data.majorList
