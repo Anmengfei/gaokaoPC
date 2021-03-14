@@ -89,7 +89,7 @@ export default {
       // } else {
       //   this.$router.push("/WorkIndex");
       // }
-      this.$router.push("/Zhangshengyuanxiao");
+      this.$router.push("/Zhaoshengyuanxiao");
     },
     gotoWorkUpdate() {
       if (this.flag_state === true) {

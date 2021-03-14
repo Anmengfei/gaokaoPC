@@ -40,9 +40,9 @@ export default new Router({
             component: resolve => require(['@/components/recruit/index'], resolve)
         },
         {
-            path: '/Zhangshengyuanxiao',
-            name: 'Zhangshengyuanxiao',
-            component: resolve => require(['@/components/zhaoshengyuanxiao/index'], resolve)
+            path: '/Zhaoshengyuanxiao',
+            name: 'Zhaoshengyuanxiao',
+            component: resolve => require(['@/components/zhaoshengyuanxiao/schoolListContent'], resolve)
         }
 
     ]
