@@ -36,6 +36,7 @@ export default {
     schoolname: String
   },
   mounted () {
+    console.log('拿到的学校数据', this.schoolname)
     this.getMajorInfo()
   },
   data () {
@@ -50,6 +51,7 @@ export default {
       }).then(res => {
         console.log(res.data)
         if (res.data.msg === '成功') {
+          console.log('学校名称', this.schoolname)
           this.majorlist = res.data.data.majorList
           console.log('this.majorlist数据', this.majorlist)
         } else {

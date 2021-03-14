@@ -81,12 +81,13 @@ export default {
         pagenum: 0, // 当前页数
         pagesize: 10, // 每页条数
         pagetotal: 100// 总条目数
-      }
+      },
+      schoolnameFlag: ''// 向子组件中传入学校名称
 
     }
   },
   methods: {
-    btnShow (id) {
+    btnShow (id, school) {
       this.$set(this.btnFlag, id, !this.btnFlag[id])
       this.$set(this.majorShow, id, !this.majorShow[id])
     },
