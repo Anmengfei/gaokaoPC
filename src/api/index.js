@@ -32,3 +32,11 @@ export function getAllMajorType (data) {
     params: data
   })
 }
+//获取院校优先列表
+export function getAllschoolFirst (data) {
+  return request({
+    url: '/extendApp/getSchoolFirst',
+    method: 'get',
+    params: data
+  })
+}

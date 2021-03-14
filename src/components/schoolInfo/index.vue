@@ -36,7 +36,7 @@
                 <el-col :span="3">
                 <el-select
                     v-model="selectProvince"
-                    placeholder="请选择省份"
+                    placeholder="请选择报考省份"
                     clearable
                     class="selectProvinceStyle"
                 >

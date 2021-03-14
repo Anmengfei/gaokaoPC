@@ -1,34 +1,34 @@
 <template>
   <div class="box">
     <div class="box1">
-      <el-tabs v-model="selectTabs" type="border-card" @tab-click="handleClick">
+      <el-tabs v-model="selectTabs" type="border-card">
         <el-tab-pane label="心仪的院校" name="favoriteSchool">
           <div class="filter-list">
             <span class="filter-list-title">院校省份</span>
             <div class="filter-list-tags">
               <span class="tag" :class="{active : active == ''}" @click="selecttag('')">不限</span>
-              <span class="tag" v-for="(item,index) in provincesList" :key="item" :class="{active : active == item}" @click="selecttag(item)">{{item}}</span>
+              <span class="tag" v-for="(item,index) in provincesList" :key="item" :class="{active : collegeselete.provinceSelect.includes(item)} || active == item " @click="selecttag(item)">{{item}}</span>
             </div>
           </div>
           <div class="filter-list">
             <span class="filter-list-title">院校类型</span>
             <div class="filter-list-tags">
               <span class="tag" :class="{active : typeactive == ''}" @click="selecttypetag('')">不限</span>
-              <span class="tag" v-for="item in collegeType" :key="item" :class="{active : typeactive == item}" @click="selecttypetag(item)">{{item}}</span>
+              <span class="tag" v-for="item in collegeType" :key="item" :class="{active : collegeselete.typeSelect.includes(item) || typeactive == item }" @click="selecttypetag(item)">{{item}}</span>
             </div>
           </div>
           <div class="filter-list">
             <span class="filter-list-title">院校层次</span>
             <div class="filter-list-tags">
               <span class="tag" :class="{active : levelactive == ''}" @click="selectleveltag('')">不限</span>
-              <span class="tag" v-for="item in collegeLevel" :key="item" :class="{active : levelactive == item}" @click="selectleveltag(item)">{{item}}</span>
+              <span class="tag" v-for="item in collegeLevel" :key="item" :class="{active :collegeselete.levelSelect.includes(item) || levelactive == item}" @click="selectleveltag(item)">{{item}}</span>
             </div>
           </div>
           <div  class="filter-list">
             <span class="filter-list-title">院校排序</span>
             <div class="filter-list-tags">
               <span class="tag" :class="{active : sortactive == ''}" @click="selectsorttag('')">不限</span>
-              <span class="tag" v-for="item in collegeSortType" :key="item" :class="{active : sortactive == item}" @click="selectsorttag(item)">{{item}}</span>
+              <span class="tag" v-for="item in collegeSortType" :key="item" :class="{active :collegeselete.sortSelect.includes(item) || sortactive == item}" @click="selectsorttag(item)">{{item}}</span>
             </div>
           </div>
           <div class="customer-college">
@@ -82,8 +82,13 @@
       <div class="myFilterRecordBlockRow">
           <div class="customer-selected-tags">
             <span class="title" style="line-height: 24px;">您已选择：</span>
-            <div class="tags">
-              <span class="tag" v-for="(item,index) in collegeselete" :key="index">{{item}}<i class="el-icon-close" style="margin-left:5px"></i></span>
+            <div class="tags" v-for="select in collegeselete">
+<!--              <div >-->
+                   <span class="tag" v-for="(item,index) in select" :key="index">
+                  {{item}}<i class="el-icon-close" style="margin-left:5px" @click="closemyselect(select,item)" ></i>
+
+              </span>
+<!--              </div>-->
             </div>
           </div>
       </div>
@@ -104,7 +109,13 @@ export default {
   components: { SchoolList },
   data () {
     return {
-      collegeselete:[],
+      show:false,
+      collegeselete: {
+        provinceSelect: [],
+        typeSelect: [],
+        levelSelect:[],
+        sortSelect:[],
+      },
       majorselete:[],
       active:'',
       typeactive:'',
@@ -133,7 +144,7 @@ export default {
       schoolList: ['不限', '综合', '工科', '农业', '林业', '医药', '师范', '语言', '财经', '政法', '体育', '艺术', '民族'],
       cengciList: ['不限', '985', '211', '双一流'],
       xingzhiList: ['不限', '公立大学', '民办高校'],
-      schoolboxList: ['不限'],
+      schoolboxList: [['吉林','beijing'],['shenayang'],],
       cengciboxList: ['不限'],
       xingzhiboxList: ['不限'],
 
@@ -150,24 +161,67 @@ export default {
     this.getProvincesinit()
     this.getcollegeType()
     this.getMajortypelist()
-    this.getAllSchoolData()
+    // this.getAllSchoolData()
   },
   methods: {
+    closemyselect(parent,name){
+      console.log('guanbiqian',parent,name)
+      for(let i=0; i< parent.length;i++){
+        if(parent[i] == name){
+          parent.splice(i,1)
+        }
+      }
+      if(parent.length == 0) {
+        // if(parent == this.collegeselete.levelSelect ){
+        //   this.levelactive = ''
+        // }
+        // if(parent == this.collegeselete.provinceSelect ){
+        //   this.active = ''
+        // }if(parent == this.collegeselete.typeSelect ){
+        //   this.typeactive = ''
+        // }if(parent == this.collegeselete.sortSelect ){
+        //   this.sortactive = ''
+        // }
+        switch (parent){
+          case this.collegeselete.provinceSelect: this.active = '';break;
+          case this.collegeselete.levelSelect: this.levelactive = '';break;
+          case this.collegeselete.typeSelect: this.typeactive = '';break;
+          case this.collegeselete.sortSelect: this.sortactive = '';break;
+        }
+      }
+      console.log('after',parent,name)
+      },
     selecttag(item) {
       this.active = item
-      this.collegeselete.push(item)
+      if(item == ''){
+        this.collegeselete.provinceSelect =[]
+      }else if(!this.collegeselete.provinceSelect.includes(item)){
+        this.collegeselete.provinceSelect.push(item)
+      }
     },
     selecttypetag(item){
       this.typeactive = item
-       this.collegeselete.push(item)
+      if(item == ''){
+        this.collegeselete.typeSelect =[]
+      }else if(!this.collegeselete.typeSelect.includes(item)){
+        this.collegeselete.typeSelect.push(item)
+      }
     },
     selectleveltag(item){
       this.levelactive = item
-       this.collegeselete.push(item)
+      if(item == ''){
+        this.collegeselete.levelSelect =[]
+      }else if(!this.collegeselete.levelSelect.includes(item)){
+        this.collegeselete.levelSelect.push(item)
+      }
     },
     selectsorttag(item){
       this.sortactive = item
-       this.collegeselete.push(item)
+      if(item == ''){
+        this.collegeselete.sortSelect =[]
+      }else if(!this.collegeselete.sortSelect.includes(item)){
+        this.collegeselete.sortSelect.push(item)
+      }
     },
     selectmajortag(item){
       this.majoractive = item
@@ -204,19 +258,18 @@ export default {
         // console.log('1'+this.majorType)
       })
     },
-    getAllSchoolData () {
-      getAllSchool({
-        page: 0
-      }).then(res => {
-        if (res.status === 200) {
-          this.schoolList1 = res.data.data
-          console.log('this.schoolList1数据', this.schoolList1)
-        } else {
-          console.log('无法取得数据')
-        }
-      })
-    },
-    handleClick () {},
+    // getAllSchoolData () {
+    //   getAllSchool({
+    //     page: 0
+    //   }).then(res => {
+    //     if (res.status === 200) {
+    //       this.schoolList1 = res.data.data
+    //       console.log('this.schoolList1数据', this.schoolList1)
+    //     } else {
+    //       console.log('无法取得数据')
+    //     }
+    //   })
+    // },
     zhakai () {
       this.showAll = true
     },
@@ -369,9 +422,15 @@ div {
   display: flex;
   overflow: hidden;
 }
+.customer-selected-tags .title  {
+  font-size: 12px;
+  color: #9b9b9b;
+  line-height: 24px;
+}
 .customer-selected-tags .tags {
   -webkit-box-flex: 1;
-  flex:1;
+  flex:0 1 auto;
+  /*flex:1;*/
   display: flex;
   -webkit-box-pack: start;
   justify-content: flex-start;
@@ -386,11 +445,12 @@ div {
   font-size: 12px;
   color: #757575;
   letter-spacing: 0;
-  height:24px;
-  line-height:24px;
+  height:26px;
+  line-height:26px;
   margin-right:6px;
   margin-bottom: 6px;
   user-select: none;
   padding: 0 10px;
 }
+
 </style>
