@@ -1,73 +1,96 @@
 <template>
-  <div>
-    <el-tabs v-model="activeName" type="card" >
-      <el-tab-pane label="冲（**）" name="first">
-        <div class="container">
-          <ul>
-            <li v-for="(item,index) in this.schoolList" :key="index">
-              <el-row>
-                <el-col :span="2">
-                  <div class="icon">
-                    <img :src="item.logo">
-                  </div>
-                </el-col>
-                <el-col :span="18">
-                  <div class="desc">
-                    <div>
-                      <span class="name">{{ item.schoolname }}</span>
-                      <span class="province">{{ item.province }}</span>
-                    </div>
-                    <div class="schooltags">
-                      <span v-for="(itemtag,index) in item.tags" :key="index">{{ itemtag }}</span>
-                    </div>
-                  </div>
-                </el-col>
-                <el-col :span="4">
-                  <div class="chooseBtn">
-                    <button type="button" class="chooseMajor" v-show="btnFlag[index]" @click="btnShow(index)">
-                      <span >选择意向专业</span>
-                      <img class="img1" src="../../assets/drop_down_menu.png"/>
-                    </button>
-                    <button type="button" class="chooseMajor" v-show="!btnFlag[index]" @click="btnShow(index)">
-                      <span>收起专业</span>
-                      <img class="img2" src="../../assets/drop_down_menu.png"/>
-                    </button>
+  <div class="app-container">
 
-                  </div>
-                </el-col>
-              </el-row>
-              <div id="major-list" v-show="majorShow[index]">
-                <MajorList :schoolname="item.schoolname"></MajorList>
+    <div class="container">
+      <ul>
+        <li v-for="(item,index) in this.schoolList" :key="index">
+          <el-row>
+            <el-col :span="2">
+              <div class="icon">
+                <img :src="item.logoPath">
               </div>
-            </li>
-          </ul>
-        </div>
-<!--        分页器-->
-        <div class="box3">
-          <el-pagination
-            class="pagination"
-            background
-            layout="prev, pager, next"
-            :total="pageInfo.pagetotal"
-            :current-page ='pageInfo.pagenum'
-            :page-size='pageInfo.pagesize'
-            @current-change="handleCurrentChange">
-          </el-pagination>
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="稳（**）" name="second">
-      </el-tab-pane>
-      <el-tab-pane label="保（**）" name="third">保</el-tab-pane>
-    </el-tabs>
+            </el-col>
+            <el-col :span="18">
+              <div class="desc">
+                <div>
+                  <span class="name">{{ item.schoolName }}</span>
+                  <span class="province">{{ item.province }}</span>
+                </div>
+                <div class="schooltags">
+                  <span v-for="(itemtag1,index) in item.addressTagsPC" :key="index">{{ itemtag1 }}</span>
+                  <span v-for="(itemtag2,index) in item.tags" :key="index">{{ itemtag2 }}</span>
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="4">
+              <div class="chooseBtn">
+                <button type="button" class="chooseMajor" v-show="btnFlag[index]" @click="btnShow(index,item.majors)">
+                  <span >选择意向专业</span>
+                  <img class="img1" src="../../assets/drop_down_menu.png"/>
+                </button>
+                <button type="button" class="chooseMajor" v-show="!btnFlag[index]" @click="btnShow(index,item.majors)">
+                  <span>收起专业</span>
+                  <img class="img2" src="../../assets/drop_down_menu.png"/>
+                </button>
+
+              </div>
+            </el-col>
+          </el-row>
+          <div id="major-list" v-show="majorShow[index]">
+            <div class="app-container1">
+              <ul>
+                <li v-for="(item1,index) in majorlist" :key="index">
+                  <el-row>
+                    <el-col :span="19">
+                      <div class="text">
+                        <div class="majorinfo">
+                          <span class="flag" v-if="item1.risk === '冲'" style="background:#ee8d22">{{ item1.risk }}</span>
+                          <span class="flag" v-else-if="item1.risk === '稳'" style="background:#439cff">{{ item1.risk }}</span>
+                          <span class="flag" v-if="item1.risk === '保'" style="background:#4caf4e">{{ item1.risk }}</span>
+                          <span class="name">{{ item1.majorName }}</span>
+                          <span class="evaluation">{{item1.evaluation}}</span>
+                        </div>
+
+                        <div class="desc">
+                          <span>2020年招生人数{{item1.enrollNum}}</span>
+                          <span>选考科目：{{item1.selectionRequirement}}</span>
+                          <span>2020年最低分****</span>
+                          <span>2020年最低位次####</span>
+                        </div>
+                      </div>
+                    </el-col>
+                    <el-col :span="5">
+                      <div class="btn">
+                        <button class="chooseWill">加入意向</button>
+                      </div>
+                    </el-col>
+                  </el-row>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!--        分页器-->
+    <div class="box3">
+      <el-pagination
+        class="pagination"
+        background
+        layout="prev, pager, next"
+        :total="pageInfo.pagetotal"
+        :current-page ='pageInfo.pagenum'
+        :page-size='pageInfo.pagesize'
+        @current-change="handleCurrentChange">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
 <script>
-import MajorList from '../schoolRecommand/majorList'
 import {getAllSchool} from '../../api/schoolInfo'
 export default {
   name: 'schoolList',
-  components: { MajorList },
   mounted () {
     this.getAllSchoolData(this.pageInfo.pagenum)
   },
@@ -82,18 +105,23 @@ export default {
         pagesize: 10, // 每页条数
         pagetotal: 100// 总条目数
       },
-      schoolnameFlag: ''// 向子组件中传入学校名称
+      majorlist: []// 专业列表
 
     }
   },
   methods: {
-    btnShow (id, school) {
+    btnShow (id, majorls) {
       this.$set(this.btnFlag, id, !this.btnFlag[id])
       this.$set(this.majorShow, id, !this.majorShow[id])
+      console.log('专业列表', majorls)
+      this.majorlist = majorls
     },
     getAllSchoolData (pagenum) {
       getAllSchool({
-        page: pagenum
+        page: pagenum,
+        examProvince: '山东',
+        score: 600,
+        size: 10
       }).then(res => {
         if (res.status === 200) {
           this.schoolList = res.data.data
@@ -104,6 +132,7 @@ export default {
       })
     },
     handleCurrentChange (val) { // 分页器执行函数
+      this.majorShow = [false, false, false, false, false, false, false, false, false, false]
       let page = val
       console.log(`当前页:`, page--)
       this.getAllSchoolData(page--)
@@ -119,6 +148,9 @@ export default {
   padding: 0;
   margin: 0;
   font-size: 100%;
+}
+.container{
+  width:100%;
 }
 .container ul li{
   overflow: auto;
@@ -160,13 +192,15 @@ export default {
 }
 .container .chooseMajor {
   margin-top: .2rem;
-  width: 1.8rem;
+  width: 1.7rem;
   border:.02rem solid #00aff0;
   padding: .1rem;
   border-radius: .08rem;
   font-size: .1rem;
   background-color: transparent;
   outline: none;
+  color: #00aff0;
+  cursor: pointer;
 
 }
 .container .chooseMajor .img1{
@@ -193,26 +227,26 @@ export default {
   margin-top: .3rem;
 }
 
-.chooseBtn{
-  float: right;
+li{
+  list-style: none;
 }
-
-.container #major-list{
-  height: 6rem;
-  overflow-y: scroll;
-  width: 95%;
+.app-container1{
+  width:95%;
+  margin-left: 5%;
+  border-top: .001rem dashed #e4e4e4;
+  max-height: 6rem;
+  overflow-y: auto;
   padding-left: 1rem;
 }
-
 /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
-#major-list::-webkit-scrollbar{
+.app-container1::-webkit-scrollbar{
   width: .1rem;
-  height: .3rem;
+  height: 100%;
   background-color: #F5F5F5;
 }
 
 /*定义滚动条轨道 内阴影+圆角*/
-#major-list::-webkit-scrollbar-track {
+.app-container1::-webkit-scrollbar-track {
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
@@ -220,10 +254,80 @@ export default {
 }
 
 /*定义滑块 内阴影+圆角*/
-#major-list::-webkit-scrollbar-thumb{
+.app-container1::-webkit-scrollbar-thumb{
   border-radius: 10px;
   box-shadow: inset 0 0 6px rgba(0, 0, 0, .1);
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .1);
   background-color: #c8c8c8;
+}
+.app-container1 ul li {
+  overflow: hidden;
+}
+.app-container1 .text{
+  float: left;
+}
+.app-container1 .majorinfo .flag{
+  font-size: .2rem;
+  color: white;
+  font-weight: 500;
+  padding: 0.05rem;
+  margin-right: .03rem;
+}
+.app-container1 .name{
+  /*float: left;*/
+  margin-top: 1%;
+  font-weight: 800;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+.app-container1 .evaluation{
+  font-size: .01rem;
+  font-weight: 600;
+  margin-left: .2rem;
+  padding: .05rem;
+  border-radius:50%;
+  background-color: #fbbbcf;
+  color: #d53f2f;
+}
+.app-container1 .desc{
+  /*float: left;*/
+  margin-top: 1%;
+}
+
+.app-container1 .desc .name {
+  font-weight: 600;
+  font-size: .3rem;
+  color: rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+}
+
+.app-container1 .desc span{
+  display: inline-block;
+  margin-right: .1rem;
+  margin-top: .02rem;
+  padding-top: 0.1rem;
+  padding-right: .1rem;
+  color: rgb(153, 153, 153);
+  font-size: .05rem;
+
+}
+/*.app-container1 .btn{*/
+/*  float: left;*/
+/*  margin-left: .2rem;*/
+/*}*/
+
+.app-container1 .chooseWill{
+  margin-top: .2rem;
+  width: 1.7rem;
+  border:.02rem solid #00aff0;
+  padding: .1rem;
+  border-radius: .08rem;
+  font-size: .1rem;
+  background-color: transparent;
+  outline: none;
+  color: #00aff0;
+  cursor: pointer;
+  margin-left: .2rem;
 }
 </style>

@@ -39,10 +39,10 @@ export default {
   width: 100%;
   height: 100%;
 }
-  * {
-    margin: 0;
-    padding: 0;
-  }
+* {
+  margin: 0;
+  padding: 0;
+}
 html,body {
     width:100%;
     height: 100%;
@@ -54,5 +54,12 @@ html,body {
   padding: 5px;
   border-radius: 5px;
    line-height: 20px;
+}
+::-webkit-scrollbar {
+  width: .1rem;
+  height: .1rem;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #ccc !important;
 }
 </style>
