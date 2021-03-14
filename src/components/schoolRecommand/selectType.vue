@@ -82,6 +82,9 @@
       <div class="myFilterRecordBlockRow">
           <div class="customer-selected-tags">
             <span class="title" style="line-height: 24px;">您已选择：</span>
+            <div class="tags">
+              <span class="tag" v-for="(item,index) in collegeselete" :key="index">{{item}}<i class="el-icon-close" style="margin-left:5px"></i></span>
+            </div>
           </div>
       </div>
     </div>
@@ -101,6 +104,8 @@ export default {
   components: { SchoolList },
   data () {
     return {
+      collegeselete:[],
+      majorselete:[],
       active:'',
       typeactive:'',
       levelactive:'',
@@ -150,15 +155,19 @@ export default {
   methods: {
     selecttag(item) {
       this.active = item
+      this.collegeselete.push(item)
     },
     selecttypetag(item){
       this.typeactive = item
+       this.collegeselete.push(item)
     },
     selectleveltag(item){
       this.levelactive = item
+       this.collegeselete.push(item)
     },
     selectsorttag(item){
       this.sortactive = item
+       this.collegeselete.push(item)
     },
     selectmajortag(item){
       this.majoractive = item
@@ -359,5 +368,29 @@ div {
   padding: 6px 12px 6px 16px;
   display: flex;
   overflow: hidden;
+}
+.customer-selected-tags .tags {
+  -webkit-box-flex: 1;
+  flex:1;
+  display: flex;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  align-items: center;
+  flex-wrap:wrap;
+}
+.customer-selected-tags .tags .tag {
+  background:#fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #757575;
+  letter-spacing: 0;
+  height:24px;
+  line-height:24px;
+  margin-right:6px;
+  margin-bottom: 6px;
+  user-select: none;
+  padding: 0 10px;
 }
 </style>

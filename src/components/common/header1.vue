@@ -17,7 +17,7 @@
           </ul>
           <ul class="nav navbar-nav ul2_nav">
             <li>
-              <a v-if="flag_state !== true" class="nav_a">
+              <a v-if="flag_state === true" class="nav_a">
                 <user-setting-popover></user-setting-popover>
               </a>
               <a v-else class="nav_logout">
