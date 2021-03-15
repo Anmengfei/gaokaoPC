@@ -91,6 +91,7 @@
 import {getAllSchool} from '../../api/schoolInfo'
 export default {
   name: 'schoolList',
+  props:["selected"],
   mounted () {
     this.getAllSchoolData(this.pageInfo.pagenum)
   },
@@ -105,8 +106,18 @@ export default {
         pagesize: 10, // 每页条数
         pagetotal: 100// 总条目数
       },
+      selectnecess:{},
       majorlist: []// 专业列表
 
+    }
+  },
+  watch: {
+    selected: {
+      handler() {
+        this.getAllSchoolData(this.pageInfo.pagenum)
+      },
+      immediate: true,
+      deep: true
     }
   },
   methods: {
@@ -114,14 +125,19 @@ export default {
       this.$set(this.btnFlag, id, !this.btnFlag[id])
       this.$set(this.majorShow, id, !this.majorShow[id])
       console.log('专业列表', majorls)
+
       this.majorlist = majorls
     },
     getAllSchoolData (pagenum) {
+      console.log('1111111',this.selected)
       getAllSchool({
-        page: pagenum,
+        provinces: this.selected.provinceSelect,
+        schoolTypes: this.selected.typeSelect,
+        feature: this.selected.levelSelect,
+      page: pagenum,
         examProvince: '山东',
         score: 600,
-        size: 10
+        size: 10,
       }).then(res => {
         if (res.status === 200) {
           this.schoolList = res.data.data

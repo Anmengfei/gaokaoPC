@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <div class="box1">
-      <el-tabs v-model="selectTabs" type="border-card">
+      <el-tabs v-model="selectTabs" type="border-card"  @tab-click="handleClick">
         <el-tab-pane label="心仪的院校" name="favoriteSchool">
           <div class="filter-list">
             <span class="filter-list-title">院校省份</span>
@@ -24,13 +24,13 @@
               <span class="tag" v-for="item in collegeLevel" :key="item" :class="{active :collegeselete.levelSelect.includes(item)}" @click="selectleveltag(item)">{{item}}</span>
             </div>
           </div>
-          <div  class="filter-list">
-            <span class="filter-list-title">院校排序</span>
-            <div class="filter-list-tags">
-              <span class="tag" :class="{active : sortactive == ''}" @click="selectsorttag('')">不限</span>
-              <span class="tag" v-for="item in collegeSortType" :key="item" :class="{active :collegeselete.sortSelect.includes(item)}" @click="selectsorttag(item)">{{item}}</span>
-            </div>
-          </div>
+<!--          <div  class="filter-list">-->
+<!--            <span class="filter-list-title">院校排序</span>-->
+<!--            <div class="filter-list-tags">-->
+<!--              <span class="tag" :class="{active : sortactive == ''}" @click="selectsorttag('')">不限</span>-->
+<!--              <span class="tag" v-for="item in collegeSortType" :key="item" :class="{active :collegeselete.sortSelect.includes(item)}" @click="selectsorttag(item)">{{item}}</span>-->
+<!--            </div>-->
+<!--          </div>-->
           <div class="customer-college">
             <span class="customer-college-title">自主院校：</span>
             <div class="customer-college-input">
@@ -42,6 +42,19 @@
                 placeholder="请输入院校名称（至少4个字）"
                 v-model="textarea1">
               </el-input>
+            </div>
+          </div>
+          <div class="myFilterRecordBlockRow">
+            <div class="customer-selected-tags">
+              <span class="title" style="line-height: 24px;">您已选择：</span>
+              <div class="tags" v-for="select in collegeselete">
+                <!--              <div >-->
+                <span class="tag" v-for="(item,index) in select" :key="index">
+                  {{item}}<i class="el-icon-close" style="margin-left:5px" @click="closemyselect(select,item)" ></i>
+
+              </span>
+                <!--              </div>-->
+              </div>
             </div>
           </div>
           <!--          <div class="tiaojian" @click="zhedie">收起筛选条件</div>-->
@@ -60,7 +73,7 @@
             <span class="filter-list-title" style="opacity: 0;">专业选择</span>
             <div class="filter-list-tags">
               <span class="tag" :class="{active : majorsecondactive == ''}" @click="selectmajorsecondtag('')">全部</span>
-              <span class="tag" v-for="type in majorSecond" :key="type.name" :class="{active : majorsecondactive == type.name}" @click="selectmajorsecondtag(type.name)">{{type.name}}</span>
+              <span class="tag" v-for="type in majorSecond" :key="type.name" :class="{active :majorselect.includes(type.name)}" @click="selectmajorsecondtag(type.name)">{{type.name}}</span>
             </div>
           </div>
           <div class="customer-college">
@@ -76,27 +89,40 @@
               </el-input>
             </div>
           </div>
+
+          <div class="myFilterRecordBlockRow">
+            <div class="customer-selected-tags">
+              <span class="title" style="line-height: 24px;">您已选择：</span>
+              <div class="tags">
+                <span class="tag" v-for="(item,index) in majorselect" :key="index">
+                  {{item}}<i class="el-icon-close" style="margin-left:5px" @click="closemajorselect(index)" ></i>
+              </span>
+
+              </div>
+            </div>
+          </div>
         </el-tab-pane>
 
       </el-tabs>
-      <div class="myFilterRecordBlockRow">
-          <div class="customer-selected-tags">
-            <span class="title" style="line-height: 24px;">您已选择：</span>
-            <div class="tags" v-for="select in collegeselete">
-<!--              <div >-->
-                   <span class="tag" v-for="(item,index) in select" :key="index">
-                  {{item}}<i class="el-icon-close" style="margin-left:5px" @click="closemyselect(select,item)" ></i>
+<!--      <div class="myFilterRecordBlockRow">-->
+<!--          <div class="customer-selected-tags">-->
+<!--            <span class="title" style="line-height: 24px;">您已选择：</span>-->
+<!--            <div class="tags" v-for="select in collegeselete">-->
+<!--&lt;!&ndash;              <div >&ndash;&gt;-->
+<!--                   <span class="tag" v-for="(item,index) in select" :key="index">-->
+<!--                  {{item}}<i class="el-icon-close" style="margin-left:5px" @click="closemyselect(select,item)" ></i>-->
 
-              </span>
-<!--              </div>-->
-            </div>
-          </div>
-      </div>
+<!--              </span>-->
+<!--&lt;!&ndash;              </div>&ndash;&gt;-->
+<!--            </div>-->
+<!--          </div>-->
+<!--      </div>-->
     </div>
    <div class="schoollist">
      <el-row>
        <el-col :span="19">
          <SchoolList class="listofSchool"></SchoolList>
+         <school-list  :selected ="collegeselete"></school-list>
        </el-col>
        <el-col :span="5">
           <div class="fudongBox">
@@ -130,13 +156,16 @@ export default {
       collegeselete: {
         provinceSelect: [],
         typeSelect: [],
+        levelSelect:[],
+        // sortSelect:[],
         levelSelect: [],
         sortSelect: []
       },
+      majorselect:[],
       active: '',
       typeactive: '',
       levelactive: '',
-      sortactive: '',
+      // sortactive: '',
       majorsecondactive: '',
       majoractive: '',
       majorType: {},
@@ -164,7 +193,6 @@ export default {
       // schoolboxList: [['吉林','beijing'],['shenayang'],],
       // cengciboxList: ['不限'],
       // xingzhiboxList: ['不限']
-
     }
   },
   computed: {
@@ -184,6 +212,31 @@ export default {
     // this.getAllSchoolData()
   },
   methods: {
+    reset(){
+      this.collegeselete= {
+        provinceSelect: [],
+          typeSelect: [],
+          levelSelect:[],
+        // sortSelect:[],
+      };
+      this.active= '',
+      this.typeactive= '',
+      this.levelactive= '',
+      this.majorsecondactive= '',
+      this.majoractive= ''
+    },
+    closemajorselect(index){
+      this.majorselect.splice(index,1);
+      if(this.majorselect.length == 0){
+        this.majorsecondactive = ''
+      }
+    },
+
+    closemyselect(parent,name){
+      console.log('guanbiqian',parent,name)
+      for(let i=0; i< parent.length;i++){
+        if(parent[i] == name){
+          parent.splice(i,1)
     closemyselect (parent, name) {
       console.log('guanbiqian', parent, name)
       for (let i = 0; i < parent.length; i++) {
@@ -191,6 +244,11 @@ export default {
           parent.splice(i, 1)
         }
       }
+      if(parent.length == 0) {
+        switch (parent){
+          case this.collegeselete.provinceSelect: this.active = '';break;
+          case this.collegeselete.levelSelect: this.levelactive = '';break;
+          case this.collegeselete.typeSelect: this.typeactive = '';break;
       if (parent.length == 0) {
         // if(parent == this.collegeselete.levelSelect ){
         //   this.levelactive = ''
@@ -217,6 +275,15 @@ export default {
         this.collegeselete.provinceSelect = []
       } else if (!this.collegeselete.provinceSelect.includes(item)) {
         this.collegeselete.provinceSelect.push(item)
+      }else {
+        for(let i=0; i< this.collegeselete.provinceSelect.length;i++){
+          if(this.collegeselete.provinceSelect[i] == item){
+            this.collegeselete.provinceSelect.splice(i,1)
+          }
+        }
+      }
+      if(this.collegeselete.provinceSelect.length == 0) {
+        this.active = '';
       }
     },
     selecttypetag (item) {
@@ -225,6 +292,15 @@ export default {
         this.collegeselete.typeSelect = []
       } else if (!this.collegeselete.typeSelect.includes(item)) {
         this.collegeselete.typeSelect.push(item)
+      }else {
+        for(let i=0; i< this.collegeselete.typeSelect.length;i++){
+          if(this.collegeselete.typeSelect[i] == item){
+            this.collegeselete.typeSelect.splice(i,1)
+          }
+        }
+      }
+      if(this.collegeselete.typeSelect.length == 0) {
+        this.typeactive = '';
       }
     },
     selectleveltag (item) {
@@ -233,7 +309,15 @@ export default {
         this.collegeselete.levelSelect = []
       } else if (!this.collegeselete.levelSelect.includes(item)) {
         this.collegeselete.levelSelect.push(item)
+      }else {
+        for(let i=0; i< this.collegeselete.levelSelect.length;i++){
+          if(this.collegeselete.levelSelect[i] == item){
+            this.collegeselete.levelSelect.splice(i,1)
+          }
+        }
       }
+      if(this.collegeselete.levelSelect.length == 0) {
+        this.levelactive = '';
     },
     selectsorttag (item) {
       this.sortactive = item
@@ -242,7 +326,16 @@ export default {
       } else if (!this.collegeselete.sortSelect.includes(item)) {
         this.collegeselete.sortSelect.push(item)
       }
+
     },
+    // selectsorttag (item) {
+    //   this.sortactive = item
+    //   if(item == ''){
+    //     this.collegeselete.sortSelect =[]
+    //   }else if(!this.collegeselete.sortSelect.includes(item)){
+    //     this.collegeselete.sortSelect.push(item)
+    //   }
+    // },
     selectmajortag (item) {
       this.majoractive = item
       this.majorType.forEach(tag => {
@@ -253,6 +346,20 @@ export default {
     },
     selectmajorsecondtag (item) {
       this.majorsecondactive = item
+      if(item == ''){
+        this.majorselect =[]
+      }else if(!this.majorselect.includes(item)){
+        this.majorselect.push(item)
+      }else {
+        for(let i=0; i< this.majorselect.length;i++){
+          if(this.majorselect[i] == item){
+            this.majorselect.splice(i,1)
+          }
+        }
+      }
+      if(this.majorselect.length == 0) {
+        this.majorsecondactive = '';
+      }
     },
     getProvincesinit () {
       getAllprovinces().then(res => {
@@ -275,6 +382,8 @@ export default {
         // console.log('1'+this.majorType)
       })
     },
+    handleClick(){
+      // this.reset()
     // getAllSchoolData () {
     //   getAllSchool({
     //     page: 0
@@ -419,6 +528,8 @@ div {
 .myFilterRecordBlockRow {
   background: #fafafa;
   border: 1px solid #e5e5e5;
+  margin-top: 15px;
+
   display: flex;
   height: auto;
   transition: height 2s ease-in-out;
