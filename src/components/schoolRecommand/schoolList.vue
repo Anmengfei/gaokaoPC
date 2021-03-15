@@ -124,12 +124,11 @@ export default {
     btnShow (id, majorls) {
       this.$set(this.btnFlag, id, !this.btnFlag[id])
       this.$set(this.majorShow, id, !this.majorShow[id])
-      console.log('专业列表', majorls)
+      // console.log('专业列表', majorls)
 
       this.majorlist = majorls
     },
     getAllSchoolData (pagenum) {
-      console.log('1111111',this.selected)
       getAllSchool({
         provinces: this.selected.provinceSelect,
         schoolTypes: this.selected.typeSelect,
@@ -141,9 +140,9 @@ export default {
       }).then(res => {
         if (res.status === 200) {
           this.schoolList = res.data.data
-          console.log('this.schoolList1数据', this.schoolList)
+          // console.log('this.schoolList1数据', this.schoolList)
         } else {
-          console.log('无法取得数据')
+          // console.log('无法取得数据')
         }
       })
     },
