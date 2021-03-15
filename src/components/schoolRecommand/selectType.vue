@@ -157,7 +157,6 @@ export default {
         typeSelect: [],
         levelSelect:[],
         // sortSelect:[],
-        levelSelect: [],
         sortSelect: []
       },
       majorselect:[],
