@@ -121,8 +121,7 @@
    <div class="schoollist">
      <el-row>
        <el-col :span="19">
-         <SchoolList class="listofSchool"></SchoolList>
-         <school-list  :selected ="collegeselete"></school-list>
+         <school-list  class="listofSchool" :selected ="collegeselete"></school-list>
        </el-col>
        <el-col :span="5">
           <div class="fudongBox">
@@ -231,12 +230,6 @@ export default {
         this.majorsecondactive = ''
       }
     },
-
-    closemyselect(parent,name){
-      console.log('guanbiqian',parent,name)
-      for(let i=0; i< parent.length;i++){
-        if(parent[i] == name){
-          parent.splice(i,1)
     closemyselect (parent, name) {
       console.log('guanbiqian', parent, name)
       for (let i = 0; i < parent.length; i++) {
@@ -249,22 +242,6 @@ export default {
           case this.collegeselete.provinceSelect: this.active = '';break;
           case this.collegeselete.levelSelect: this.levelactive = '';break;
           case this.collegeselete.typeSelect: this.typeactive = '';break;
-      if (parent.length == 0) {
-        // if(parent == this.collegeselete.levelSelect ){
-        //   this.levelactive = ''
-        // }
-        // if(parent == this.collegeselete.provinceSelect ){
-        //   this.active = ''
-        // }if(parent == this.collegeselete.typeSelect ){
-        //   this.typeactive = ''
-        // }if(parent == this.collegeselete.sortSelect ){
-        //   this.sortactive = ''
-        // }
-        switch (parent) {
-          case this.collegeselete.provinceSelect: this.active = ''; break
-          case this.collegeselete.levelSelect: this.levelactive = ''; break
-          case this.collegeselete.typeSelect: this.typeactive = ''; break
-          case this.collegeselete.sortSelect: this.sortactive = ''; break
         }
       }
       console.log('after', parent, name)
@@ -318,6 +295,8 @@ export default {
       }
       if(this.collegeselete.levelSelect.length == 0) {
         this.levelactive = '';
+      }
+
     },
     selectsorttag (item) {
       this.sortactive = item
@@ -395,7 +374,7 @@ export default {
     //       console.log('无法取得数据')
     //     }
     //   })
-    // },
+    },
     zhakai () {
       this.showAll = true
     },
