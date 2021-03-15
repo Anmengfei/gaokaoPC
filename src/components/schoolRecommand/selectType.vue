@@ -154,6 +154,8 @@ export default {
         typeSelect: [],
         levelSelect: [],
         // sortSelect:[],
+        levelSelect: [],
+        sortSelect: []
       },
       majorselect: [],
       active: '',
@@ -283,6 +285,15 @@ export default {
       }
       if (this.collegeselete.levelSelect.length == 0) {
         this.levelactive = '';
+      }
+
+    },
+    selectsorttag (item) {
+      this.sortactive = item
+      if (item == '') {
+        this.collegeselete.sortSelect = []
+      } else if (!this.collegeselete.sortSelect.includes(item)) {
+        this.collegeselete.sortSelect.push(item)
       }
 
     },
@@ -491,7 +502,7 @@ div {
   margin-left: .2rem;
   margin-top: .2rem;
   height: 8.1rem;
-  overflow-y: auto;
+  /*overflow-y: auto;*/
   outline: 0;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: .3rem;
