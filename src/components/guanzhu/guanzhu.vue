@@ -1,210 +1,20 @@
 <template>
   <div class="app_container">
-    <!-- <Header :flags = flag_class class="header" :flagInfo="infoState"></Header> -->
     <top-header></top-header>
     <div class="mt20 thirdRow">
-      <!-- <div class="knl-nav">考哪儿</div>
-      <div class="box-nav">
-        <ul>
-          <li><a href="#">首页</a></li>
-          <li><a href="#">院校优先</a></li>
-          <li><a href="#">专业优先</a></li>
-          <li><a href="#">志愿表</a></li>
-          <li><a href="#">志愿VIP</a></li>
-          <li><a href="#">1V1专家</a></li>
-        </ul>
-      </div>
-      <div class="loginInfo" v-if="loginStatus === false">
-        <span @click="login">登陆</span> ｜
-        <span @click="regist">注册</span>
-      </div>
-      <div class="loginInfo" v-else>
-        <image />｜
-        <span @click="regist">注册</span>
-      </div> -->
-
       <HomeHeader :flagInfo="loginStatus"></HomeHeader>
     </div>
-    <div class="fourRow">
-      <div class="carouselList">
-        <el-carousel class="carousel-img" height="300px">
-          <el-carousel-item
-            v-for="(item, index) in schna"
-            :key="index"
-            class="carousel-item"
-            @click.native="itemClick(item, index)"
-          >
-            <img :src="item" alt="" />
-          </el-carousel-item>
-        </el-carousel>
-      </div>
-      <div class="zhiyuan" v-if="loginStatus !== false">
-        <div class="content">
-          <div class="header">模拟高考志愿填报</div>
-          <el-tag class="denglu-label" type="warning"
-            >登录后，推荐适合你的院校</el-tag
-          >
-          <div class="form-item">
-            <div class="gaokaozongfen">
-              <span class="span1">高考总分</span
-              ><span class="span2">输入预估总分</span>
-            </div>
-            <div class="quanshengpaiming">
-              <span class="span1">全省排名</span
-              ><span class="span2">预估全省排名</span>
-            </div>
-            <div class="button">
-              <el-button class="btn" type="primary" round>立即登陆</el-button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="zhiyuan" v-else>
-        <div class="content">
-          <div class="header">模拟高考志愿填报</div>
-
-          <div class="form-item2">
-            <div>
-              <div class="editScore" @click="modifyScore">
-                <i class="el-icon-edit"></i><span>修改成绩</span>
-              </div>
-              <div>
-                <div class="score-item">
-                  <span class="label">高考省份</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >北京</span
-                  >
-                </div>
-                <div class="score-item">
-                  <span class="label">科目类型</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >物理/化学/生物</span
-                  >
-                </div>
-                <div class="score-item">
-                  <span class="label">高考总分</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >572</span
-                  >
-                </div>
-                <div class="score-item">
-                  <span class="label">本科预估排名</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >13923</span
-                  >
-                </div>
-                <div class="score-item">
-                  <span class="label">语数外总分</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >360</span
-                  >
-                </div>
-
-                <div class="score-item">
-                  <span class="label">专科预估排名</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >28</span
-                  >
-                </div>
-              </div>
-            </div>
-
-            <div class="tuijianButton">
-              <el-button class="btn" type="primary" round>智能推荐</el-button>
-            </div>
-            <div class="viewTable">查看志愿表>></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="fiveRow">
-      <div class="fiveRow-header">
-        <span class="shuxian"></span>
-        <div class="shuxian-l">院校推荐</div>
-        <div v-if="loginStatus !== false">
-          <div class="btn">
-            <a href="#">登录</a>
-          </div>
-          <div class="shuxian-r">推荐更合适你的院校</div>
-        </div>
-        <div v-else>
-          <div class="shuxian-r">
-            <span>北京</span>&nbsp;&nbsp; <span>物/化/生</span>&nbsp;&nbsp;
-            <span>本科</span>&nbsp;&nbsp;
-            <span>572</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="fiveRow-box">
-        <div class="box-content" v-if="loginStatus !== false">
-          <a href="#">登录添加成绩信息</a><br />
-          <h>大数据+AI智能准确推荐合适你的院校</h>
-        </div>
-        <div v-else>
-          <ul class="default-list">
-            <li
-              class="commend-item"
-              v-for="(item, index) in recommandList"
-              :key="index"
-              @click="selectSchoolItem(index, item)"
-            >
-              <img :src="item.url" class="commend-item-image" />
-              <h4 class="commend-item-title textOverflow">{{ item.name }}</h4>
-              <p class="commend-item-code">招生代码 {{ item.code }}</p>
-              <p class="commend-item-des">{{ item.des }}</p>
-            </li>
-            <li class="commend-item">
-              <i class="el-icon-arrow-right moreIcn"></i>
-              <h4 class="commend-item-title more">查看更多</h4>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
     <div class="sixRow">
-      <div class="sixRow-header">
-        <span class="shuxian"></span>
-        <div class="shuxian-l">大家都在关注</div>
-        <a href="#" @click="openMore()">查看更多>></a>
-      </div>
+      <!-- <div class="sixRow-header">
+        <span>首页>大家都在关注</span>
+      </div> -->
       <div class="sixRow-box">
-        <!-- <div class="item_01">
-          <div class="picture">
-            <img src="../../assets/logo34.png" alt="" />
-          </div>
-          <div class="word">
-            <h5>【重要】 志愿填报需到各地官方考试院查询详情，以免误报</h5>
-            <h6>【重要】 志愿填报需到各地官方考试院查询详情，以免误报</h6>
-          </div>
-          <div class="date">2020.07.27</div>
-        </div>
-        <div class="item_02">
-          <div class="picture">
-            <img src="../../assets/logo34.png" alt="" />
-          </div>
-          <div class="word1">
-            <h5>【重要】 志愿填报需到各地官方考试院查询详情，以免误报</h5>
-            <h6>【重要】 志愿填报需到各地官方考试院查询详情，以免误报</h6>
-          </div>
-          <div class="date1">2020.07.27</div>
-        </div>
-        <div class="item_03">
-          <div class="picture">
-            <img src="../../assets/logo34.png" alt="" />
-          </div>
-          <div class="word2">
-            <h5>【山东】 2020年招生计划、批次线、录取概率全部更新</h5>
-            <h6>【山东】 2020年招生计划、批次线、录取概率全部更新</h6>
-          </div>
-          <div class="date2">2020.07.27</div>
-        </div> -->
         <div class="wap">
           <div class="skeleton">
             <ul class="list">
               <li
                 class="item"
-                v-for="(item, index) in threeList"
+                v-for="(item, index) in zixunList"
                 :key="index"
                 @click="selectZixun(item, index)"
               >
@@ -225,56 +35,15 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="sevenRow">
-      <div class="sevenRow-header">
-        <span class="shuxian"></span>
-        <div class="shuxian-l">大家都在学</div>
-        <a href="#" onclick="openReport()">查看更多>></a>
-      </div>
-      <div class="sevenRow-box">
-        <div class="video1">
-          <div class="video1-header">
-            <img src="../../assets/logo66.png" alt="" class="image" />
-            <img src="../../assets/play_05.png" class="play-btn" />
-          </div>
-          <div class="video1-box">
-            <p>iPIN牵手新东方，展开教育+人工智能深度合作</p>
-          </div>
-        </div>
-        <div class="video2">
-          <div class="video1-header">
-            <img src="../../assets/logo66.png" alt="" class="image" />
-            <img src="../../assets/play_05.png" class="play-btn" />
-          </div>
-          <div class="video1-box">
-            <p>完美志愿做客郑州教育电视台</p>
-          </div>
-        </div>
-        <div class="video3">
-          <div class="video1-header">
-            <img src="../../assets/logo66.png" alt="" class="image" />
-            <img src="../../assets/play_05.png" class="play-btn" />
-          </div>
-          <div class="video1-box">
-            <p>俞敏洪、杨洋、晨露对谈:高考志愿能否决定你的未来？</p>
-          </div>
-        </div>
+      <div class="more">
+        <el-row>
+          <el-button plain class="btn">查看更多</el-button>
+        </el-row>
       </div>
     </div>
-
     <div class="footer">
       <Footer></Footer>
     </div>
-
-    <!-- <el-backtop :bottom="60" class="backtop-style">
-      <div class="backtop-text">
-        <span>返回顶部</span>
-      </div>
-      <i class="el-icon-caret-top backtop-icon" ></i>
-
-    </el-backtop>-->
   </div>
 </template>
 
@@ -283,6 +52,7 @@ import TopHeader from "@/components/common/topheader";
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
 import EditScore from "@/components/common/editScore";
+// {}只引入这个方法
 import { getFollowingList } from "@/api/index.js";
 // import $ from 'jquery'
 export default {
@@ -366,8 +136,39 @@ export default {
         //   time: "2020.07.31",
         //   news: "【北京】本科批志愿填报倒计时最后1天",
         // },
+        // {
+        //   id: 3,
+        //   url:
+        //     "https://storage-oss.ipin.com/oss-data/articleimage-20200728121805278842.png",
+        //   title: "【北京】本科批志愿填报倒计时最后1天",
+        //   time: "2020.07.31",
+        //   news: "【北京】本科批志愿填报倒计时最后1天",
+        // },
+        // {
+        //   id: 3,
+        //   url:
+        //     "https://storage-oss.ipin.com/oss-data/articleimage-20200728121805278842.png",
+        //   title: "【北京】本科批志愿填报倒计时最后1天",
+        //   time: "2020.07.31",
+        //   news: "【北京】本科批志愿填报倒计时最后1天",
+        // },
+        // {
+        //   id: 3,
+        //   url:
+        //     "https://storage-oss.ipin.com/oss-data/articleimage-20200728121805278842.png",
+        //   title: "【北京】本科批志愿填报倒计时最后1天",
+        //   time: "2020.07.31",
+        //   news: "【北京】本科批志愿填报倒计时最后1天",
+        // },
+        // {
+        //   id: 3,
+        //   url:
+        //     "https://storage-oss.ipin.com/oss-data/articleimage-20200728121805278842.png",
+        //   title: "【北京】本科批志愿填报倒计时最后1天",
+        //   time: "2020.07.31",
+        //   news: "【北京】本科批志愿填报倒计时最后1天",
+        // },
       ],
-      threeList: [],
       form: {
         name: "",
       },
@@ -429,29 +230,15 @@ export default {
         console.log(response.data);
         _this.zixunList = response.data;
         console.log(_this.zixunList);
-        // 使用push不用等号
-        for (var i = 0; i < 3; i++) {
-          _this.threeList.push(_this.zixunList[i]);
-        }
-        // this.$set(this.threeList, _this.threeList);
-        console.log(_this.threeList);
       });
     },
+    // 修改过
     selectZixun(item, index) {
       const { href } = this.$router.resolve({
         name: "Article",
         query: {
           article: item.id,
         },
-      });
-      window.open(href, "_blank");
-    },
-    openMore() {
-      const { href } = this.$router.resolve({
-        name: "Guanzhu",
-        // query: {
-        //   article: item.id,
-        // },
       });
       window.open(href, "_blank");
     },
@@ -540,13 +327,25 @@ a {
   text-decoration: none;
 }
 .app_container {
-  background-color: #f3f5f7;
+  /* background-color: red; */
   width: 100%;
 }
 .mt20 {
   margin-top: 20px;
 }
-
+.more {
+  width: 100px;
+  margin: 30px auto 90px;
+}
+.more .btn {
+  width: 150px;
+  background: rgb(255, 255, 255);
+  border: 1px solid rgb(0, 175, 240);
+  height: 60px;
+  border-radius: 10px;
+  font-size: 20px;
+  color: rgb(0, 175, 240);
+}
 .thirdRow {
   background-color: #f95e5a;
   width: 100%;
@@ -857,7 +656,7 @@ li a {
 }
 
 .sixRow {
-  height: 560px;
+  /* height: 560px; */
   width: 1400px;
   margin: 0 auto;
 }
@@ -865,15 +664,18 @@ li a {
   margin-top: 10px;
   height: 100px;
   width: 1400px;
-  background-color: #f3f5f7;
+  /* background-color: #f3f5f7; */
+  border-bottom-color: #f3f5f7;
 }
 .sixRow-box {
-  height: 660px;
+  /* height: 660px; */
+  margin-top: 50px;
   width: 1400px;
   position: relative;
   border-radius: 15px;
+  /* background-color: pink; */
 }
-.sixRow-header .shuxian {
+/* .sixRow-header .shuxian {
   float: left;
   top: 2px;
   display: inline-block;
@@ -899,7 +701,7 @@ li a {
   font-size: 10px;
   font-weight: bold;
   color: black;
-}
+} */
 .word h6 {
   margin-top: 15px;
 }
@@ -1112,14 +914,14 @@ li a {
   font-weight: normal;
   color: rgba(0, 0, 0, 0.5);
 }
-.wap {
+/* .wap {
   padding: 0px 20px;
   background: rgb(255, 255, 255);
   box-shadow: rgb(0 0 0 / 4%) 0px 2px 4px 0px;
   border-radius: 10px;
   width: 1400px;
   height: 450px;
-}
+} */
 
 .wap .skeleton .list {
   background: rgb(255, 255, 255);
@@ -1130,7 +932,7 @@ li a {
   content: "";
 }
 .wap .skeleton .list .item {
-  width: 80%;
+  width: 1400px;
   position: relative;
   padding: 20px 0px;
   margin: 5px 10px;
@@ -1151,7 +953,7 @@ li a {
 }
 .wap .content {
   position: absolute;
-  width: 1000px;
+  width: 12.5rem;
   top: 30px;
   left: 190px;
 }
@@ -1179,5 +981,8 @@ li a {
   line-height: 22px;
   width: 800px;
   height: 44px;
+}
+.footer {
+  background-color: aqua;
 }
 </style>

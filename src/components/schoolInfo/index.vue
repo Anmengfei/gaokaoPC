@@ -40,21 +40,21 @@
                     clearable
                     class="selectProvinceStyle"
                 >
-                    <el-option
-                    v-for="dict in provincesList"
-                    :key="dict"
-                    :label="dict"
-                    :value="dict"
-                    ></el-option>
+<!--                    <el-option-->
+<!--                    v-for="dict in provincesList"-->
+<!--                    :key="dict"-->
+<!--                    :label="dict"-->
+<!--                    :value="dict"-->
+<!--                    ></el-option>-->
                 </el-select>
                 </el-col>
                 <el-col :span="3">&nbsp;</el-col>
                 <el-col :span="5">
-                <el-input
-                    v-model="searchValue"
-                    placeholder="搜大学/查专业"
-                    suffix-icon="el-icon-search"
-                ></el-input>
+<!--                <el-input-->
+<!--                    v-model="searchValue"-->
+<!--                    placeholder="搜大学/查专业"-->
+<!--                    suffix-icon="el-icon-search"-->
+<!--                ></el-input>-->
                 </el-col>
                 <el-col :span="2">&nbsp;</el-col>
                 <el-col :span="6">
@@ -350,6 +350,7 @@ export default {
     return {
       maxLenInfo: 200,
       showBtn: true,
+      selectProvince:'',
       schoolIntro: `北京大学（PekingUniversity），简称北大，创建于1898年，初名京师大学堂，是中国近代第一所国立综合性大学，也是当时中国最高教育行政机关。1911年辛亥革命爆发，翌年改为现名；1917年，著名教育家蔡元培出任北京大学校长，“循思想自由原则、取兼容并包之义”，推行改革，把北大办成以文、理两科为重点的综合性大学，使北京大学成为新文化运动的中心、五四运动的策源地。1937年抗日战争爆发，北大与清华、南开合并组建国立西南联合大学；1946年，北大迁回北平复校。
                     1998年5月4日，北京大学举办百年校庆，在国家的支持下，北京大学适时启动了“创建世界一流大学计划”。2000年4月3日，北京大学与原北京医科大学合并，组建新的北京大学。学校为教育部直属全国重点大学，国家“211工程”、“985工程”建设大学、C9联盟，以及东亚研究型大学协会、国际研究型大学联盟、环太平洋大学联盟、东亚四大学论坛的重要成员。
                     巍巍上庠，国运所系。一百多年来，北京大学的发展与国家和民族的命运息息相关，形成了光荣的革命传统和优良的学术传统。作为中国的最高学府，北京大学聚集了各个历史时期的众多著名学者、专家，培养了一代又一代优秀人才，创造了一批又一批重大科学成果，深刻影响了中国近现代思想理论、科学技术、文化教育和社会发展的进程。`

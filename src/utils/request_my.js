@@ -82,20 +82,36 @@ import qs from 'qs'
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: 'https://www.zytb.top/NEMT/gk/'
+  baseURL: 'https://www.zytb.top/NEMT/gk'
 })
 // request拦截器
 service.interceptors.request.use(config => {
   // 在发送请求之前做些什么
   config['headers']['Content-Type'] = 'application/x-www-form-urlencoded'
+    config.headers['token'] = '87330f8714214b548758ed1b1a44a18b'
   if (config.method === 'POST' || config.method === 'post') {
     config.data = qs.stringify(config.data)
   }
   return config
-}, error => {
+},
+
+
+    error => {
   // 对请求错误做些什么
-  Promise.reject(error)
-  console.info(error)
+     console.info(error)
+      return Promise.reject(error)
 })
+service.interceptors.response.use(
+  response => {
+    const res = response.data
+    return res
+  },
+  error => {
+    console.log('err' + error) // for debug
+
+    return Promise.reject(error)
+  }
+)
+
 
 export default service

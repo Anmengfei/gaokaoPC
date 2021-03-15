@@ -1,37 +1,34 @@
 <template>
-    <div class="app_container">
-      <div>
-        <top-header></top-header>
-      </div>
-        <div class="mt20 thirdRow">
-            <HomeHeader :flagInfo="loginStatus"></HomeHeader>
-        </div>
-      <div>
-        <select-type></select-type>
-      </div>
-      <div class="pagination">
-        <el-pagination background layout="prev, pager, next" :total="100"></el-pagination>
-      </div>
-      <Footer></Footer>
-
+  <div class="app_container">
+    <div>
+      <top-header></top-header>
     </div>
+    <div class="mt20 thirdRow">
+      <!--            <HomeHeader :flagInfo="loginStatus"></HomeHeader>-->
+      <HomeHeader :flagInfo="true"></HomeHeader>
+    </div>
+    <div>
+      <select-type></select-type>
+    </div>
+    <Footer></Footer>
+  </div>
 </template>
 
 <script>
-import TopHeader from '@/components/common/topheader'
-import HomeHeader from '@/components/common/header1'
-import Footer from '@/components/common/footer1'
-import CjList from './schoolList'
-import SelectType from '../schoolRecommand/selectType'
+import TopHeader from "@/components/common/topheader";
+import HomeHeader from "@/components/common/header1";
+import Footer from "@/components/common/footer1";
+import CjList from "./schoolList";
+import SelectType from "../schoolRecommand/selectType";
 export default {
-  name: 'SchoolRecommand',
-  components: {TopHeader, HomeHeader, Footer, CjList, SelectType},
+  name: "SchoolRecommand",
+  loginStatus: true,
+  components: { TopHeader, HomeHeader, Footer, CjList, SelectType },
   data() {
-    return {}
+    return {};
   },
-  methods: {}
-}
-
+  methods: {},
+};
 </script>
 
 <style scoped>
@@ -44,26 +41,13 @@ a {
 }
 .app_container {
   background-color: white;
-  overflow-x: hidden;
 }
 .mt20 {
   margin-top: 20px;
 }
 .thirdRow {
-  background-color: #f95e5a;
+  /* background-color: #f95e5a; */
   width: 100%;
   height: 70px;
-
 }
-
-.pagination {
-  width: 100%;
-  height: 30px;
-  text-align: center;
-}
-.pagination el-pagination {
-  width: 100px;
-  height: 80%;
-}
-
 </style>

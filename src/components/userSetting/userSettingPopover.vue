@@ -37,7 +37,7 @@
         <!-- <img :src="headerImg" class="img-header"> -->
          <img src="../../assets/logo.jpg" class="img-header">
         <span class="name-text">
-            {{name}}
+            {{name}}123456
             </span>
 
       </div>
@@ -77,7 +77,7 @@ export default {
     this.role = localStorage.getItem('role')
     // this.headerImg = localStorage.getItem('headimg')
     this.username = localStorage.getItem('userId')
-    console.log('userId111', this.username)
+    // console.log('userId111', this.username)
     if (localStorage.getItem('name') === 'admin') {
       this.name = '管理员'
     } else {

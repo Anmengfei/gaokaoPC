@@ -3,7 +3,7 @@
     <nav>
       <div class="navbar-header">
         <a class="navbar-brand" href="#" @click="gotoHomepage">
-          <img src="../../assets/logo.png" class="img-logo" />
+          <!--            <img src="../../assets/logo.png" class="img-logo" />-->
         </a>
       </div>
       <div id="navbar" class="navbar-collapse collapse nav_ul">
@@ -20,7 +20,6 @@
             <a v-if="flag_state !== true" class="nav_a">
               <user-setting-popover></user-setting-popover>
             </a>
-
             <a v-else class="nav_logout">
               <Logout></Logout>
             </a>
@@ -56,6 +55,7 @@ export default {
     }
     this.flag_state = false;
   },
+
   mounted() {},
   methods: {
     goToCourseIndex: function () {
@@ -69,7 +69,11 @@ export default {
       // } else {
       //   this.$router.push('/AllCourses')
       // }
-      this.$router.push("/SchoolRecommand");
+      // this.$router.push('/SchoolRecommand')
+      this.$router.push({
+        name: "SchoolRecommand",
+        params: { tab: "favoriteSchool" },
+      });
     },
     openInfo() {
       this.$confirm("请尽快完善个人资料,完善个人资料后开放此模块", "提示信息", {
@@ -84,12 +88,15 @@ export default {
     },
     gotoWork() {
       // if (this.flag_state === true) {
-      //   alert("请先登录！");
-      //   this.$router.push("/login");
+      //   alert('请先登录！')
+      //   this.$router.push('/login')
       // } else {
-      //   this.$router.push("/WorkIndex");
+      //   this.$router.push('/WorkIndex')
+      this.$router.push({
+        name: "WorkIndex",
+        params: { tab: "favoriteMajor" },
+      });
       // }
-      this.$router.push("/Zhaoshengyuanxiao");
     },
     gotoWorkUpdate() {
       if (this.flag_state === true) {
@@ -123,13 +130,15 @@ export default {
       }
     },
     gotoOnline() {
-      // if (this.flag_state === true) {
-      //   alert("请先登录！");
-      //   this.$router.push("/login");
-      // } else {
-      //   this.$router.push("/OnlineTeach");
-      // }
-      this.$router.push("/Recruit");
+      if (this.flag_state === true) {
+        alert("请先登录！");
+        this.$router.push("/login");
+      } else {
+        this.$router.push("/OnlineTeach");
+      }
+      // this.$router.push("/Recruit");
+      // this.$router.push("/guanzhu");
+      // this.$router.push("/article");
     },
     gotoPlat() {
       if (this.flag_state === true) {
@@ -207,12 +216,11 @@ export default {
 }
 
 .img-logo {
-  height: 80%;
+  height: 60%;
   margin-top: 0.2rem;
   margin-left: 0.2rem;
 }
 .navbar-brand {
-  padding-top: 0.1rem;
   padding-left: 1.5rem;
 }
 </style>

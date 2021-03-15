@@ -41,7 +41,7 @@
               <!--<div class="img-diagle"></div>-->
             </div>
             <div class="left_head_name">
-              <span>{{username}}</span>
+              <span>{{username1}}</span>
             </div>
           </div>
           <div class="left_container">
@@ -113,7 +113,8 @@ export default {
       name: localStorage.getItem('name'),
       updateobj: {
         username: localStorage.getItem('name')
-      }
+      },
+      username1: 'qqq'
     }
   },
   computed: {
