@@ -93,16 +93,35 @@
           </div>
       </div>
     </div>
+   <div class="schoollist">
+     <el-row>
+       <el-col :span="19">
+         <school-list></school-list>
+       </el-col>
+       <el-col :span="5">
+        <div class="fudongFather">
+          <div class="fudongBox">
+            <div class="head">已填入意向</div>
+            <div class="content">
+              <img src="../../assets/noData.png" alt="暂无数据">
+              <span>查看左侧院校和专业选择<br/>加入意向</span>
+            </div>
+            <div class="foot">
+              <span class="clear">清空</span>
+              <button class="nextbtn">下一步</button>
+            </div>
+          </div>
+        </div>
+       </el-col>
+     </el-row>
+   </div>
 
-    <div class="box2">
-      <school-list></school-list>
-    </div>
   </div>
 </template>
 
 <script>
 import SchoolList from '../schoolRecommand/schoolList'
-import {getAllLevel,getAllCollegeType,getAllprovinces,getAllMajorType} from '@/api/index'
+import {getAllLevel, getAllCollegeType, getAllprovinces, getAllMajorType} from '@/api/index'
 import {getAllSchool} from '@/api/schoolInfo.js'
 export default {
   name: 'selectType',
@@ -116,6 +135,19 @@ export default {
         levelSelect:[],
         sortSelect:[],
       },
+      active: '',
+      typeactive: '',
+      levelactive: '',
+      sortactive: '',
+      majorsecondactive: '',
+      majoractive: '',
+      majorType: {},
+      provincesList: [],
+      collegeType: [],
+      collegeLevel: [],
+      majorSecond: [],
+      collegeSortType: ['录取概率', '计划人数', '大学排名'],
+      collegeselete:[],
       majorselete:[],
       active:'',
       typeactive:'',
@@ -133,7 +165,7 @@ export default {
       showAll: false,
       loginStatus: true,
       cjLable: '可冲击20',
-      textarea1:'',
+      textarea1: '',
       wtLabel: '较稳妥30',
       bdLabel: '可保底90',
       isVip: false,
@@ -146,13 +178,12 @@ export default {
       xingzhiList: ['不限', '公立大学', '民办高校'],
       schoolboxList: [['吉林','beijing'],['shenayang'],],
       cengciboxList: ['不限'],
-      xingzhiboxList: ['不限'],
-
+      xingzhiboxList: ['不限']
 
     }
   },
   computed: {
-    selectTabs() {
+    selectTabs () {
       console.log(this.$route.params.tab)
       return this.$route.params.tab || 'favoriteSchool'
     }
@@ -199,7 +230,7 @@ export default {
         this.collegeselete.provinceSelect.push(item)
       }
     },
-    selecttypetag(item){
+    selecttypetag (item) {
       this.typeactive = item
       if(item == ''){
         this.collegeselete.typeSelect =[]
@@ -207,7 +238,7 @@ export default {
         this.collegeselete.typeSelect.push(item)
       }
     },
-    selectleveltag(item){
+    selectleveltag (item) {
       this.levelactive = item
       if(item == ''){
         this.collegeselete.levelSelect =[]
@@ -215,7 +246,7 @@ export default {
         this.collegeselete.levelSelect.push(item)
       }
     },
-    selectsorttag(item){
+    selectsorttag (item) {
       this.sortactive = item
       if(item == ''){
         this.collegeselete.sortSelect =[]
@@ -223,37 +254,34 @@ export default {
         this.collegeselete.sortSelect.push(item)
       }
     },
-    selectmajortag(item){
+    selectmajortag (item) {
       this.majoractive = item
-      this.majorType.forEach( tag => {
-        if(tag.category == item){
+      this.majorType.forEach(tag => {
+        if (tag.category == item) {
           this.majorSecond = tag.firSubList
         }
       })
-
     },
-    selectmajorsecondtag(item) {
-      this.majorsecondactive  = item;
+    selectmajorsecondtag (item) {
+      this.majorsecondactive = item
     },
-    getProvincesinit(){
+    getProvincesinit () {
       getAllprovinces().then(res => {
         console.log(res)
         this.provincesList = res.data
       })
     },
-    getcollegeType(){
+    getcollegeType () {
       getAllCollegeType().then(res => {
         this.collegeType = res.data
       })
       getAllLevel().then(response => {
         this.collegeLevel = response.data
       })
-
-
     },
-    getMajortypelist(){
+    getMajortypelist () {
       getAllMajorType().then(res => {
-        console.log('111'+res)
+        console.log('111' + res)
         this.majorType = res.data
         // console.log('1'+this.majorType)
       })
@@ -290,41 +318,22 @@ export default {
 div {
   display: block;
 }
+
 .box{
   margin-top: 2%;
   margin-left: 5%;
   margin-right: 5%;
 }
 .box1{
-  width: 100%;
   margin-top: 2%;
   background-color: #f3f5f7;
   font-size: 100%;
 }
-.box2{
-  width: 100%;
-  margin-top: 2%;
+
+.schoollist{
+  margin-top: .2rem;
 }
 
-.box .box1 .content{
-  margin: 1% 2%;
-}
-
-.box .box1 .content .tishixinghao {
-  margin-top: 2px;
-  font-size: 12px;
-  color: rgb(124, 124, 124);
-}
-.mt05 {
-  margin-top: 5px;
-}
-.tiaojian {
-  margin-top: 10px;
-  margin-left: 75px;
-  cursor: pointer;
-  font-size: 10px;
-  color: #00AFF0 !important;
-}
 .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active {
   color: #f95e5a;
 }
@@ -367,10 +376,7 @@ div {
 .filter-list .filter-list-tags .tag.active {
   border: 1px solid #e9302d;
 }
-.active {
-  border: 1px solid #e9302d;
-  color: #e9302d;
-}
+
 .customer-college {
   padding-top: 20px;
   display: flex;
@@ -427,6 +433,84 @@ div {
   color: #9b9b9b;
   line-height: 24px;
 }
+
+/*.fudongFather{*/
+/*  position: absolute;*/
+/*  top: 10px;*/
+/*}*/
+
+.box .fudongFather .fudongBox {
+  position: fixed;
+  top: 10px;
+  margin-left: .2rem;
+  margin-top: .2rem;
+  height: 8.1rem;
+  overflow-y: auto;
+  outline: 0;
+  border:1px solid rgba(0, 0, 0, 0.1);
+  border-radius: .3rem;
+  width: 430px;
+  background-color: #fff;
+}
+
+.box .fudongBox .head{
+  height: .8rem;
+  border-bottom: .01rem solid rgba(0, 0, 0, 0.1);
+  padding-left: .3rem;
+  font-size: .3rem;
+  line-height: .8rem;
+}
+
+.box .fudongBox .content {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  height: 6.3rem;
+}
+
+.box .fudongBox .content img{
+  margin-top: .8rem;
+  margin-left: 1rem;
+}
+
+.box .fudongBox .content span{
+  display: inline-block;
+  text-align: center;
+  margin-top: .4rem;
+  margin-left: 1rem;
+  color: #8a8a8a;
+  font-size: .22rem;
+}
+
+.box .fudongBox .foot{
+  height: .8rem;
+  border-top: .01rem solid rgba(0, 0, 0, 0.1);
+}
+
+.box .fudongBox .clear{
+  color: rgba(0, 0, 0, 0.5);
+  font-size: .2rem;
+  display: inline-block;
+  line-height: .8rem;
+  cursor: pointer;
+  text-align: center;
+  margin-left: .55rem;
+  margin-top: .1rem;
+}
+
+.box .fudongBox .nextbtn{
+  background: #FF961F;
+  color: #fff;
+  border-radius: .1rem;
+  height: .6rem;
+  cursor: pointer;
+  letter-spacing: 0;
+  text-align: center;
+  width: 1.6rem;
+  border: 0;
+  outline: 0;
+  margin-left: .6rem;
+}
+
 .customer-selected-tags .tags {
   -webkit-box-flex: 1;
   flex:0 1 auto;
