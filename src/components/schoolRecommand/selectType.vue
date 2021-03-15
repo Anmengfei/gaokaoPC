@@ -96,10 +96,9 @@
    <div class="schoollist">
      <el-row>
        <el-col :span="19">
-         <school-list></school-list>
+         <SchoolList class="listofSchool"></SchoolList>
        </el-col>
        <el-col :span="5">
-        <div class="fudongFather">
           <div class="fudongBox">
             <div class="head">已填入意向</div>
             <div class="content">
@@ -111,7 +110,6 @@
               <button class="nextbtn">下一步</button>
             </div>
           </div>
-        </div>
        </el-col>
      </el-row>
    </div>
@@ -128,12 +126,12 @@ export default {
   components: { SchoolList },
   data () {
     return {
-      show:false,
+      show: false,
       collegeselete: {
         provinceSelect: [],
         typeSelect: [],
-        levelSelect:[],
-        sortSelect:[],
+        levelSelect: [],
+        sortSelect: []
       },
       active: '',
       typeactive: '',
@@ -147,7 +145,7 @@ export default {
       collegeLevel: [],
       majorSecond: [],
       collegeSortType: ['录取概率', '计划人数', '大学排名'],
-      majorselete:[],
+      majorselete: [],
       checkboxList: ['不限'],
       showAll: false,
       loginStatus: true,
@@ -157,7 +155,7 @@ export default {
       bdLabel: '可保底90',
       isVip: false,
       yjsPoint: 0,
-      dlxueyuan: 0,
+      dlxueyuan: 0
       // originList: ['不限', '北京', '天津', '河北', '山西', '内蒙古', '辽宁', '吉林', '黑龙江', '上海', '江苏', '浙江', '安徽', '福建', '江西', '山东', '河南', '湖北', '湖南', '广东', '广西', '海南', '重庆', '四川', '贵州', '云南', '西藏', '山西', '甘肃',
       //   '青海', '宁夏', '新疆', '台湾', '香港', '澳门'],
       // schoolList: ['不限', '综合', '工科', '农业', '林业', '医药', '师范', '语言', '财经', '政法', '体育', '艺术', '民族'],
@@ -170,29 +168,30 @@ export default {
     }
   },
   computed: {
-    selectTabs:{
-      get(){
+    selectTabs: {
+      get () {
         return this.$route.params.tab || 'favoriteSchool'
       },
       // console.log(this.$route.params.tab)
-      set(){}
+      set () {}
     }
   },
   mounted () {
+    this.getSticky()
     this.getProvincesinit()
     this.getcollegeType()
     this.getMajortypelist()
     // this.getAllSchoolData()
   },
   methods: {
-    closemyselect(parent,name){
-      console.log('guanbiqian',parent,name)
-      for(let i=0; i< parent.length;i++){
-        if(parent[i] == name){
-          parent.splice(i,1)
+    closemyselect (parent, name) {
+      console.log('guanbiqian', parent, name)
+      for (let i = 0; i < parent.length; i++) {
+        if (parent[i] == name) {
+          parent.splice(i, 1)
         }
       }
-      if(parent.length == 0) {
+      if (parent.length == 0) {
         // if(parent == this.collegeselete.levelSelect ){
         //   this.levelactive = ''
         // }
@@ -203,44 +202,44 @@ export default {
         // }if(parent == this.collegeselete.sortSelect ){
         //   this.sortactive = ''
         // }
-        switch (parent){
-          case this.collegeselete.provinceSelect: this.active = '';break;
-          case this.collegeselete.levelSelect: this.levelactive = '';break;
-          case this.collegeselete.typeSelect: this.typeactive = '';break;
-          case this.collegeselete.sortSelect: this.sortactive = '';break;
+        switch (parent) {
+          case this.collegeselete.provinceSelect: this.active = ''; break
+          case this.collegeselete.levelSelect: this.levelactive = ''; break
+          case this.collegeselete.typeSelect: this.typeactive = ''; break
+          case this.collegeselete.sortSelect: this.sortactive = ''; break
         }
       }
-      console.log('after',parent,name)
-      },
-    selecttag(item) {
+      console.log('after', parent, name)
+    },
+    selecttag (item) {
       this.active = item
-      if(item == ''){
-        this.collegeselete.provinceSelect =[]
-      }else if(!this.collegeselete.provinceSelect.includes(item)){
+      if (item == '') {
+        this.collegeselete.provinceSelect = []
+      } else if (!this.collegeselete.provinceSelect.includes(item)) {
         this.collegeselete.provinceSelect.push(item)
       }
     },
     selecttypetag (item) {
       this.typeactive = item
-      if(item == ''){
-        this.collegeselete.typeSelect =[]
-      }else if(!this.collegeselete.typeSelect.includes(item)){
+      if (item == '') {
+        this.collegeselete.typeSelect = []
+      } else if (!this.collegeselete.typeSelect.includes(item)) {
         this.collegeselete.typeSelect.push(item)
       }
     },
     selectleveltag (item) {
       this.levelactive = item
-      if(item == ''){
-        this.collegeselete.levelSelect =[]
-      }else if(!this.collegeselete.levelSelect.includes(item)){
+      if (item == '') {
+        this.collegeselete.levelSelect = []
+      } else if (!this.collegeselete.levelSelect.includes(item)) {
         this.collegeselete.levelSelect.push(item)
       }
     },
     selectsorttag (item) {
       this.sortactive = item
-      if(item == ''){
-        this.collegeselete.sortSelect =[]
-      }else if(!this.collegeselete.sortSelect.includes(item)){
+      if (item == '') {
+        this.collegeselete.sortSelect = []
+      } else if (!this.collegeselete.sortSelect.includes(item)) {
         this.collegeselete.sortSelect.push(item)
       }
     },
@@ -293,7 +292,26 @@ export default {
     },
     zhedie () {
       this.showAll = false
+    },
+
+    getSticky () { // 实现已填入意向box的黏性定位
+      let fudongBox = document.querySelector('.fudongBox')
+      let schoolList = document.querySelector('.listofSchool')
+      console.log('222222222222222', schoolList)
+      // console.log('滚动条高度1', document.documentElement.scrollTop)
+      // console.log('滚动高度', window.pageYOffset)
+      // console.log('距离顶部高度', this.$refs.pronbit.getBoundingClientRect().top)
+      window.addEventListener('scroll', function () {
+        if (schoolList.scrollTop() <= 0) {
+          fudongBox.style.position = 'fixed'
+          fudongBox.style.top = '0rem'
+          fudongBox.style.right = '80px'
+        } else {
+          fudongBox.style.position = 'absolute'
+        }
+      })
     }
+
   }
 }
 </script>
@@ -424,20 +442,13 @@ div {
   line-height: 24px;
 }
 
-/*.fudongFather{*/
-/*  position: absolute;*/
-/*  top: 10px;*/
-/*}*/
-
-.box .fudongFather .fudongBox {
-  position: fixed;
-  top: 10px;
+.box .fudongBox {
   margin-left: .2rem;
   margin-top: .2rem;
   height: 8.1rem;
-  overflow-y: auto;
+  /*overflow-y: auto;*/
   outline: 0;
-  border:1px solid rgba(0, 0, 0, 0.1);
+  border:.01rem solid rgba(0, 0, 0, 0.1);
   border-radius: .3rem;
   width: 430px;
   background-color: #fff;
