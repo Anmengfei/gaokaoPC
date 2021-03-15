@@ -7,28 +7,28 @@
             <span class="filter-list-title">院校省份</span>
             <div class="filter-list-tags">
               <span class="tag" :class="{active : active == ''}" @click="selecttag('')">不限</span>
-              <span class="tag" v-for="(item,index) in provincesList" :key="item" :class="{active : collegeselete.provinceSelect.includes(item)} || active == item " @click="selecttag(item)">{{item}}</span>
+              <span class="tag" v-for="(item,index) in provincesList" :key="item" :class="{active : collegeselete.provinceSelect.includes(item)}" @click="selecttag(item)">{{item}}</span>
             </div>
           </div>
           <div class="filter-list">
             <span class="filter-list-title">院校类型</span>
             <div class="filter-list-tags">
               <span class="tag" :class="{active : typeactive == ''}" @click="selecttypetag('')">不限</span>
-              <span class="tag" v-for="item in collegeType" :key="item" :class="{active : collegeselete.typeSelect.includes(item) || typeactive == item }" @click="selecttypetag(item)">{{item}}</span>
+              <span class="tag" v-for="(item,index) in collegeType" :key="index" :class="{active : collegeselete.typeSelect.includes(item) }" @click="selecttypetag(item)">{{item}}</span>
             </div>
           </div>
           <div class="filter-list">
             <span class="filter-list-title">院校层次</span>
             <div class="filter-list-tags">
               <span class="tag" :class="{active : levelactive == ''}" @click="selectleveltag('')">不限</span>
-              <span class="tag" v-for="item in collegeLevel" :key="item" :class="{active :collegeselete.levelSelect.includes(item) || levelactive == item}" @click="selectleveltag(item)">{{item}}</span>
+              <span class="tag" v-for="item in collegeLevel" :key="item" :class="{active :collegeselete.levelSelect.includes(item)}" @click="selectleveltag(item)">{{item}}</span>
             </div>
           </div>
           <div  class="filter-list">
             <span class="filter-list-title">院校排序</span>
             <div class="filter-list-tags">
               <span class="tag" :class="{active : sortactive == ''}" @click="selectsorttag('')">不限</span>
-              <span class="tag" v-for="item in collegeSortType" :key="item" :class="{active :collegeselete.sortSelect.includes(item) || sortactive == item}" @click="selectsorttag(item)">{{item}}</span>
+              <span class="tag" v-for="item in collegeSortType" :key="item" :class="{active :collegeselete.sortSelect.includes(item)}" @click="selectsorttag(item)">{{item}}</span>
             </div>
           </div>
           <div class="customer-college">
@@ -158,21 +158,24 @@ export default {
       isVip: false,
       yjsPoint: 0,
       dlxueyuan: 0,
-      originList: ['不限', '北京', '天津', '河北', '山西', '内蒙古', '辽宁', '吉林', '黑龙江', '上海', '江苏', '浙江', '安徽', '福建', '江西', '山东', '河南', '湖北', '湖南', '广东', '广西', '海南', '重庆', '四川', '贵州', '云南', '西藏', '山西', '甘肃',
-        '青海', '宁夏', '新疆', '台湾', '香港', '澳门'],
-      schoolList: ['不限', '综合', '工科', '农业', '林业', '医药', '师范', '语言', '财经', '政法', '体育', '艺术', '民族'],
-      cengciList: ['不限', '985', '211', '双一流'],
-      xingzhiList: ['不限', '公立大学', '民办高校'],
-      schoolboxList: [['吉林','beijing'],['shenayang'],],
-      cengciboxList: ['不限'],
-      xingzhiboxList: ['不限']
+      // originList: ['不限', '北京', '天津', '河北', '山西', '内蒙古', '辽宁', '吉林', '黑龙江', '上海', '江苏', '浙江', '安徽', '福建', '江西', '山东', '河南', '湖北', '湖南', '广东', '广西', '海南', '重庆', '四川', '贵州', '云南', '西藏', '山西', '甘肃',
+      //   '青海', '宁夏', '新疆', '台湾', '香港', '澳门'],
+      // schoolList: ['不限', '综合', '工科', '农业', '林业', '医药', '师范', '语言', '财经', '政法', '体育', '艺术', '民族'],
+      // cengciList: ['不限', '985', '211', '双一流'],
+      // xingzhiList: ['不限', '公立大学', '民办高校'],
+      // schoolboxList: [['吉林','beijing'],['shenayang'],],
+      // cengciboxList: ['不限'],
+      // xingzhiboxList: ['不限']
 
     }
   },
   computed: {
-    selectTabs () {
-      console.log(this.$route.params.tab)
-      return this.$route.params.tab || 'favoriteSchool'
+    selectTabs:{
+      get(){
+        return this.$route.params.tab || 'favoriteSchool'
+      },
+      // console.log(this.$route.params.tab)
+      set(){}
     }
   },
   mounted () {

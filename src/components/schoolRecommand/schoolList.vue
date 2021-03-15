@@ -18,7 +18,7 @@
                 </div>
                 <div class="schooltags">
                   <span v-for="(itemtag1,index) in item.addressTagsPC" :key="index">{{ itemtag1 }}</span>
-                  <span v-for="(itemtag2,index) in item.tags" :key="index">{{ itemtag2 }}</span>
+                  <span v-for="(itemtag2,index) in item.tags" :key="itemtag2">{{ itemtag2 }}</span>
                 </div>
               </div>
             </el-col>
