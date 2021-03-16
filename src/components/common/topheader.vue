@@ -4,29 +4,36 @@
   <div class="app-header">
     <div class="bgGrey">
       <el-row class="el-rows">
-        <el-col :span="8">
+        <el-col :span="10">
           <span class="welcome">欢迎来到大数据智能高考志愿填报平台</span>
         </el-col>
-        <el-col :span="7"> &nbsp; </el-col>
-        <el-col :span="9">
+        <el-col :span="10" style="float: right">
           <el-row>
-            <el-col :span="7">
+            <el-col :span="5">
               <span>高考志愿填报QQ群</span>
             </el-col>
-            <el-col :span="5">
+            <el-col :span="4">
               <span>手机APP</span>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="5">
               <span>微信公众号</span>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="4">
               <span>志愿VIP卡激活</span>
+            </el-col>
+            <el-col :span="5">
+            </el-col>
+            <el-col :span="2">
+              <span>登录</span>
+            </el-col>
+            <el-col :span="2">
+              <span>注册</span>
             </el-col>
           </el-row>
         </el-col>
+
       </el-row>
     </div>
-
     <div class="secondRow">
       <el-row class="logo-search">
         <el-col :span="6">
