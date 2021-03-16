@@ -17,7 +17,7 @@ export function getAllprovinces (data) {
     params: data
   })
 }
-//获取所有学校类型
+// 获取所有学校类型
 export function getAllCollegeType (data) {
   return request({
     url: '/extendApp/findAllSchoolTypes',
@@ -25,7 +25,7 @@ export function getAllCollegeType (data) {
     params: data
   })
 }
-//获取所有学校的层次
+// 获取所有学校的层次
 export function getAllLevel (data) {
   return request({
     url: '/extendApp/findAllFeatures',
@@ -33,7 +33,7 @@ export function getAllLevel (data) {
     params: data
   })
 }
-//获取所有专业大类
+// 获取所有专业大类
 export function getAllMajorType (data) {
   return request({
     url: '/majorWX/findAllFirstSubject',
@@ -41,7 +41,7 @@ export function getAllMajorType (data) {
     params: data
   })
 }
-//获取院校优先列表
+// 获取院校优先列表
 export function getAllschoolFirst (data) {
   return request({
     url: '/extendApp/getSchoolFirst',

@@ -18,7 +18,7 @@
                 </div>
                 <div class="schooltags">
                   <span v-for="(itemtag1,index) in item.addressTagsPC" :key="index">{{ itemtag1 }}</span>
-                  <span v-for="(itemtag2,index) in item.tags" :key="itemtag2">{{ itemtag2 }}</span>
+                  <span v-for="itemtag2 in item.tags" :key="itemtag2">{{ itemtag2 }}</span>
                 </div>
               </div>
             </el-col>
@@ -32,9 +32,9 @@
                   <span>收起专业</span>
                   <img class="img2" src="../../assets/drop_down_menu.png"/>
                 </button>
-
               </div>
             </el-col>
+
           </el-row>
           <div id="major-list" v-show="majorShow[index]">
             <div class="app-container1">
@@ -61,7 +61,7 @@
                     </el-col>
                     <el-col :span="5">
                       <div class="btn">
-                        <button class="chooseWill">加入意向</button>
+                        <button class="chooseWill" @click="addForm(item1)">加入意向</button>
                       </div>
                     </el-col>
                   </el-row>
@@ -91,7 +91,7 @@
 import {getAllSchool} from '../../api/schoolInfo'
 export default {
   name: 'schoolList',
-  props:["selected"],
+  props: ['selected'],
   mounted () {
     this.getAllSchoolData(this.pageInfo.pagenum)
   },
@@ -106,14 +106,14 @@ export default {
         pagesize: 10, // 每页条数
         pagetotal: 100// 总条目数
       },
-      selectnecess:{},
+      selectnecess: {},
       majorlist: []// 专业列表
 
     }
   },
   watch: {
     selected: {
-      handler() {
+      handler () {
         this.getAllSchoolData(this.pageInfo.pagenum)
       },
       immediate: true,
@@ -133,10 +133,10 @@ export default {
         provinces: this.selected.provinceSelect,
         schoolTypes: this.selected.typeSelect,
         feature: this.selected.levelSelect,
-      page: pagenum,
+        page: pagenum,
         examProvince: '山东',
         score: 600,
-        size: 10,
+        size: 10
       }).then(res => {
         if (res.status === 200) {
           this.schoolList = res.data.data
@@ -147,10 +147,14 @@ export default {
       })
     },
     handleCurrentChange (val) { // 分页器执行函数
+      this.btnFlag = [true, true, true, true, true, true, true, true, true, true]
       this.majorShow = [false, false, false, false, false, false, false, false, false, false]
       let page = val
       console.log(`当前页:`, page--)
       this.getAllSchoolData(page--)
+    },
+    addForm (item1) { // 加入志愿表单函数
+      this.$emit('addform', item1)
     }
 
   }
