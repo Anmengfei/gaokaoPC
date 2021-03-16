@@ -7,7 +7,7 @@
             <span class="filter-list-title">院校省份</span>
             <div class="filter-list-tags">
               <span class="tag" :class="{active : active == ''}" @click="selecttag('')">不限</span>
-              <span class="tag" v-for="(item,index) in provincesList" :key="item"
+              <span class="tag" v-for="item in provincesList" :key="item"
                     :class="{active : collegeselete.provinceSelect.includes(item)}"
                     @click="selecttag(item)">{{ item }}</span>
             </div>
@@ -111,18 +111,30 @@
     <div class="schoollist">
       <el-row>
         <el-col :span="19">
-          <school-list :selected="collegeselete"></school-list>
+          <school-list :selected="collegeselete" @addform="getAddFormInfo"></school-list>
         </el-col>
         <el-col :span="5">
           <div class="auto_fixed" :class="auto_fixed">
             <div class="fudongBox">
               <div class="head">已填入意向</div>
               <div class="content">
-                <img src="../../assets/noData.png" alt="暂无数据">
-                <span>查看左侧院校和专业选择<br/>加入意向</span>
+                <div class="noformdata" v-show="showvolformdata">
+                  <img src="../../assets/noData.png" alt="暂无数据">
+                  <span>查看左侧院校和专业选择<br/>加入意向</span>
+                </div>
+                <div class="formdata" v-show="!showvolformdata">
+                  <div v-for="(item,index) in volForm" :key="index" class="list">
+                    <div id="code"><div class="num">{{index+1}}</div></div>
+                    <div id="name">
+                      <span class="school">{{item.schoolName}}</span><br/>
+                      <span class="major">{{item.majorName}}</span>
+                    </div>
+                    <div id="option"><button>操作</button></div>
+                  </div>
+                </div>
               </div>
               <div class="foot">
-                <span class="clear">清空</span>
+                <span class="clear" @click="clearFormData">清空</span>
                 <button class="nextbtn">下一步</button>
               </div>
             </div>
@@ -142,10 +154,10 @@ import {getAllLevel, getAllCollegeType, getAllprovinces, getAllMajorType} from '
 export default {
   name: 'selectType',
   components: {SchoolList},
-  data() {
+  data () {
     return {
-      majorname:'',
-      collegename:'',
+      majorname: '',
+      collegename: '',
       auto_fixed: {
         fixed: false
       },
@@ -171,18 +183,20 @@ export default {
       majorSecond: [],
       loginStatus: true,
       isVip: false,
+      volForm: [], // 高考志愿表单
+      showvolformdata: true // 高考志愿表单是否显示添加志愿（true未添加 false添加）
     }
   },
   computed: {
     selectTabs: {
-      get() {
+      get () {
         return this.$route.params.tab || 'favoriteSchool'
       },
-      set() {
+      set () {
       }
     }
   },
-  mounted() {
+  mounted () {
     this.$nextTick(function () {
       window.addEventListener('scroll', this.onScroll)
     })
@@ -192,7 +206,7 @@ export default {
     // this.getAllSchoolData()
   },
   methods: {
-    onScroll() {
+    onScroll () {
       let scrolled = document.documentElement.scrollTop || document.body.scrollTop
       let height = 450
       this.auto_fixed = {
@@ -200,26 +214,26 @@ export default {
         fixed: scrolled >= height
       }
     },
-    reset() {
+    reset () {
       this.collegeselete = {
         provinceSelect: [],
         typeSelect: [],
-        levelSelect: [],
+        levelSelect: []
         // sortSelect:[],
-      };
+      }
       this.active = '',
-        this.typeactive = '',
-        this.levelactive = '',
-        this.majorsecondactive = '',
-        this.majoractive = ''
+      this.typeactive = '',
+      this.levelactive = '',
+      this.majorsecondactive = '',
+      this.majoractive = ''
     },
-    closemajorselect(index) {
-      this.majorselect.splice(index, 1);
+    closemajorselect (index) {
+      this.majorselect.splice(index, 1)
       if (this.majorselect.length == 0) {
         this.majorsecondactive = ''
       }
     },
-    closemyselect(parent, name) {
+    closemyselect (parent, name) {
       // console.log('guanbiqian', parent, name)
       for (let i = 0; i < parent.length; i++) {
         if (parent[i] == name) {
@@ -228,14 +242,14 @@ export default {
       }
       if (parent.length == 0) {
         switch (parent) {
-          case this.collegeselete.provinceSelect:this.active = '';break;
-          case this.collegeselete.levelSelect:this.levelactive = '';break;
-          case this.collegeselete.typeSelect:this.typeactive = '';break;
+          case this.collegeselete.provinceSelect:this.active = ''; break
+          case this.collegeselete.levelSelect:this.levelactive = ''; break
+          case this.collegeselete.typeSelect:this.typeactive = ''; break
         }
       }
       // console.log('after', parent, name)
     },
-    selecttag(item) {
+    selecttag (item) {
       this.active = item
       if (item == '') {
         this.collegeselete.provinceSelect = []
@@ -249,10 +263,10 @@ export default {
         }
       }
       if (this.collegeselete.provinceSelect.length == 0) {
-        this.active = '';
+        this.active = ''
       }
     },
-    selecttypetag(item) {
+    selecttypetag (item) {
       this.typeactive = item
       if (item == '') {
         this.collegeselete.typeSelect = []
@@ -266,10 +280,10 @@ export default {
         }
       }
       if (this.collegeselete.typeSelect.length == 0) {
-        this.typeactive = '';
+        this.typeactive = ''
       }
     },
-    selectleveltag(item) {
+    selectleveltag (item) {
       this.levelactive = item
       if (item == '') {
         this.collegeselete.levelSelect = []
@@ -283,9 +297,8 @@ export default {
         }
       }
       if (this.collegeselete.levelSelect.length == 0) {
-        this.levelactive = '';
+        this.levelactive = ''
       }
-
     },
     selectsorttag (item) {
       this.sortactive = item
@@ -294,7 +307,6 @@ export default {
       } else if (!this.collegeselete.sortSelect.includes(item)) {
         this.collegeselete.sortSelect.push(item)
       }
-
     },
     // selectsorttag (item) {
     //   this.sortactive = item
@@ -304,7 +316,7 @@ export default {
     //     this.collegeselete.sortSelect.push(item)
     //   }
     // },
-    selectmajortag(item) {
+    selectmajortag (item) {
       this.majoractive = item
       this.majorType.forEach(tag => {
         if (tag.category == item) {
@@ -312,7 +324,7 @@ export default {
         }
       })
     },
-    selectmajorsecondtag(item) {
+    selectmajorsecondtag (item) {
       this.majorsecondactive = item
       if (item == '') {
         this.majorselect = []
@@ -326,15 +338,15 @@ export default {
         }
       }
       if (this.majorselect.length == 0) {
-        this.majorsecondactive = '';
+        this.majorsecondactive = ''
       }
     },
-    getProvincesinit() {
+    getProvincesinit () {
       getAllprovinces().then(res => {
         this.provincesList = res.data
       })
     },
-    getcollegeType() {
+    getcollegeType () {
       getAllCollegeType().then(res => {
         this.collegeType = res.data
       })
@@ -342,13 +354,25 @@ export default {
         this.collegeLevel = response.data
       })
     },
-    getMajortypelist() {
+    getMajortypelist () {
       getAllMajorType().then(res => {
         this.majorType = res.data
       })
     },
-    handleClick() {
+    handleClick () {
     },
+    getAddFormInfo (message) { // 父子组件传值，父组件接收信息函数
+      console.log('父子组件传值', message)
+      // let temp = message.split(" ")
+      this.volForm.push(message)
+      // console.log('let temp =', temp)
+      console.log('高考志愿表', this.volForm)
+      this.showvolformdata = false
+    },
+    clearFormData () { // 清空志愿表单
+      this.showvolformdata = true
+      this.volForm = []
+    }
   }
 }
 </script>
@@ -361,10 +385,13 @@ export default {
   /*background: transparent;*/
 }
 
-div {
-  display: block;
-}
+/*div {*/
+/*  display: block;*/
+/*}*/
 
+li{
+  list-style: none;
+}
 .box {
   margin-top: 2%;
   margin-left: 5%;
@@ -459,7 +486,6 @@ div {
   display: inline-block;
 }
 
-
 .myFilterRecordBlockRow {
   background: #fafafa;
   border: 1px solid #e5e5e5;
@@ -505,7 +531,7 @@ div {
   outline: 0;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: .3rem;
-  width: 430px;
+  width: 4rem;
   background-color: #fff;
 }
 
@@ -521,6 +547,7 @@ div {
   white-space: pre-wrap;
   word-wrap: break-word;
   height: 6.3rem;
+  overflow-y: scroll;
 }
 
 .box .fudongBox .content img {
@@ -528,13 +555,64 @@ div {
   margin-left: 1rem;
 }
 
-.box .fudongBox .content span {
-  display: inline-block;
+.box .fudongBox .content .noformdata span {
+  display: block;
   text-align: center;
   margin-top: .4rem;
   margin-left: 1rem;
   color: #8a8a8a;
   font-size: .22rem;
+}
+
+.box .fudongBox .content .formdata .list{
+  width: 100%;
+  /*display: -webkit-flex; !* Safari *!*/
+  display: flex;
+  flex-direction: row;
+  flex-wrap:wrap; /*换行，第一行在下方。*/
+  word-break:break-word;
+  height: .8rem;
+  margin-bottom: .3rem;
+  border-bottom: 1px dashed rgb(228, 228, 228);
+
+}
+.box .fudongBox .content .formdata #code{
+  flex:1;
+  height:100%;
+}
+
+.box .fudongBox .content .formdata #code .num{
+  margin: 0 auto;
+  background-color: #00aff0;
+  text-align: center;
+  font-weight: 600;
+  color: #ffffff;
+  /*border-radius: 50%;*/
+  width: 35%;
+  height: 35%;
+
+}
+.box .fudongBox .content .formdata #name{
+  flex: 3;
+  height:100%;
+}
+.box .fudongBox .content .formdata #name .school{
+  color: rgba(0, 0, 0, 0.8);
+  font-size: .25rem;
+  font-weight: 550;
+
+}
+
+.box .fudongBox .content .formdata #name .major{
+  color: rgba(0, 0, 0, 0.5);
+  font-size: .23rem;
+  font-weight: 400;
+  padding-top: .05rem;
+
+}
+.box .fudongBox .content .formdata #option{
+  flex: 1;
+  height:100%;
 }
 
 .box .fudongBox .foot {
@@ -594,9 +672,6 @@ div {
   padding: 0 10px;
 }
 
-.header {
-  padding: 8px 10px;
-}
 
 .auto_fixed {
 }
@@ -605,6 +680,5 @@ div {
   position: fixed;
   top: 0px;
 }
-
 
 </style>

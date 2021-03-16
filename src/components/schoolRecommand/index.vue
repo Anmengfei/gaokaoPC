@@ -23,9 +23,9 @@ import CjList from './schoolList'
 import SelectType from '../schoolRecommand/selectType'
 export default {
   name: 'SchoolRecommand',
-  loginStatus:true,
+  loginStatus: true,
   components: {TopHeader, HomeHeader, Footer, CjList, SelectType},
-  data() {
+  data () {
     return {}
   },
   methods: {}
