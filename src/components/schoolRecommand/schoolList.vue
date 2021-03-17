@@ -39,7 +39,7 @@
           <div id="major-list" v-show="majorShow[index]">
             <div class="app-container1">
               <ul>
-                <li v-for="(item1,index) in majorlist" :key="index">
+                <li v-for="(item1,index1) in majorlist" :key="index1">
                   <el-row>
                     <el-col :span="19">
                       <div class="text">
@@ -61,7 +61,10 @@
                     </el-col>
                     <el-col :span="5">
                       <div class="btn">
-                        <button class="chooseWill" @click="addForm(item1)">加入意向</button>
+<!--                        {{item1.flag}}**{{index1}}-->
+                        <button class="chooseNoWill" v-if="item1.flag === index1">已加意向</button>
+                        <button class="chooseWill"  v-else-if="item1.flag !== index1" @click="addForm(item1,index,index1)">加入意向</button>
+
                       </div>
                     </el-col>
                   </el-row>
@@ -91,7 +94,7 @@
 import {getAllSchool} from '../../api/schoolInfo'
 export default {
   name: 'schoolList',
-  props: ['selected'],
+  props: ['selected', 'volform'],
   mounted () {
     this.getAllSchoolData(this.pageInfo.pagenum)
   },
@@ -107,7 +110,9 @@ export default {
         pagetotal: 100// 总条目数
       },
       selectnecess: {},
-      majorlist: []// 专业列表
+      majorlist: [], // 专业列表
+      addWillFlagofSchool: '',
+      addWillFlag: -1// 判断加入志愿按钮是否变灰
 
     }
   },
@@ -139,9 +144,27 @@ export default {
         size: 10
       }).then(res => {
         if (res.status === 200) {
+          console.log('收到数据啊啊啊啊啊', this.volform)
           this.schoolList = res.data.data
-          // console.log('this.schoolList1数据', this.schoolList)
+          for (let i = 0; i < this.schoolList.length; ++i) { // 为每一条数据的专业信息添加一条标志位flag=-1
+            for (let j = 0; j < this.schoolList[i].majors.length; ++j) {
+              this.schoolList[i].majors[j].flag = -1
+            }
+          }
+          // 将已经加入志愿表单的学校的按钮状态置为灰色
+          for (let i = 0; i < this.schoolList.length; ++i) {
+            for (let j = 0; j < this.schoolList[i].majors.length; ++j) {
+              for (let k = 0; k < this.volform.length; ++k) {
+                if ((this.volform[k].id === this.schoolList[i].majors[j].id) && (this.volform[k].schoolName === this.schoolList[i].majors[j].schoolName)) {
+                  this.schoolList[i].majors[j].flag = j
+                }
+              }
+            }
+          }
+
+          console.log('this.schoolList数据', this.schoolList)
         } else {
+          this.$message.error('无法取得数据')
           // console.log('无法取得数据')
         }
       })
@@ -153,8 +176,10 @@ export default {
       console.log(`当前页:`, page--)
       this.getAllSchoolData(page--)
     },
-    addForm (item1) { // 加入志愿表单函数
+    addForm (item1, index, index1) { // 加入志愿表单函数
       this.$emit('addform', item1)
+      this.schoolList[index].majors[index1].flag = index1
+      this.$forceUpdate() // 数据更新之后，强制试图更新
     }
 
   }
@@ -348,5 +373,18 @@ li{
   color: #00aff0;
   cursor: pointer;
   margin-left: .2rem;
+}
+.app-container1 .chooseNoWill{
+  margin-top: .2rem;
+  width: 1.7rem;
+  border:.02rem solid #b2b2b2;
+  padding: .1rem;
+  border-radius: .08rem;
+  font-size: .1rem;
+  background-color: transparent;
+  outline: none;
+  color: #b2b2b2;
+  margin-left: .2rem;
+  disabled:disabled;
 }
 </style>
