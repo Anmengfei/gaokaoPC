@@ -24,6 +24,11 @@ export default new Router({
     name: 'SchoolInfo',
     component: resolve => require(['@/components/schoolInfo/index'], resolve)
   },
+    {
+      path: '/login',
+      name: 'login',
+      component: resolve => require(['@/components/login/index'],resolve)
+    },
   // {
   //   path: '/',
   //   name: 'homepage',
