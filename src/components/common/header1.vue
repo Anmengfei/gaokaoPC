@@ -42,13 +42,13 @@
           </li>
         </ul>
       </div>
-      <div class="login-forms" v-show="tagsShow === '注册'">
-        <el-input  placeholder="请输入登录手机号" class="forminput" v-model="ruleForm1.username" clearable></el-input>
-        <el-input  placeholder="密码" class="forminput" v-model="ruleForm1.password" type="password" :show-password="showpassword" @keyup.enter.native="login" clearable></el-input>
-        <div class="login-button-style" @click="login">
-          登录
-        </div>
-      </div>
+<!--      <div class="login-forms" v-show="tagsShow === '注册'">-->
+<!--        <el-input  placeholder="请输入登录手机号" class="forminput" v-model="ruleForm1.username" clearable></el-input>-->
+<!--        <el-input  placeholder="密码" class="forminput" v-model="ruleForm1.password" type="password" :show-password="showpassword" @keyup.enter.native="login" clearable></el-input>-->
+<!--        <div class="login-button-style" @click="login">-->
+<!--          登录-->
+<!--        </div>-->
+<!--      </div>-->
       <div class="register-forms" v-show="tagsShow==='登录'">
         <div v-if="tagsShow2 === '1'">
           <el-input  placeholder="请输入登录手机号" class="forminput2" v-model="phoneNum" clearable>
@@ -200,6 +200,7 @@ export default {
       strCode: '',
       duanxinNum: '',
       tagsShow: '登录',
+      loginflag: false,
       radio: '2',
       showpassword: true,
       showCountNum: true,
@@ -245,9 +246,10 @@ export default {
   created () {
     this.flag_login = localStorage.getItem('flag_class')
     if (localStorage.getItem('flag_class') === null) {
-      this.flag_state = true
+      this.loginflag = false
     } else {
-      this.flag_state = false
+      this.loginflag = true
+
     }
     this.flag_state = false
   },
@@ -358,8 +360,13 @@ export default {
         if(res.code == 0){
           this.$message({
             message: '登录成功',
-            type: 'success'
+            type: 'success',
+
           });
+          localStorage.setItem('flag_class', '已登录')
+          this.showlogin =false
+          this.loginflag =true
+          this.$router.push({ name: 'SchoolRecommand', params: { tab: 'favoriteSchool' }})
         }else if( res.code == 1) {
           // this.$notify.error({
           //   title: '验证码输入错误或已失效',
@@ -387,7 +394,7 @@ export default {
     },
     gotoAllclasses: function () {
       // if (this.flag_state == true) {
-      if (true) {
+      if (!this.loginflag) {
         this.$message({
           message: '登陆后，即可查看',
           type: 'warning',
