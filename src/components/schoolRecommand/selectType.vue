@@ -111,7 +111,7 @@
     <div class="schoollist">
       <el-row>
         <el-col :span="19">
-          <school-list :selected="collegeselete" @addform="getAddFormInfo"></school-list>
+          <school-list :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo"></school-list>
         </el-col>
         <el-col :span="5">
           <div class="auto_fixed" :class="auto_fixed">
@@ -203,7 +203,6 @@ export default {
     this.getProvincesinit()
     this.getcollegeType()
     this.getMajortypelist()
-    // this.getAllSchoolData()
   },
   methods: {
     onScroll () {
@@ -366,6 +365,11 @@ export default {
     },
     getAddFormInfo (message) { // 父子组件传值，父组件接收信息函数
       console.log('父子组件传值', message)
+      // for(let i=0;i<this.volForm.length;++i){
+      //   if(this.volForm[i].id === message.id){//数据已经存在，按钮变灰
+      //
+      //   }
+      // }
       // let temp = message.split(" ")
       this.volForm.push(message)
       // console.log('let temp =', temp)
@@ -375,7 +379,7 @@ export default {
     clearFormData () { // 清空志愿表单
       this.showvolformdata = true
       this.volForm = []
-    }
+    },
   }
 }
 </script>
@@ -555,14 +559,14 @@ li{
 
 .box .fudongBox .content img {
   margin-top: .8rem;
-  margin-left: 1rem;
+  margin-left: .7rem;
 }
 
 .box .fudongBox .content .noformdata span {
   display: block;
   text-align: center;
   margin-top: .4rem;
-  margin-left: 1rem;
+  margin-left: .3rem;
   color: #8a8a8a;
   font-size: .22rem;
 }
