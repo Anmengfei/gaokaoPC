@@ -1,6 +1,15 @@
 import request from '@/utils/request_my'
 
-// 获取所有学校的省份
+//获取所有学校信息
+export function getAllschoolInfo (data) {
+  return request({
+    url: '/schoolApp/findAllSchool',
+    method: 'get',
+    params: data
+  })
+}
+
+//获取所有学校的省份
 export function getAllprovinces (data) {
   return request({
     url: '/extendApp/getAllProvinces',

@@ -214,7 +214,7 @@
 <script>
 import Footer from '@/components/common/footer1'
 import md5 from 'js-md5'
-import $ from 'jquery'
+// import $ from 'jquery'
 export default {
   name: 'index',
   components: { Footer },
@@ -429,7 +429,7 @@ export default {
   .login-bg {
     height: 100%;
     width: 100%;
-    background-image: url("../../assets/hot-work-img.png");
+    /*background-image: url("../../assets/hot-work-img.png");*/
     background-size: 100% 100%;
     /*background-color: #33BA9A;*/
     position: relative;

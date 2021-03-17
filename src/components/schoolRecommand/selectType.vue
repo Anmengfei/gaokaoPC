@@ -317,6 +317,9 @@ export default {
     // },
     selectmajortag (item) {
       this.majoractive = item
+      if (item == '') {
+        this.majorselect = []
+      }
       this.majorType.forEach(tag => {
         if (tag.category == item) {
           this.majorSecond = tag.firSubList

@@ -145,17 +145,17 @@
           <ul class="default-list">
             <li
               class="commend-item"
-              v-for="(item, index) in recommandList"
+              v-for="(item, index) in recommandschoolList"
               @click="selectSchoolItem(index, item)"
             >
-              <img :src="item.url" class="commend-item-image" />
-              <h4 class="commend-item-title textOverflow">{{ item.name }}</h4>
-              <p class="commend-item-code">招生代码 {{ item.code }}</p>
-              <p class="commend-item-des">{{ item.des }}</p>
+              <img :src="item.logo" class="commend-item-image" />
+              <h4 class="commend-item-title textOverflow">{{ item.schoolname }}</h4>
+              <p class="commend-item-code">招生代码 {{ item.schoolcode }}</p>
+              <p class="commend-item-des">{{ item.province }}</p>
             </li>
-            <li class="commend-item">
+            <li class="commend-item" @click="gotoAllschool">
               <i class="el-icon-arrow-right moreIcn"></i>
-              <h4 class="commend-item-title more">查看更多</h4>
+              <h4 class="commend-item-title more" >查看更多</h4>
             </li>
           </ul>
         </div>
@@ -200,7 +200,7 @@
         </div> -->
         <div class="wap">
           <div class="skeleton">
-            
+
             <ul class="list">
               <li
                 class="item"
@@ -283,6 +283,7 @@ import TopHeader from '@/components/common/topheader'
 import HomeHeader from '@/components/common/header1'
 import Footer from '@/components/common/footer1'
 import EditScore from '@/components/common/editScore'
+import {getAllschoolInfo} from '@/api/index'
 // import $ from 'jquery'
 export default {
   name: 'index',
@@ -290,6 +291,7 @@ export default {
   data () {
     return {
       scoreDialog: false,
+      recommandschoolList:[],
       recommandList: [
         {
           id: 1,
@@ -413,8 +415,12 @@ export default {
       false
     )
     this.getInfo()
+
   },
   methods: {
+    gotoAllschool() {
+      this.$router.push({ name: 'SchoolRecommand', params: { tab: 'favoriteSchool' }})
+    },
     modifyScore () {
       console.log('123')
       this.scoreDialog = true
@@ -444,6 +450,13 @@ export default {
     },
 
     getInfo () {
+      getAllschoolInfo({
+        page:1,
+        size:6
+      }).then( res => {
+         console.log(res)
+         this.recommandschoolList = res.data
+      });
       if (this.flag_state === false) {
         var url = `http://58.119.112.14:11020/cms/system/user/${localStorage.getItem(
           'userId'
