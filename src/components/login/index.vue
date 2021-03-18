@@ -427,12 +427,17 @@ export default {
 
 <style scoped>
   .login-bg {
+    position: fixed;
+    inset: 0px;
+    background-color: rgba(0,0,0,0.7);
+    z-index: 999;
+    user-select: auto;
     height: 100%;
     width: 100%;
     /*background-image: url("../../assets/hot-work-img.png");*/
     background-size: 100% 100%;
     /*background-color: #33BA9A;*/
-    position: relative;
+    /*position: relative;*/
   }
   .login-bg img {
     width: 100%;

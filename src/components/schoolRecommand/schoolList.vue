@@ -6,7 +6,7 @@
           <el-row>
             <el-col :span="2">
               <div class="icon">
-                <img :src="item.logoPath">
+                <img :src="item.logoPath" />
               </div>
             </el-col>
             <el-col :span="18">
@@ -33,7 +33,6 @@
                 </button>
               </div>
             </el-col>
-
           </el-row>
           <div id="major-list" v-show="majorShow[index]">
             <div class="app-container1">
@@ -47,7 +46,7 @@
                           <span class="flag" v-else-if="item1.risk === '稳'" style="background:#439cff">{{ item1.risk }}</span>
                           <span class="flag" v-if="item1.risk === '保'" style="background:#4caf4e">{{ item1.risk }}</span>
                           <span class="name">{{ item1.majorName }}</span>
-                          <span class="evaluation">{{item1.evaluation}}</span>
+                          <span class="evaluation">{{ item1.evaluation }}</span>
                         </div>
 
                         <div class="desc">
@@ -56,7 +55,6 @@
                           <span>2020年最低分****</span>
                           <span>2020年最低位次####</span>
                         </div>
-                        {{index}}{{index1}}
                       </div>
                     </el-col>
                     <el-col :span="5">
@@ -89,7 +87,7 @@
 </template>
 
 <script>
-import {getAllSchool} from '../../api/schoolInfo'
+import { getAllSchool } from "../../api/schoolInfo";
 export default {
   name: 'schoolList',
   props: ['selected', 'volform'],
@@ -131,12 +129,12 @@ export default {
 
   },
   methods: {
-    btnShow (id, majorls) {
-      this.$set(this.btnFlag, id, !this.btnFlag[id])
-      this.$set(this.majorShow, id, !this.majorShow[id])
+    btnShow(id, majorls) {
+      this.$set(this.btnFlag, id, !this.btnFlag[id]);
+      this.$set(this.majorShow, id, !this.majorShow[id]);
       // console.log('专业列表', majorls)
 
-      this.majorlist = majorls
+      this.majorlist = majorls;
     },
     getAllSchoolData (pagenum) {
       getAllSchool({
@@ -144,10 +142,10 @@ export default {
         schoolTypes: this.selected.typeSelect,
         feature: this.selected.levelSelect,
         page: pagenum,
-        examProvince: '山东',
+        examProvince: "山东",
         score: 600,
-        size: 10
-      }).then(res => {
+        size: 10,
+      }).then((res) => {
         if (res.status === 200) {
           console.log('收到数据啊啊啊啊啊', this.volform)
           this.schoolList = res.data.data

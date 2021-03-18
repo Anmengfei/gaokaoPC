@@ -44,7 +44,6 @@
                 type="text"
                 clearable
                 size="small"
-
                 placeholder="请输入院校名称（至少4个字）"
                 v-model="collegename">
               </el-input>
@@ -88,7 +87,6 @@
                 type="text"
                 clearable
                 size="small"
-
                 placeholder="请输入专业名称（至少2个字）"
                 v-model="majorname">
               </el-input>
@@ -143,7 +141,6 @@
         </el-col>
       </el-row>
     </div>
-
   </div>
 </template>
 
@@ -248,10 +245,10 @@ export default {
       }
       // console.log('after', parent, name)
     },
-    selecttag (item) {
-      this.active = item
-      if (item == '') {
-        this.collegeselete.provinceSelect = []
+    selecttag(item) {
+      this.active = item;
+      if (item == "") {
+        this.collegeselete.provinceSelect = [];
       } else if (!this.collegeselete.provinceSelect.includes(item)) {
         this.collegeselete.provinceSelect.push(item)
       } else {
@@ -279,30 +276,30 @@ export default {
         }
       }
       if (this.collegeselete.typeSelect.length == 0) {
-        this.typeactive = ''
+        this.typeactive = "";
       }
     },
-    selectleveltag (item) {
-      this.levelactive = item
-      if (item == '') {
-        this.collegeselete.levelSelect = []
+    selectleveltag(item) {
+      this.levelactive = item;
+      if (item == "") {
+        this.collegeselete.levelSelect = [];
       } else if (!this.collegeselete.levelSelect.includes(item)) {
-        this.collegeselete.levelSelect.push(item)
+        this.collegeselete.levelSelect.push(item);
       } else {
         for (let i = 0; i < this.collegeselete.levelSelect.length; i++) {
           if (this.collegeselete.levelSelect[i] == item) {
-            this.collegeselete.levelSelect.splice(i, 1)
+            this.collegeselete.levelSelect.splice(i, 1);
           }
         }
       }
       if (this.collegeselete.levelSelect.length == 0) {
-        this.levelactive = ''
+        this.levelactive = "";
       }
     },
-    selectsorttag (item) {
-      this.sortactive = item
-      if (item == '') {
-        this.collegeselete.sortSelect = []
+    selectsorttag(item) {
+      this.sortactive = item;
+      if (item == "") {
+        this.collegeselete.sortSelect = [];
       } else if (!this.collegeselete.sortSelect.includes(item)) {
         this.collegeselete.sortSelect.push(item)
       }
@@ -326,10 +323,10 @@ export default {
         }
       })
     },
-    selectmajorsecondtag (item) {
-      this.majorsecondactive = item
-      if (item == '') {
-        this.majorselect = []
+    selectmajorsecondtag(item) {
+      this.majorsecondactive = item;
+      if (item == "") {
+        this.majorselect = [];
       } else if (!this.majorselect.includes(item)) {
         this.majorselect.push(item)
       } else {
@@ -361,10 +358,10 @@ export default {
         this.majorType = res.data
       })
     },
-    handleClick () {
-    },
-    getAddFormInfo (message) { // 父子组件传值，父组件接收信息函数
-      console.log('父子组件传值', message)
+    handleClick() {},
+    getAddFormInfo(message) {
+      // 父子组件传值，父组件接收信息函数
+      console.log("父子组件传值", message);
       // for(let i=0;i<this.volForm.length;++i){
       //   if(this.volForm[i].id === message.id){//数据已经存在，按钮变灰
       //
@@ -444,7 +441,6 @@ li{
   align-items: center;
   flex-wrap: wrap;
 }
-
 .filter-list .filter-list-tags .tag {
   padding: 2px 6px;
   font-size: 12px;
@@ -454,7 +450,6 @@ li{
   -webkit-box-sizing: border-box;
   border-radius: 4px;
   cursor: pointer;
-
 }
 
 .filter-list .filter-list-tags .tag.active, .filter-list .filter-list-tags .tag:hover {
@@ -582,7 +577,6 @@ li{
   height: .8rem;
   margin-bottom: .3rem;
   border-bottom: 1px dashed rgb(228, 228, 228);
-
 }
 .box .fudongBox .content .formdata #code{
   flex:1;
@@ -598,7 +592,6 @@ li{
   /*border-radius: 50%;*/
   width: 35%;
   height: 35%;
-
 }
 .box .fudongBox .content .formdata #name{
   flex: 3;
@@ -608,7 +601,6 @@ li{
   color: rgba(0, 0, 0, 0.8);
   font-size: .25rem;
   font-weight: 550;
-
 }
 
 .box .fudongBox .content .formdata #name .major{
@@ -616,7 +608,6 @@ li{
   font-size: .23rem;
   font-weight: 400;
   padding-top: .05rem;
-
 }
 .box .fudongBox .content .formdata #option{
   flex: 1;
@@ -687,5 +678,4 @@ li{
   position: fixed;
   top: 0px;
 }
-
 </style>
