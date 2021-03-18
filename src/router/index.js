@@ -53,6 +53,10 @@ export default new Router({
             path: '/Article',
             name: 'Article',
             component: resolve => require(['@/components/article/article'], resolve)
+        }, {
+            path: '/VideoList',
+            name: 'VideoList',
+            component: resolve => require(['@/components/VideoList/VideoList'], resolve)
         }
 
     ]

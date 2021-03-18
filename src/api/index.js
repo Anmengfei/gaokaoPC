@@ -49,3 +49,12 @@ export function getArticleById(data) {
         params: data
     })
 }
+//获取大家都在学
+//获取大家都在学的视频列表
+export function getAllIsLearning(data) {
+    return request({
+        url: '/extendApp/getAllIsLearning',
+        method: 'get',
+        params: data
+    })
+}

@@ -1,230 +1,31 @@
 <template>
   <div class="app_container">
-    <!-- <Header :flags = flag_class class="header" :flagInfo="infoState"></Header> -->
     <top-header></top-header>
     <div class="mt20 thirdRow">
-      <!-- <div class="knl-nav">考哪儿</div>
-      <div class="box-nav">
-        <ul>
-          <li><a href="#">首页</a></li>
-          <li><a href="#">院校优先</a></li>
-          <li><a href="#">专业优先</a></li>
-          <li><a href="#">志愿表</a></li>
-          <li><a href="#">志愿VIP</a></li>
-          <li><a href="#">1V1专家</a></li>
-        </ul>
-      </div>
-      <div class="loginInfo" v-if="loginStatus === false">
-        <span @click="login">登陆</span> ｜
-        <span @click="regist">注册</span>
-      </div>
-      <div class="loginInfo" v-else>
-        <image />｜
-        <span @click="regist">注册</span>
-      </div> -->
-
       <HomeHeader :flagInfo="loginStatus"></HomeHeader>
     </div>
-    <div class="fourRow">
-      <div class="carouselList">
-        <el-carousel class="carousel-img" height="300px">
-          <el-carousel-item
-            v-for="(item, index) in schna"
-            :key="index"
-            class="carousel-item"
-            @click.native="itemClick(item, index)"
-          >
-            <img :src="item" alt="" />
-          </el-carousel-item>
-        </el-carousel>
-      </div>
-      <div class="zhiyuan" v-if="loginStatus !== false">
-        <div class="content">
-          <div class="header">模拟高考志愿填报</div>
-          <el-tag class="denglu-label" type="warning"
-            >登录后，推荐适合你的院校</el-tag
-          >
-          <div class="form-item">
-            <div class="gaokaozongfen">
-              <span class="span1">高考总分</span
-              ><span class="span2">输入预估总分</span>
-            </div>
-            <div class="quanshengpaiming">
-              <span class="span1">全省排名</span
-              ><span class="span2">预估全省排名</span>
-            </div>
-            <div class="button">
-              <el-button class="btn" type="primary" round>立即登陆</el-button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="zhiyuan" v-else>
-        <div class="content">
-          <div class="header">模拟高考志愿填报</div>
-
-          <div class="form-item2">
-            <div>
-              <div class="editScore" @click="modifyScore">
-                <i class="el-icon-edit"></i><span>修改成绩</span>
-              </div>
-              <div>
-                <div class="score-item">
-                  <span class="label">高考省份</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >北京</span
-                  >
-                </div>
-                <div class="score-item">
-                  <span class="label">科目类型</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >物理/化学/生物</span
-                  >
-                </div>
-                <div class="score-item">
-                  <span class="label">高考总分</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >572</span
-                  >
-                </div>
-                <div class="score-item">
-                  <span class="label">本科预估排名</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >13923</span
-                  >
-                </div>
-                <div class="score-item">
-                  <span class="label">语数外总分</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >360</span
-                  >
-                </div>
-
-                <div class="score-item">
-                  <span class="label">专科预估排名</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >28</span
-                  >
-                </div>
-              </div>
-            </div>
-
-            <div class="tuijianButton">
-              <el-button class="btn" type="primary" round>智能推荐</el-button>
-            </div>
-            <div class="viewTable">查看志愿表>></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="fiveRow">
-      <div class="fiveRow-header">
-        <span class="shuxian"></span>
-        <div class="shuxian-l">院校推荐</div>
-        <div v-if="loginStatus !== false">
-          <div class="btn">
-            <a href="#">登录</a>
-          </div>
-          <div class="shuxian-r">推荐更合适你的院校</div>
-        </div>
-        <div v-else>
-          <div class="shuxian-r">
-            <span>北京</span>&nbsp;&nbsp; <span>物/化/生</span>&nbsp;&nbsp;
-            <span>本科</span>&nbsp;&nbsp;
-            <span>572</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="fiveRow-box">
-        <div class="box-content" v-if="loginStatus !== false">
-          <a href="#">登录添加成绩信息</a><br />
-          <h>大数据+AI智能准确推荐合适你的院校</h>
-        </div>
-        <div v-else>
-          <ul class="default-list">
-            <li
-              class="commend-item"
-              v-for="(item, index) in recommandList"
-              :key="index"
-              @click="selectSchoolItem(index, item)"
-            >
-              <img :src="item.url" class="commend-item-image" />
-              <h4 class="commend-item-title textOverflow">{{ item.name }}</h4>
-              <p class="commend-item-code">招生代码 {{ item.code }}</p>
-              <p class="commend-item-des">{{ item.des }}</p>
-            </li>
-            <li class="commend-item">
-              <i class="el-icon-arrow-right moreIcn"></i>
-              <h4 class="commend-item-title more">查看更多</h4>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
     <div class="sixRow">
-      <div class="sixRow-header">
-        <span class="shuxian"></span>
-        <div class="shuxian-l">大家都在关注</div>
-        <a href="#" @click="openMore()">查看更多>></a>
-      </div>
+      <!-- <div class="sixRow-header">
+        <span>首页>大家都在关注</span>
+      </div> -->
       <div class="sixRow-box">
         <div class="wap">
           <div class="skeleton">
             <ul class="list">
-              <li
-                class="item"
-                v-for="(item, index) in threeList"
-                :key="index"
-                @click="selectZixun(item, index)"
-              >
-                <div class="image">
-                  <img :src="item.cover" class="zixunImage" />
-                </div>
-                <div class="content">
-                  <div class="content-title content-title-gray">
-                    <span class="title">{{ item.title }}</span>
-                    <span class="time">{{ item.date }}</span>
-                  </div>
-                  <div class="news" maxlines="2" font-size="14">
-                    {{ item.news }}
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="sevenRow">
-      <div class="sevenRow-header">
-        <span class="shuxian"></span>
-        <div class="shuxian-l">大家都在学</div>
-        <a href="#" @click="openReport()">查看更多>></a>
-      </div>
-      <div class="sevenRow-box">
-        <div class="video1">
-          <div class="video1-header">
-            <ul class="list">
-              <li
-                class="item"
-                v-for="(item, index) in threeVideoList"
-                :key="index"
-              >
+              <li class="item" v-for="(item, index) in zixunList" :key="index">
                 <el-button type="text" @click="showVideo(item, index)">
                   <div class="image">
-                    <img :src="item.cover" class="image" />
-                    <img src="../../assets/play_05.png" class="play-btn" />
+                    <img :src="item.cover" class="zixunImage" />
+                  </div>
+                  <div class="content">
+                    <div class="content-title content-title-gray">
+                      <span> {{ item.title }}</span>
+                    </div>
                   </div>
                 </el-button>
-                <!-- <img :src="item.cover" alt="" class="image" />
-                <img src="../../assets/play_05.png" class="play-btn" /> -->
               </li>
             </ul>
           </div>
-          <!-- <div class="video1-box">
-            <p>iPIN牵手新东方，展开教育+人工智能深度合作</p>
-          </div> -->
         </div>
       </div>
     </div>
@@ -239,18 +40,9 @@
         style="width: 100%;  height: 100%"
       ></video>
     </el-dialog>
-
     <div class="footer">
       <Footer></Footer>
     </div>
-
-    <!-- <el-backtop :bottom="60" class="backtop-style">
-      <div class="backtop-text">
-        <span>返回顶部</span>
-      </div>
-      <i class="el-icon-caret-top backtop-icon" ></i>
-
-    </el-backtop>-->
   </div>
 </template>
 
@@ -259,71 +51,18 @@ import TopHeader from "@/components/common/topheader";
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
 import EditScore from "@/components/common/editScore";
-import { getFollowingList } from "@/api/index.js";
+// {}只引入这个方法
 import { getAllIsLearning } from "@/api/index.js";
-
 // import $ from 'jquery'
 export default {
-  name: "index",
+  name: "VideoList",
   components: { TopHeader, HomeHeader, Footer, EditScore },
   data() {
     return {
       videoUrl: "",
       scoreDialog: false,
-      recommandList: [
-        {
-          id: 1,
-          url:
-            "https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg",
-          name: "首都师范大学",
-          code: "1052[01]",
-          des: "北京",
-        },
-        {
-          id: 2,
-          url:
-            "https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg",
-          name: "北京大学",
-          code: "1052[01]",
-          des: "北京",
-        },
-        {
-          id: 3,
-          url:
-            "https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg",
-          name: "上海师范大学",
-          code: "1052[01]",
-          des: "北京",
-        },
-        {
-          id: 4,
-          url:
-            "https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg",
-          name: "华中师范大学",
-          code: "1052[01]",
-          des: "北京",
-        },
-        {
-          id: 5,
-          url:
-            "https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg",
-          name: "华中师范大学",
-          code: "1052[01]",
-          des: "北京",
-        },
-        {
-          id: 6,
-          url:
-            "https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg",
-          name: "华中师范大学",
-          code: "1052[01]",
-          des: "北京",
-        },
-      ],
+      recommandList: [],
       zixunList: [],
-      threeList: [],
-      videoList: [],
-      threeVideoList: [],
       form: {
         name: "",
       },
@@ -342,11 +81,7 @@ export default {
       selectProvince: "",
       provincesList: ["北京", "上海", "广州", "深圳"],
       searchValue: "",
-      schna: [
-        "https://www.zhongkeruitong.top/CCZX_image/newBanner2.jpg",
-        "https://www.zhongkeruitong.top/CCZX_image/banner5.png",
-        "https://www.zhongkeruitong.top/CCZX_image/photo2.jpg",
-      ],
+      schna: [],
     };
   },
   created() {
@@ -379,67 +114,24 @@ export default {
     this.getInfo();
   },
   methods: {
-    initData() {
-      //必须这样
-      let _this = this;
-      getFollowingList().then(function (response) {
-        console.log(response.data);
-        _this.zixunList = response.data;
-        console.log(_this.zixunList);
-        // 使用push不用等号
-        for (var i = 0; i < 3; i++) {
-          _this.threeList.push(_this.zixunList[i]);
-        }
-        // this.$set(this.threeList, _this.threeList);
-        console.log(_this.threeList);
-      });
-      getAllIsLearning().then(function (response) {
-        console.log(response.data);
-        _this.videoList = response.data;
-        console.log(_this.videoList);
-        // 使用push不用等号
-        for (var i = 0; i < 3; i++) {
-          _this.threeVideoList.push(_this.videoList[i]);
-        }
-        // this.$set(this.threeList, _this.threeList);
-        console.log(_this.threeVideoList);
-      });
-    },
     showVideo(item, index) {
       this.videoUrl = item.address;
       this.dialogVisible = true;
+    },
+
+    initData() {
+      //必须这样
+      let _this = this;
+      getAllIsLearning().then(function (response) {
+        console.log(response.data);
+        _this.zixunList = response.data;
+        console.log(_this.zixunList);
+      });
     },
     // 关闭视频
     handleClose(done) {
       this.videoUrl = "";
       this.dialogVisible = false;
-    },
-    selectZixun(item, index) {
-      const { href } = this.$router.resolve({
-        name: "Article",
-        query: {
-          article: item.id,
-        },
-      });
-      window.open(href, "_blank");
-    },
-    openMore() {
-      const { href } = this.$router.resolve({
-        name: "Guanzhu",
-        // query: {
-        //   article: item.id,
-        // },
-      });
-      window.open(href, "_blank");
-    },
-    openReport() {
-      const { href } = this.$router.resolve({
-        name: "VideoList",
-        // query: {
-        //   article: item.id,
-        // },
-      });
-      window.open(href, "_blank");
     },
     modifyScore() {
       console.log("123");
@@ -526,14 +218,25 @@ a {
   text-decoration: none;
 }
 .app_container {
-  background-color: #f3f5f7;
+  /* background-color: red; */
   width: 100%;
-  /* height: 100%; */
 }
 .mt20 {
   margin-top: 20px;
 }
-
+.more {
+  width: 100px;
+  margin: 30px auto 90px;
+}
+.more .btn {
+  width: 150px;
+  background: rgb(255, 255, 255);
+  border: 1px solid rgb(0, 175, 240);
+  height: 60px;
+  border-radius: 10px;
+  font-size: 20px;
+  color: rgb(0, 175, 240);
+}
 .thirdRow {
   background-color: #f95e5a;
   width: 100%;
@@ -844,7 +547,7 @@ li a {
 }
 
 .sixRow {
-  height: 560px;
+  /* height: 560px; */
   width: 1400px;
   margin: 0 auto;
 }
@@ -852,15 +555,18 @@ li a {
   margin-top: 10px;
   height: 100px;
   width: 1400px;
-  background-color: #f3f5f7;
+  /* background-color: #f3f5f7; */
+  border-bottom-color: #f3f5f7;
 }
 .sixRow-box {
   /* height: 660px; */
+  margin-top: 50px;
   width: 1400px;
   position: relative;
   border-radius: 15px;
+  /* background-color: pink; */
 }
-.sixRow-header .shuxian {
+/* .sixRow-header .shuxian {
   float: left;
   top: 2px;
   display: inline-block;
@@ -886,7 +592,7 @@ li a {
   font-size: 10px;
   font-weight: bold;
   color: black;
-}
+} */
 .word h6 {
   margin-top: 15px;
 }
@@ -899,7 +605,7 @@ li a {
 }
 
 .sevenRow {
-  height: 350px;
+  height: 450px;
   width: 1400px;
   margin: 50px auto 0;
 }
@@ -910,10 +616,10 @@ li a {
   background-color: #f3f5f7;
 }
 .sevenRow-box {
-  height: 250px;
+  height: 350px;
   width: 1400px;
-  /* background-color: #f3f5f7; */
-  /* border-radius: 15px; */
+  background-color: #f3f5f7;
+  border-radius: 15px;
 }
 .sevenRow-header .shuxian {
   float: left;
@@ -943,32 +649,21 @@ li a {
   color: black;
 }
 .video1 {
-  /* float: left;
+  float: left;
   height: 350px;
   width: 450px;
-  background-color: #fff; */
-  padding: 0 0.2rem;
-  background: #fff;
-  -webkit-box-shadow: rgb(0 0 0 / 4%) 0 0.02rem 0.04rem 0;
-  box-shadow: 0 0.02rem 0.04rem 0 rgb(0 0 0 / 4%);
-  border-radius: 0.1rem;
-  width: 14rem;
-  height: 300px;
+  background-color: #fff;
 }
-.video1-header .list .item {
+.video1-header {
   height: 250px;
-  width: 430px;
-  /* background-color: #f95e5a; */
+  width: 450px;
+  background-color: #f95e5a;
   position: relative;
-  float: left;
-  margin-top: 25px;
-  margin-left: 18px;
-  cursor: pointer;
 }
 .video1-header .image {
   height: 100%;
   width: 100%;
-  border-radius: 10px;
+  border-radius: 10px 10px 0 0;
 }
 
 .play-btn {
@@ -1110,14 +805,14 @@ li a {
   font-weight: normal;
   color: rgba(0, 0, 0, 0.5);
 }
-.wap {
+/* .wap {
   padding: 0px 20px;
   background: rgb(255, 255, 255);
   box-shadow: rgb(0 0 0 / 4%) 0px 2px 4px 0px;
   border-radius: 10px;
   width: 1400px;
   height: 450px;
-}
+} */
 
 .wap .skeleton .list {
   background: rgb(255, 255, 255);
@@ -1128,7 +823,7 @@ li a {
   content: "";
 }
 .wap .skeleton .list .item {
-  width: 80%;
+  width: 1400px;
   position: relative;
   padding: 20px 0px;
   margin: 5px 10px;
@@ -1149,15 +844,16 @@ li a {
 }
 .wap .content {
   position: absolute;
-  width: 1000px;
-  top: 30px;
-  left: 190px;
+  width: 12.5rem;
+  top: 0.3rem;
+  left: 1.9rem;
+  /* background-color: pink; */
 }
 .wap .content .content-title {
-  font-size: 18px;
-  color: rgb(30, 30, 30);
-  font-weight: bold;
-  margin-bottom: 15px;
+  font-size: 0.18rem;
+  color: #1e1e1e;
+  font-weight: 700;
+  margin-bottom: 0.15rem;
 }
 .wap .content .content-title-gray {
   color: rgb(124, 124, 124);
@@ -1177,5 +873,8 @@ li a {
   line-height: 22px;
   width: 800px;
   height: 44px;
+}
+.footer {
+  background-color: aqua;
 }
 </style>
