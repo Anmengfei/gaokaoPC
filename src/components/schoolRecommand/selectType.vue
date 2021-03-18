@@ -379,7 +379,8 @@ export default {
     clearFormData () { // 清空志愿表单
       this.showvolformdata = true
       this.volForm = []
-    },
+      this.$forceUpdate()
+    }
   }
 }
 </script>
@@ -678,7 +679,6 @@ li{
   user-select: none;
   padding: 0 10px;
 }
-
 
 .auto_fixed {
 }
