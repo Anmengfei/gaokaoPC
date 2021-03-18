@@ -1,7 +1,6 @@
 <template>
   <div class="logout">
-    <span @click="gotoLogin">登录</span> &nbsp;&nbsp;| &nbsp;&nbsp;
-    <span @click="gotoRegister">注册</span>
+    <span @click="gotoLogin">登录</span>
   </div>
 </template>
 

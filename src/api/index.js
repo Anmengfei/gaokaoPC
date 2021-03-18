@@ -1,5 +1,14 @@
 import request from '@/utils/request_my'
 
+//获取所有学校信息
+export function getAllschoolInfo(data) {
+    return request({
+        url: '/schoolApp/findAllSchool',
+        method: 'get',
+        params: data
+    })
+}
+
 //获取所有学校的省份
 export function getAllprovinces(data) {
     return request({
@@ -54,6 +63,14 @@ export function getArticleById(data) {
 export function getAllIsLearning(data) {
     return request({
         url: '/extendApp/getAllIsLearning',
+        method: 'get',
+        params: data
+    })
+}
+// 获取院校优先列表
+export function getAllschoolFirst(data) {
+    return request({
+        url: '/extendApp/getSchoolFirst',
         method: 'get',
         params: data
     })

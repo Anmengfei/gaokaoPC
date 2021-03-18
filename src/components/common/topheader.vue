@@ -3,13 +3,13 @@
 <!--  考哪儿   选择省份   搜大学-->
   <div class="app-header">
     <div class="bgGrey">
-      <el-row class="el-rows">
+      <el-row :gutter="20">
         <el-col :span="8">
-          <span class="welcome">欢迎来到大数据智能高考志愿填报平台</span>
+          <span class="ml50">欢迎来到大数据智能高考志愿填报平台</span>
         </el-col>
         <el-col :span="7"> &nbsp; </el-col>
         <el-col :span="9">
-          <el-row>
+          <el-row :gutter="20">
             <el-col :span="7">
               <span>高考志愿填报QQ群</span>
             </el-col>
@@ -26,7 +26,6 @@
         </el-col>
       </el-row>
     </div>
-
     <div class="secondRow">
       <el-row class="logo-search">
         <el-col :span="6">
@@ -38,7 +37,7 @@
         <el-col :span="12">
           <el-col :span="12"><el-select
             v-model="selectProvince"
-            placeholder="请选择省份"
+            placeholder="请选择报考省份"
             clearable
             class="selectProvinceStyle"
           >

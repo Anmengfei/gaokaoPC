@@ -14,9 +14,9 @@
               >
               <span
                 class="tag"
-                v-for="(item, index) in provincesList"
-                :key="index"
-                :class="{ active: active == item }"
+                v-for="item in provincesList"
+                :key="item"
+                :class="{ active: collegeselete.provinceSelect.includes(item) }"
                 @click="selecttag(item)"
                 >{{ item }}</span
               >
@@ -33,9 +33,9 @@
               >
               <span
                 class="tag"
-                v-for="item in collegeType"
-                :key="item"
-                :class="{ active: typeactive == item }"
+                v-for="(item, index) in collegeType"
+                :key="index"
+                :class="{ active: collegeselete.typeSelect.includes(item) }"
                 @click="selecttypetag(item)"
                 >{{ item }}</span
               >
@@ -54,31 +54,19 @@
                 class="tag"
                 v-for="item in collegeLevel"
                 :key="item"
-                :class="{ active: levelactive == item }"
+                :class="{ active: collegeselete.levelSelect.includes(item) }"
                 @click="selectleveltag(item)"
                 >{{ item }}</span
               >
             </div>
           </div>
-          <div class="filter-list">
-            <span class="filter-list-title">院校排序</span>
-            <div class="filter-list-tags">
-              <span
-                class="tag"
-                :class="{ active: sortactive == '' }"
-                @click="selectsorttag('')"
-                >不限</span
-              >
-              <span
-                class="tag"
-                v-for="item in collegeSortType"
-                :key="item"
-                :class="{ active: sortactive == item }"
-                @click="selectsorttag(item)"
-                >{{ item }}</span
-              >
-            </div>
-          </div>
+          <!--          <div  class="filter-list">-->
+          <!--            <span class="filter-list-title">院校排序</span>-->
+          <!--            <div class="filter-list-tags">-->
+          <!--              <span class="tag" :class="{active : sortactive == ''}" @click="selectsorttag('')">不限</span>-->
+          <!--              <span class="tag" v-for="item in collegeSortType" :key="item" :class="{active :collegeselete.sortSelect.includes(item)}" @click="selectsorttag(item)">{{item}}</span>-->
+          <!--            </div>-->
+          <!--          </div>-->
           <div class="customer-college">
             <span class="customer-college-title">自主院校：</span>
             <div class="customer-college-input">
@@ -87,14 +75,26 @@
                 clearable
                 size="small"
                 placeholder="请输入院校名称（至少4个字）"
-                v-model="textarea1"
+                v-model="collegename"
               >
               </el-input>
             </div>
           </div>
-          <!--          <div class="tiaojian" @click="zhedie">收起筛选条件</div>-->
-          <!--          <div class="tiaojian" @click="zhakai">展开更多筛选条件</div>-->
-          <!--            <p class="tishixinghao">“*”表示排名来源于一分一段表，否则源于录取数据。</p>-->
+          <div class="myFilterRecordBlockRow">
+            <div class="customer-selected-tags">
+              <span class="title" style="line-height: 24px">您已选择：</span>
+              <div class="tags" v-for="select in collegeselete">
+                <span class="tag" v-for="(item, index) in select" :key="index">
+                  {{ item }}
+                  <i
+                    class="el-icon-close"
+                    style="margin-left: 5px"
+                    @click="closemyselect(select, item)"
+                  ></i>
+                </span>
+              </div>
+            </div>
+          </div>
         </el-tab-pane>
         <el-tab-pane label="喜欢的专业" name="favoriteMajor">
           <div class="filter-list">
@@ -129,7 +129,7 @@
                 class="tag"
                 v-for="type in majorSecond"
                 :key="type.name"
-                :class="{ active: majorsecondactive == type.name }"
+                :class="{ active: majorselect.includes(type.name) }"
                 @click="selectmajorsecondtag(type.name)"
                 >{{ type.name }}</span
               >
@@ -143,22 +143,81 @@
                 clearable
                 size="small"
                 placeholder="请输入专业名称（至少2个字）"
-                v-model="textarea1"
+                v-model="majorname"
               >
               </el-input>
             </div>
           </div>
+          <div class="myFilterRecordBlockRow">
+            <div class="customer-selected-tags">
+              <span class="title" style="line-height: 24px">您已选择：</span>
+              <div class="tags">
+                <span
+                  class="tag"
+                  v-for="(item, index) in majorselect"
+                  :key="index"
+                >
+                  {{ item }}
+                  <i
+                    class="el-icon-close"
+                    style="margin-left: 5px"
+                    @click="closemajorselect(index)"
+                  ></i>
+                </span>
+              </div>
+            </div>
+          </div>
         </el-tab-pane>
       </el-tabs>
-      <div class="myFilterRecordBlockRow">
-        <div class="customer-selected-tags">
-          <span class="title" style="line-height: 24px">您已选择：</span>
-        </div>
-      </div>
     </div>
-
-    <div class="box2">
-      <school-list></school-list>
+    <div class="schoollist">
+      <el-row>
+        <el-col :span="19">
+          <school-list
+            :selected="collegeselete"
+            :volform="volForm"
+            @addform="getAddFormInfo"
+          ></school-list>
+        </el-col>
+        <el-col :span="5">
+          <div class="auto_fixed" :class="auto_fixed">
+            <div class="fudongBox">
+              <div class="head">已填入意向</div>
+              <div class="content">
+                <div class="noformdata" v-show="showvolformdata">
+                  <img src="../../assets/noData.png" alt="暂无数据" />
+                  <span>查看左侧院校和专业选择<br />加入意向</span>
+                </div>
+                <div class="formdata" v-show="!showvolformdata">
+                  <div
+                    v-for="(item, index) in volForm"
+                    :key="index"
+                    class="list"
+                  >
+                    <div id="code">
+                      <div class="num">{{ index + 1 }}</div>
+                    </div>
+                    <div id="name">
+                      <span class="school">{{ item.schoolName }}</span
+                      ><br />
+                      <span class="major">{{ item.majorName }}</span>
+                    </div>
+                    <div id="option"><button>操作</button></div>
+                  </div>
+                </div>
+              </div>
+              <div class="foot">
+                <span class="clear" @click="clearFormData">清空</span>
+                <button class="nextbtn">下一步</button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="auto_fixed_fake"
+            :style="{ display: auto_fixed.fixed ? 'block' : 'none' }"
+          ></div>
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>
@@ -171,16 +230,30 @@ import {
   getAllprovinces,
   getAllMajorType,
 } from "@/api/index";
-import { getAllSchool } from "@/api/schoolInfo.js";
+
 export default {
   name: "selectType",
   components: { SchoolList },
   data() {
     return {
+      majorname: "",
+      collegename: "",
+      auto_fixed: {
+        fixed: false,
+      },
+      collegeselete: {
+        provinceSelect: [],
+        typeSelect: [],
+        levelSelect: [],
+        // sortSelect:[],
+        sortSelect: [],
+      },
+      majorselect: [],
       active: "",
+      scroll: "",
       typeactive: "",
       levelactive: "",
-      sortactive: "",
+      // sortactive: '',
       majorsecondactive: "",
       majoractive: "",
       majorType: {},
@@ -188,103 +261,151 @@ export default {
       collegeType: [],
       collegeLevel: [],
       majorSecond: [],
-      collegeSortType: ["录取概率", "计划人数", "大学排名"],
-      checkboxList: ["不限"],
-      showAll: false,
       loginStatus: true,
-      cjLable: "可冲击20",
-      textarea1: "",
-      wtLabel: "较稳妥30",
-      bdLabel: "可保底90",
       isVip: false,
-      yjsPoint: 0,
-      dlxueyuan: 0,
-      originList: [
-        "不限",
-        "北京",
-        "天津",
-        "河北",
-        "山西",
-        "内蒙古",
-        "辽宁",
-        "吉林",
-        "黑龙江",
-        "上海",
-        "江苏",
-        "浙江",
-        "安徽",
-        "福建",
-        "江西",
-        "山东",
-        "河南",
-        "湖北",
-        "湖南",
-        "广东",
-        "广西",
-        "海南",
-        "重庆",
-        "四川",
-        "贵州",
-        "云南",
-        "西藏",
-        "山西",
-        "甘肃",
-        "青海",
-        "宁夏",
-        "新疆",
-        "台湾",
-        "香港",
-        "澳门",
-      ],
-      schoolList: [
-        "不限",
-        "综合",
-        "工科",
-        "农业",
-        "林业",
-        "医药",
-        "师范",
-        "语言",
-        "财经",
-        "政法",
-        "体育",
-        "艺术",
-        "民族",
-      ],
-      cengciList: ["不限", "985", "211", "双一流"],
-      xingzhiList: ["不限", "公立大学", "民办高校"],
-      schoolboxList: ["不限"],
-      cengciboxList: ["不限"],
-      xingzhiboxList: ["不限"],
+      volForm: [], // 高考志愿表单
+      showvolformdata: true, // 高考志愿表单是否显示添加志愿（true未添加 false添加）
     };
   },
   computed: {
-    selectTabs() {
-      console.log(this.$route.params.tab);
-      return this.$route.params.tab || "favoriteSchool";
+    selectTabs: {
+      get() {
+        return this.$route.params.tab || "favoriteSchool";
+      },
+      set() {},
     },
   },
   mounted() {
+    this.$nextTick(function () {
+      window.addEventListener("scroll", this.onScroll);
+    });
     this.getProvincesinit();
     this.getcollegeType();
     this.getMajortypelist();
-    this.getAllSchoolData();
   },
   methods: {
+    onScroll() {
+      let scrolled =
+        document.documentElement.scrollTop || document.body.scrollTop;
+      let height = 450;
+      this.auto_fixed = {
+        auto_fixed: true,
+        fixed: scrolled >= height,
+      };
+    },
+    reset() {
+      this.collegeselete = {
+        provinceSelect: [],
+        typeSelect: [],
+        levelSelect: [],
+        // sortSelect:[],
+      };
+      (this.active = ""),
+        (this.typeactive = ""),
+        (this.levelactive = ""),
+        (this.majorsecondactive = ""),
+        (this.majoractive = "");
+    },
+    closemajorselect(index) {
+      this.majorselect.splice(index, 1);
+      if (this.majorselect.length == 0) {
+        this.majorsecondactive = "";
+      }
+    },
+    closemyselect(parent, name) {
+      // console.log('guanbiqian', parent, name)
+      for (let i = 0; i < parent.length; i++) {
+        if (parent[i] == name) {
+          parent.splice(i, 1);
+        }
+      }
+      if (parent.length == 0) {
+        switch (parent) {
+          case this.collegeselete.provinceSelect:
+            this.active = "";
+            break;
+          case this.collegeselete.levelSelect:
+            this.levelactive = "";
+            break;
+          case this.collegeselete.typeSelect:
+            this.typeactive = "";
+            break;
+        }
+      }
+      // console.log('after', parent, name)
+    },
     selecttag(item) {
       this.active = item;
+      if (item == "") {
+        this.collegeselete.provinceSelect = [];
+      } else if (!this.collegeselete.provinceSelect.includes(item)) {
+        this.collegeselete.provinceSelect.push(item);
+      } else {
+        for (let i = 0; i < this.collegeselete.provinceSelect.length; i++) {
+          if (this.collegeselete.provinceSelect[i] == item) {
+            this.collegeselete.provinceSelect.splice(i, 1);
+          }
+        }
+      }
+      if (this.collegeselete.provinceSelect.length == 0) {
+        this.active = "";
+      }
     },
     selecttypetag(item) {
       this.typeactive = item;
+      if (item == "") {
+        this.collegeselete.typeSelect = [];
+      } else if (!this.collegeselete.typeSelect.includes(item)) {
+        this.collegeselete.typeSelect.push(item);
+      } else {
+        for (let i = 0; i < this.collegeselete.typeSelect.length; i++) {
+          if (this.collegeselete.typeSelect[i] == item) {
+            this.collegeselete.typeSelect.splice(i, 1);
+          }
+        }
+      }
+      if (this.collegeselete.typeSelect.length == 0) {
+        this.typeactive = "";
+      }
     },
     selectleveltag(item) {
       this.levelactive = item;
+      if (item == "") {
+        this.collegeselete.levelSelect = [];
+      } else if (!this.collegeselete.levelSelect.includes(item)) {
+        this.collegeselete.levelSelect.push(item);
+      } else {
+        for (let i = 0; i < this.collegeselete.levelSelect.length; i++) {
+          if (this.collegeselete.levelSelect[i] == item) {
+            this.collegeselete.levelSelect.splice(i, 1);
+          }
+        }
+      }
+      if (this.collegeselete.levelSelect.length == 0) {
+        this.levelactive = "";
+      }
     },
     selectsorttag(item) {
       this.sortactive = item;
+      if (item == "") {
+        this.collegeselete.sortSelect = [];
+      } else if (!this.collegeselete.sortSelect.includes(item)) {
+        this.collegeselete.sortSelect.push(item);
+      }
     },
+    // selectsorttag (item) {
+    //   this.sortactive = item
+    //   if(item == ''){
+    //     this.collegeselete.sortSelect =[]
+    //   }else if(!this.collegeselete.sortSelect.includes(item)){
+    //     this.collegeselete.sortSelect.push(item)
+    //   }
+    // },
     selectmajortag(item) {
       this.majoractive = item;
+      if (item == "") {
+        this.majorselect = [];
+      }
       this.majorType.forEach((tag) => {
         if (tag.category == item) {
           this.majorSecond = tag.firSubList;
@@ -293,10 +414,23 @@ export default {
     },
     selectmajorsecondtag(item) {
       this.majorsecondactive = item;
+      if (item == "") {
+        this.majorselect = [];
+      } else if (!this.majorselect.includes(item)) {
+        this.majorselect.push(item);
+      } else {
+        for (let i = 0; i < this.majorselect.length; i++) {
+          if (this.majorselect[i] == item) {
+            this.majorselect.splice(i, 1);
+          }
+        }
+      }
+      if (this.majorselect.length == 0) {
+        this.majorsecondactive = "";
+      }
     },
     getProvincesinit() {
       getAllprovinces().then((res) => {
-        console.log(res);
         this.provincesList = res.data;
       });
     },
@@ -310,29 +444,28 @@ export default {
     },
     getMajortypelist() {
       getAllMajorType().then((res) => {
-        console.log("111" + res);
         this.majorType = res.data;
-        // console.log('1'+this.majorType)
-      });
-    },
-    getAllSchoolData() {
-      getAllSchool({
-        page: 0,
-      }).then((res) => {
-        if (res.status === 200) {
-          this.schoolList1 = res.data.data;
-          console.log("this.schoolList1数据", this.schoolList1);
-        } else {
-          console.log("无法取得数据");
-        }
       });
     },
     handleClick() {},
-    zhakai() {
-      this.showAll = true;
+    getAddFormInfo(message) {
+      // 父子组件传值，父组件接收信息函数
+      console.log("父子组件传值", message);
+      // for(let i=0;i<this.volForm.length;++i){
+      //   if(this.volForm[i].id === message.id){//数据已经存在，按钮变灰
+      //
+      //   }
+      // }
+      // let temp = message.split(" ")
+      this.volForm.push(message);
+      // console.log('let temp =', temp)
+      console.log("高考志愿表", this.volForm);
+      this.showvolformdata = false;
     },
-    zhedie() {
-      this.showAll = false;
+    clearFormData() {
+      // 清空志愿表单
+      this.showvolformdata = true;
+      this.volForm = [];
     },
   },
 };
@@ -345,47 +478,34 @@ export default {
   box-sizing: border-box;
   /*background: transparent;*/
 }
-div {
-  display: block;
+
+/*div {*/
+/*  display: block;*/
+/*}*/
+
+li {
+  list-style: none;
 }
 .box {
   margin-top: 2%;
   margin-left: 5%;
   margin-right: 5%;
 }
+
 .box1 {
-  width: 100%;
   margin-top: 2%;
   background-color: #f3f5f7;
   font-size: 100%;
 }
-.box2 {
-  width: 100%;
-  margin-top: 2%;
+
+.schoollist {
+  margin-top: 0.2rem;
 }
 
-.box .box1 .content {
-  margin: 1% 2%;
-}
-
-.box .box1 .content .tishixinghao {
-  margin-top: 2px;
-  font-size: 12px;
-  color: rgb(124, 124, 124);
-}
-.mt05 {
-  margin-top: 5px;
-}
-.tiaojian {
-  margin-top: 10px;
-  margin-left: 75px;
-  cursor: pointer;
-  font-size: 10px;
-  color: #00aff0 !important;
-}
 .el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
   color: #f95e5a;
 }
+
 .filter-list {
   display: flex;
   padding: 10px 0;
@@ -395,6 +515,7 @@ div {
   align-items: flex-start;
   border-bottom: 1px dashed #e6e6e6;
 }
+
 .filter-list-title {
   color: #9b9b9b;
   font-size: 14px;
@@ -402,6 +523,7 @@ div {
   margin-top: 10px;
   text-align: center;
 }
+
 .filter-list .filter-list-tags {
   flex: 1;
   -webkit-box-flex: 1;
@@ -420,17 +542,16 @@ div {
   border-radius: 4px;
   cursor: pointer;
 }
+
 .filter-list .filter-list-tags .tag.active,
 .filter-list .filter-list-tags .tag:hover {
   color: #e9302d;
 }
+
 .filter-list .filter-list-tags .tag.active {
   border: 1px solid #e9302d;
 }
-.active {
-  border: 1px solid #e9302d;
-  color: #e9302d;
-}
+
 .customer-college {
   padding-top: 20px;
   display: flex;
@@ -441,16 +562,19 @@ div {
 
   align-items: center;
 }
+
 .customer-college .customer-college-title {
   font-size: 14px;
   margin-left: 2vw;
   color: #9b9b9b;
 }
+
 .customer-college .customer-college-title {
   font-size: 14px;
   margin-left: 2vw;
   color: #9b9b9b;
 }
+
 .customer-college .customer-college-input {
   width: 420px;
   float: left !important;
@@ -458,20 +582,18 @@ div {
   position: relative;
   display: inline-block;
 }
-/*.el-input {*/
-/*  position: relative;*/
-/*  font-size: 13px;*/
-
-/*}*/
 
 .myFilterRecordBlockRow {
   background: #fafafa;
   border: 1px solid #e5e5e5;
+  margin-top: 15px;
+
   display: flex;
   height: auto;
   transition: height 2s ease-in-out;
   overflow: hidden;
 }
+
 .customer-selected-tags {
   -webkit-box-flex: 1;
   font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, Helvetica,
@@ -485,5 +607,171 @@ div {
   padding: 6px 12px 6px 16px;
   display: flex;
   overflow: hidden;
+}
+
+.customer-selected-tags .title {
+  font-size: 12px;
+  color: #9b9b9b;
+  line-height: 24px;
+}
+
+/*.fudongFather{*/
+/*  position: absolute;*/
+/*  top: 10px;*/
+/*}*/
+
+.box .fudongBox {
+  position: absolute;
+  top: 10px;
+  margin-left: 0.2rem;
+  margin-top: 0.2rem;
+  height: 8.1rem;
+  /*overflow-y: auto;*/
+  outline: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.3rem;
+  width: 4rem;
+  background-color: #fff;
+}
+
+.box .fudongBox .head {
+  height: 0.8rem;
+  border-bottom: 0.01rem solid rgba(0, 0, 0, 0.1);
+  padding-left: 0.3rem;
+  font-size: 0.3rem;
+  line-height: 0.8rem;
+}
+
+.box .fudongBox .content {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  height: 6.3rem;
+  overflow-y: scroll;
+}
+
+.box .fudongBox .content img {
+  margin-top: 0.8rem;
+  margin-left: 0.7rem;
+}
+
+.box .fudongBox .content .noformdata span {
+  display: block;
+  text-align: center;
+  margin-top: 0.4rem;
+  margin-left: 0.3rem;
+  color: #8a8a8a;
+  font-size: 0.22rem;
+}
+
+.box .fudongBox .content .formdata .list {
+  width: 100%;
+  /*display: -webkit-flex; !* Safari *!*/
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; /*换行，第一行在下方。*/
+  word-break: break-word;
+  height: 0.8rem;
+  margin-bottom: 0.3rem;
+  border-bottom: 1px dashed rgb(228, 228, 228);
+}
+.box .fudongBox .content .formdata #code {
+  flex: 1;
+  height: 100%;
+}
+
+.box .fudongBox .content .formdata #code .num {
+  margin: 0 auto;
+  background-color: #00aff0;
+  text-align: center;
+  font-weight: 600;
+  color: #ffffff;
+  /*border-radius: 50%;*/
+  width: 35%;
+  height: 35%;
+}
+.box .fudongBox .content .formdata #name {
+  flex: 3;
+  height: 100%;
+}
+.box .fudongBox .content .formdata #name .school {
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 0.25rem;
+  font-weight: 550;
+}
+
+.box .fudongBox .content .formdata #name .major {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 0.23rem;
+  font-weight: 400;
+  padding-top: 0.05rem;
+}
+.box .fudongBox .content .formdata #option {
+  flex: 1;
+  height: 100%;
+}
+
+.box .fudongBox .foot {
+  height: 0.8rem;
+  border-top: 0.01rem solid rgba(0, 0, 0, 0.1);
+}
+
+.box .fudongBox .clear {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 0.2rem;
+  display: inline-block;
+  line-height: 0.8rem;
+  cursor: pointer;
+  text-align: center;
+  margin-left: 0.55rem;
+  margin-top: 0.1rem;
+}
+
+.box .fudongBox .nextbtn {
+  background: #ff961f;
+  color: #fff;
+  border-radius: 0.1rem;
+  height: 0.6rem;
+  cursor: pointer;
+  letter-spacing: 0;
+  text-align: center;
+  width: 1.6rem;
+  border: 0;
+  outline: 0;
+  margin-left: 0.6rem;
+}
+
+.customer-selected-tags .tags {
+  -webkit-box-flex: 1;
+  flex: 0 1 auto;
+  /*flex:1;*/
+  display: flex;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.customer-selected-tags .tags .tag {
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #757575;
+  letter-spacing: 0;
+  height: 26px;
+  line-height: 26px;
+  margin-right: 6px;
+  margin-bottom: 6px;
+  user-select: none;
+  padding: 0 10px;
+}
+
+.auto_fixed {
+}
+
+.fixed {
+  position: fixed;
+  top: 0px;
 }
 </style>
