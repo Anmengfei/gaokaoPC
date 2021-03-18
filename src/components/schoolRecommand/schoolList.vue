@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import { getAllSchool } from "../../api/schoolInfo";
+import { getAllSchool } from '../../api/schoolInfo'
 export default {
   name: 'schoolList',
   props: ['selected', 'volform'],
@@ -105,6 +105,7 @@ export default {
         pagesize: 10, // 每页条数
         pagetotal: 100// 总条目数
       },
+      pageRecord: 0, // 用于记录每次点击的页号
       selectnecess: {},
       majorlist: [], // 专业列表
       addWillFlagofSchool: '',
@@ -123,18 +124,23 @@ export default {
     volform: {
       handler (newValue, oldvalue) {
         console.log('数据改变', newValue, oldvalue)
-        this.getAllSchoolData(this.pageInfo.pagenum)
+        console.log('this.pageInfo.pagenum的值', this.pageInfo.pagenum)
+        // 1.向志愿表单添加数据（新数据长度>旧数据长度）--不执行操作  2.从志愿表单删除或清空数据（新数据长度<旧数据长度）--执行操作
+        if (newValue.length < oldvalue.length) {
+          // 将已经加入志愿表单的学校的按钮状态置为灰色
+          this.getAllSchoolData(this.pageRecord)
+        }
       }
     }
 
   },
   methods: {
-    btnShow(id, majorls) {
-      this.$set(this.btnFlag, id, !this.btnFlag[id]);
-      this.$set(this.majorShow, id, !this.majorShow[id]);
+    btnShow (id, majorls) {
+      this.$set(this.btnFlag, id, !this.btnFlag[id])
+      this.$set(this.majorShow, id, !this.majorShow[id])
       // console.log('专业列表', majorls)
 
-      this.majorlist = majorls;
+      this.majorlist = majorls
     },
     getAllSchoolData (pagenum) {
       getAllSchool({
@@ -142,9 +148,9 @@ export default {
         schoolTypes: this.selected.typeSelect,
         feature: this.selected.levelSelect,
         page: pagenum,
-        examProvince: "山东",
+        examProvince: '山东',
         score: 600,
-        size: 10,
+        size: 10
       }).then((res) => {
         if (res.status === 200) {
           console.log('收到数据啊啊啊啊啊', this.volform)
@@ -177,6 +183,8 @@ export default {
       this.majorShow = [false, false, false, false, false, false, false, false, false, false]
       let page = val
       console.log(`当前页:`, page--)
+      this.pageRecord = page
+      console.log('this.pageRecord的数据是不是当前页-1?', this.pageRecord)
       this.getAllSchoolData(page--)
     },
     addForm (index, item1, index1) { // 加入志愿表单函数
