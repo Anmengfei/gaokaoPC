@@ -1,13 +1,12 @@
 <template>
   <div class="app-container">
-
     <div class="container">
       <ul>
-        <li v-for="(item,index) in this.schoolList" :key="index">
+        <li v-for="(item,index) in schoolList" :key="index">
           <el-row>
             <el-col :span="2">
               <div class="icon">
-                <img :src="item.logoPath">
+                <img :src="item.logoPath" />
               </div>
             </el-col>
             <el-col :span="18">
@@ -34,12 +33,11 @@
                 </button>
               </div>
             </el-col>
-
           </el-row>
           <div id="major-list" v-show="majorShow[index]">
             <div class="app-container1">
               <ul>
-                <li v-for="(item1,index1) in majorlist" :key="index1">
+                <li v-for="(item1,index1) in item.majors" :key="index1">
                   <el-row>
                     <el-col :span="19">
                       <div class="text">
@@ -48,7 +46,7 @@
                           <span class="flag" v-else-if="item1.risk === '稳'" style="background:#439cff">{{ item1.risk }}</span>
                           <span class="flag" v-if="item1.risk === '保'" style="background:#4caf4e">{{ item1.risk }}</span>
                           <span class="name">{{ item1.majorName }}</span>
-                          <span class="evaluation">{{item1.evaluation}}</span>
+                          <span class="evaluation">{{ item1.evaluation }}</span>
                         </div>
 
                         <div class="desc">
@@ -61,10 +59,8 @@
                     </el-col>
                     <el-col :span="5">
                       <div class="btn">
-<!--                        {{item1.flag}}**{{index1}}-->
-                        <button class="chooseNoWill" v-if="item1.flag === index1">已加意向</button>
-                        <button class="chooseWill"  v-else-if="item1.flag !== index1" @click="addForm(item1,index,index1)">加入意向</button>
-
+                        <button class="chooseWill"  v-if="item1.flag === -1" @click="addForm(index,item1,index1)">加入意向</button>
+                        <button class="chooseNoWill" v-else-if="item1.flag === (index + '' + index1)">已加意向</button>
                       </div>
                     </el-col>
                   </el-row>
@@ -91,7 +87,7 @@
 </template>
 
 <script>
-import {getAllSchool} from '../../api/schoolInfo'
+import { getAllSchool } from '../../api/schoolInfo'
 export default {
   name: 'schoolList',
   props: ['selected', 'volform'],
@@ -109,6 +105,7 @@ export default {
         pagesize: 10, // 每页条数
         pagetotal: 100// 总条目数
       },
+      pageRecord: 0, // 用于记录每次点击的页号
       selectnecess: {},
       majorlist: [], // 专业列表
       addWillFlagofSchool: '',
@@ -123,7 +120,19 @@ export default {
       },
       immediate: true,
       deep: true
+    },
+    volform: {
+      handler (newValue, oldvalue) {
+        console.log('数据改变', newValue, oldvalue)
+        console.log('this.pageInfo.pagenum的值', this.pageInfo.pagenum)
+        // 1.向志愿表单添加数据（新数据长度>旧数据长度）--不执行操作  2.从志愿表单删除或清空数据（新数据长度<旧数据长度）--执行操作
+        if (newValue.length < oldvalue.length) {
+          // 将已经加入志愿表单的学校的按钮状态置为灰色
+          this.getAllSchoolData(this.pageRecord)
+        }
+      }
     }
+
   },
   methods: {
     btnShow (id, majorls) {
@@ -142,21 +151,21 @@ export default {
         examProvince: '山东',
         score: 600,
         size: 10
-      }).then(res => {
+      }).then((res) => {
         if (res.status === 200) {
           console.log('收到数据啊啊啊啊啊', this.volform)
           this.schoolList = res.data.data
-          for (let i = 0; i < this.schoolList.length; ++i) { // 为每一条数据的专业信息添加一条标志位flag=-1
-            for (let j = 0; j < this.schoolList[i].majors.length; ++j) {
-              this.schoolList[i].majors[j].flag = -1
-            }
-          }
+          // for (let i = 0; i < this.schoolList.length; ++i) { // 为每一条数据的专业信息添加一条标志位flag=-1
+          //   for (let j = 0; j < this.schoolList[i].majors.length; ++j) {
+          //     this.schoolList[i].majors[j].flag = -1
+          //   }
+          // }
           // 将已经加入志愿表单的学校的按钮状态置为灰色
           for (let i = 0; i < this.schoolList.length; ++i) {
             for (let j = 0; j < this.schoolList[i].majors.length; ++j) {
               for (let k = 0; k < this.volform.length; ++k) {
                 if ((this.volform[k].id === this.schoolList[i].majors[j].id) && (this.volform[k].schoolName === this.schoolList[i].majors[j].schoolName)) {
-                  this.schoolList[i].majors[j].flag = j
+                  this.schoolList[i].majors[j].flag = (i + '' + j)
                 }
               }
             }
@@ -174,12 +183,14 @@ export default {
       this.majorShow = [false, false, false, false, false, false, false, false, false, false]
       let page = val
       console.log(`当前页:`, page--)
+      this.pageRecord = page
+      console.log('this.pageRecord的数据是不是当前页-1?', this.pageRecord)
       this.getAllSchoolData(page--)
     },
-    addForm (item1, index, index1) { // 加入志愿表单函数
+    addForm (index, item1, index1) { // 加入志愿表单函数
       this.$emit('addform', item1)
-      this.schoolList[index].majors[index1].flag = index1
-      this.$forceUpdate() // 数据更新之后，强制试图更新
+      item1.flag = index + '' + index1
+      // this.$forceUpdate() // 数据更新之后，强制试图更新
     }
 
   }

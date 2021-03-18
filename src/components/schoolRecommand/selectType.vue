@@ -177,7 +177,6 @@
         </el-col>
       </el-row>
     </div>
-
   </div>
 </template>
 
@@ -346,7 +345,7 @@ export default {
         }
       }
       if (this.collegeselete.typeSelect.length == 0) {
-        this.typeactive = ''
+        this.typeactive = "";
       }
     },
     selectleveltag(item) {
@@ -354,16 +353,16 @@ export default {
       if (item == '') {
         this.collegeselete.levelSelect = []
       } else if (!this.collegeselete.levelSelect.includes(item)) {
-        this.collegeselete.levelSelect.push(item)
+        this.collegeselete.levelSelect.push(item);
       } else {
         for (let i = 0; i < this.collegeselete.levelSelect.length; i++) {
           if (this.collegeselete.levelSelect[i] == item) {
-            this.collegeselete.levelSelect.splice(i, 1)
+            this.collegeselete.levelSelect.splice(i, 1);
           }
         }
       }
       if (this.collegeselete.levelSelect.length == 0) {
-        this.levelactive = ''
+        this.levelactive = "";
       }
     },
     selectsorttag(item) {
@@ -428,10 +427,10 @@ export default {
         this.majorType = res.data
       })
     },
-    handleClick() {
-    },
-    getAddFormInfo(message) { // 父子组件传值，父组件接收信息函数
-      console.log('父子组件传值', message)
+    handleClick() {},
+    getAddFormInfo(message) {
+      // 父子组件传值，父组件接收信息函数
+      console.log("父子组件传值", message);
       // for(let i=0;i<this.volForm.length;++i){
       //   if(this.volForm[i].id === message.id){//数据已经存在，按钮变灰
       //
@@ -475,6 +474,8 @@ export default {
       this.checkedCities = val ? cityOptions : [];
       this.isIndeterminate = false;
     },
+      this.$forceUpdate()
+    }
   }
 }
 </script>
@@ -529,7 +530,6 @@ li {
   align-items: center;
   flex-wrap: wrap;
 }
-
 .filter-list .filter-list-tags .tag {
   padding: 2px 6px;
   font-size: 12px;
@@ -539,7 +539,6 @@ li {
   -webkit-box-sizing: border-box;
   border-radius: 4px;
   cursor: pointer;
-
 }
 
 .filter-list .filter-list-tags .tag.active, .filter-list .filter-list-tags .tag:hover {
@@ -695,7 +694,6 @@ li {
   height: .8rem;
   margin-bottom: .3rem;
   border-bottom: 1px dashed rgb(228, 228, 228);
-
 }
 
 .box .fudongBox .content .formdata #code {
@@ -712,7 +710,6 @@ li {
   /*border-radius: 50%;*/
   width: 35%;
   height: 35%;
-
 }
 
 .box .fudongBox .content .formdata #name {
@@ -724,7 +721,6 @@ li {
   color: rgba(0, 0, 0, 0.8);
   font-size: .25rem;
   font-weight: 550;
-
 }
 
 .box .fudongBox .content .formdata #name .major {
@@ -732,7 +728,6 @@ li {
   font-size: .23rem;
   font-weight: 400;
   padding-top: .05rem;
-
 }
 
 .box .fudongBox .content .formdata #option {
@@ -796,7 +791,6 @@ li {
   user-select: none;
   padding: 0 10px;
 }
-
 
 .auto_fixed {
 }
