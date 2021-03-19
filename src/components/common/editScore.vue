@@ -1,7 +1,7 @@
 <template>
-    <div class="jsx-2551033818 score">
-        <h3 class="jsx-3804238702 gaokaoTitle">模拟高考志愿填报</h3>
-        <div class="jsx-4082764007 sub-title">输入成绩信息，为您精准推荐</div>
+    <div class="score">
+        <h3 class="gaokaoTitle">模拟高考志愿填报</h3>
+        <div class="sub-title">输入成绩信息，为您精准推荐</div>
         <div>
             <el-form ref="form" :model="form" class="form-style"  :rules="rules">
                 <el-row>

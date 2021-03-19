@@ -471,11 +471,9 @@ export default {
       this.init()
     },
     handleCheckAllChange(val) {
-      this.checkedCities = val ? cityOptions : [];
       this.isIndeterminate = false;
     },
-      this.$forceUpdate()
-    }
+      // this.$forceUpdate()
   }
 }
 </script>
@@ -503,7 +501,8 @@ li {
 }
 
 .el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
-  color: #f95e5a;
+  /*color: #f95e5a;*/
+  color: #e5623f;
 }
 
 .filter-list {
@@ -574,14 +573,17 @@ li {
   width: 330px;
   float: left !important;
   margin-right: 10px !important;
-  position: relative;
-  display: inline-block;
+  display: flex;
+  /*flex: 1;*/
+  /*position: relative;*/
+  /*display: inline-block;*/
 }
 
 .customer-filter-drop-wrapper {
   display: flex;
   -webkit-box-align: center;
   align-items: center;
+  margin-left: 5px;
 }
 
 .dropdown {

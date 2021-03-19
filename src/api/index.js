@@ -131,3 +131,11 @@ export function getAllschoolFirst(data) {
         params: data
     })
 }
+// 获取首页院校推荐
+export function getHomeschool(data) {
+  return request({
+    url: '/HomePage/getFitSchool',
+    method: 'get',
+    params: data
+  })
+}

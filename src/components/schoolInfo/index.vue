@@ -2,10 +2,8 @@
   <div class="app_container">
     <!-- <Header :flags = flag_class class="header" :flagInfo="infoState"></Header> -->
     <top-header></top-header>
-
-        <div class="mt20 thirdRow">
             <HomeHeader :flagInfo="loginStatus"></HomeHeader>
-        </div>
+
         <div class="leftContent">
             <!-- 学校简介 -->
             <div class="wrap">
@@ -310,6 +308,11 @@ export default {
 }
 </script>
 <style scoped>
+.app_container {
+  background-color: #f3f5f7;
+  width: 100%;
+  /* height: 100%; */
+}
 .leftContent {
     width: 60%;
     margin: 0 auto;
@@ -707,12 +710,12 @@ tbody {
   background-color: red;
   color: white;
 }
-.thirdRow {
-  background-color: #f95e5a;
-  width: 100%;
-  height: 70px;
+/*.thirdRow {*/
+/*  background-color: #f95e5a;*/
+/*  width: 100%;*/
+/*  height: 70px;*/
 
-}
+/*}*/
 .tj {
     text-align: justify;
 }
