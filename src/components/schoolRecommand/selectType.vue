@@ -40,13 +40,45 @@
           <div class="customer-college">
             <span class="customer-college-title">自主院校：</span>
             <div class="customer-college-input">
-              <el-input
-                type="text"
-                clearable
-                size="small"
-                placeholder="请输入院校名称（至少4个字）"
-                v-model="collegename">
-              </el-input>
+              <el-autocomplete
+                style="width: 320px"
+                class="inline-input"
+                v-model="collegename"
+                :fetch-suggestions="querySearch"
+                placeholder="请输入院校名称"
+                :trigger-on-focus="false"
+                @select="handleSelect"
+              >
+                <template slot-scope="{ item }">
+                  <el-row>
+                    <el-col :span="22">
+                      <span>{{ item.schoolName }}</span>
+                    </el-col>
+                    <el-col :span="2" style="float: right">
+                      <el-button class="text-right" type="text">关注</el-button>
+                    </el-col>
+                  </el-row>
+                </template>
+              </el-autocomplete>
+            </div>
+            <div class="customer-filter-drop-wrapper">
+              <el-checkbox v-model="checkAll" @change="handleCheckAllChange" style="margin-right: 10px"></el-checkbox>
+              <el-dropdown
+                trigger="hover"
+                :hide-on-click=false
+              >
+                <span>用户关注({{ followCollege.length }}) <i class="el-icon-arrow-down el-icon--right"></i></span>
+                <el-dropdown-menu slot="dropdown" class="dropdown">
+                  <el-checkbox-group v-model="checkList" v-for="item in followCollege" :key="item.id">
+                    <el-dropdown-item>
+                      <el-checkbox :label="item.followName">{{ item.followName }}</el-checkbox>
+                    </el-dropdown-item>
+                  </el-checkbox-group>
+                  <div class="tzy-dropdown-action">
+                    <el-button type="primary" size="mini">确定</el-button>
+                  </div>
+                </el-dropdown-menu>
+              </el-dropdown>
             </div>
           </div>
           <div class="myFilterRecordBlockRow">
@@ -122,12 +154,16 @@
                 </div>
                 <div class="formdata" v-show="!showvolformdata">
                   <div v-for="(item,index) in volForm" :key="index" class="list">
-                    <div id="code"><div class="num">{{index+1}}</div></div>
-                    <div id="name">
-                      <span class="school">{{item.schoolName}}</span><br/>
-                      <span class="major">{{item.majorName}}</span>
+                    <div id="code">
+                      <div class="num">{{ index + 1 }}</div>
                     </div>
-                    <div id="option"><button>操作</button></div>
+                    <div id="name">
+                      <span class="school">{{ item.schoolName }}</span><br/>
+                      <span class="major">{{ item.majorName }}</span>
+                    </div>
+                    <div id="option">
+                      <button>操作</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -146,13 +182,29 @@
 
 <script>
 import SchoolList from '../schoolRecommand/schoolList'
-import {getAllLevel, getAllCollegeType, getAllprovinces, getAllMajorType} from '@/api/index'
+import {
+  getAllLevel,
+  getAllCollegeType,
+  getAllprovinces,
+  getsearchSchool,
+  followSchool,
+  followMajor,
+  getAllFollowSchool,
+  getAllFollowMajor, findMajorFollowOrNot,
+  findSchoolFollowOrNot,
+  getAllMajorType
+} from '@/api/index'
 
 export default {
   name: 'selectType',
   components: {SchoolList},
-  data () {
+  data() {
     return {
+      checkList: [],
+      followCollege: ['清华大学'],
+      checkAll: false,
+      isIndeterminate: true,
+      phoneNum: '18551452231',
       majorname: '',
       collegename: '',
       auto_fixed: {
@@ -163,7 +215,8 @@ export default {
         typeSelect: [],
         levelSelect: [],
         // sortSelect:[],
-        sortSelect: []
+        sortSelect: [],
+        followSelect: [],
       },
       majorselect: [],
       active: '',
@@ -181,7 +234,8 @@ export default {
       loginStatus: true,
       isVip: false,
       volForm: [], // 高考志愿表单
-      showvolformdata: true // 高考志愿表单是否显示添加志愿（true未添加 false添加）
+      showvolformdata: true, // 高考志愿表单是否显示添加志愿（true未添加 false添加）
+      schooladvice: [],
     }
   },
   computed: {
@@ -193,7 +247,8 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
+    this.init()
     this.$nextTick(function () {
       window.addEventListener('scroll', this.onScroll)
     })
@@ -202,7 +257,15 @@ export default {
     this.getMajortypelist()
   },
   methods: {
-    onScroll () {
+    init() {
+      getAllFollowSchool({
+        phoneNum: this.phoneNum
+      }).then(res => {
+        this.followCollege = res.data
+      })
+    },
+
+    onScroll() {
       let scrolled = document.documentElement.scrollTop || document.body.scrollTop
       let height = 450
       this.auto_fixed = {
@@ -245,6 +308,10 @@ export default {
       }
       // console.log('after', parent, name)
     },
+    selecttag(item) {
+      this.active = item
+      if (item == '') {
+        this.collegeselete.provinceSelect = []
     selecttag (item) {
       this.active = item
       if (item == '') {
@@ -279,7 +346,7 @@ export default {
         this.typeactive = ''
       }
     },
-    selectleveltag (item) {
+    selectleveltag(item) {
       this.levelactive = item
       if (item == '') {
         this.collegeselete.levelSelect = []
@@ -296,7 +363,7 @@ export default {
         this.levelactive = ''
       }
     },
-    selectsorttag (item) {
+    selectsorttag(item) {
       this.sortactive = item
       if (item == '') {
         this.collegeselete.sortSelect = []
@@ -324,6 +391,10 @@ export default {
       })
     },
     selectmajorsecondtag (item) {
+      this.majorsecondactive = item
+      if (item == '') {
+        this.majorselect = []
+    selectmajorsecondtag(item) {
       this.majorsecondactive = item
       if (item == '') {
         this.majorselect = []
@@ -404,6 +475,39 @@ export default {
           zhiyuanTable: this.volForm
         }
       })
+    clearFormData() { // 清空志愿表单
+      this.showvolformdata = true
+      this.volForm = []
+    },
+    //测试
+    querySearch(queryString, cb) {
+      console.log('ceshi', queryString, cb)
+      getsearchSchool({
+        schoolName: queryString
+      }).then(res => {
+        this.schooladvice = res.data
+        cb(this.schooladvice)
+      })
+    },
+    handleSelect(item) {
+      console.log(item);
+      followSchool({
+        phoneNum: this.phoneNum,
+        schoolName: item.schoolName,
+      }).then(res => {
+        if (res.code == 0) {
+          this.msgSuccess('关注成功')
+        } else if (res.code == 617) {
+          this.msgWarning('用户已关注')
+        }
+      })
+      this.init()
+    },
+    handleCheckAllChange(val) {
+      this.checkedCities = val ? cityOptions : [];
+      this.isIndeterminate = false;
+    },
+      this.$forceUpdate()
     }
   }
 }
@@ -509,11 +613,42 @@ li{
 }
 
 .customer-college .customer-college-input {
-  width: 420px;
+  width: 330px;
   float: left !important;
   margin-right: 10px !important;
   position: relative;
   display: inline-block;
+}
+
+.customer-filter-drop-wrapper {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.dropdown {
+  height: 216px;
+  overflow: auto;
+  overflow-x: hidden;
+  width: 216px;
+  transform-origin: center top;
+  z-index: 2134;
+  padding: 10px 0;
+  margin: 5px 0;
+  background-color: #fff;
+  border: 1px solid #ebeef5;
+  border-radius: 4px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.tzy-dropdown-action {
+  padding: 10px 10px 0 0;
+  float: right;
+}
+
+.text-right {
+  /*float: right;*/
+  text-align: center;
 }
 
 .myFilterRecordBlockRow {
@@ -546,10 +681,6 @@ li{
   line-height: 24px;
 }
 
-/*.fudongFather{*/
-/*  position: absolute;*/
-/*  top: 10px;*/
-/*}*/
 
 .box .fudongBox {
   position: absolute;
@@ -594,23 +725,24 @@ li{
   font-size: .22rem;
 }
 
-.box .fudongBox .content .formdata .list{
+.box .fudongBox .content .formdata .list {
   width: 100%;
   /*display: -webkit-flex; !* Safari *!*/
   display: flex;
   flex-direction: row;
-  flex-wrap:wrap; /*换行，第一行在下方。*/
-  word-break:break-word;
+  flex-wrap: wrap; /*换行，第一行在下方。*/
+  word-break: break-word;
   height: .8rem;
   margin-bottom: .3rem;
   border-bottom: 1px dashed rgb(228, 228, 228);
 }
-.box .fudongBox .content .formdata #code{
-  flex:1;
-  height:100%;
+
+.box .fudongBox .content .formdata #code {
+  flex: 1;
+  height: 100%;
 }
 
-.box .fudongBox .content .formdata #code .num{
+.box .fudongBox .content .formdata #code .num {
   margin: 0 auto;
   background-color: #00aff0;
   text-align: center;
@@ -624,7 +756,7 @@ li{
   flex: 3;
   height:100%;
 }
-.box .fudongBox .content .formdata #name .school{
+.box .fudongBox .content .formdata #name .school {
   color: rgba(0, 0, 0, 0.8);
   font-size: .25rem;
   font-weight: 550;

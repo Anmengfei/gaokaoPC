@@ -46,6 +46,8 @@ a {
   margin-top: 20px;
 }
 .thirdRow {
+  /*background-color: #f95e5a;*/
+  background-color: #e5623f;
   /* background-color: #f95e5a; */
   width: 100%;
   height: .7rem;

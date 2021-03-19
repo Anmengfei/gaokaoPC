@@ -50,6 +50,62 @@ export function getFollowingList(data) {
         params: data
     })
 }
+// 模糊搜索，返回学校名字
+export function getsearchSchool (data) {
+  return request({
+    url: '/searchApp/searchSchoolName',
+    method: 'get',
+    params: data
+  })
+}
+// 关注学校
+export function followSchool (data) {
+  return request({
+    url: '/extendApp/followSchool',
+    method: 'post',
+    params: data
+  })
+}
+// 关注专业
+export function followMajor (data) {
+  return request({
+    url: '/extendApp/followMajor',
+    method: 'post',
+    params: data
+  })
+}
+// 获取用户关注学校
+export function getAllFollowSchool (data) {
+  return request({
+    url: '/extendApp/getAllFollowSchool',
+    method: 'get',
+    params: data
+  })
+}
+// 获取用户关注专业
+export function getAllFollowMajor (data) {
+  return request({
+    url: '/extendApp/getAllFollowMajor',
+    method: 'get',
+    params: data
+  })
+}
+// 判断专业是否关注
+export function findMajorFollowOrNot (data) {
+  return request({
+    url: '/extendApp/findMajorFollowOrNot',
+    method: 'get',
+    params: data
+  })
+}
+// 判断学校是否关注
+export function findSchoolFollowOrNot (data) {
+  return request({
+    url: '/extendApp/findSchoolFollowOrNot',
+    method: 'get',
+    params: data
+  })
+}
 //通过id获取文章
 export function getArticleById(data) {
     return request({
