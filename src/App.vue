@@ -46,13 +46,12 @@ export default {
 html,body {
     width:100%;
     height: 100%;
-  /*overflow:-Scroll;overflow:hidden;*/
   }
  select {
   font-size: 16px;
   height: 40px;
   padding: 5px;
-  border-radius: 5px;
+  border-radius: .05rem;
    line-height: 20px;
 }
 ::-webkit-scrollbar {

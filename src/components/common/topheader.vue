@@ -70,23 +70,23 @@
 import {getAllprovinces} from '@/api/index'
 export default {
   name: 'top-header',
-  data(){
+  data () {
     return {
-      selectProvince:'',
-      searchValue:'',
-      provincesList:[],
+      selectProvince: '',
+      searchValue: '',
+      provincesList: []
 
     }
   },
-  mounted() {
+  mounted () {
     this.getProvincesinit()
   },
   methods: {
-    getProvincesinit(){
+    getProvincesinit () {
       getAllprovinces().then(res => {
         this.provincesList = res.data
       })
-    },
+    }
   }
 
 }

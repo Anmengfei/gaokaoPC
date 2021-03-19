@@ -188,204 +188,204 @@
 </template>
 
 <script>
-import userSettingPopover from "@/components/userSetting/userSettingPopover";
-import Logout from "@/components/userSetting/logout";
-import md5 from "js-md5";
-import { withVerifyCodelogin } from "@/api/login";
+import userSettingPopover from '@/components/userSetting/userSettingPopover'
+import Logout from '@/components/userSetting/logout'
+import md5 from 'js-md5'
+import { withVerifyCodelogin } from '@/api/login'
 export default {
-  name: "header1",
+  name: 'header1',
   components: { userSettingPopover, Logout },
-  data() {
+  data () {
     var checkName = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error("用户名不能为空"));
+        return callback(new Error('用户名不能为空'))
       }
       setTimeout(() => {
-        callback();
-      }, 1000);
-    };
+        callback()
+      }, 1000)
+    }
     var checkClass = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error("请填写学校名称"));
+        return callback(new Error('请填写学校名称'))
       }
       setTimeout(() => {
-        callback();
-      }, 1000);
-    };
+        callback()
+      }, 1000)
+    }
     var checkEmail = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error("请填写邮箱地址"));
+        return callback(new Error('请填写邮箱地址'))
       }
       setTimeout(() => {
-        callback();
-      }, 1000);
-    };
+        callback()
+      }, 1000)
+    }
     var validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
+      if (value === '') {
+        callback(new Error('请输入密码'))
       } else {
-        if (this.ruleForm2.password2 !== "") {
-          this.$refs.ruleForm2.validateField("password2");
+        if (this.ruleForm2.password2 !== '') {
+          this.$refs.ruleForm2.validateField('password2')
         }
-        callback();
+        callback()
       }
-    };
+    }
     var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
       } else if (value !== this.ruleForm2.password1) {
-        callback(new Error("两次输入密码不一致！"));
+        callback(new Error('两次输入密码不一致！'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       ruleForm1: {
-        username: "",
-        password: "",
+        username: '',
+        password: ''
       },
-      tagsShow2: "1",
-      phoneNum: "",
-      timeCode: "",
-      strCode: "",
-      duanxinNum: "",
-      tagsShow: "登录",
+      tagsShow2: '1',
+      phoneNum: '',
+      timeCode: '',
+      strCode: '',
+      duanxinNum: '',
+      tagsShow: '登录',
       loginflag: false,
-      radio: "2",
+      radio: '2',
       showpassword: true,
       showCountNum: true,
       countNum: 60,
       ruleForm2: {
-        username: "",
-        password1: "",
-        password2: "",
-        class_name: "",
-        email: "",
+        username: '',
+        password1: '',
+        password2: '',
+        class_name: '',
+        email: ''
       },
       show1: true,
       rules: {
-        password1: [{ validator: validatePass, trigger: "blur" }],
-        password2: [{ validator: validatePass2, trigger: "blur" }],
-        username: [{ validator: checkName, trigger: "blur" }],
+        password1: [{ validator: validatePass, trigger: 'blur' }],
+        password2: [{ validator: validatePass2, trigger: 'blur' }],
+        username: [{ validator: checkName, trigger: 'blur' }],
         class_name: [
           {
             validator: checkClass,
-            trigger: "blur",
-          },
+            trigger: 'blur'
+          }
         ],
         email: [
           {
             validator: checkEmail,
-            trigger: "blur",
-          },
-        ],
+            trigger: 'blur'
+          }
+        ]
       },
-      flag_login: "未登录",
+      flag_login: '未登录',
       flag_state: true,
-      showlogin: false,
-    };
+      showlogin: false
+    }
   },
   props: {
     flags: String,
-    flagInfo: Boolean,
+    flagInfo: Boolean
   },
-  created() {
-    this.flag_login = localStorage.getItem("flag_class");
-    if (localStorage.getItem("flag_class") === null) {
-      this.loginflag = false;
+  created () {
+    this.flag_login = localStorage.getItem('flag_class')
+    if (localStorage.getItem('flag_class') === null) {
+      this.loginflag = false
     } else {
-      this.loginflag = true;
+      this.loginflag = true
     }
-    this.flag_state = false;
+    this.flag_state = false
   },
   computed: {
-    showNum() {
-      if (this.phoneNum === "") {
-        return true;
+    showNum () {
+      if (this.phoneNum === '') {
+        return true
       } else {
-        return false;
+        return false
       }
-    },
+    }
   },
-  mounted() {},
+  mounted () {},
   methods: {
-    getCodes() {
-      if (this.phoneNum !== "") {
+    getCodes () {
+      if (this.phoneNum !== '') {
         var url =
-          "https://www.zytb.top/NEMT/gk/userApp/getPhoneCode?phoneNum=" +
-          this.phoneNum;
+          'https://www.zytb.top/NEMT/gk/userApp/getPhoneCode?phoneNum=' +
+          this.phoneNum
         this.$axios.get(url).then((res) => {
-          console.log("return", res.data);
+          console.log('return', res.data)
           if (res.data.code == 0) {
             // this.timeCode = res.data.data.time
             // this.strCode = res.data.data.str
-            this.$message.success("验证码发送成功！");
+            this.$message.success('验证码发送成功！')
           } else {
-            this.$message.success("验证码发送失败，一分钟后重试！");
+            this.$message.success('验证码发送失败，一分钟后重试！')
           }
-        });
-        this.countNum = 60;
-        this.showCountNum = false;
+        })
+        this.countNum = 60
+        this.showCountNum = false
         setInterval(() => {
-          this.countNum = this.countNum - 1;
+          this.countNum = this.countNum - 1
           if (this.countNum === -1) {
             // this.countNum = 0
-            clearInterval();
-            this.showCountNum = true;
+            clearInterval()
+            this.showCountNum = true
           }
-        }, 1000);
+        }, 1000)
       }
     },
-    switchLogin() {
-      this.tagsShow = "登录";
+    switchLogin () {
+      this.tagsShow = '登录'
     },
     // switchRegister () {
     //   this.tagsShow = '注册'
     //   this.tagsShow2 = '1'
     // },
-    returnlogin() {
-      this.show1 = true;
+    returnlogin () {
+      this.show1 = true
     },
-    userregister(formName) {
+    userregister (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          if (this.radio === "") {
-            this.$message.warning("请选择需要注册的角色");
+          if (this.radio === '') {
+            this.$message.warning('请选择需要注册的角色')
           } else {
             // var url = 'https://www.zhongkeruitong.top/towerImg/cms/user/register?username=' + this.ruleForm2.username + '&password=' + this.ruleForm2.password1 + '&schoolname=' + this.ruleForm2.class_name + '&role=' + this.radio+ '&phone=' + this.phoneNum
-            var url = `http://58.119.112.14:11020/cms/register?username=${this.ruleForm2.username}&password=${this.ruleForm2.password1}&schoolname=${this.ruleForm2.class_name}&phone=${this.phoneNum}&email=${this.ruleForm2.email}`;
+            var url = `http://58.119.112.14:11020/cms/register?username=${this.ruleForm2.username}&password=${this.ruleForm2.password1}&schoolname=${this.ruleForm2.class_name}&phone=${this.phoneNum}&email=${this.ruleForm2.email}`
             this.$axios.post(url).then((res) => {
               if (res.data.code === 200) {
-                this.$message.success("注册成功！请进行登录");
-                this.tagsShow = "登录";
-                this.tagsShow2 = "1";
+                this.$message.success('注册成功！请进行登录')
+                this.tagsShow = '登录'
+                this.tagsShow2 = '1'
               } else {
-                this.$message.error(res.data.message);
+                this.$message.error(res.data.message)
               }
-            });
+            })
           }
         }
-      });
+      })
     },
-    login() {
-      console.log("token是", localStorage.getItem("token"));
-      if (this.ruleForm1.username === "" || this.ruleForm1.password === "") {
-        this.$message.warning("请输入用户名或密码！");
+    login () {
+      console.log('token是', localStorage.getItem('token'))
+      if (this.ruleForm1.username === '' || this.ruleForm1.password === '') {
+        this.$message.warning('请输入用户名或密码！')
       } else {
         // var url = 'https://www.zhongkeruitong.top/towerImg/cms/user/login?username=' + this.ruleForm1.username + '&password=' + this.ruleForm1.password
-        var url = `http://58.119.112.14:11020/cms/login?username=${this.ruleForm1.username}&password=${this.ruleForm1.password}`;
+        var url = `http://58.119.112.14:11020/cms/login?username=${this.ruleForm1.username}&password=${this.ruleForm1.password}`
         this.$axios.post(url).then((res) => {
           if (res.data.code === 200) {
-            this.$message.success("登录成功！");
-            localStorage.setItem("flag_class", "已登录");
-            localStorage.setItem("userId", res.data.userid);
-            localStorage.setItem("role", res.data.role);
-            localStorage.setItem("name", res.data.username);
-            localStorage.setItem("token", res.data.token);
-            localStorage.setItem("schoolname", this.ruleForm2.class_name);
-            localStorage.setItem("password", this.ruleForm1.password);
-            console.log("登录后的token是", localStorage.getItem("token"));
-            this.$router.push("/");
+            this.$message.success('登录成功！')
+            localStorage.setItem('flag_class', '已登录')
+            localStorage.setItem('userId', res.data.userid)
+            localStorage.setItem('role', res.data.role)
+            localStorage.setItem('name', res.data.username)
+            localStorage.setItem('token', res.data.token)
+            localStorage.setItem('schoolname', this.ruleForm2.class_name)
+            localStorage.setItem('password', this.ruleForm1.password)
+            console.log('登录后的token是', localStorage.getItem('token'))
+            this.$router.push('/')
             // this.$router.push({
             //   path: '/',
             //   query: {
@@ -393,36 +393,36 @@ export default {
             //   }
             // })
           } else {
-            this.$message.error(res.data.message);
+            this.$message.error(res.data.message)
           }
-        });
+        })
       }
     },
-    nextButton() {
+    nextButton () {
       withVerifyCodelogin({
         phoneNum: this.phoneNum,
-        verifyCode: this.duanxinNum,
+        verifyCode: this.duanxinNum
       }).then((res) => {
         if (res.code == 0) {
           this.$message({
-            message: "登录成功",
-            type: "success",
-          });
-          localStorage.setItem("flag_class", "已登录");
-          this.showlogin = false;
-          this.loginflag = true;
+            message: '登录成功',
+            type: 'success'
+          })
+          localStorage.setItem('flag_class', '已登录')
+          this.showlogin = false
+          this.loginflag = true
           this.$router.push({
-            name: "SchoolRecommand",
-            params: { tab: "favoriteSchool" },
-          });
+            name: 'SchoolRecommand',
+            params: { tab: 'favoriteSchool' }
+          })
         } else if (res.code == 1) {
           // this.$notify.error({
           //   title: '验证码输入错误或已失效',
           //   message: '请重新获取验证码'
           // });
-          this.$message.error("验证码输入错误或已失效，请重新获取");
+          this.$message.error('验证码输入错误或已失效，请重新获取')
         }
-      });
+      })
 
       // var num = this.duanxinNum.toString() + this.timeCode.toString()
       // // console.log(num)
@@ -436,129 +436,129 @@ export default {
       // }
     },
     goToCourseIndex: function () {
-      console.log("我要跳转界面了");
-      this.$router.push("/coursestudy");
+      console.log('我要跳转界面了')
+      this.$router.push('/coursestudy')
     },
     gotoAllclasses: function () {
       // if (this.flag_state == true) {
       if (!this.loginflag) {
         this.$message({
-          message: "登陆后，即可查看",
-          type: "warning",
+          message: '登陆后，即可查看',
+          type: 'warning',
           duration: 600,
           onClose: () => {
-            this.showlogin = true;
-          },
-        });
+            this.showlogin = true
+          }
+        })
 
         // this.$router.push('/login')
       } else {
         // this.$router.push('/AllCourses')
         this.$router.push({
-          name: "SchoolRecommand",
-          params: { tab: "favoriteSchool" },
-        });
+          name: 'SchoolRecommand',
+          params: { tab: 'favoriteSchool' }
+        })
       }
       // this.$router.push('/SchoolRecommand')
     },
-    openInfo() {
-      this.$confirm("请尽快完善个人资料,完善个人资料后开放此模块", "提示信息", {
-        confirmButtonText: "立即前往",
-        type: "warning",
-        center: true,
+    openInfo () {
+      this.$confirm('请尽快完善个人资料,完善个人资料后开放此模块', '提示信息', {
+        confirmButtonText: '立即前往',
+        type: 'warning',
+        center: true
       })
         .then(() => {
-          this.$router.push("/userSetting/personalInformation");
+          this.$router.push('/userSetting/personalInformation')
         })
-        .catch(() => {});
+        .catch(() => {})
     },
-    gotoWork() {
+    gotoWork () {
       // if (this.flag_state === true) {
       //   alert('请先登录！')
       //   this.$router.push('/login')
       // } else {
       //   this.$router.push('/WorkIndex')
       this.$router.push({
-        name: "WorkIndex",
-        params: { tab: "favoriteMajor" },
-      });
+        name: 'WorkIndex',
+        params: { tab: 'favoriteMajor' }
+      })
       // }
     },
-    gotoWorkUpdate() {
+    gotoWorkUpdate () {
       if (this.flag_state === true) {
-        alert("请先登录！");
-        this.$router.push("/login");
+        alert('请先登录！')
+        this.$router.push('/login')
       } else {
         if (this.flagInfo === false) {
-          this.openInfo();
+          this.openInfo()
         } else {
-          this.$router.push("/WorkUpdate");
+          this.$router.push('/WorkUpdate')
         }
       }
     },
-    gotoHomepage() {
-      this.$router.push("/");
+    gotoHomepage () {
+      this.$router.push('/')
     },
-    gotoStudy() {
+    gotoStudy () {
       if (this.flag_state === true) {
-        alert("请先登录！");
-        this.$router.push("/login");
+        alert('请先登录！')
+        this.$router.push('/login')
       } else {
-        this.$router.push("/StudyProject");
+        this.$router.push('/StudyProject')
       }
     },
-    gotoTeacher() {
+    gotoTeacher () {
       if (this.flag_state === true) {
-        alert("请先登录！");
-        this.$router.push("/login");
+        alert('请先登录！')
+        this.$router.push('/login')
       } else {
-        this.$router.push("/ClassShowTen");
+        this.$router.push('/ClassShowTen')
       }
     },
-    gotoOnline() {
+    gotoOnline () {
       if (this.flag_state === true) {
-        alert("请先登录！");
-        this.$router.push("/login");
+        alert('请先登录！')
+        this.$router.push('/login')
       } else {
-        this.$router.push("/OnlineTeach");
+        this.$router.push('/OnlineTeach')
       }
       // this.$router.push("/Recruit");
       // this.$router.push("/guanzhu");
       // this.$router.push("/article");
     },
-    gotoPlat() {
+    gotoPlat () {
       if (this.flag_state === true) {
-        alert("请先登录！");
-        this.$router.push("/login");
+        alert('请先登录！')
+        this.$router.push('/login')
       } else {
-        var role = localStorage.getItem("role");
-        if (role === "0") {
-          this.$message.warning("没有权限访问该功能，请申请升级权限!");
+        var role = localStorage.getItem('role')
+        if (role === '0') {
+          this.$message.warning('没有权限访问该功能，请申请升级权限!')
         } else {
           window.location.href = `http://58.119.112.14:11013?userId=${localStorage.getItem(
-            "userId"
-          )}`;
+            'userId'
+          )}`
         }
       }
     },
     gotoCompetition: function () {
       if (this.flag_state === true) {
-        alert("请先登录！");
-        this.$router.push("/login");
+        alert('请先登录！')
+        this.$router.push('/login')
       } else {
-        this.$router.push("/competition");
+        this.$router.push('/competition')
       }
       // console.log('我要跳转界面了')
       // this.$router.push('/competition')
     },
-    gotoAboutUs() {
-      this.$router.push("/AboutUs");
+    gotoAboutUs () {
+      this.$router.push('/AboutUs')
     },
-    gotocooperation() {
-      this.$router.push("/cooperation");
-    },
-  },
-};
+    gotocooperation () {
+      this.$router.push('/cooperation')
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -570,6 +570,7 @@ export default {
   height: 100%;
   width: 100%;
   font-size: 100%;
+  background-color: #ff5a38;
 }
 .nav li {
   margin-right: 1rem;

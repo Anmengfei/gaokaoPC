@@ -133,7 +133,7 @@
               </div>
               <div class="foot">
                 <span class="clear" @click="clearFormData">清空</span>
-                <button class="nextbtn">下一步</button>
+                <button class="nextbtn" @click="clickToZhiyuanBiao">下一步</button>
               </div>
             </div>
           </div>
@@ -245,10 +245,10 @@ export default {
       }
       // console.log('after', parent, name)
     },
-    selecttag(item) {
-      this.active = item;
-      if (item == "") {
-        this.collegeselete.provinceSelect = [];
+    selecttag (item) {
+      this.active = item
+      if (item == '') {
+        this.collegeselete.provinceSelect = []
       } else if (!this.collegeselete.provinceSelect.includes(item)) {
         this.collegeselete.provinceSelect.push(item)
       } else {
@@ -276,30 +276,30 @@ export default {
         }
       }
       if (this.collegeselete.typeSelect.length == 0) {
-        this.typeactive = "";
+        this.typeactive = ''
       }
     },
-    selectleveltag(item) {
-      this.levelactive = item;
-      if (item == "") {
-        this.collegeselete.levelSelect = [];
+    selectleveltag (item) {
+      this.levelactive = item
+      if (item == '') {
+        this.collegeselete.levelSelect = []
       } else if (!this.collegeselete.levelSelect.includes(item)) {
-        this.collegeselete.levelSelect.push(item);
+        this.collegeselete.levelSelect.push(item)
       } else {
         for (let i = 0; i < this.collegeselete.levelSelect.length; i++) {
           if (this.collegeselete.levelSelect[i] == item) {
-            this.collegeselete.levelSelect.splice(i, 1);
+            this.collegeselete.levelSelect.splice(i, 1)
           }
         }
       }
       if (this.collegeselete.levelSelect.length == 0) {
-        this.levelactive = "";
+        this.levelactive = ''
       }
     },
-    selectsorttag(item) {
-      this.sortactive = item;
-      if (item == "") {
-        this.collegeselete.sortSelect = [];
+    selectsorttag (item) {
+      this.sortactive = item
+      if (item == '') {
+        this.collegeselete.sortSelect = []
       } else if (!this.collegeselete.sortSelect.includes(item)) {
         this.collegeselete.sortSelect.push(item)
       }
@@ -323,10 +323,10 @@ export default {
         }
       })
     },
-    selectmajorsecondtag(item) {
-      this.majorsecondactive = item;
-      if (item == "") {
-        this.majorselect = [];
+    selectmajorsecondtag (item) {
+      this.majorsecondactive = item
+      if (item == '') {
+        this.majorselect = []
       } else if (!this.majorselect.includes(item)) {
         this.majorselect.push(item)
       } else {
@@ -358,10 +358,10 @@ export default {
         this.majorType = res.data
       })
     },
-    handleClick() {},
-    getAddFormInfo(message) {
+    handleClick () {},
+    getAddFormInfo (message) {
       // 父子组件传值，父组件接收信息函数
-      console.log("父子组件传值", message);
+      console.log('父子组件传值', message)
       // for(let i=0;i<this.volForm.length;++i){
       //   if(this.volForm[i].id === message.id){//数据已经存在，按钮变灰
       //
@@ -374,9 +374,36 @@ export default {
       this.showvolformdata = false
     },
     clearFormData () { // 清空志愿表单
-      this.showvolformdata = true
-      this.volForm = []
-      this.$forceUpdate()
+      this.$confirm('此操作将全部清空已填入意向且无法恢复, 是否继续?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.showvolformdata = true
+        this.volForm = []
+        this.$forceUpdate()
+        // this.$message({
+        //   type: 'success',
+        //   message: '删除成功!'
+        // })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+
+      // this.showvolformdata = true
+      // this.volForm = []
+      // this.$forceUpdate()
+    },
+    clickToZhiyuanBiao () { // 下一步按钮，转向新的界面
+      this.$router.push({
+        name: 'zhiyuanBiao',
+        params: {
+          zhiyuanTable: this.volForm
+        }
+      })
     }
   }
 }
