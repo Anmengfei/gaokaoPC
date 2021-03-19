@@ -308,10 +308,6 @@ export default {
       }
       // console.log('after', parent, name)
     },
-    selecttag(item) {
-      this.active = item
-      if (item == '') {
-        this.collegeselete.provinceSelect = []
     selecttag (item) {
       this.active = item
       if (item == '') {
@@ -390,10 +386,6 @@ export default {
         }
       })
     },
-    selectmajorsecondtag (item) {
-      this.majorsecondactive = item
-      if (item == '') {
-        this.majorselect = []
     selectmajorsecondtag(item) {
       this.majorsecondactive = item
       if (item == '') {
@@ -475,6 +467,7 @@ export default {
           zhiyuanTable: this.volForm
         }
       })
+    },
     clearFormData() { // 清空志愿表单
       this.showvolformdata = true
       this.volForm = []
