@@ -8,20 +8,20 @@
 </template>
 
 <script>
-import TopHeader from "@/components/common/topheader";
-import HomeHeader from "@/components/common/header1";
-import Footer from "@/components/common/footer1";
-import CjList from "./schoolList";
-import SelectType from "../schoolRecommand/selectType";
+import TopHeader from '@/components/common/topheader'
+import HomeHeader from '@/components/common/header1'
+import Footer from '@/components/common/footer1'
+import CjList from './schoolList'
+import SelectType from '../schoolRecommand/selectType'
 export default {
-  name: "SchoolRecommand",
+  name: 'SchoolRecommand',
   loginStatus: true,
   components: { TopHeader, HomeHeader, Footer, CjList, SelectType },
-  data() {
-    return {};
+  data () {
+    return {}
   },
-  methods: {},
-};
+  methods: {}
+}
 </script>
 
 <style scoped>
@@ -44,6 +44,6 @@ a {
   background-color: #e5623f;
   /* background-color: #f95e5a; */
   width: 100%;
-  height: 70px;
+  height: .7rem;
 }
 </style>
