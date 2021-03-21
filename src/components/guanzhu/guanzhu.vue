@@ -26,9 +26,9 @@
                     <span class="title">{{ item.title }}</span>
                     <span class="time">{{ item.date }}</span>
                   </div>
-                  <div class="news" maxlines="2" font-size="14">
+                  <!-- <div class="news" maxlines="2" font-size="14">
                     {{ item.news }}
-                  </div>
+                  </div> -->
                 </div>
               </li>
             </ul>

@@ -146,6 +146,7 @@
             <li
               class="commend-item"
               v-for="(item, index) in recommandschoolList"
+              :key="index"
               @click="selectSchoolItem(index, item)"
             >
               <img :src="item.logo" class="commend-item-image" />
@@ -351,6 +352,10 @@ export default {
       ],
     };
   },
+  beforeCreate() {
+    document.querySelector("body").setAttribute("style", "background:#f3f5f7;");
+  },
+
   created() {
     if (localStorage.getItem("flag_class") === null) {
       this.flag_state = true;
@@ -987,9 +992,14 @@ li a {
   margin-left: 18px;
   cursor: pointer;
 }
+.video1-header .list li:hover {
+  cursor: pointer;
+  box-shadow: rgb(0 0 0 / 8%) 0px 3px 8px 0px;
+  transform: translate3d(0px, -8px, 0px);
+}
 .video1-header .image {
-  height: 100%;
-  width: 100%;
+  height: 250px;
+  width: 430px;
   border-radius: 10px;
 }
 

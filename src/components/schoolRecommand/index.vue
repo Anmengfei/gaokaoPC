@@ -46,7 +46,7 @@ a {
   margin-top: 20px;
 }
 .thirdRow {
-  /* background-color: #f95e5a; */
+  background-color: #f95e5a;
   width: 100%;
   height: 70px;
 }
