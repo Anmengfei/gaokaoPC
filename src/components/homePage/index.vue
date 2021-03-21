@@ -12,7 +12,7 @@
             class="carousel-item"
             @click.native="itemClick(item, index)"
           >
-            <img :src="item" alt=""/>
+            <img :src="item" alt="" />
           </el-carousel-item>
         </el-carousel>
       </div>
@@ -20,9 +20,8 @@
         <div class="content">
           <div class="header">模拟高考志愿填报</div>
           <el-tag class="denglu-label" type="warning"
-          >登录后，推荐适合你的院校
-          </el-tag
-          >
+            >登录后，推荐适合你的院校
+          </el-tag>
           <div class="form-item">
             <div class="gaokaozongfen">
               <span class="span1">高考总分</span
@@ -50,40 +49,40 @@
               <div>
                 <div class="score-item">
                   <span class="label">高考省份</span>&nbsp;&nbsp;<span
-                  class="value"
-                >北京</span
-                >
+                    class="value"
+                    >北京</span
+                  >
                 </div>
                 <div class="score-item">
                   <span class="label">科目类型</span>&nbsp;&nbsp;<span
-                  class="value"
-                >物理/化学/生物</span
-                >
+                    class="value"
+                    >物理/化学/生物</span
+                  >
                 </div>
                 <div class="score-item">
                   <span class="label">高考总分</span>&nbsp;&nbsp;<span
-                  class="value"
-                >572</span
-                >
+                    class="value"
+                    >572</span
+                  >
                 </div>
                 <div class="score-item">
                   <span class="label">本科预估排名</span>&nbsp;&nbsp;<span
-                  class="value"
-                >13923</span
-                >
+                    class="value"
+                    >13923</span
+                  >
                 </div>
                 <div class="score-item">
                   <span class="label">语数外总分</span>&nbsp;&nbsp;<span
-                  class="value"
-                >360</span
-                >
+                    class="value"
+                    >360</span
+                  >
                 </div>
 
                 <div class="score-item">
                   <span class="label">专科预估排名</span>&nbsp;&nbsp;<span
-                  class="value"
-                >28</span
-                >
+                    class="value"
+                    >28</span
+                  >
                 </div>
               </div>
             </div>
@@ -117,7 +116,7 @@
 
       <div class="fiveRow-box">
         <div class="box-content" v-if="loginStatus !== false">
-          <a href="#">登录添加成绩信息</a><br/>
+          <a href="#">登录添加成绩信息</a><br />
           <h>大数据+AI智能准确推荐合适你的院校</h>
         </div>
         <div v-else>
@@ -125,9 +124,10 @@
             <li
               class="commend-item"
               v-for="(item, index) in recommandschoolList"
+              :key="index"
               @click="selectSchoolItem(index, item)"
             >
-              <img :src="item.logo" class="commend-item-image"/>
+              <img :src="item.logo" class="commend-item-image" />
               <h4 class="commend-item-title textOverflow">
                 {{ item.schoolname }}
               </h4>
@@ -146,7 +146,7 @@
       <div class="sixRow-header">
         <span class="shuxian"></span>
         <div class="shuxian-l">大家都在关注</div>
-        <a href="#" @click="openMore()">查看更多>></a>
+        <a class="lookMore" href="#" @click="openMore()">查看更多>></a>
       </div>
       <div class="sixRow-box">
         <div class="wap">
@@ -159,15 +159,16 @@
                 @click="selectZixun(item, index)"
               >
                 <div class="image">
-                  <img :src="item.cover" class="zixunImage"/>
+                  <img :src="item.cover" class="zixunImage" />
                 </div>
                 <div class="content">
                   <div class="content-title content-title-gray">
                     <span class="title">{{ item.title }}</span>
                     <span class="time">{{ item.date }}</span>
                   </div>
-                  <div class="news" maxlines="2" font-size="14">
-                    {{ item.news }}
+                  <div class="news" font-size="14">
+                    <i class="el-icon-view"></i>
+                    <span>{{ item.readNum }}</span>
                   </div>
                 </div>
               </li>
@@ -193,8 +194,8 @@
               >
                 <el-button type="text" @click="showVideo(item, index)">
                   <div class="image">
-                    <img :src="item.cover" class="image"/>
-                    <img src="../../assets/play_05.png" class="play-btn"/>
+                    <img :src="item.cover" class="image" />
+                    <img src="../../assets/play_05.png" class="play-btn" />
                   </div>
                 </el-button>
                 <!-- <img :src="item.cover" alt="" class="image" />
@@ -239,11 +240,15 @@ import TopHeader from "@/components/common/topheader";
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
 import EditScore from "@/components/common/editScore";
-import {getAllIsLearning, getHomeschool, getFollowingList} from "@/api/index.js";
+import {
+  getAllIsLearning,
+  getHomeschool,
+  getFollowingList,
+} from "@/api/index.js";
 
 export default {
   name: "index",
-  components: {TopHeader, HomeHeader, Footer, EditScore},
+  components: { TopHeader, HomeHeader, Footer, EditScore },
   data() {
     return {
       videoUrl: "",
@@ -328,6 +333,10 @@ export default {
       ],
     };
   },
+  beforeCreate() {
+    document.querySelector("body").setAttribute("style", "background:#f3f5f7;");
+  },
+
   created() {
     if (localStorage.getItem("flag_class") === null) {
       this.flag_state = true;
@@ -390,7 +399,7 @@ export default {
     gotoAllschool() {
       this.$router.push({
         name: "SchoolRecommand",
-        params: {tab: "favoriteSchool"},
+        params: { tab: "favoriteSchool" },
       });
     },
     modifyScore() {
@@ -407,7 +416,7 @@ export default {
       this.dialogVisible = false;
     },
     selectZixun(item, index) {
-      const {href} = this.$router.resolve({
+      const { href } = this.$router.resolve({
         name: "Article",
         query: {
           article: item.id,
@@ -416,7 +425,7 @@ export default {
       window.open(href, "_blank");
     },
     openMore() {
-      const {href} = this.$router.resolve({
+      const { href } = this.$router.resolve({
         name: "Guanzhu",
         // query: {
         //   article: item.id,
@@ -425,7 +434,7 @@ export default {
       window.open(href, "_blank");
     },
     openReport() {
-      const {href} = this.$router.resolve({
+      const { href } = this.$router.resolve({
         name: "VideoList",
         // query: {
         //   article: item.id,
@@ -442,8 +451,7 @@ export default {
       console.log("index", index);
       this.$router.push("/SchoolInfo");
     },
-    regist() {
-    },
+    regist() {},
     setBannerH() {
       this.bannerH = document.body.clientWidth / 4;
     },
@@ -508,8 +516,7 @@ export default {
         .then(() => {
           this.$router.push("/userSetting/personalInformation");
         })
-        .catch(() => {
-        });
+        .catch(() => {});
     },
   },
 };
@@ -899,7 +906,6 @@ li a {
   width: 1400px;
   background-color: #f3f5f7;
 }
-
 .sixRow-box {
   /* height: 660px; */
   width: 1400px;
@@ -1005,7 +1011,7 @@ li a {
   width: 450px;
   background-color: #fff; */
   padding: 0 0.2rem;
-  background:  #f3f5f7;
+  background: #f3f5f7;
   -webkit-box-shadow: rgb(0 0 0 / 4%) 0 0.02rem 0.04rem 0;
   box-shadow: 0 0.02rem 0.04rem 0 rgb(0 0 0 / 4%);
   border-radius: 0.1rem;
@@ -1023,10 +1029,14 @@ li a {
   margin-left: 18px;
   cursor: pointer;
 }
-
+.video1-header .list li:hover {
+  cursor: pointer;
+  box-shadow: rgb(0 0 0 / 8%) 0px 3px 8px 0px;
+  transform: translate3d(0px, -8px, 0px);
+}
 .video1-header .image {
-  height: 210px;
-  width: 100%;
+  height: 250px;
+  width: 430px;
   border-radius: 10px;
 }
 
@@ -1220,7 +1230,10 @@ li a {
   border-radius: 10px;
   margin-right: 40px;
 }
-
+.wap .list .image :hover {
+  box-shadow: rgb(0 0 0 / 8%) 0px 3px 8px 0px;
+  transform: translate3d(0px, -8px, 0px);
+}
 .wap .list .image .zixunImage {
   width: 150px;
   border-radius: 10px;
@@ -1244,7 +1257,6 @@ li a {
 .wap .content .content-title-gray {
   color: rgb(124, 124, 124);
 }
-
 .wap .time {
   float: right;
   margin-right: 50px;
@@ -1261,5 +1273,6 @@ li a {
   line-height: 22px;
   width: 800px;
   height: 44px;
+  margin-top: 35px;
 }
 </style>

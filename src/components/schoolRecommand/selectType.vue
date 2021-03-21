@@ -193,8 +193,8 @@
                       <span class="school">{{ item.schoolName }}</span><br/>
                       <span class="major">{{ item.majorName }}</span>
                     </div>
-                    <div id="option">
-                      <button>操作</button>
+                    <div >
+                      <i class="icon-shanchu1"></i>
                     </div>
                   </div>
                 </div>
@@ -231,10 +231,10 @@ import {
 export default {
   name: 'selectType',
   components: {SchoolList},
-  data() {
+  data () {
     return {
       checkList: [],
-      checkmajorList:[],
+      checkmajorList: [],
       followCollege: [],
       followMajor: [],
       checkAll: false,
@@ -272,7 +272,7 @@ export default {
       volForm: [], // 高考志愿表单
       showvolformdata: true, // 高考志愿表单是否显示添加志愿（true未添加 false添加）
       schooladvice: [],
-      majoradvice:[],
+      majoradvice: []
     }
   },
   computed: {
@@ -284,7 +284,7 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     this.init()
     this.$nextTick(function () {
       window.addEventListener('scroll', this.onScroll)
@@ -294,7 +294,7 @@ export default {
     this.getMajortypelist()
   },
   methods: {
-    init() {
+    init () {
       getAllFollowSchool({
         phoneNum: this.phoneNum
       }).then(res => {
@@ -307,7 +307,7 @@ export default {
       })
     },
 
-    onScroll() {
+    onScroll () {
       let scrolled = document.documentElement.scrollTop || document.body.scrollTop
       let height = 450
       this.auto_fixed = {
@@ -384,7 +384,7 @@ export default {
         this.typeactive = ''
       }
     },
-    selectleveltag(item) {
+    selectleveltag (item) {
       this.levelactive = item
       if (item == '') {
         this.collegeselete.levelSelect = []
@@ -401,7 +401,7 @@ export default {
         this.levelactive = ''
       }
     },
-    selectsorttag(item) {
+    selectsorttag (item) {
       this.sortactive = item
       if (item == '') {
         this.collegeselete.sortSelect = []
@@ -428,7 +428,7 @@ export default {
         }
       })
     },
-    selectmajorsecondtag(item) {
+    selectmajorsecondtag (item) {
       this.majorsecondactive = item
       if (item == '') {
         this.majorselect = []
@@ -510,12 +510,8 @@ export default {
         }
       })
     },
-    // clearFormData() { // 清空志愿表单
-    //   this.showvolformdata = true
-    //   this.volForm = []
-    // },
-    //测试
-    querySearch(queryString, cb) {
+    // 测试
+    querySearch (queryString, cb) {
       console.log('ceshi', queryString, cb)
       getsearchSchool({
         schoolName: queryString
@@ -524,7 +520,7 @@ export default {
         cb(this.schooladvice)
       })
     },
-    querymajorSearch(queryString, cb) {
+    querymajorSearch (queryString, cb) {
       console.log('ceshi', queryString, cb)
       getsearchMajor({
         majorName: queryString
@@ -533,11 +529,11 @@ export default {
         cb(this.majoradvice)
       })
     },
-    handleMajorSelect(item) {
-      console.log(item);
+    handleMajorSelect (item) {
+      console.log(item)
       followMajor({
         majorName: item.name,
-        phoneNum: this.phoneNum,
+        phoneNum: this.phoneNum
       }).then(res => {
         if (res.code == 0) {
           this.msgSuccess('关注成功')
@@ -546,13 +542,16 @@ export default {
           this.msgWarning('用户已关注')
         }
       })
-
     },
-    handleSelect(item) {
-      console.log(item);
+    // handleCheckAllChange (val) {
+    //   this.checkedCities = val ? cityOptions : []
+    //   this.isIndeterminate = false
+    // },
+    handleSelect (item) {
+      console.log(item)
       followSchool({
         phoneNum: this.phoneNum,
-        schoolName: item.schoolName,
+        schoolName: item.schoolName
       }).then(res => {
         if (res.code == 0) {
           this.msgSuccess('关注成功')
@@ -562,26 +561,21 @@ export default {
       })
       this.init()
     },
-    handleCheckAllChange(val) {
-      if(val){
-        this.followCollege.forEach( item => {
-          this.checkList.push(item.followName)
-        })
-      }else {
-        this.checkList =  [];
-      }
+    handleCheckAllChange (val) {
+      this.checkedCities = val ? cityOptions : []
+      this.isIndeterminate = false
     },
-    handleCheckedfollowChange(value) {
-      let checkedCount = value.length;
-      this.checkAll = checkedCount === this.followCollege.length;
+    handleCheckedfollowChange (value) {
+      let checkedCount = value.length
+      this.checkAll = checkedCount === this.followCollege.length
     },
-    handlemajorCheckAllChange(val) {
-      if(val){
-        this.followMajor.forEach( item => {
+    handlemajorCheckAllChange (val) {
+      if (val) {
+        this.followMajor.forEach(item => {
           this.checkmajorList.push(item.followName)
         })
-      }else {
-        this.checkmajorList =  [];
+      } else {
+        this.checkmajorList = []
       }
     },
     handlemajorCheckedfollowChange(value) {
@@ -595,12 +589,14 @@ export default {
     followMajorSearch(){
       this.majorselect.push.apply(this.majorselect,this.checkmajorList)
     },
+    handleDeleteInfo (index) { // 志愿表单删除
+      this.volForm.splice(index, 1)
+    }
   }
 }
 </script>
 
 <style scoped>
-
 li{
   list-style: none;
 }
@@ -703,7 +699,6 @@ li{
   display: flex;
   -webkit-box-align: center;
   align-items: center;
-  margin-left: 5px;
 }
 
 .dropdown {
@@ -760,7 +755,6 @@ li{
   color: #9b9b9b;
   line-height: 24px;
 }
-
 
 .box .fudongBox {
   position: absolute;
