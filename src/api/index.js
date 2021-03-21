@@ -58,6 +58,14 @@ export function getsearchSchool (data) {
     params: data
   })
 }
+// 模糊搜索，返回专业名字
+export function getsearchMajor (data) {
+  return request({
+    url: '/searchApp/searchMajor',
+    method: 'get',
+    params: data
+  })
+}
 // 关注学校
 export function followSchool (data) {
   return request({

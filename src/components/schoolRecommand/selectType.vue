@@ -69,13 +69,13 @@
               >
                 <span>用户关注({{ followCollege.length }}) <i class="el-icon-arrow-down el-icon--right"></i></span>
                 <el-dropdown-menu slot="dropdown" class="dropdown">
-                  <el-checkbox-group v-model="checkList" v-for="item in followCollege" :key="item.id">
+                  <el-checkbox-group v-model="checkList" v-for="item in followCollege" :key="item.id"  @change="handleCheckedfollowChange">
                     <el-dropdown-item>
                       <el-checkbox :label="item.followName">{{ item.followName }}</el-checkbox>
                     </el-dropdown-item>
                   </el-checkbox-group>
                   <div class="tzy-dropdown-action">
-                    <el-button type="primary" size="mini">确定</el-button>
+                    <el-button type="primary" size="mini" @click="followSearch">确定</el-button>
                   </div>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -115,13 +115,45 @@
           <div class="customer-college">
             <span class="customer-college-title">我的关注：</span>
             <div class="customer-college-input">
-              <el-input
-                type="text"
-                clearable
-                size="small"
-                placeholder="请输入专业名称（至少2个字）"
-                v-model="majorname">
-              </el-input>
+              <el-autocomplete
+                style="width: 320px"
+                class="inline-input"
+                v-model="majorname"
+                :fetch-suggestions="querymajorSearch"
+                placeholder="请输入专业名称"
+                :trigger-on-focus="false"
+                @select="handleMajorSelect"
+              >
+                <template slot-scope="{ item }">
+                  <el-row>
+                    <el-col :span="22">
+                      <span>{{ item.name }}</span>
+                    </el-col>
+                    <el-col :span="2" style="float: right">
+                      <el-button class="text-right" type="text">关注</el-button>
+                    </el-col>
+                  </el-row>
+                </template>
+              </el-autocomplete>
+            </div>
+            <div class="customer-filter-drop-wrapper">
+              <el-checkbox v-model="checkmajorAll" @change="handlemajorCheckAllChange" style="margin-right: 10px"></el-checkbox>
+              <el-dropdown
+                trigger="hover"
+                :hide-on-click=false
+              >
+                <span>用户关注({{ followMajor.length }}) <i class="el-icon-arrow-down el-icon--right"></i></span>
+                <el-dropdown-menu slot="dropdown" class="dropdown">
+                  <el-checkbox-group v-model="checkmajorList" v-for="item in followMajor" :key="item.id"  @change="handlemajorCheckedfollowChange">
+                    <el-dropdown-item>
+                      <el-checkbox :label="item.followName">{{ item.followName }}</el-checkbox>
+                    </el-dropdown-item>
+                  </el-checkbox-group>
+                  <div class="tzy-dropdown-action">
+                    <el-button type="primary" size="mini" @click="followSearch">确定</el-button>
+                  </div>
+                </el-dropdown-menu>
+              </el-dropdown>
             </div>
           </div>
           <div class="myFilterRecordBlockRow">
@@ -187,6 +219,7 @@ import {
   getAllCollegeType,
   getAllprovinces,
   getsearchSchool,
+  getsearchMajor,
   followSchool,
   followMajor,
   getAllFollowSchool,
@@ -201,8 +234,11 @@ export default {
   data() {
     return {
       checkList: [],
-      followCollege: ['清华大学'],
+      checkmajorList:[],
+      followCollege: [],
+      followMajor: [],
       checkAll: false,
+      checkmajorAll: false,
       isIndeterminate: true,
       phoneNum: '18551452231',
       majorname: '',
@@ -217,6 +253,7 @@ export default {
         // sortSelect:[],
         sortSelect: [],
         followSelect: [],
+        followMajorSelect:[],
       },
       majorselect: [],
       active: '',
@@ -236,6 +273,7 @@ export default {
       volForm: [], // 高考志愿表单
       showvolformdata: true, // 高考志愿表单是否显示添加志愿（true未添加 false添加）
       schooladvice: [],
+      majoradvice:[],
     }
   },
   computed: {
@@ -262,6 +300,11 @@ export default {
         phoneNum: this.phoneNum
       }).then(res => {
         this.followCollege = res.data
+      })
+      getAllFollowMajor({
+        phoneNum: this.phoneNum
+      }).then(res => {
+        this.followMajor = res.data
       })
     },
 
@@ -468,10 +511,10 @@ export default {
         }
       })
     },
-    clearFormData() { // 清空志愿表单
-      this.showvolformdata = true
-      this.volForm = []
-    },
+    // clearFormData() { // 清空志愿表单
+    //   this.showvolformdata = true
+    //   this.volForm = []
+    // },
     //测试
     querySearch(queryString, cb) {
       console.log('ceshi', queryString, cb)
@@ -481,6 +524,30 @@ export default {
         this.schooladvice = res.data
         cb(this.schooladvice)
       })
+    },
+    querymajorSearch(queryString, cb) {
+      console.log('ceshi', queryString, cb)
+      getsearchMajor({
+        majorName: queryString
+      }).then(res => {
+        this.majoradvice = res.data
+        cb(this.majoradvice)
+      })
+    },
+    handleMajorSelect(item) {
+      console.log(item);
+      followMajor({
+        majorName: item.name,
+        phoneNum: this.phoneNum,
+      }).then(res => {
+        if (res.code == 0) {
+          this.msgSuccess('关注成功')
+          this.init()
+        } else if (res.code == 617) {
+          this.msgWarning('用户已关注')
+        }
+      })
+
     },
     handleSelect(item) {
       console.log(item);
@@ -497,20 +564,50 @@ export default {
       this.init()
     },
     handleCheckAllChange(val) {
-      this.isIndeterminate = false;
+      if(val){
+        this.followCollege.forEach( item => {
+          this.checkList.push(item.followName)
+        })
+      }else {
+        this.checkList =  [];
+      }
     },
-      // this.$forceUpdate()
+    handleCheckedfollowChange(value) {
+      let checkedCount = value.length;
+      this.checkAll = checkedCount === this.followCollege.length;
+    },
+    handlemajorCheckAllChange(val) {
+      if(val){
+        this.followMajor.forEach( item => {
+          this.checkmajorList.push(item.followName)
+        })
+      }else {
+        this.checkmajorList =  [];
+      }
+    },
+    handlemajorCheckedfollowChange(value) {
+      let checkedCount = value.length;
+      this.checkAll = checkedCount === this.followCollege.length;
+    },
+
+    followSearch(){
+      // this.checkList.forEach( item => {
+      //   this.collegeselete.push(item.followName)
+      // })
+      this.collegeselete.followSelect = this.checkList;
+
+    },
   }
 }
 </script>
 
 <style scoped>
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  /*background: transparent;*/
-}
+/** {*/
+/*  padding: 0;*/
+/*  margin: 0;*/
+/*  box-sizing: border-box;*/
+/*  !*background: transparent;*!*/
+/*}*/
 
 /*div {*/
 /*  display: block;*/
