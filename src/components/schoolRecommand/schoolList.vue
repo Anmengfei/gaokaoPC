@@ -6,7 +6,7 @@
           <el-row>
             <el-col :span="2">
               <div class="icon">
-                <img :src="item.logoPath" />
+                <img  class="schoologo" :src="item.logoPath" />
               </div>
             </el-col>
             <el-col :span="18">
@@ -223,6 +223,13 @@ export default {
   float: left;
   margin-top: .05rem;
   margin-left: 1%;
+}
+.schoologo {
+  width: 1rem;
+  height: 1rem;
+  border-radius:0.5rem;
+  overflow: hidden;
+
 }
 .container .icon img {
   width: 1rem;

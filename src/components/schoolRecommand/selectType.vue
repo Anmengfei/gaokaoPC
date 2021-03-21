@@ -150,7 +150,7 @@
                     </el-dropdown-item>
                   </el-checkbox-group>
                   <div class="tzy-dropdown-action">
-                    <el-button type="primary" size="mini" @click="followSearch">确定</el-button>
+                    <el-button type="primary" size="mini" @click="followMajorSearch">确定</el-button>
                   </div>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -253,7 +253,6 @@ export default {
         // sortSelect:[],
         sortSelect: [],
         followSelect: [],
-        followMajorSelect:[],
       },
       majorselect: [],
       active: '',
@@ -587,31 +586,20 @@ export default {
     },
     handlemajorCheckedfollowChange(value) {
       let checkedCount = value.length;
-      this.checkAll = checkedCount === this.followCollege.length;
+      this.checkmajorAll = checkedCount === this.followMajor.length;
     },
 
     followSearch(){
-      // this.checkList.forEach( item => {
-      //   this.collegeselete.push(item.followName)
-      // })
       this.collegeselete.followSelect = this.checkList;
-
+    },
+    followMajorSearch(){
+      this.majorselect.push.apply(this.majorselect,this.checkmajorList)
     },
   }
 }
 </script>
 
 <style scoped>
-/** {*/
-/*  padding: 0;*/
-/*  margin: 0;*/
-/*  box-sizing: border-box;*/
-/*  !*background: transparent;*!*/
-/*}*/
-
-/*div {*/
-/*  display: block;*/
-/*}*/
 
 li{
   list-style: none;
