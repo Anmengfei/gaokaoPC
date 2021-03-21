@@ -1,15 +1,8 @@
 <template>
   <div class="app_container">
-    <div>
-      <top-header></top-header>
-    </div>
-    <div class="mt20 thirdRow">
-      <!--            <HomeHeader :flagInfo="loginStatus"></HomeHeader>-->
-      <HomeHeader :flagInfo="true"></HomeHeader>
-    </div>
-    <div>
-      <select-type></select-type>
-    </div>
+    <top-header></top-header>
+    <HomeHeader :flagInfo="true"></HomeHeader>
+    <select-type></select-type>
     <Footer></Footer>
   </div>
 </template>
@@ -40,14 +33,17 @@ a {
   text-decoration: none;
 }
 .app_container {
-  background-color: white;
+  /*background-color: white;*/
+  background-color: #f3f5f7;
 }
 .mt20 {
   margin-top: 20px;
 }
 .thirdRow {
-  background-color: #f95e5a;
+  /*background-color: #f95e5a;*/
+  background-color: #e5623f;
+  /* background-color: #f95e5a; */
   width: 100%;
-  height: 70px;
+  height: 0.7rem;
 }
 </style>

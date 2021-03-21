@@ -1,38 +1,33 @@
 <template>
   <div class="app_container">
     <top-header></top-header>
-    <div class="mt20 thirdRow">
-      <HomeHeader :flagInfo="loginStatus"></HomeHeader>
-    </div>
+    <HomeHeader :flagInfo="loginStatus"></HomeHeader>
     <div class="sixRow">
-      <!-- <div class="sixRow-header">
-        <span>首页>大家都在关注</span>
-      </div> -->
-      <div class="sixRow-box">
-        <ul class="videoList">
-          <li
-            class="videoItem"
-            v-for="(item, index) in zixunList"
-            :key="index"
-            @click="showVideo(item, index)"
-          >
-            <el-row>
-              <el-col :span="4"
-                ><div class="grid-content bg-purple">
-                  <img :src="item.cover" class="video-Image" />
+      <ul class="article-list">
+        <li
+          class="article-item"
+          v-for="(item, index) in zixunList"
+          :key="index"
+          @click="showVideo(item, index)"
+        >
+          <el-row>
+            <el-col :span="8"
+              ><div class="grid-content bg-purple">
+                <div class="image3d">
+                  <img :src="item.cover" class="article-image" />
                 </div>
-              </el-col>
-              <el-col :span="20"
-                ><div class="grid-content bg-purple-light">
-                  <div class="videoTitle">
-                    <span> {{ item.title }}</span>
-                  </div>
-                </div></el-col
-              >
-            </el-row>
-          </li>
-        </ul>
-      </div>
+              </div>
+            </el-col>
+            <el-col :span="16"
+              ><div class="grid-content bg-purple-light">
+                <div class="articleTitle">
+                  <span>{{ item.title }}</span>
+                </div>
+              </div></el-col
+            >
+          </el-row>
+        </li>
+      </ul>
     </div>
     <el-dialog
       :visible.sync="dialogVisible"
@@ -215,48 +210,38 @@ export default {
 </script>
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-}
-
 a {
   text-decoration: none;
 }
 .app_container {
+  background-color: #f3f5f7;
   /* background-color: red; */
   width: 100%;
 }
-.mt20 {
-  margin-top: 20px;
-}
-
-.thirdRow {
-  background-color: #f95e5a;
-  width: 100%;
-  height: 70px;
-}
-
 li {
   list-style: none;
 }
-
 .sixRow {
   /* height: 560px; */
   width: 1400px;
   margin: 0 auto;
-}
-
-.sixRow-box {
-  /* height: 660px; */
   margin-top: 50px;
-  width: 1400px;
-  position: relative;
-  /* border-radius: 15px; */
-  /* background-color: pink; */
+}
+.article-item {
+  float: left;
+  width: 700px;
+  height: 190px;
+  /* background-color: #00a4ff; */
+  border-bottom: 1px solid #dbdbdb;
+}
+.article-item :hover {
+  cursor: pointer;
 }
 .el-row {
-  border-bottom: 1px solid #dbdbdb;
+  margin-bottom: 20px;
+}
+.el-col {
+  border-radius: 4px;
 }
 .bg-purple {
   /* background: #d3dce6; */
@@ -271,19 +256,29 @@ li {
 .grid-content {
   min-height: 190px;
 }
-.video-Image {
+
+.article-image {
   width: 1.9rem;
   height: 1.4rem;
   border-radius: 0.1rem;
 }
-.videoTitle {
+.image3d :hover {
+  box-shadow: rgb(0 0 0 / 8%) 0px 3px 8px 0px;
+  transform: translate3d(0px, -8px, 0px);
+}
+
+.articleTitle {
   color: rgb(124, 124, 124);
   font-size: 0.2rem;
   font-weight: 700;
-  /* margin-left: 5%; */
+  margin-bottom: 60px;
 }
-.videoItem :hover {
-  /* background-color: #dbdbdb; */
-  cursor: pointer;
+.articleTitle :hover {
+  color: #e5623f;
+}
+.articleDate {
+  color: rgb(124, 124, 124);
+  font-size: 0.1rem;
+  font-weight: 700;
 }
 </style>

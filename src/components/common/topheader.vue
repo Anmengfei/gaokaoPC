@@ -75,8 +75,8 @@
           </div>
         </el-col>
         <el-col :span="12">
-          <el-col :span="12"
-            ><el-select
+          <el-col :span="12">
+            <el-select
               v-model="selectProvince"
               placeholder="请选择报考省份"
               clearable
@@ -118,7 +118,6 @@ export default {
       selectProvince: "",
       searchValue: "",
       provincesList: [],
-      visible: false,
     };
   },
   mounted() {
@@ -135,10 +134,10 @@ export default {
 </script>
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-}
+/** {*/
+/*  margin: 0;*/
+/*  padding: 0;*/
+/*}*/
 a {
   text-decoration: none;
 }
@@ -202,7 +201,7 @@ a {
 .selectProvinceStyle {
   margin-top: 0.1rem;
   margin-left: 1rem;
-  width: 35%;
+  /*width: 35%;*/
 }
 
 .secondRow .desc {

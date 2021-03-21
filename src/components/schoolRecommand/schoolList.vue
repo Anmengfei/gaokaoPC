@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="container">
       <ul>
-        <li v-for="(item, index) in this.schoolList" :key="index">
+        <li v-for="(item,index) in schoolList" :key="index">
           <el-row>
             <el-col :span="2">
               <div class="icon">
@@ -16,36 +16,20 @@
                   <span class="province">{{ item.province }}</span>
                 </div>
                 <div class="schooltags">
-                  <span
-                    v-for="(itemtag1, index) in item.addressTagsPC"
-                    :key="index"
-                    >{{ itemtag1 }}</span
-                  >
-                  <span v-for="itemtag2 in item.tags" :key="itemtag2">{{
-                    itemtag2
-                  }}</span>
+                  <span v-for="(itemtag1,index) in item.addressTagsPC" :key="index">{{ itemtag1 }}</span>
+                  <span v-for="itemtag2 in item.tags" :key="itemtag2">{{ itemtag2 }}</span>
                 </div>
               </div>
             </el-col>
             <el-col :span="4">
               <div class="chooseBtn">
-                <button
-                  type="button"
-                  class="chooseMajor"
-                  v-show="btnFlag[index]"
-                  @click="btnShow(index, item.majors)"
-                >
-                  <span>选择意向专业</span>
-                  <img class="img1" src="../../assets/drop_down_menu.png" />
+                <button type="button" class="chooseMajor" v-show="btnFlag[index]" @click="btnShow(index,item.majors)">
+                  <span >选择意向专业</span>
+                  <img class="img1" src="../../assets/drop_down_menu.png"/>
                 </button>
-                <button
-                  type="button"
-                  class="chooseMajor"
-                  v-show="!btnFlag[index]"
-                  @click="btnShow(index, item.majors)"
-                >
+                <button type="button" class="chooseMajor" v-show="!btnFlag[index]" @click="btnShow(index,item.majors)">
                   <span>收起专业</span>
-                  <img class="img2" src="../../assets/drop_down_menu.png" />
+                  <img class="img2" src="../../assets/drop_down_menu.png"/>
                 </button>
               </div>
             </el-col>
@@ -53,38 +37,21 @@
           <div id="major-list" v-show="majorShow[index]">
             <div class="app-container1">
               <ul>
-                <li v-for="(item1, index1) in majorlist" :key="index1">
+                <li v-for="(item1,index1) in item.majors" :key="index1">
                   <el-row>
                     <el-col :span="19">
                       <div class="text">
                         <div class="majorinfo">
-                          <span
-                            class="flag"
-                            v-if="item1.risk === '冲'"
-                            style="background: #ee8d22"
-                            >{{ item1.risk }}</span
-                          >
-                          <span
-                            class="flag"
-                            v-else-if="item1.risk === '稳'"
-                            style="background: #439cff"
-                            >{{ item1.risk }}</span
-                          >
-                          <span
-                            class="flag"
-                            v-if="item1.risk === '保'"
-                            style="background: #4caf4e"
-                            >{{ item1.risk }}</span
-                          >
+                          <span class="flag" v-if="item1.risk === '冲'" style="background:#ee8d22">{{ item1.risk }}</span>
+                          <span class="flag" v-else-if="item1.risk === '稳'" style="background:#439cff">{{ item1.risk }}</span>
+                          <span class="flag" v-if="item1.risk === '保'" style="background:#4caf4e">{{ item1.risk }}</span>
                           <span class="name">{{ item1.majorName }}</span>
                           <span class="evaluation">{{ item1.evaluation }}</span>
                         </div>
 
                         <div class="desc">
-                          <span>2020年招生人数{{ item1.enrollNum }}</span>
-                          <span
-                            >选考科目：{{ item1.selectionRequirement }}</span
-                          >
+                          <span>2020年招生人数{{item1.enrollNum}}</span>
+                          <span>选考科目：{{item1.selectionRequirement}}</span>
                           <span>2020年最低分****</span>
                           <span>2020年最低位次####</span>
                         </div>
@@ -92,20 +59,8 @@
                     </el-col>
                     <el-col :span="5">
                       <div class="btn">
-                        <!--                        {{item1.flag}}**{{index1}}-->
-                        <button
-                          class="chooseNoWill"
-                          v-if="item1.flag === index1"
-                        >
-                          已加意向
-                        </button>
-                        <button
-                          class="chooseWill"
-                          v-else-if="item1.flag !== index1"
-                          @click="addForm(item1, index, index1)"
-                        >
-                          加入意向
-                        </button>
+                        <button class="chooseWill"  v-if="item1.flag === -1" @click="addForm(index,item1,index1)">加入意向</button>
+                        <button class="chooseNoWill" v-else-if="item1.flag === (index + '' + index1)">已加意向</button>
                       </div>
                     </el-col>
                   </el-row>
@@ -123,222 +78,200 @@
         background
         layout="prev, pager, next"
         :total="pageInfo.pagetotal"
-        :current-page="pageInfo.pagenum"
-        :page-size="pageInfo.pagesize"
-        @current-change="handleCurrentChange"
-      >
+        :current-page ='pageInfo.pagenum'
+        :page-size='pageInfo.pagesize'
+        @current-change="handleCurrentChange">
       </el-pagination>
     </div>
   </div>
 </template>
 
 <script>
-import { getAllSchool } from "../../api/schoolInfo";
+import { getAllSchool } from '../../api/schoolInfo'
 export default {
-  name: "schoolList",
-  props: ["selected", "volform"],
-  mounted() {
-    this.getAllSchoolData(this.pageInfo.pagenum);
+  name: 'schoolList',
+  props: ['selected', 'volform'],
+  mounted () {
+    this.getAllSchoolData(this.pageInfo.pagenum)
   },
-  data() {
+  data () {
     return {
-      activeName: "first",
+      activeName: 'first',
       btnFlag: [true, true, true, true, true, true, true, true, true, true], // 控制显示“选择意向专业”“收起专业”
-      majorShow: [
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-      ], // 控制显示“学校专业”
+      majorShow: [false, false, false, false, false, false, false, false, false, false], // 控制显示“学校专业”
       schoolList: [],
       pageInfo: {
         pagenum: 0, // 当前页数
         pagesize: 10, // 每页条数
-        pagetotal: 100, // 总条目数
+        pagetotal: 100// 总条目数
       },
+      pageRecord: 0, // 用于记录每次点击的页号
       selectnecess: {},
       majorlist: [], // 专业列表
-      addWillFlagofSchool: "",
-      addWillFlag: -1, // 判断加入志愿按钮是否变灰
-    };
+      addWillFlagofSchool: '',
+      addWillFlag: -1// 判断加入志愿按钮是否变灰
+
+    }
   },
   watch: {
     selected: {
-      handler() {
-        this.getAllSchoolData(this.pageInfo.pagenum);
+      handler () {
+        this.getAllSchoolData(this.pageInfo.pagenum)
       },
       immediate: true,
-      deep: true,
+      deep: true
     },
+    volform: {
+      handler (newValue, oldvalue) {
+        console.log('数据改变', newValue, oldvalue)
+        console.log('this.pageInfo.pagenum的值', this.pageInfo.pagenum)
+        // 1.向志愿表单添加数据（新数据长度>旧数据长度）--不执行操作  2.从志愿表单删除或清空数据（新数据长度<旧数据长度）--执行操作
+        if (newValue.length < oldvalue.length) {
+          // 将已经加入志愿表单的学校的按钮状态置为灰色
+          this.getAllSchoolData(this.pageRecord)
+        }
+      }
+    }
+
   },
   methods: {
-    btnShow(id, majorls) {
-      this.$set(this.btnFlag, id, !this.btnFlag[id]);
-      this.$set(this.majorShow, id, !this.majorShow[id]);
+    btnShow (id, majorls) {
+      this.$set(this.btnFlag, id, !this.btnFlag[id])
+      this.$set(this.majorShow, id, !this.majorShow[id])
       // console.log('专业列表', majorls)
 
-      this.majorlist = majorls;
+      this.majorlist = majorls
     },
-    getAllSchoolData(pagenum) {
+    getAllSchoolData (pagenum) {
       getAllSchool({
         provinces: this.selected.provinceSelect,
         schoolTypes: this.selected.typeSelect,
         feature: this.selected.levelSelect,
         page: pagenum,
-        examProvince: "山东",
+        examProvince: '山东',
         score: 600,
-        size: 10,
+        size: 10
       }).then((res) => {
         if (res.status === 200) {
-          console.log("收到数据啊啊啊啊啊", this.volform);
-          this.schoolList = res.data.data;
-          for (let i = 0; i < this.schoolList.length; ++i) {
-            // 为每一条数据的专业信息添加一条标志位flag=-1
-            for (let j = 0; j < this.schoolList[i].majors.length; ++j) {
-              this.schoolList[i].majors[j].flag = -1;
-            }
-          }
+          console.log('收到数据啊啊啊啊啊', this.volform)
+          this.schoolList = res.data.data
+          // for (let i = 0; i < this.schoolList.length; ++i) { // 为每一条数据的专业信息添加一条标志位flag=-1
+          //   for (let j = 0; j < this.schoolList[i].majors.length; ++j) {
+          //     this.schoolList[i].majors[j].flag = -1
+          //   }
+          // }
           // 将已经加入志愿表单的学校的按钮状态置为灰色
           for (let i = 0; i < this.schoolList.length; ++i) {
             for (let j = 0; j < this.schoolList[i].majors.length; ++j) {
               for (let k = 0; k < this.volform.length; ++k) {
-                if (
-                  this.volform[k].id === this.schoolList[i].majors[j].id &&
-                  this.volform[k].schoolName ===
-                    this.schoolList[i].majors[j].schoolName
-                ) {
-                  this.schoolList[i].majors[j].flag = j;
+                if ((this.volform[k].id === this.schoolList[i].majors[j].id) && (this.volform[k].schoolName === this.schoolList[i].majors[j].schoolName)) {
+                  this.schoolList[i].majors[j].flag = (i + '' + j)
                 }
               }
             }
           }
 
-          console.log("this.schoolList数据", this.schoolList);
+          console.log('this.schoolList数据', this.schoolList)
         } else {
-          this.$message.error("无法取得数据");
+          this.$message.error('无法取得数据')
           // console.log('无法取得数据')
         }
-      });
+      })
     },
-    handleCurrentChange(val) {
-      // 分页器执行函数
-      this.btnFlag = [
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-      ];
-      this.majorShow = [
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-      ];
-      let page = val;
-      console.log(`当前页:`, page--);
-      this.getAllSchoolData(page--);
+    handleCurrentChange (val) { // 分页器执行函数
+      this.btnFlag = [true, true, true, true, true, true, true, true, true, true]
+      this.majorShow = [false, false, false, false, false, false, false, false, false, false]
+      let page = val
+      console.log(`当前页:`, page--)
+      this.pageRecord = page
+      console.log('this.pageRecord的数据是不是当前页-1?', this.pageRecord)
+      this.getAllSchoolData(page--)
     },
-    addForm(item1, index, index1) {
-      // 加入志愿表单函数
-      this.$emit("addform", item1);
-      this.schoolList[index].majors[index1].flag = index1;
-      this.$forceUpdate(); // 数据更新之后，强制试图更新
-    },
-  },
-};
+    addForm (index, item1, index1) { // 加入志愿表单函数
+      this.$emit('addform', item1)
+      item1.flag = index + '' + index1
+      // this.$forceUpdate() // 数据更新之后，强制试图更新
+    }
+
+  }
+
+}
 </script>
 
 <style scoped>
-* {
+*{
   padding: 0;
   margin: 0;
   font-size: 100%;
 }
-.container {
-  width: 100%;
+.container{
+  width:100%;
 }
-.container ul li {
+.container ul li{
   overflow: auto;
   margin-top: 1%;
-  border-bottom: 0.001rem dashed #e4e4e4;
+  border-bottom: .001rem dashed #e4e4e4;
 }
-.container .desc {
+.container .desc{
   float: left;
-  margin-top: 0.05rem;
-  padding-top: 0.1rem;
-  padding-bottom: 0.2rem;
-  padding-left: 0.4rem;
+  margin-top: .05rem;
+  padding-top: .1rem;
+  padding-bottom: .2rem;
+  padding-left: .4rem;
 }
 .container .icon {
   float: left;
-  margin-top: 0.05rem;
+  margin-top: .05rem;
   margin-left: 1%;
 }
 .container .icon img {
   width: 1rem;
   height: 1rem;
 }
-.container .desc .schooltags span {
+.container .desc .schooltags span{
   display: inline-block;
-  margin-right: 0.25rem;
-  margin-top: 0.1rem;
-  padding: 0.1rem 0.15rem;
+  margin-right: .25rem;
+  margin-top: .1rem;
+  padding: .1rem .15rem;
   color: rgb(153, 153, 153);
-  font-size: 0.05rem;
-  border: 0.02rem solid rgb(228, 228, 228);
-  border-radius: 0.15rem;
+  font-size: .05rem;
+  border: .02rem solid rgb(228, 228, 228);
+  border-radius: .15rem;
 }
 .container .desc .name {
   font-weight: 800;
 }
-.container .desc .province {
-  font-size: 0.15rem;
-  margin-left: 0.2rem;
+.container .desc .province{
+  font-size: .15rem;
+  margin-left: .2rem;
 }
 .container .chooseMajor {
-  margin-top: 0.2rem;
+  margin-top: .2rem;
   width: 1.7rem;
-  border: 0.02rem solid #00aff0;
-  padding: 0.1rem;
-  border-radius: 0.08rem;
-  font-size: 0.1rem;
+  border:.02rem solid #00aff0;
+  padding: .1rem;
+  border-radius: .08rem;
+  font-size: .1rem;
   background-color: transparent;
   outline: none;
   color: #00aff0;
   cursor: pointer;
+
 }
-.container .chooseMajor .img1 {
-  height: 0.25rem;
-  border-radius: 0.2rem;
+.container .chooseMajor .img1{
+  height: .25rem;
+  border-radius: .2rem;
   letter-spacing: 0;
 }
 
-.container .chooseMajor .img2 {
-  height: 0.25rem;
-  border-radius: 0.2rem;
+.container .chooseMajor .img2{
+  height: .25rem;
+  border-radius: .2rem;
   letter-spacing: 0;
-  transform: rotate(180deg);
+  transform:rotate(180deg);
 }
 
-.box3 {
+.box3{
   width: 100%;
   margin-top: 2%;
   text-align: center;
@@ -346,25 +279,25 @@ export default {
 
 /deep/ .pagination {
   text-align: center;
-  margin-top: 0.3rem;
+  margin-top: .3rem;
 }
 
-li {
+li{
   list-style: none;
 }
-.app-container1 {
-  width: 95%;
+.app-container1{
+  width:95%;
   margin-left: 5%;
-  border-top: 0.001rem dashed #e4e4e4;
+  border-top: .001rem dashed #e4e4e4;
   max-height: 6rem;
   overflow-y: auto;
   padding-left: 1rem;
 }
 /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
-.app-container1::-webkit-scrollbar {
-  width: 0.1rem;
+.app-container1::-webkit-scrollbar{
+  width: .1rem;
   height: 100%;
-  background-color: #f5f5f5;
+  background-color: #F5F5F5;
 }
 
 /*定义滚动条轨道 内阴影+圆角*/
@@ -372,30 +305,30 @@ li {
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
-  background-color: #f5f5f5;
+  background-color: #F5F5F5;
 }
 
 /*定义滑块 内阴影+圆角*/
-.app-container1::-webkit-scrollbar-thumb {
+.app-container1::-webkit-scrollbar-thumb{
   border-radius: 10px;
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, .1);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .1);
   background-color: #c8c8c8;
 }
 .app-container1 ul li {
   overflow: hidden;
 }
-.app-container1 .text {
+.app-container1 .text{
   float: left;
 }
-.app-container1 .majorinfo .flag {
-  font-size: 0.2rem;
+.app-container1 .majorinfo .flag{
+  font-size: .2rem;
   color: white;
   font-weight: 500;
   padding: 0.05rem;
-  margin-right: 0.03rem;
+  margin-right: .03rem;
 }
-.app-container1 .name {
+.app-container1 .name{
   /*float: left;*/
   margin-top: 1%;
   font-weight: 800;
@@ -403,65 +336,66 @@ li {
   text-overflow: ellipsis;
   word-break: break-all;
 }
-.app-container1 .evaluation {
-  font-size: 0.01rem;
+.app-container1 .evaluation{
+  font-size: .01rem;
   font-weight: 600;
-  margin-left: 0.2rem;
-  padding: 0.05rem;
-  border-radius: 50%;
+  margin-left: .2rem;
+  padding: .05rem;
+  border-radius:50%;
   background-color: #fbbbcf;
   color: #d53f2f;
 }
-.app-container1 .desc {
+.app-container1 .desc{
   /*float: left;*/
   margin-top: 1%;
 }
 
 .app-container1 .desc .name {
   font-weight: 600;
-  font-size: 0.3rem;
+  font-size: .3rem;
   color: rgba(0, 0, 0, 0.8);
   cursor: pointer;
 }
 
-.app-container1 .desc span {
+.app-container1 .desc span{
   display: inline-block;
-  margin-right: 0.1rem;
-  margin-top: 0.02rem;
+  margin-right: .1rem;
+  margin-top: .02rem;
   padding-top: 0.1rem;
-  padding-right: 0.1rem;
+  padding-right: .1rem;
   color: rgb(153, 153, 153);
-  font-size: 0.05rem;
+  font-size: .05rem;
+
 }
 /*.app-container1 .btn{*/
 /*  float: left;*/
 /*  margin-left: .2rem;*/
 /*}*/
 
-.app-container1 .chooseWill {
-  margin-top: 0.2rem;
+.app-container1 .chooseWill{
+  margin-top: .2rem;
   width: 1.7rem;
-  border: 0.02rem solid #00aff0;
-  padding: 0.1rem;
-  border-radius: 0.08rem;
-  font-size: 0.1rem;
+  border:.02rem solid #00aff0;
+  padding: .1rem;
+  border-radius: .08rem;
+  font-size: .1rem;
   background-color: transparent;
   outline: none;
   color: #00aff0;
   cursor: pointer;
-  margin-left: 0.2rem;
+  margin-left: .2rem;
 }
-.app-container1 .chooseNoWill {
-  margin-top: 0.2rem;
+.app-container1 .chooseNoWill{
+  margin-top: .2rem;
   width: 1.7rem;
-  border: 0.02rem solid #b2b2b2;
-  padding: 0.1rem;
-  border-radius: 0.08rem;
-  font-size: 0.1rem;
+  border:.02rem solid #b2b2b2;
+  padding: .1rem;
+  border-radius: .08rem;
+  font-size: .1rem;
   background-color: transparent;
   outline: none;
   color: #b2b2b2;
-  margin-left: 0.2rem;
-  disabled: disabled;
+  margin-left: .2rem;
+  disabled:disabled;
 }
 </style>
