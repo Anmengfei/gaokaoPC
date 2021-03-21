@@ -1,8 +1,14 @@
+a {
+  text-decoration:none;
+}
+
 .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active {
-  color: #f95e5a;
+  /*color: #f95e5a;*/
+  color: #e5623f;
 }
 .el-tabs--border-card>.el-tabs__header .el-tabs__item:not(.is-disabled):hover{
-  color: #f95e5a;
+  /*color: #f95e5a;*/
+  color: #e5623f;
 }
 
 .el-tabs--border-card>.el-tabs__header .el-tabs__item {
@@ -50,4 +56,10 @@
   border-radius: 4px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   width: 216px;
+}
+.login-style .el-dialog__header {
+  background: transparent !important;
+}
+.login-style .el-dialog__body {
+  background: transparent !important;
 }

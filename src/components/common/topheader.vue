@@ -35,7 +35,8 @@
           </div>
         </el-col>
         <el-col :span="12">
-          <el-col :span="12"><el-select
+          <el-col :span="12">
+            <el-select
             v-model="selectProvince"
             placeholder="请选择报考省份"
             clearable
@@ -93,10 +94,10 @@ export default {
 </script>
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-}
+/** {*/
+/*  margin: 0;*/
+/*  padding: 0;*/
+/*}*/
 a {
   text-decoration: none;
 }
@@ -130,6 +131,7 @@ a {
   align-items: center;
   width: 100%;
   margin-left: .8rem;
+
 }
 .secondRow .img-logo {
   width: .65rem;
@@ -145,7 +147,7 @@ a {
 .selectProvinceStyle {
   margin-top: .1rem;
   margin-left: 1rem;
-  width: 35%;
+  /*width: 35%;*/
 }
 
 .secondRow .desc{

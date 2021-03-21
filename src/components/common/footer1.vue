@@ -47,7 +47,7 @@ export default {
   height: 100%;
   width: 100%;
   background-color: #333333;
-  margin-top: 0.5rem;
+  /*margin-top: 0.5rem;*/
 }
 .eR-l {
   float: left;

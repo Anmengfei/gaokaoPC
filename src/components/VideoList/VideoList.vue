@@ -1,9 +1,7 @@
 <template>
   <div class="app_container">
     <top-header></top-header>
-    <div class="mt20 thirdRow">
       <HomeHeader :flagInfo="loginStatus"></HomeHeader>
-    </div>
     <div class="sixRow">
       <!-- <div class="sixRow-header">
         <span>首页>大家都在关注</span>
@@ -218,6 +216,7 @@ a {
   text-decoration: none;
 }
 .app_container {
+  background-color: #f3f5f7;
   /* background-color: red; */
   width: 100%;
 }

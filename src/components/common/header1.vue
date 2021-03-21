@@ -1,189 +1,207 @@
 <template>
   <div class="container">
-    <nav>
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#" @click="gotoHomepage">
-          <!--            <img src="../../assets/logo.png" class="img-logo" />-->
-        </a>
-      </div>
-      <div id="navbar" class="navbar-collapse collapse nav_ul">
-        <ul class="nav navbar-nav nav_moreList">
-          <li @click="gotoHomepage"><a>首页</a></li>
-          <li @click="gotoAllclasses"><a>院校优先</a></li>
-          <li @click="gotoWork"><a>专业优先</a></li>
-          <li @click="gotoOnline"><a>志愿表</a></li>
-          <li @click="gotoStudy"><a>志愿VIP</a></li>
-          <li @click="gotoPlat"><a>1V1专家</a></li>
-        </ul>
-        <ul class="nav navbar-nav ul2_nav">
-          <li>
-            <a v-if="flag_state === true" class="nav_a">
-              <user-setting-popover></user-setting-popover>
-            </a>
-            <a v-else class="nav_logout">
-              <Logout></Logout>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-    <div>
-      <el-dialog :visible.sync="showlogin" width="550px">
-        <div class="login-form-content">
-          <div class="content-tags">
+    <div class="header1">
+          <div class="uzy-nav">
             <ul>
-              <!--          <li>-->
-              <!--            <div :class="{tagstext : tagsShow === '登录'}" @click="switchLogin">登录</div>-->
-              <!--            <div class="borderLine" :class="{borderLine2: tagsShow === '登录'}"></div>-->
-              <!--          </li>-->
-              <li>
-                <div class="tagstext">登录</div>
-                <div class="borderLine2"></div>
-              </li>
+              <li @click="gotoHomepage"><a>首页</a></li>
+              <li @click="gotoAllclasses"><a>院校优先</a></li>
+              <li @click="gotoWork"><a>专业优先</a></li>
+              <li @click="gotoOnline"><a>志愿表</a></li>
+              <li @click="gotoStudy"><a>志愿VIP</a></li>
+              <li @click="gotoPlat"><a>1V1专家</a></li>
             </ul>
           </div>
-          <!--      <div class="login-forms" v-show="tagsShow === '注册'">-->
-          <!--        <el-input  placeholder="请输入登录手机号" class="forminput" v-model="ruleForm1.username" clearable></el-input>-->
-          <!--        <el-input  placeholder="密码" class="forminput" v-model="ruleForm1.password" type="password" :show-password="showpassword" @keyup.enter.native="login" clearable></el-input>-->
-          <!--        <div class="login-button-style" @click="login">-->
-          <!--          登录-->
-          <!--        </div>-->
-          <!--      </div>-->
-          <div class="register-forms" v-show="tagsShow === '登录'">
-            <div v-if="tagsShow2 === '1'">
-              <el-input
-                placeholder="请输入登录手机号"
-                class="forminput2"
-                v-model="phoneNum"
-                clearable
-              >
-                <template slot="prepend">+86</template>
-              </el-input>
-              <div class="input-course-text" v-show="showNum">
-                <span>请填写手机号</span>
-              </div>
-              <el-input
-                placeholder="请输入短信验证码"
-                class="forminput3"
-                v-model="duanxinNum"
-                clearable
-              >
-                <template slot="append">
-                  <div class="yanzheng-button">
-                    <el-button type="text" @click="getCodes" v-if="showCountNum"
-                      >获取验证码</el-button
-                    >
-                    <span v-else class="yanzheng-text">{{
-                      "重新发送" + countNum + "s"
-                    }}</span>
-                  </div>
-                </template>
-              </el-input>
-              <div class="login-button-style" @click="nextButton">立即登录</div>
+      <div class="user-info">
+        <div class="user-login">
+          <a title="登录考哪儿" @click="noLogin">登录</a>
+        </div>
+        <div class="logout">
+<!--          <a v-if="flag_state === true" class="nav_a">-->
+<!--            <user-setting-popover></user-setting-popover>-->
+<!--          </a>-->
+<!--          <a v-else class="nav_logout">-->
+<!--            <Logout></Logout>-->
+<!--          </a>-->
+        </div>
+        </div>
+      </div>
+<!--    </div>-->
+<!--    <nav>-->
+<!--      <div class="navbar-header">-->
+<!--        <a class="navbar-brand" href="#" @click="gotoHomepage">-->
+<!--          &lt;!&ndash;            <img src="../../assets/logo.png" class="img-logo" />&ndash;&gt;-->
+<!--        </a>-->
+<!--      </div>-->
+<!--      <div id="navbar" class="navbar-collapse collapse nav_ul">-->
+<!--        <ul class="nav navbar-nav nav_moreList">-->
+<!--          <li @click="gotoHomepage"><a>首页</a></li>-->
+<!--          <li @click="gotoAllclasses"><a>院校优先</a></li>-->
+<!--          <li @click="gotoWork"><a>专业优先</a></li>-->
+<!--          <li @click="gotoOnline"><a>志愿表</a></li>-->
+<!--          <li @click="gotoStudy"><a>志愿VIP</a></li>-->
+<!--          <li @click="gotoPlat"><a>1V1专家</a></li>-->
+<!--        </ul>-->
+<!--        <ul class="nav navbar-nav ul2_nav">-->
+<!--          <li>-->
+<!--            <a v-if="flag_state === true" class="nav_a">-->
+<!--              <user-setting-popover></user-setting-popover>-->
+<!--            </a>-->
+<!--            <a v-else class="nav_logout">-->
+<!--              <Logout></Logout>-->
+<!--            </a>-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </div>-->
+<!--    </nav>-->
+    <div>
+<!--      <div class="login-style">-->
+        <el-dialog :visible.sync="showlogin" width="30%">
+          <div class="login-form-content">
+            <div class="content-tags">
+              <ul>
+                <li>
+                  <div class="tagstext">登录</div>
+                  <div class="borderLine2"></div>
+                </li>
+              </ul>
             </div>
-            <div v-if="tagsShow2 === '2'">
-              <el-form
-                :model="ruleForm2"
-                status-icon
-                :rules="rules"
-                ref="ruleForm2"
-              >
-                <div class="loginform2">
-                  <el-form-item prop="username">
-                    <el-row>
-                      <el-col :span="4">
-                        <i class="iconfont ymq-iconuser formicon"></i>
-                      </el-col>
-                      <el-col :span="20">
-                        <el-input
-                          placeholder="用户名"
-                          class="forminput4"
-                          v-model="ruleForm2.username"
-                          clearable
-                        ></el-input>
-                      </el-col>
-                    </el-row>
-                  </el-form-item>
-                  <el-form-item prop="password1" class="form-items">
-                    <el-row>
-                      <el-col :span="4">
-                        <i class="iconfont ymq-iconlock formicon"></i>
-                      </el-col>
-                      <el-col :span="20">
-                        <el-input
-                          placeholder="请输入密码"
-                          class="forminput4"
-                          v-model="ruleForm2.password1"
-                          type="password"
-                          :show-password="showpassword"
-                          autocomplete="off"
-                          clearable
-                        ></el-input>
-                      </el-col>
-                    </el-row>
-                  </el-form-item>
-                  <el-form-item prop="password2" class="form-items">
-                    <el-row>
-                      <el-col :span="4">
-                        <i class="iconfont ymq-iconlock formicon"></i>
-                      </el-col>
-                      <el-col :span="20">
-                        <el-input
-                          placeholder="确认密码"
-                          class="forminput4"
-                          v-model="ruleForm2.password2"
-                          type="password"
-                          :show-password="showpassword"
-                          autocomplete="off"
-                          clearable
-                        ></el-input>
-                      </el-col>
-                    </el-row>
-                  </el-form-item>
-                  <el-form-item prop="class_name" class="form-items">
-                    <el-row>
-                      <el-col :span="4">
-                        <i class="iconfont ymq-iconchengshi formicon"></i>
-                      </el-col>
-                      <el-col :span="20">
-                        <el-input
-                          placeholder="学校"
-                          class="forminput4"
-                          v-model="ruleForm2.class_name"
-                          clearable
-                        ></el-input>
-                      </el-col>
-                    </el-row>
-                  </el-form-item>
-                  <el-form-item prop="class_name" class="form-items">
-                    <el-row>
-                      <el-col :span="4">
-                        <i class="iconfont ymq-iconchengshi formicon"></i>
-                      </el-col>
-                      <el-col :span="20">
-                        <el-input
-                          placeholder="邮箱"
-                          class="forminput4"
-                          v-model="ruleForm2.email"
-                          clearable
-                        ></el-input>
-                      </el-col>
-                    </el-row>
-                  </el-form-item>
-                  <div
-                    class="login-button-style"
-                    @click="userregister('ruleForm2')"
-                  >
-                    完成
-                  </div>
-                  <!--<el-button type="primary" class="login-button" size="large" @click="userregister('ruleForm2')">注册</el-button>-->
+            <div class="register-forms" v-show="tagsShow === '登录'">
+              <div v-if="tagsShow2 === '1'">
+                <el-input
+                  placeholder="请输入登录手机号"
+                  class="forminput2"
+                  v-model="phoneNum"
+                  clearable
+                >
+                  <template slot="prepend">+86</template>
+                </el-input>
+                <div class="input-course-text" v-show="showNum">
+                  <span>请填写手机号</span>
                 </div>
-              </el-form>
+                <el-input
+                  placeholder="请输入短信验证码"
+                  class="forminput3"
+                  v-model="duanxinNum"
+                  clearable
+                >
+                  <template slot="append">
+                    <div class="yanzheng-button">
+                      <el-button type="text" @click="getCodes" v-if="showCountNum"
+                      >获取验证码</el-button
+                      >
+                      <span v-else class="yanzheng-text">{{
+                          "重新发送" + countNum + "s"
+                        }}</span>
+                    </div>
+                  </template>
+                </el-input>
+                <div class="login-button-style" @click="nextButton">立即登录</div>
+              </div>
+              <div v-if="tagsShow2 === '2'">
+                <el-form
+                  :model="ruleForm2"
+                  status-icon
+                  :rules="rules"
+                  ref="ruleForm2"
+                >
+                  <div class="loginform2">
+                    <el-form-item prop="username">
+                      <el-row>
+                        <el-col :span="4">
+                          <i class="iconfont ymq-iconuser formicon"></i>
+                        </el-col>
+                        <el-col :span="20">
+                          <el-input
+                            placeholder="用户名"
+                            class="forminput4"
+                            v-model="ruleForm2.username"
+                            clearable
+                          ></el-input>
+                        </el-col>
+                      </el-row>
+                    </el-form-item>
+                    <el-form-item prop="password1" class="form-items">
+                      <el-row>
+                        <el-col :span="4">
+                          <i class="iconfont ymq-iconlock formicon"></i>
+                        </el-col>
+                        <el-col :span="20">
+                          <el-input
+                            placeholder="请输入密码"
+                            class="forminput4"
+                            v-model="ruleForm2.password1"
+                            type="password"
+                            :show-password="showpassword"
+                            autocomplete="off"
+                            clearable
+                          ></el-input>
+                        </el-col>
+                      </el-row>
+                    </el-form-item>
+                    <el-form-item prop="password2" class="form-items">
+                      <el-row>
+                        <el-col :span="4">
+                          <i class="iconfont ymq-iconlock formicon"></i>
+                        </el-col>
+                        <el-col :span="20">
+                          <el-input
+                            placeholder="确认密码"
+                            class="forminput4"
+                            v-model="ruleForm2.password2"
+                            type="password"
+                            :show-password="showpassword"
+                            autocomplete="off"
+                            clearable
+                          ></el-input>
+                        </el-col>
+                      </el-row>
+                    </el-form-item>
+                    <el-form-item prop="class_name" class="form-items">
+                      <el-row>
+                        <el-col :span="4">
+                          <i class="iconfont ymq-iconchengshi formicon"></i>
+                        </el-col>
+                        <el-col :span="20">
+                          <el-input
+                            placeholder="学校"
+                            class="forminput4"
+                            v-model="ruleForm2.class_name"
+                            clearable
+                          ></el-input>
+                        </el-col>
+                      </el-row>
+                    </el-form-item>
+                    <el-form-item prop="class_name" class="form-items">
+                      <el-row>
+                        <el-col :span="4">
+                          <i class="iconfont ymq-iconchengshi formicon"></i>
+                        </el-col>
+                        <el-col :span="20">
+                          <el-input
+                            placeholder="邮箱"
+                            class="forminput4"
+                            v-model="ruleForm2.email"
+                            clearable
+                          ></el-input>
+                        </el-col>
+                      </el-row>
+                    </el-form-item>
+                    <div
+                      class="login-button-style"
+                      @click="userregister('ruleForm2')"
+                    >
+                      完成
+                    </div>
+                    <!--<el-button type="primary" class="login-button" size="large" @click="userregister('ruleForm2')">注册</el-button>-->
+                  </div>
+                </el-form>
+              </div>
             </div>
           </div>
-        </div>
-      </el-dialog>
-    </div>
+        </el-dialog>
+      </div>
+
+<!--    </div>-->
   </div>
 </template>
 
@@ -309,8 +327,11 @@ export default {
   },
   mounted () {},
   methods: {
-    getCodes () {
-      if (this.phoneNum !== '') {
+    noLogin(){
+      this.showlogin =true
+    },
+    getCodes() {
+      if (this.phoneNum !== "") {
         var url =
           'https://www.zytb.top/NEMT/gk/userApp/getPhoneCode?phoneNum=' +
           this.phoneNum
@@ -531,14 +552,6 @@ export default {
         alert('请先登录！')
         this.$router.push('/login')
       } else {
-        var role = localStorage.getItem('role')
-        if (role === '0') {
-          this.$message.warning('没有权限访问该功能，请申请升级权限!')
-        } else {
-          window.location.href = `http://58.119.112.14:11013?userId=${localStorage.getItem(
-            'userId'
-          )}`
-        }
       }
     },
     gotoCompetition: function () {
@@ -567,14 +580,68 @@ export default {
   margin: 0;
 }
 .container {
-  height: 100%;
+  background-color: #e5623f;
+  margin-top: 15px;
   width: 100%;
-  font-size: 100%;
-  background-color: #ff5a38;
+  height: 60px;
+  font-size: 18px;
+
+}
+.container .header1{
+  width: 1400px;
+  height: 60px;
+  margin: 0 auto;
+  list-style-type:none;
+}
+.container .header1 .uzy-nav{
+  width: 1100px;
+  height: 60px;
+  line-height: 60px;
+  font-size: 18px;
+  float: left;
+  position: relative;
+}
+.container .header1 .user-info{
+  width: 100px;
+  height: 60px;
+  line-height: 60px;
+  color: #fff;
+  float: right;
+}
+.container .header1 .user-info .user-login a{
+  text-decoration:none;
+  color: white;
+  cursor: pointer;
+}
+.container .header1 .user-info .user-login a:hover {
+  color:#4b4b4b;
+  background-color: transparent;
+}
+.container .header1 .uzy-nav ul{
+  display: block;
+  list-style-type: none;
+}
+.container .header1 .uzy-nav ul li{
+  list-style-type: none;
+  float: left;
+  margin-right: 1rem;
+  line-height: 60px;
+  height: 60px;
+}
+.container .header1 .uzy-nav ul li a{
+  text-decoration:none;
+  color: white;
+  cursor: pointer;
+}
+.container .header1 .uzy-nav ul li a:hover {
+  /*color: #16bcb4;*/
+  color:#4b4b4b;
+  /* font-weight: bolder; */
+  background-color: transparent;
 }
 .nav li {
   margin-right: 1rem;
-  text-align: center;
+  /*text-align: center;*/
 }
 .nav li a {
   color: white;
@@ -585,10 +652,10 @@ export default {
   /* font-weight: bolder; */
   background-color: transparent;
 }
-.nav_ul {
-  /*margin-left: 10%;*/
-  margin-left: 3rem;
-}
+/*.nav_ul {*/
+/*  !*margin-left: 10%;*!*/
+/*  !*margin-left: 3rem;*!*/
+/*}*/
 .ul2_nav {
   margin-right: 0.5rem;
   float: right;
@@ -861,8 +928,11 @@ export default {
 .login-button {
   width: 100%;
 }
+.login-style {
+  width: 5rem;
+}
 .login-form-content {
-  width: 500px;
+  width: 5rem;
   margin: 0 auto;
   /*height: 600px;*/
   /*background-color: #00000;*/
@@ -916,7 +986,7 @@ export default {
   height: 60px;
   width: 100%;
   color: #fff;
-  background-color: #f95e5a;
+  background-color: #e5623f;
   border-radius: 40px;
   text-align: center;
   line-height: 60px;
@@ -942,5 +1012,9 @@ export default {
 .yanzheng-text {
   color: #9199a1;
   font-size: 18px;
+}
+/deep/ .el-dialog__body {
+  /*background: transparent !important;*/
+  background-color: transparent;
 }
 </style>

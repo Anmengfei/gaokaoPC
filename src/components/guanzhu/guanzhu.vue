@@ -327,8 +327,9 @@ a {
   text-decoration: none;
 }
 .app_container {
-  /* background-color: red; */
+  background-color: #f3f5f7;
   width: 100%;
+  /* height: 100%; */
 }
 .mt20 {
   margin-top: 20px;
@@ -346,11 +347,11 @@ a {
   font-size: 20px;
   color: rgb(0, 175, 240);
 }
-.thirdRow {
-  background-color: #f95e5a;
-  width: 100%;
-  height: 70px;
-}
+/*.thirdRow {*/
+/*  background-color: #f95e5a;*/
+/*  width: 100%;*/
+/*  height: 70px;*/
+/*}*/
 .knl-nav {
   float: left;
   width: 200px;

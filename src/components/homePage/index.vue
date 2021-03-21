@@ -2,29 +2,7 @@
   <div class="app_container">
     <!-- <Header :flags = flag_class class="header" :flagInfo="infoState"></Header> -->
     <top-header></top-header>
-    <div class="mt20 thirdRow">
-      <!-- <div class="knl-nav">考哪儿</div>
-      <div class="box-nav">
-        <ul>
-          <li><a href="#">首页</a></li>
-          <li><a href="#">院校优先</a></li>
-          <li><a href="#">专业优先</a></li>
-          <li><a href="#">志愿表</a></li>
-          <li><a href="#">志愿VIP</a></li>
-          <li><a href="#">1V1专家</a></li>
-        </ul>
-      </div>
-      <div class="loginInfo" v-if="loginStatus === false">
-        <span @click="login">登陆</span> ｜
-        <span @click="regist">注册</span>
-      </div>
-      <div class="loginInfo" v-else>
-        <image />｜
-        <span @click="regist">注册</span>
-      </div> -->
-
-      <HomeHeader :flagInfo="loginStatus"></HomeHeader>
-    </div>
+    <HomeHeader :flagInfo="loginStatus"></HomeHeader>
     <div class="fourRow">
       <div class="carouselList">
         <el-carousel class="carousel-img" height="300px">
@@ -34,7 +12,7 @@
             class="carousel-item"
             @click.native="itemClick(item, index)"
           >
-            <img :src="item" alt="" />
+            <img :src="item" alt=""/>
           </el-carousel-item>
         </el-carousel>
       </div>
@@ -42,7 +20,8 @@
         <div class="content">
           <div class="header">模拟高考志愿填报</div>
           <el-tag class="denglu-label" type="warning"
-            >登录后，推荐适合你的院校</el-tag
+          >登录后，推荐适合你的院校
+          </el-tag
           >
           <div class="form-item">
             <div class="gaokaozongfen">
@@ -71,40 +50,40 @@
               <div>
                 <div class="score-item">
                   <span class="label">高考省份</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >北京</span
-                  >
+                  class="value"
+                >北京</span
+                >
                 </div>
                 <div class="score-item">
                   <span class="label">科目类型</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >物理/化学/生物</span
-                  >
+                  class="value"
+                >物理/化学/生物</span
+                >
                 </div>
                 <div class="score-item">
                   <span class="label">高考总分</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >572</span
-                  >
+                  class="value"
+                >572</span
+                >
                 </div>
                 <div class="score-item">
                   <span class="label">本科预估排名</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >13923</span
-                  >
+                  class="value"
+                >13923</span
+                >
                 </div>
                 <div class="score-item">
                   <span class="label">语数外总分</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >360</span
-                  >
+                  class="value"
+                >360</span
+                >
                 </div>
 
                 <div class="score-item">
                   <span class="label">专科预估排名</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >28</span
-                  >
+                  class="value"
+                >28</span
+                >
                 </div>
               </div>
             </div>
@@ -138,7 +117,7 @@
 
       <div class="fiveRow-box">
         <div class="box-content" v-if="loginStatus !== false">
-          <a href="#">登录添加成绩信息</a><br />
+          <a href="#">登录添加成绩信息</a><br/>
           <h>大数据+AI智能准确推荐合适你的院校</h>
         </div>
         <div v-else>
@@ -148,7 +127,7 @@
               v-for="(item, index) in recommandschoolList"
               @click="selectSchoolItem(index, item)"
             >
-              <img :src="item.logo" class="commend-item-image" />
+              <img :src="item.logo" class="commend-item-image"/>
               <h4 class="commend-item-title textOverflow">
                 {{ item.schoolname }}
               </h4>
@@ -180,7 +159,7 @@
                 @click="selectZixun(item, index)"
               >
                 <div class="image">
-                  <img :src="item.cover" class="zixunImage" />
+                  <img :src="item.cover" class="zixunImage"/>
                 </div>
                 <div class="content">
                   <div class="content-title content-title-gray">
@@ -214,8 +193,8 @@
               >
                 <el-button type="text" @click="showVideo(item, index)">
                   <div class="image">
-                    <img :src="item.cover" class="image" />
-                    <img src="../../assets/play_05.png" class="play-btn" />
+                    <img :src="item.cover" class="image"/>
+                    <img src="../../assets/play_05.png" class="play-btn"/>
                   </div>
                 </el-button>
                 <!-- <img :src="item.cover" alt="" class="image" />
@@ -260,13 +239,11 @@ import TopHeader from "@/components/common/topheader";
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
 import EditScore from "@/components/common/editScore";
-import { getFollowingList } from "@/api/index.js";
-import { getAllIsLearning } from "@/api/index.js";
-import { getAllschoolInfo } from "@/api/index";
-// import $ from 'jquery'
+import {getAllIsLearning, getHomeschool, getFollowingList} from "@/api/index.js";
+
 export default {
   name: "index",
-  components: { TopHeader, HomeHeader, Footer, EditScore },
+  components: {TopHeader, HomeHeader, Footer, EditScore},
   data() {
     return {
       videoUrl: "",
@@ -413,7 +390,7 @@ export default {
     gotoAllschool() {
       this.$router.push({
         name: "SchoolRecommand",
-        params: { tab: "favoriteSchool" },
+        params: {tab: "favoriteSchool"},
       });
     },
     modifyScore() {
@@ -430,7 +407,7 @@ export default {
       this.dialogVisible = false;
     },
     selectZixun(item, index) {
-      const { href } = this.$router.resolve({
+      const {href} = this.$router.resolve({
         name: "Article",
         query: {
           article: item.id,
@@ -439,7 +416,7 @@ export default {
       window.open(href, "_blank");
     },
     openMore() {
-      const { href } = this.$router.resolve({
+      const {href} = this.$router.resolve({
         name: "Guanzhu",
         // query: {
         //   article: item.id,
@@ -448,7 +425,7 @@ export default {
       window.open(href, "_blank");
     },
     openReport() {
-      const { href } = this.$router.resolve({
+      const {href} = this.$router.resolve({
         name: "VideoList",
         // query: {
         //   article: item.id,
@@ -460,15 +437,13 @@ export default {
       console.log("123");
       this.scoreDialog = true;
     },
-    login() {
-      // alert(1)
-    },
     selectSchoolItem(item, index) {
       console.log("item", item);
       console.log("index", index);
       this.$router.push("/SchoolInfo");
     },
-    regist() {},
+    regist() {
+    },
     setBannerH() {
       this.bannerH = document.body.clientWidth / 4;
     },
@@ -485,12 +460,12 @@ export default {
     },
 
     getInfo() {
-      getAllschoolInfo({
+      getHomeschool({
         page: 1,
         size: 6,
       }).then((res) => {
         console.log(res);
-        this.recommandschoolList = res.data;
+        this.recommandschoolList = res.data.splice(0, 6);
       });
       if (this.flag_state === false) {
         var url = `http://58.119.112.14:11020/cms/system/user/${localStorage.getItem(
@@ -533,7 +508,8 @@ export default {
         .then(() => {
           this.$router.push("/userSetting/personalInformation");
         })
-        .catch(() => {});
+        .catch(() => {
+        });
     },
   },
 };
@@ -544,23 +520,27 @@ export default {
   margin: 0;
   padding: 0;
 }
+
 a {
   text-decoration: none;
 }
+
 .app_container {
   background-color: #f3f5f7;
   width: 100%;
   /* height: 100%; */
 }
+
 .mt20 {
   margin-top: 20px;
 }
 
 .thirdRow {
-  background-color: #f95e5a;
+  background-color: #e5623f;
   width: 100%;
   height: 70px;
 }
+
 .knl-nav {
   float: left;
   width: 200px;
@@ -571,11 +551,13 @@ a {
   line-height: 70px;
   margin-left: 20px;
 }
+
 .box-nav {
   float: left;
   width: 1500px;
   height: 70px;
 }
+
 li {
   list-style: none;
 }
@@ -584,6 +566,7 @@ li {
   list-style: none;
   padding-left: 30px;
 }
+
 li a {
   display: block;
   height: 42px;
@@ -594,6 +577,7 @@ li a {
   text-decoration: none;
   color: #fff;
 }
+
 .loginInfo {
   float: right;
   width: 200px;
@@ -603,6 +587,7 @@ li a {
   text-align: center;
   line-height: 70px;
 }
+
 /*第四行  高考志愿百科*/
 .fourRow {
   width: 1500px;
@@ -611,20 +596,22 @@ li a {
   /* background: url(../../assets/u23.png);
   background-size: 100%; */
 }
+
 .carouselList {
   width: 100%;
   height: inherit;
   position: absolute;
   z-index: 1;
 }
+
 .zhiyuan {
-  /* margin-top:20px; */
   z-index: 2;
   margin-left: 1300px;
   width: 500px;
   height: 350px;
   position: absolute;
 }
+
 .zhiyuan .content {
   width: 100%;
   height: 100%;
@@ -632,6 +619,7 @@ li a {
   border-radius: 10px;
   padding: 5px 30px 5px 30px;
 }
+
 .content .header {
   font-size: 24px;
   /* margin-top: 20px; */
@@ -639,6 +627,7 @@ li a {
   color: rgba(0, 0, 0, 0.8);
   text-align: center;
 }
+
 .denglu-label {
   margin-top: 20px;
   border-radius: 15px;
@@ -646,35 +635,42 @@ li a {
   height: 35px;
   text-align: center;
 }
+
 .form-style {
   width: 100%;
 }
+
 .form-item-style {
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   margin-top: 20px;
 }
+
 .input-style >>> .el-input__inner {
   border: 0;
 }
+
 .form-item2 {
   margin-top: 10px;
   padding: 15px 20px;
   background-color: rgba(0, 175, 240, 0.05);
   border-radius: 10px;
 }
+
 .editScore {
   position: relative;
   color: #00a4ff;
   float: right;
   z-index: 999;
 }
+
 .score-item {
   margin-bottom: 10px;
   position: relative;
   height: 20px;
   z-index: 900;
 }
+
 .score-item .label {
   margin-left: 10px;
   display: inline-block;
@@ -683,38 +679,45 @@ li a {
   font-size: 14px;
   text-align: left;
 }
+
 .score-item .value {
   margin-left: 10px;
   display: inline-block;
   color: rgba(0, 0, 0, 0.8);
   font-size: 14px;
 }
+
 .form-item-style {
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   margin-top: 20px;
 }
+
 .input-style >>> .el-input__inner {
   border: 0;
 }
+
 .form-item2 {
   margin-top: 10px;
   padding: 15px 20px;
   background-color: rgba(0, 175, 240, 0.05);
   border-radius: 10px;
 }
+
 .editScore {
   position: relative;
   color: #00a4ff;
   float: right;
   z-index: 999;
 }
+
 .score-item {
   margin-bottom: 10px;
   position: relative;
   height: 20px;
   z-index: 900;
 }
+
 .score-item .label {
   margin-left: 10px;
   display: inline-block;
@@ -723,12 +726,14 @@ li a {
   font-size: 14px;
   text-align: left;
 }
+
 .score-item .value {
   margin-left: 10px;
   display: inline-block;
   color: rgba(0, 0, 0, 0.8);
   font-size: 14px;
 }
+
 .gaokaozongfen {
   margin-top: 20px;
   width: 100%;
@@ -737,18 +742,21 @@ li a {
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 10px;
 }
+
 .span1 {
   color: rgba(0, 0, 0, 0.8);
   font-size: 14px;
   line-height: 45px;
   padding-left: 20px;
 }
+
 .span2 {
   color: #0000004d;
   font-size: 14px;
   line-height: 45px;
   padding-left: 35px;
 }
+
 .quanshengpaiming {
   margin-top: 20px;
   width: 100%;
@@ -757,28 +765,33 @@ li a {
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 10px;
 }
+
 .quanshengpaiming .span1 {
   color: rgba(0, 0, 0, 0.8);
   font-size: 14px;
   line-height: 45px;
   padding-left: 20px;
 }
+
 .quanshengpaiming .span2 {
   color: #0000004d;
   font-size: 14px;
   line-height: 45px;
   padding-left: 35px;
 }
+
 .button .btn {
   margin-top: 20px;
   width: 340px;
   height: 45px;
 }
+
 .tuijianButton .btn {
   margin-top: 20px;
   width: 340px;
   height: 45px;
 }
+
 .viewTable {
   display: block;
   float: left;
@@ -793,12 +806,14 @@ li a {
   width: 1400px;
   margin: 0 auto;
 }
+
 .fiveRow-header {
   margin-top: 20px;
   height: 100px;
   width: 1400px;
   background-color: #f3f5f7;
 }
+
 .fiveRow-box {
   height: 250px;
   width: 1400px;
@@ -806,6 +821,7 @@ li a {
   position: relative;
   border-radius: 15px;
 }
+
 .shuxian {
   float: left;
   top: 2px;
@@ -817,6 +833,7 @@ li a {
   border-radius: 3px;
   background-color: #00aff0;
 }
+
 .shuxian-l {
   float: left;
   color: black;
@@ -824,6 +841,7 @@ li a {
   font-weight: bold;
   margin-left: 40px;
 }
+
 .btn {
   float: left;
   width: 90px;
@@ -832,6 +850,7 @@ li a {
   border-radius: 15px;
   margin-left: 40px;
 }
+
 .btn a {
   display: block;
   text-align: center;
@@ -840,12 +859,14 @@ li a {
   color: #00a4ff;
   text-decoration: none;
 }
+
 .shuxian-r {
   float: left;
   margin-top: 10px;
   margin-left: 20px;
   font-size: 15px;
 }
+
 .shuxian-r span {
   color: rgba(0, 0, 0, 0.5);
 }
@@ -861,6 +882,7 @@ li a {
   bottom: 0;
   right: 0;
 }
+
 .box-content a {
   color: #00aff0;
 }
@@ -870,18 +892,21 @@ li a {
   width: 1400px;
   margin: 0 auto;
 }
+
 .sixRow-header {
   margin-top: 10px;
   height: 100px;
   width: 1400px;
   background-color: #f3f5f7;
 }
+
 .sixRow-box {
   /* height: 660px; */
   width: 1400px;
   position: relative;
   border-radius: 15px;
 }
+
 .sixRow-header .shuxian {
   float: left;
   top: 2px;
@@ -893,6 +918,7 @@ li a {
   border-radius: 3px;
   background-color: #00aff0;
 }
+
 .sixRow-header .shuxian-l {
   float: left;
   color: black;
@@ -900,6 +926,7 @@ li a {
   font-weight: bold;
   margin-left: 40px;
 }
+
 .sixRow-header a {
   display: block;
   float: right;
@@ -909,9 +936,11 @@ li a {
   font-weight: bold;
   color: black;
 }
+
 .word h6 {
   margin-top: 15px;
 }
+
 .word1 h6 {
   margin-top: 15px;
 }
@@ -925,18 +954,21 @@ li a {
   width: 1400px;
   margin: 50px auto 0;
 }
+
 .sevenRow-header {
   margin-top: 10px;
   height: 100px;
   width: 1400px;
   background-color: #f3f5f7;
 }
+
 .sevenRow-box {
   height: 250px;
   width: 1400px;
   /* background-color: #f3f5f7; */
   /* border-radius: 15px; */
 }
+
 .sevenRow-header .shuxian {
   float: left;
   top: 2px;
@@ -948,6 +980,7 @@ li a {
   border-radius: 3px;
   background-color: #00aff0;
 }
+
 .sevenRow-header .shuxian-l {
   float: left;
   color: black;
@@ -955,6 +988,7 @@ li a {
   font-weight: bold;
   margin-left: 40px;
 }
+
 .sevenRow-header a {
   display: block;
   float: right;
@@ -964,21 +998,23 @@ li a {
   font-weight: bold;
   color: black;
 }
+
 .video1 {
   /* float: left;
   height: 350px;
   width: 450px;
   background-color: #fff; */
   padding: 0 0.2rem;
-  background: #fff;
+  background:  #f3f5f7;
   -webkit-box-shadow: rgb(0 0 0 / 4%) 0 0.02rem 0.04rem 0;
   box-shadow: 0 0.02rem 0.04rem 0 rgb(0 0 0 / 4%);
   border-radius: 0.1rem;
   width: 14rem;
-  height: 300px;
+  /*height: 300px;*/
 }
+
 .video1-header .list .item {
-  height: 250px;
+  /*height: 250px;*/
   width: 430px;
   /* background-color: #f95e5a; */
   position: relative;
@@ -987,8 +1023,9 @@ li a {
   margin-left: 18px;
   cursor: pointer;
 }
+
 .video1-header .image {
-  height: 100%;
+  height: 210px;
   width: 100%;
   border-radius: 10px;
 }
@@ -1014,12 +1051,14 @@ li a {
   -webkit-transition: all 0.2s linear;
   transition: all 0.2s linear;
 }
+
 .video1-box p {
   display: inline-block;
   margin-top: 20px;
   margin-left: 10px;
   font-size: 21px;
 }
+
 .video2 {
   float: left;
   height: 350px;
@@ -1027,6 +1066,7 @@ li a {
   background-color: #fff;
   margin-left: 25px;
 }
+
 .video3 {
   float: left;
   height: 350px;
@@ -1040,10 +1080,12 @@ li a {
   margin-top: 30px;
   margin-left: 120px;
 }
+
 .eightRow dt {
   font-size: 16px;
   color: #fff;
 }
+
 .eightRow dl dd {
   margin-top: 10px;
   font-size: 12px;
@@ -1054,6 +1096,7 @@ li a {
   width: 100%;
   /*height: 665px;*/
 }
+
 .carousel-img img {
   width: 100%;
   height: 100%;
@@ -1067,6 +1110,7 @@ li a {
   border-radius: 10px;
   box-shadow: rgb(0 0 0 / 4%) 0px 2px 4px 0px;
 }
+
 .default-list li {
   float: left;
   margin: 20px 30px 20px 10px;
@@ -1078,29 +1122,34 @@ li a {
   cursor: pointer;
   transition: all 0.2s linear 0s;
 }
+
 .default-list li:hover {
   cursor: pointer;
   box-shadow: rgb(0 0 0 / 8%) 0px 3px 8px 0px;
   transform: translate3d(0px, -8px, 0px);
 }
+
 .commend-item-image {
   display: block;
   width: 60px;
   height: 60px;
   margin: 0px auto;
 }
+
 .commend-item-title {
   margin: 15px auto 9px;
   color: rgba(0, 0, 0, 0.8);
   font-size: 14px;
   width: 115px;
 }
+
 .textOverflow {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   word-break: break-all;
 }
+
 .commend-item-code {
   background: rgb(242, 242, 242);
   border-radius: 12px;
@@ -1110,15 +1159,18 @@ li a {
   padding: 3px 8px;
   margin-bottom: 7px;
 }
+
 .commend-item-des {
   color: rgba(0, 0, 0, 0.3);
   font-size: 12px;
   letter-spacing: 0px;
 }
+
 .moreIcn {
   font-size: 80px;
   color: #00a4ff;
 }
+
 .commend-item-title {
   margin: 15px auto 9px;
   color: rgba(0, 0, 0, 0.8);
@@ -1132,6 +1184,7 @@ li a {
   font-weight: normal;
   color: rgba(0, 0, 0, 0.5);
 }
+
 .wap {
   padding: 0px 20px;
   background: rgb(255, 255, 255);
@@ -1145,10 +1198,12 @@ li a {
   background: rgb(255, 255, 255);
   z-index: 0;
 }
+
 .wap .skeleton .list::after {
   display: table;
   content: "";
 }
+
 .wap .skeleton .list .item {
   width: 80%;
   position: relative;
@@ -1158,32 +1213,38 @@ li a {
   font-weight: 600;
   border-bottom: 1px solid rgb(239, 239, 239);
 }
+
 .wap .list .image {
   width: 150px;
   height: 100px;
   border-radius: 10px;
   margin-right: 40px;
 }
+
 .wap .list .image .zixunImage {
   width: 150px;
   border-radius: 10px;
   height: 100px;
 }
+
 .wap .content {
   position: absolute;
   width: 1000px;
   top: 30px;
   left: 190px;
 }
+
 .wap .content .content-title {
   font-size: 18px;
   color: rgb(30, 30, 30);
   font-weight: bold;
   margin-bottom: 15px;
 }
+
 .wap .content .content-title-gray {
   color: rgb(124, 124, 124);
 }
+
 .wap .time {
   float: right;
   margin-right: 50px;
@@ -1191,6 +1252,7 @@ li a {
   color: rgb(174, 174, 174);
   display: inline-block;
 }
+
 .wap .news {
   font-size: 14px;
   color: rgb(124, 124, 124);
