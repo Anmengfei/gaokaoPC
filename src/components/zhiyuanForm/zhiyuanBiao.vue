@@ -9,7 +9,7 @@
           <span>我的成绩：1段 613分 物理,化学,生物</span>
         </div>
         <div class="operation">
-          <button>修改</button>
+          <button @click="gotoEdit">修改</button>
           <button>保存</button>
           <button>导出</button>
           <button>打印</button>
@@ -98,9 +98,21 @@ export default {
     getAllData () {
       this.zhiyuanTableList = this.$route.params.zhiyuanTable
       console.log('志愿表单取得数据', this.zhiyuanTableList)
+      window.localStorage.setItem('zhiyuanbiaodan', JSON.stringify(this.zhiyuanTableList))
+      console.log('本地存储内容', JSON.parse(localStorage.getItem('zhiyuanbiaodan')))
     },
     indexMethod (index) {
       return index + 1
+    },
+    gotoEdit () { // 修改按钮，跳转回上一个界面
+      window.localStorage.setItem('zhiyuanbiaodan', JSON.stringify(this.zhiyuanTableList))
+      console.log('本地存储内容', JSON.parse(localStorage.getItem('zhiyuanbiaodan')))
+      this.$router.push({
+        name: 'SchoolRecommand',
+        params: {
+          zhiyuanTable: this.zhiyuanTableList
+        }
+      })
     },
     goUp (index, row) { // 上移
       console.log('row的信息', row)
@@ -161,12 +173,12 @@ export default {
   background-color: white;
   width: 100%;
 }
-.homeheader {
-  width: 100%;
-  margin-top: .2rem;
-  height: .7rem;
-  background-color: #ff5a38 !important;
-}
+/*.homeheader {*/
+/*  width: 100%;*/
+/*  margin-top: .2rem;*/
+/*  height: .7rem;*/
+/*  background-color: #ff5a38 !important;*/
+/*}*/
 .container .content .table_head{
   background-color: #00aff0;
   display: flex;

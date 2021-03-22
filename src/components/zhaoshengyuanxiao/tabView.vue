@@ -7,8 +7,8 @@
             ><div class="lf-box">
               <img src="../../assets/logo.png" class="img-logo" /></div
           ></el-col>
-          <el-col :span="20"
-            ><div class="rg-box">
+          <el-col :span="20">
+            <div class="rg-box">
               <div class="name">法学</div>
               <div>
                 <span class="tag">法学-法学类</span>
@@ -16,8 +16,8 @@
                 <span class="tag">四年制</span>
                 <span class="tag">学位法学学士</span>
               </div>
-            </div></el-col
-          >
+            </div>
+          </el-col>
         </el-row>
       </div>
       <div class="mytab">
@@ -35,22 +35,22 @@
   </div>
 </template>
 <script>
-import schoolListContent from "../zhaoshengyuanxiao/schoolListContent";
+import schoolListContent from '../zhaoshengyuanxiao/schoolListContent'
 export default {
-  data() {
+  data () {
     return {
-      activeName: "second",
-    };
+      activeName: 'second'
+    }
   },
   components: {
-    schoolListContent,
+    schoolListContent
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
-    },
-  },
-};
+    handleClick (tab, event) {
+      console.log(tab, event)
+    }
+  }
+}
 </script>
 <style scoped>
 * {

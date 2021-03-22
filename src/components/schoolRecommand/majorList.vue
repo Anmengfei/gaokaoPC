@@ -1,0 +1,382 @@
+<template>
+  <div class="app-container">
+    <el-tabs type="border-card">
+      <el-tab-pane label="冲" name="chong">
+        <div class="container">
+          <ul>
+            <li v-for="(item,index) in majorList" :key="index">
+              <el-row>
+                <el-col :span="2">
+                  <div class="icon">
+                    <img  class="schoologo" :src="item.logoPath" />
+                  </div>
+                </el-col>
+                <el-col :span="18">
+                  <div class="desc">
+                    <div>
+                      <span class="name">{{ item.majorName }}</span>
+                      <span class="province">{{ item.schoolName }}</span>
+                    </div>
+                  </div>
+                </el-col>
+                <el-col :span="4">
+                  <div class="chooseBtn">
+                    <button type="button" class="chooseMajor" v-show="btnFlag[index]" @click="btnShow(index,item.majors)">
+                      <span >加入意向</span>
+                    </button>
+                    <button type="button" class="chooseNoMajor" v-show="!btnFlag[index]" @click="btnShow(index,item.majors)">
+                      <span >已加意向</span>
+                    </button>
+                  </div>
+                </el-col>
+              </el-row>
+            </li>
+          </ul>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="稳" name="wen">
+        <div>235</div>
+      </el-tab-pane>
+      <el-tab-pane label="保" name="bao">
+        <div>567</div>
+      </el-tab-pane>
+    </el-tabs>
+
+    <!--        分页器-->
+    <div class="box3">
+      <el-pagination
+        class="pagination"
+        background
+        layout="prev, pager, next"
+        :total="pageInfo.pagetotal"
+        :current-page ='pageInfo.pagenum'
+        :page-size='pageInfo.pagesize'
+        @current-change="handleCurrentChange">
+      </el-pagination>
+    </div>
+  </div>
+</template>
+
+<script>
+import { getAllMajor } from '../../api/schoolInfo'
+export default {
+  name: 'majorList',
+  props: ['selected', 'volform'],
+  mounted () {
+    this.getAllMajorData(this.pageInfo.pagenum)
+  },
+  data () {
+    return {
+      activeName: 'first',
+      btnFlag: [true, true, true, true, true, true, true, true, true, true], // 控制显示“选择意向专业”“收起专业”
+      majorList: [], // 保存专业信息
+      pageInfo: {
+        pagenum: 0, // 当前页数
+        pagesize: 10, // 每页条数
+        pagetotal: 100// 总条目数
+      },
+      pageRecord: 0, // 用于记录每次点击的页号
+      selectnecess: {},
+      majorlist: [], // 专业列表
+      addWillFlagofSchool: '',
+      addWillFlag: -1// 判断加入志愿按钮是否变灰
+
+    }
+  },
+  watch: {
+    selected: {
+      handler () {
+        this.getAllMajorData(this.pageInfo.pagenum)
+      },
+      immediate: true,
+      deep: true
+    },
+    volform: {
+      handler (newValue, oldvalue) {
+        console.log('数据改变', newValue, oldvalue)
+        console.log('this.pageInfo.pagenum的值', this.pageInfo.pagenum)
+        // 1.向志愿表单添加数据（新数据长度>旧数据长度）--不执行操作  2.从志愿表单删除或清空数据（新数据长度<=旧数据长度）--执行操作
+        if (newValue.length <= oldvalue.length) {
+          // 将已经加入志愿表单的学校的按钮状态置为灰色
+          this.getAllMajorData(this.pageRecord)
+        }
+      }
+    }
+
+  },
+  methods: {
+    btnShow (id, majorls) {
+      this.$set(this.btnFlag, id, !this.btnFlag[id])
+      this.$set(this.majorShow, id, !this.majorShow[id])
+      // console.log('专业列表', majorls)
+
+      this.majorlist = majorls
+    },
+    getAllMajorData (pagenum) {
+      getAllMajor({
+        feature: this.selected.levelSelect,
+        page: pagenum,
+        examProvince: '山东',
+        risk: '冲',
+        score: 600,
+        size: 10
+      }).then((res) => {
+        if (res.status === 200) {
+          // console.log('收到数据啊啊啊啊啊', this.volform)
+          this.majorList = res.data.data
+          console.log('majorlist信息数据', this.majorList)
+          // for (let i = 0; i < this.majorList.length; ++i) { // 为每一条数据的专业信息添加一条标志位flag=-1
+          //   for (let j = 0; j < this.majorList[i].majors.length; ++j) {
+          //     this.majorList[i].majors[j].flag = -1
+          //   }
+          // }
+          // 将已经加入志愿表单的学校的按钮状态置为灰色
+          // for (let i = 0; i < this.majorList.length; ++i) {
+          //   for (let j = 0; j < this.majorList[i].majors.length; ++j) {
+          //     for (let k = 0; k < this.volform.length; ++k) {
+          //       if ((this.volform[k].id === this.majorList[i].majors[j].id) && (this.volform[k].schoolName === this.majorList[i].majors[j].schoolName)) {
+          //         this.majorList[i].majors[j].flag = (i + '' + j)
+          //       }
+          //     }
+          //   }
+          // }
+
+          console.log('this.majorList数据', this.majorList)
+        } else {
+          this.$message.error('无法取得数据')
+          // console.log('无法取得数据')
+        }
+      })
+    },
+    handleCurrentChange (val) { // 分页器执行函数
+      this.btnFlag = [true, true, true, true, true, true, true, true, true, true]
+      this.majorShow = [false, false, false, false, false, false, false, false, false, false]
+      let page = val
+      console.log(`当前页:`, page--)
+      this.pageRecord = page
+      console.log('this.pageRecord的数据是不是当前页-1?', this.pageRecord)
+      this.getAllMajorData(page--)
+    },
+    addForm (index, item1, index1) { // 加入志愿表单函数
+      this.$emit('addform', item1)
+      item1.flag = index + '' + index1
+      // this.$forceUpdate() // 数据更新之后，强制试图更新
+    }
+
+  }
+
+}
+</script>
+
+<style scoped>
+.container{
+  width:100%;
+}
+.container ul li{
+  overflow: auto;
+  height: 1.5rem;
+  margin-top: 2%;
+  border-bottom: .001rem dashed #e4e4e4;
+}
+.container .desc{
+  float: left;
+  margin-top: .05rem;
+  padding-top: .1rem;
+  padding-bottom: .2rem;
+  padding-left: .4rem;
+}
+.container .icon {
+  float: left;
+  margin-top: .05rem;
+  margin-left: 1%;
+}
+.schoologo {
+  width: .9rem;
+  height: .9rem;
+  border-radius:0.25rem;
+  overflow: hidden;
+
+}
+.container .icon img {
+  width: .9rem;
+  height: .9rem;
+}
+.container .desc .schooltags span{
+  display: inline-block;
+  margin-right: .25rem;
+  margin-top: .1rem;
+  padding: .1rem .15rem;
+  color: rgb(153, 153, 153);
+  font-size: .05rem;
+  border: .02rem solid rgb(228, 228, 228);
+  border-radius: .15rem;
+}
+.container .desc .name {
+  font-weight: 800;
+}
+.container .desc .province{
+  font-size: .15rem;
+  margin-left: .2rem;
+}
+.container .chooseMajor {
+  margin-top: .2rem;
+  width: 1.7rem;
+  border:.02rem solid #00aff0;
+  padding: .1rem;
+  border-radius: .08rem;
+  font-size: .1rem;
+  background-color: transparent;
+  outline: none;
+  color: #00aff0;
+  cursor: pointer;
+
+}
+
+.container .chooseNoMajor {
+  margin-top: .2rem;
+  width: 1.7rem;
+  border:.02rem solid #00aff0;
+  padding: .1rem;
+  border-radius: .08rem;
+  font-size: .1rem;
+  background-color: transparent;
+  outline: none;
+  color: #00aff0;
+  disabled:disabled;
+}
+
+.container .chooseMajor .img1{
+  height: .25rem;
+  border-radius: .2rem;
+  letter-spacing: 0;
+}
+
+.container .chooseMajor .img2{
+  height: .25rem;
+  border-radius: .2rem;
+  letter-spacing: 0;
+  transform:rotate(180deg);
+}
+
+.box3{
+  width: 100%;
+  margin-top: 2%;
+  text-align: center;
+}
+
+/deep/ .pagination {
+  text-align: center;
+  margin-top: .3rem;
+}
+
+li{
+  list-style: none;
+}
+.app-container1{
+  width:95%;
+  margin-left: 5%;
+  border-top: .001rem dashed #e4e4e4;
+  max-height: 6rem;
+  overflow-y: auto;
+  padding-left: 1rem;
+}
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+.app-container1::-webkit-scrollbar{
+  width: .1rem;
+  height: 100%;
+  background-color: #F5F5F5;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+.app-container1::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #F5F5F5;
+}
+
+/*定义滑块 内阴影+圆角*/
+.app-container1::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, .1);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .1);
+  background-color: #c8c8c8;
+}
+.app-container1 ul li {
+  overflow: hidden;
+}
+.app-container1 .text{
+  float: left;
+}
+.app-container1 .name{
+  /*float: left;*/
+  margin-top: 1%;
+  font-weight: 800;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+.app-container1 .evaluation{
+  font-size: .01rem;
+  font-weight: 600;
+  margin-left: .2rem;
+  padding: .05rem;
+  border-radius:50%;
+  background-color: #fbbbcf;
+  color: #d53f2f;
+}
+.app-container1 .desc{
+  /*float: left;*/
+  margin-top: 1%;
+}
+
+.app-container1 .desc .name {
+  font-weight: 600;
+  font-size: .3rem;
+  color: rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+}
+
+.app-container1 .desc span{
+  display: inline-block;
+  margin-right: .1rem;
+  margin-top: .02rem;
+  padding-top: 0.1rem;
+  padding-right: .1rem;
+  color: rgb(153, 153, 153);
+  font-size: .05rem;
+
+}
+/*.app-container1 .btn{*/
+/*  float: left;*/
+/*  margin-left: .2rem;*/
+/*}*/
+
+.app-container1 .chooseWill{
+  margin-top: .2rem;
+  width: 1.7rem;
+  border:.02rem solid #00aff0;
+  padding: .1rem;
+  border-radius: .08rem;
+  font-size: .1rem;
+  background-color: transparent;
+  outline: none;
+  color: #00aff0;
+  cursor: pointer;
+  margin-left: .2rem;
+}
+.app-container1 .chooseNoWill{
+  margin-top: .2rem;
+  width: 1.7rem;
+  border:.02rem solid #b2b2b2;
+  padding: .1rem;
+  border-radius: .08rem;
+  font-size: .1rem;
+  background-color: transparent;
+  outline: none;
+  color: #b2b2b2;
+  margin-left: .2rem;
+  disabled:disabled;
+}
+
+</style>
