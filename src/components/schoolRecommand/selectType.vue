@@ -173,8 +173,8 @@
     <div class="schoollist">
       <el-row>
         <el-col :span="19">
-          <school-list :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-if="false"></school-list>
-          <MajorList :selected="collegeselete" ></MajorList>
+          <school-list :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo"></school-list>
+          <MajorList :selected="collegeselete" v-if="false"></MajorList>
         </el-col>
         <el-col :span="5">
           <div class="auto_fixed" :class="auto_fixed">
