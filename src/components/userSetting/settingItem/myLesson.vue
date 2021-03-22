@@ -170,10 +170,10 @@ export default {
     }
   },
   mounted () {
-    this.getList()
-    this.getOnlineList()
-    this.getOfflineList()
-    this.getCollectList()
+    // this.getList()
+    // this.getOnlineList()
+    // this.getOfflineList()
+    // this.getCollectList()
   },
   methods: {
     getOnlineList () {

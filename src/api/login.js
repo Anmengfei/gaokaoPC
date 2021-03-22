@@ -8,3 +8,11 @@ export function withVerifyCodelogin (data) {
     params: data
   })
 }
+//退出登录
+export function userLogout(data) {
+  return request({
+    url: '/userApp/logOut',
+    method: 'post',
+    params: data
+  })
+}

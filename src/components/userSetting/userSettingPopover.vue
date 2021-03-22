@@ -87,7 +87,7 @@ export default {
   },
 
   mounted () {
-    this.getInfo()
+    // this.getInfo()
   },
   methods: {
     gotoUserSetting: function () {

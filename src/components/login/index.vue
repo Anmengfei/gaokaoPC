@@ -97,9 +97,9 @@
               <!--<el-radio :label="2">学生</el-radio>-->
               <!--<el-radio :label="1">老师</el-radio>-->
               <!--</el-radio-group>-->
-              <div class="login-button-style" @click="userregister('ruleForm2')">
-                注册
-              </div>
+<!--              <div class="login-button-style" @click="userregister('ruleForm2')">-->
+<!--                注册-->
+<!--              </div>-->
               <!--<el-button type="primary" class="login-button" size="large" @click="userregister('ruleForm2')">注册</el-button>-->
             </div>
           </el-form>

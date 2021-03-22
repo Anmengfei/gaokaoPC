@@ -12,10 +12,29 @@
             </ul>
           </div>
       <div class="user-info">
-        <div class="user-login">
+        <div class="user-login" v-if="loginflag">
           <a title="登录考哪儿" @click="noLogin">登录</a>
         </div>
-        <div class="logout">
+        <div class="logout" v-else>
+          <el-dropdown  @command="logout">
+            <div class="user-head-img" >
+              <div class="user-head-img-wra">
+                <img src="https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eod5XoDYQzN4ib6CTytO2EwibibARW7IhUEo9L5ia5Ud8XRhShw7WWobOgvfTXibW92qNe9aSkpYdE4TqQ/132" width="50" height="50">
+              </div>
+              <a href="/accounts/personInfo/modifyInfo" title="个人资料" id="username">孙同学</a>
+            </div>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item  command="info"><i class="iconfont icon-gerenziliao" style="color: #e5623f;"></i>个人资料</el-dropdown-item>
+              <el-dropdown-item  command="logout"><i class="iconfont icon-icon-tuichu" style="color: #e5623f;"></i>退出登录</el-dropdown-item>
+
+            </el-dropdown-menu>
+          </el-dropdown>
+<!--          <div class="user-head-img">-->
+<!--            <div class="user-head-img-wra">-->
+<!--              <img src="https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eod5XoDYQzN4ib6CTytO2EwibibARW7IhUEo9L5ia5Ud8XRhShw7WWobOgvfTXibW92qNe9aSkpYdE4TqQ/132" width="60" height="60">-->
+<!--            </div>-->
+<!--            <a href="/accounts/personInfo/modifyInfo" title="个人资料" id="username">孙同学</a>-->
+<!--          </div>-->
 <!--          <a v-if="flag_state === true" class="nav_a">-->
 <!--            <user-setting-popover></user-setting-popover>-->
 <!--          </a>-->
@@ -206,13 +225,13 @@
 </template>
 
 <script>
-import userSettingPopover from '@/components/userSetting/userSettingPopover'
-import Logout from '@/components/userSetting/logout'
+// import userSettingPopover from '@/components/userSetting/userSettingPopover'
+// import Logout from '@/components/userSetting/logout'
 import md5 from 'js-md5'
-import { withVerifyCodelogin } from '@/api/login'
+import { withVerifyCodelogin ,userLogout} from '@/api/login'
 export default {
   name: 'header1',
-  components: { userSettingPopover, Logout },
+  // components: { userSettingPopover, Logout },
   data () {
     var checkName = (rule, value, callback) => {
       if (!value) {
@@ -268,7 +287,8 @@ export default {
       strCode: '',
       duanxinNum: '',
       tagsShow: '登录',
-      loginflag: false,
+      loginflag: true,
+      loginflag11: false,
       radio: '2',
       showpassword: true,
       showCountNum: true,
@@ -300,7 +320,8 @@ export default {
       },
       flag_login: '未登录',
       flag_state: true,
-      showlogin: false
+      showlogin: false,
+      // showlogin: true
     }
   },
   props: {
@@ -309,12 +330,11 @@ export default {
   },
   created () {
     this.flag_login = localStorage.getItem('flag_class')
-    if (localStorage.getItem('flag_class') === null) {
-      this.loginflag = false
-    } else {
+    if (localStorage.getItem('token') === null) {
       this.loginflag = true
+    } else {
+      this.loginflag = false
     }
-    this.flag_state = false
   },
   computed: {
     showNum () {
@@ -327,6 +347,19 @@ export default {
   },
   mounted () {},
   methods: {
+    logout(command){
+      if(command == 'logout'){
+        userLogout().then( res=> {
+          if(res.code == 0){
+            this.msgSuccess('退出登录')
+            console.log('退出登录成功')
+            this.loginflag = true
+          }else{
+            this.msgError('操作失败')
+          }
+        })
+      }
+    },
     noLogin(){
       this.showlogin =true
     },
@@ -429,7 +462,8 @@ export default {
             message: '登录成功',
             type: 'success'
           })
-          localStorage.setItem('flag_class', '已登录')
+          console.log('登录测试',res)
+          localStorage.setItem('token', res.data.token)
           this.showlogin = false
           this.loginflag = true
           this.$router.push({
@@ -575,10 +609,7 @@ export default {
 </script>
 
 <style scoped>
-* {
-  padding: 0;
-  margin: 0;
-}
+
 .container {
   background-color: #e5623f;
   margin-top: 15px;
@@ -588,9 +619,10 @@ export default {
 
 }
 .container .header1{
-  width: 1400px;
+  width: 1500px;
   height: 60px;
   margin: 0 auto;
+  margin-right: 100px;
   list-style-type:none;
 }
 .container .header1 .uzy-nav{
@@ -602,18 +634,18 @@ export default {
   position: relative;
 }
 .container .header1 .user-info{
-  width: 100px;
+  width: 200px;
   height: 60px;
   line-height: 60px;
   color: #fff;
   float: right;
 }
-.container .header1 .user-info .user-login a{
+.container .header1 .user-info  a{
   text-decoration:none;
   color: white;
   cursor: pointer;
 }
-.container .header1 .user-info .user-login a:hover {
+.container .header1 .user-info  a:hover {
   color:#4b4b4b;
   background-color: transparent;
 }
@@ -1016,5 +1048,26 @@ export default {
 /deep/ .el-dialog__body {
   /*background: transparent !important;*/
   background-color: transparent;
+}
+.logout {
+  cursor: pointer;
+  float: left;
+  position: relative;
+}
+.logout .user-head-img .user-head-img-wra{
+  /*border: 3px solid #de432b;*/
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  float: left;
+  margin-right: 10px;
+  margin-top: 5px;
+}
+.logout .user-head-img .user-head-img-wra img {
+  display: inline-block;
+  margin-top: -14px;
+  border: 0;
+  vertical-align: middle;
 }
 </style>

@@ -194,7 +194,7 @@
                       <span class="major">{{ item.majorName }}</span>
                     </div>
                     <div >
-                      <i class="icon-shanchu1"></i>
+                      <i class="iconfont icon-shanchu1"></i>
                     </div>
                   </div>
                 </div>
