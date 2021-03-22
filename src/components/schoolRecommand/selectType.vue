@@ -150,7 +150,7 @@
                     </el-dropdown-item>
                   </el-checkbox-group>
                   <div class="tzy-dropdown-action">
-                    <el-button type="primary" size="mini" @click="followSearch">确定</el-button>
+                    <el-button type="primary" size="mini" @click="followMajorSearch">确定</el-button>
                   </div>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -579,16 +579,16 @@ export default {
         this.checkmajorList = []
       }
     },
-    handlemajorCheckedfollowChange (value) {
+    handlemajorCheckedfollowChange(value) {
       let checkedCount = value.length
-      this.checkAll = checkedCount === this.followCollege.length
+      this.checkmajorAll = checkedCount === this.followMajor.length
     },
 
-    followSearch () {
-      // this.checkList.forEach( item => {
-      //   this.collegeselete.push(item.followName)
-      // })
-      this.collegeselete.followSelect = this.checkList
+    followSearch(){
+      this.collegeselete.followSelect = this.checkList;
+    },
+    followMajorSearch(){
+      this.majorselect.push.apply(this.majorselect,this.checkmajorList)
     },
     handleDeleteInfo (index) { // 志愿表单删除
       this.volForm.splice(index, 1)

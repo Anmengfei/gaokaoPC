@@ -1,27 +1,27 @@
 <template>
   <div class="app_container">
-      <top-header></top-header>
-      <HomeHeader :flagInfo="true"></HomeHeader>
-      <select-type></select-type>
+    <top-header></top-header>
+    <HomeHeader :flagInfo="true"></HomeHeader>
+    <select-type></select-type>
     <Footer></Footer>
   </div>
 </template>
 
 <script>
-import TopHeader from '@/components/common/topheader'
-import HomeHeader from '@/components/common/header1'
-import Footer from '@/components/common/footer1'
-import CjList from './schoolList'
-import SelectType from '../schoolRecommand/selectType'
+import TopHeader from "@/components/common/topheader";
+import HomeHeader from "@/components/common/header1";
+import Footer from "@/components/common/footer1";
+import CjList from "./schoolList";
+import SelectType from "../schoolRecommand/selectType";
 export default {
-  name: 'SchoolRecommand',
+  name: "SchoolRecommand",
   loginStatus: true,
   components: { TopHeader, HomeHeader, Footer, CjList, SelectType },
-  data () {
-    return {}
+  data() {
+    return {};
   },
-  methods: {}
-}
+  methods: {},
+};
 </script>
 
 <style scoped>
@@ -44,6 +44,6 @@ a {
   background-color: #e5623f;
   /* background-color: #f95e5a; */
   width: 100%;
-  height: .7rem;
+  height: 0.7rem;
 }
 </style>
