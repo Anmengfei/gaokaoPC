@@ -53,10 +53,20 @@
             label="操作">
            <template slot-scope="scope">
              <div class="operationBtn">
-               <el-button type="text" size="mini" :disabled="scope.$index===0" @click="goUp(scope.$index,scope.row)">上移</el-button>
-               <el-button type="text" size="mini" :disabled="scope.$index===zhiyuanTableList.length-1" @click="goDown(scope.$index,scope.row)">下移</el-button>
+               <div class="op1">
+                 <div class="btn1">
+                   <el-button type="text" size="mini" :disabled="scope.$index===0" @click="goUp(scope.$index,scope.row)"><i class="iconfont icon-top-btn-fill"></i></el-button>
+                 </div>
+                 <div class="btn2">
+                   <el-button type="text" size="mini" :disabled="scope.$index===zhiyuanTableList.length-1" @click="goDown(scope.$index,scope.row)"><i class="iconfont icon-bottom-btn-fill"></i></el-button>
+                 </div>
+               </div>
+               <div class="op2">
+                  <el-button type="text" size="mini" @click="handleDelete(scope.$index)">
+                    <i class="iconfont icon-shanchu1"></i>
+                  </el-button>
+               </div>
              </div>
-             <el-button type="text" size="mini" @click="handleDelete(scope.$index)">删除</el-button>
            </template>
           </el-table-column>
         </el-table>
@@ -180,6 +190,34 @@ export default {
   text-align: center;
   margin: 0 auto;
   overflow: unset !important;
+}
+.operationBtn .iconfont{
+  width: .2rem;
+  height: .2rem;
+  font-size: .35rem;
+}
+
+.operationBtn .icon-shanchu1{
+  color: #1e1e1e;
+}
+.operationBtn {
+  display: flex;
+}
+.operationBtn .op1{
+  /*display: inline-block;*/
+  /*margin-right: .3rem;*/
+  flex: 1;
+
+}
+.operationBtn .op2{
+  flex: 3;
+  display: flex;
+  align-items: center;
+  /*vertical-align: baseline;*/
+
+}
+.operationBtn .op1 .btn1{
+  margin-bottom: .2rem;
 }
 
 </style>

@@ -193,8 +193,8 @@
                       <span class="school">{{ item.schoolName }}</span><br/>
                       <span class="major">{{ item.majorName }}</span>
                     </div>
-                    <div id="option">
-                      <button></button>
+                    <div class="deleteZhiyuan">
+                      <i class="iconfont icon-shanchu1" @click="handleDeleteInfo"></i>
                     </div>
                   </div>
                 </div>
@@ -234,7 +234,7 @@ export default {
   data () {
     return {
       checkList: [],
-      checkmajorList:[],
+      checkmajorList: [],
       followCollege: [],
       followMajor: [],
       checkAll: false,
@@ -253,7 +253,7 @@ export default {
         // sortSelect:[],
         sortSelect: [],
         followSelect: [],
-        followMajorSelect:[],
+        followMajorSelect: []
       },
       majorselect: [],
       active: '',
@@ -273,7 +273,7 @@ export default {
       volForm: [], // 高考志愿表单
       showvolformdata: true, // 高考志愿表单是否显示添加志愿（true未添加 false添加）
       schooladvice: [],
-      majoradvice:[],
+      majoradvice: []
     }
   },
   computed: {
@@ -521,7 +521,7 @@ export default {
         cb(this.schooladvice)
       })
     },
-    querymajorSearch(queryString, cb) {
+    querymajorSearch (queryString, cb) {
       console.log('ceshi', queryString, cb)
       getsearchMajor({
         majorName: queryString
@@ -530,11 +530,11 @@ export default {
         cb(this.majoradvice)
       })
     },
-    handleMajorSelect(item) {
-      console.log(item);
+    handleMajorSelect (item) {
+      console.log(item)
       followMajor({
         majorName: item.name,
-        phoneNum: this.phoneNum,
+        phoneNum: this.phoneNum
       }).then(res => {
         if (res.code == 0) {
           this.msgSuccess('关注成功')
@@ -543,8 +543,11 @@ export default {
           this.msgWarning('用户已关注')
         }
       })
-
     },
+    // handleCheckAllChange (val) {
+    //   this.checkedCities = val ? cityOptions : []
+    //   this.isIndeterminate = false
+    // },
     handleSelect (item) {
       console.log(item)
       followSchool({
@@ -563,91 +566,38 @@ export default {
       this.checkedCities = val ? cityOptions : []
       this.isIndeterminate = false
     },
-    clickToZhiyuanBiao () { // 下一步按钮，转向新的界面
-      this.$router.push({
-        name: 'zhiyuanBiao',
-        params: {
-          zhiyuanTable: this.volForm
-        }
-      })
-    handleCheckAllChange(val) {
-      if(val){
-        this.followCollege.forEach( item => {
-          this.checkList.push(item.followName)
-        })
-      }else {
-        this.checkList =  [];
-      }
+    handleCheckedfollowChange (value) {
+      let checkedCount = value.length
+      this.checkAll = checkedCount === this.followCollege.length
     },
-    // 测试
-    querySearch (queryString, cb) {
-      console.log('ceshi', queryString, cb)
-      getsearchSchool({
-        schoolName: queryString
-      }).then(res => {
-        this.schooladvice = res.data
-        cb(this.schooladvice)
-      })
-    },
-    handleSelect (item) {
-      console.log(item)
-      followSchool({
-        phoneNum: this.phoneNum,
-        schoolName: item.schoolName
-      }).then(res => {
-        if (res.code == 0) {
-          this.msgSuccess('关注成功')
-        } else if (res.code == 617) {
-          this.msgWarning('用户已关注')
-        }
-      })
-      this.init()
-    },
-    handleCheckAllChange (val) {
-      this.checkedCities = val ? cityOptions : []
-      this.isIndeterminate = false
-    }
-    handleCheckedfollowChange(value) {
-      let checkedCount = value.length;
-      this.checkAll = checkedCount === this.followCollege.length;
-    },
-    handlemajorCheckAllChange(val) {
-      if(val){
-        this.followMajor.forEach( item => {
+    handlemajorCheckAllChange (val) {
+      if (val) {
+        this.followMajor.forEach(item => {
           this.checkmajorList.push(item.followName)
         })
-      }else {
-        this.checkmajorList =  [];
+      } else {
+        this.checkmajorList = []
       }
     },
-    handlemajorCheckedfollowChange(value) {
-      let checkedCount = value.length;
-      this.checkAll = checkedCount === this.followCollege.length;
+    handlemajorCheckedfollowChange (value) {
+      let checkedCount = value.length
+      this.checkAll = checkedCount === this.followCollege.length
     },
 
-    followSearch(){
+    followSearch () {
       // this.checkList.forEach( item => {
       //   this.collegeselete.push(item.followName)
       // })
-      this.collegeselete.followSelect = this.checkList;
-
+      this.collegeselete.followSelect = this.checkList
     },
+    handleDeleteInfo (index) { // 志愿表单删除
+      this.volForm.splice(index, 1)
+    }
   }
 }
 </script>
 
 <style scoped>
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  /*background: transparent;*/
-}
-
-/*div {*/
-/*  display: block;*/
-/*}*/
-
 li{
   list-style: none;
 }
@@ -750,7 +700,6 @@ li{
   display: flex;
   -webkit-box-align: center;
   align-items: center;
-  margin-left: 5px;
 }
 
 .dropdown {
@@ -898,16 +847,7 @@ li{
   flex: 1;
   height:100%;
 }
-.box .fudongBox .content .formdata #option button{
-  background: url("../../assets/delete.png");
-  width: .3rem;
-  height: .3rem;
-  background-size:100% 100%;
-  border: 0;
-}
-.box .fudongBox .content .formdata #option button:focus{
-  outline:0;
-}
+
 .box .fudongBox .foot {
   height: .8rem;
   border-top: .01rem solid rgba(0, 0, 0, 0.1);
@@ -966,10 +906,15 @@ li{
 }
 
 .auto_fixed {
+
 }
 
+.deleteZhiyuan {
+  margin-right: .2rem;
+  padding-top: 3%;
+}
 .fixed {
   position: fixed;
-  top: 0px;
+  top: 0rem;
 }
 </style>
