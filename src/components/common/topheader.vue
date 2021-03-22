@@ -4,7 +4,7 @@
   <div class="app-header">
     <div class="bgGrey">
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :span="8" class="welcomeWord">
           <span class="ml50">欢迎来到大数据智能高考志愿填报平台</span>
         </el-col>
         <el-col :span="7"> &nbsp; </el-col>
@@ -60,7 +60,9 @@
               </el-popover>
             </el-col>
             <el-col :span="6">
-              <span>志愿VIP卡激活</span>
+              <div class="vipSpan">
+                <span>志愿VIP卡激活</span>
+              </div>
             </el-col>
           </el-row>
         </el-col>
@@ -71,7 +73,7 @@
         <el-col :span="6">
           <div class="logo">
             <img src="../../assets/logo.jpg" class="img-logo" />
-            <div class="plateName">考哪儿</div>
+            <div class="plateName">智禾 考哪儿</div>
           </div>
         </el-col>
         <el-col :span="12">
@@ -145,6 +147,14 @@ a {
   background-color: hsla(0, 0%, 83%, 0.3);
   /* background-color: #dcdfe6; */
   border: none;
+}
+.welcomeWord {
+  /* text-align: center; */
+  /* line-height: 1; */
+  margin-top: 0.09rem;
+}
+.vipSpan {
+  margin-top: 0.09rem;
 }
 .erweima {
   width: 100%;
