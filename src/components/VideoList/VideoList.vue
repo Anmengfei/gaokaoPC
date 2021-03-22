@@ -111,7 +111,7 @@ export default {
       },
       false
     );
-    this.getInfo();
+    // this.getInfo();
   },
   methods: {
     showVideo(item, index) {

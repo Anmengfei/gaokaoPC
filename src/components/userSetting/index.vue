@@ -108,7 +108,7 @@ export default {
       dialogVisible2: false,
       role: localStorage.getItem('role'),
       headimg: '',
-      updateUrl: 'http://58.119.112.14:11020/cms/system/user/profile/avatar',
+      updateUrl: '',
       uploadHeader: {'Authorization': 'Bearer ' + localStorage.getItem('token')},
       name: localStorage.getItem('name'),
       updateobj: {
@@ -127,7 +127,7 @@ export default {
     }
   },
   mounted () {
-    this.getInfo()
+    // this.getInfo()
   },
   methods: {
     handleOpen (key, keyPath) {

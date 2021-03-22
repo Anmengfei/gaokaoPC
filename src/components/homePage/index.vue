@@ -129,10 +129,10 @@
             >
               <img :src="item.logo" class="commend-item-image" />
               <h4 class="commend-item-title textOverflow">
-                {{ item.schoolname }}
+                {{ item.schoolName }}
               </h4>
-              <p class="commend-item-code">招生代码 {{ item.schoolcode }}</p>
-              <p class="commend-item-des">{{ item.province }}</p>
+              <p class="commend-item-code">招生代码 {{ item.schoolCode }}</p>
+              <p class="commend-item-des">{{ item.schoolProvince }}</p>
             </li>
             <li class="commend-item" @click="gotoAllschool">
               <i class="el-icon-arrow-right moreIcn"></i>
@@ -475,37 +475,37 @@ export default {
         console.log(res);
         this.recommandschoolList = res.data.splice(0, 6);
       });
-      if (this.flag_state === false) {
-        var url = `http://58.119.112.14:11020/cms/system/user/${localStorage.getItem(
-          "userId"
-        )}`;
-
-        this.$axios
-          .get(
-            url,
-            {
-              headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-              },
-            },
-            {
-              headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-              },
-            }
-          )
-          .then((res) => {
-            if (localStorage.getItem("userId")) {
-              this.infoState = false;
-            } else {
-              this.infoState = true;
-            }
-
-            if (this.infoState === true) {
-              this.openInfo();
-            }
-          });
-      }
+      // if (this.flag_state === false) {
+      //   var url = `http://58.119.112.14:11020/cms/system/user/${localStorage.getItem(
+      //     "userId"
+      //   )}`;
+      //
+      //   this.$axios
+      //     .get(
+      //       url,
+      //       {
+      //         headers: {
+      //           Authorization: "Bearer " + localStorage.getItem("token"),
+      //         },
+      //       },
+      //       {
+      //         headers: {
+      //           Authorization: "Bearer " + localStorage.getItem("token"),
+      //         },
+      //       }
+      //     )
+      //     .then((res) => {
+      //       if (localStorage.getItem("userId")) {
+      //         this.infoState = false;
+      //       } else {
+      //         this.infoState = true;
+      //       }
+      //
+      //       if (this.infoState === true) {
+      //         this.openInfo();
+      //       }
+      //     });
+      // }
     },
     openInfo() {
       this.$confirm("请尽快完善个人资料", "提示信息", {
