@@ -193,8 +193,8 @@
                       <span class="school">{{ item.schoolName }}</span><br/>
                       <span class="major">{{ item.majorName }}</span>
                     </div>
-                    <div >
-                      <i class="iconfont icon-shanchu1"></i>
+                    <div class="deleteZhiyuan">
+                      <i class="iconfont icon-shanchu1" @click="handleDeleteInfo"></i>
                     </div>
                   </div>
                 </div>
@@ -253,6 +253,7 @@ export default {
         // sortSelect:[],
         sortSelect: [],
         followSelect: [],
+        followMajorSelect: []
       },
       majorselect: [],
       active: '',
@@ -579,8 +580,8 @@ export default {
       }
     },
     handlemajorCheckedfollowChange(value) {
-      let checkedCount = value.length;
-      this.checkmajorAll = checkedCount === this.followMajor.length;
+      let checkedCount = value.length
+      this.checkmajorAll = checkedCount === this.followMajor.length
     },
 
     followSearch(){
@@ -905,10 +906,15 @@ li{
 }
 
 .auto_fixed {
+
 }
 
+.deleteZhiyuan {
+  margin-right: .2rem;
+  padding-top: 3%;
+}
 .fixed {
   position: fixed;
-  top: 0px;
+  top: 0rem;
 }
 </style>
