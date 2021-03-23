@@ -73,7 +73,18 @@ export default new Router({
             path: '/zhiyuanBiao',
             name: 'zhiyuanBiao',
             component: resolve => require(['@/components/zhiyuanForm/zhiyuanBiao'], resolve)
-        }
+        },
+      {
+        path: '/volunteerVIP',
+        name: 'volunteerVIP',
+        component: resolve => require(['@/components/volunteerVIP/index'], resolve)
+      },
+      {
+        path: '/onetoone',
+        name: 'oneToOne',
+        component: resolve => require(['@/components/oneToOne/index'], resolve)
+      },
+
         // ,
         // {
         //     path: '/appCon',

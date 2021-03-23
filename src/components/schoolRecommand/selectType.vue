@@ -282,7 +282,7 @@ export default {
   computed: {
     selectTabs: {
       get () {
-        return this.$route.params.tab || 'favoriteSchool'
+        return this.$route.params.tab
       },
       set () {
       }
