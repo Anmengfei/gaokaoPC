@@ -74,6 +74,11 @@ export default new Router({
             name: 'zhiyuanBiao',
             component: resolve => require(['@/components/zhiyuanForm/zhiyuanBiao'], resolve)
         }
+        // {
+        //     path: '/grade',
+        //     name: 'grade',
+        //     component: resolve => require(['@/components/common/editScore'], resolve)
+        // }
         // ,
         // {
         //     path: '/appCon',

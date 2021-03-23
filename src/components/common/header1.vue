@@ -556,6 +556,7 @@ export default {
       } else {
         this.$router.push("/OnlineTeach");
       }
+      // this.$router.push("/grade");
       // this.$router.push("/Recruit");
       // this.$router.push("/guanzhu");
       // this.$router.push("/article");

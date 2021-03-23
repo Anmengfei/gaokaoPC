@@ -43,9 +43,21 @@
 
           <div class="form-item2">
             <div>
-              <div class="editScore" @click="modifyScore">
+              <div class="editScore" @click="dialogVisible1 = true">
                 <i class="el-icon-edit"></i><span>修改成绩</span>
               </div>
+              <div class="eldialog-parent">
+                <el-dialog
+                  :visible.sync="dialogVisible1"
+                  width="34%"
+                  :modal="false"
+                >
+                  <div class="gaokaotianbao">
+                    <EditScore></EditScore>
+                  </div>
+                </el-dialog>
+              </div>
+
               <div>
                 <div class="score-item">
                   <span class="label">高考省份</span>&nbsp;&nbsp;<span
@@ -162,10 +174,22 @@
                   <img :src="item.cover" class="zixunImage" />
                 </div>
                 <div class="content">
-                  <div class="content-title content-title-gray">
+                  <el-row>
+                    <el-col :span="12"
+                      ><div class="titlehover">
+                        <span class="title">{{ item.title }}</span>
+                      </div></el-col
+                    >
+                    <el-col :span="12"
+                      ><div>
+                        <span class="time">{{ item.date }}</span>
+                      </div></el-col
+                    >
+                  </el-row>
+                  <!-- <div class="titlehover">
                     <span class="title">{{ item.title }}</span>
                     <span class="time">{{ item.date }}</span>
-                  </div>
+                  </div> -->
                   <div class="news" font-size="14">
                     <i class="el-icon-view"></i>
                     <span>{{ item.readNum }}</span>
@@ -191,13 +215,18 @@
                 class="item"
                 v-for="(item, index) in threeVideoList"
                 :key="index"
+                @click="showVideo(item, index)"
               >
-                <el-button type="text" @click="showVideo(item, index)">
+                <div>
+                  <img :src="item.cover" class="image" />
+                  <img src="../../assets/play_05.png" class="play-btn" />
+                </div>
+                <!-- <el-button type="text" @click="showVideo(item, index)">
                   <div class="image">
                     <img :src="item.cover" class="image" />
                     <img src="../../assets/play_05.png" class="play-btn" />
                   </div>
-                </el-button>
+                </el-button> -->
                 <!-- <img :src="item.cover" alt="" class="image" />
                 <img src="../../assets/play_05.png" class="play-btn" /> -->
               </li>
@@ -251,6 +280,7 @@ export default {
   components: { TopHeader, HomeHeader, Footer, EditScore },
   data() {
     return {
+      dialogVisible1: false,
       videoUrl: "",
       scoreDialog: false,
       recommandschoolList: [],
@@ -415,6 +445,14 @@ export default {
       this.videoUrl = "";
       this.dialogVisible = false;
     },
+    // handleClose1(done) {
+    //   this.$confirm("确认关闭？")
+    //     .then((_) => {
+    //       done();
+    //     })
+    //     .catch((_) => {});
+
+    // },
     selectZixun(item, index) {
       const { href } = this.$router.resolve({
         name: "Article",
@@ -441,10 +479,6 @@ export default {
         // },
       });
       window.open(href, "_blank");
-    },
-    modifyScore() {
-      console.log("123");
-      this.scoreDialog = true;
     },
     selectSchoolItem(item, index) {
       console.log("item", item);
@@ -527,7 +561,6 @@ export default {
   margin: 0;
   padding: 0;
 }
-
 a {
   text-decoration: none;
 }
@@ -669,8 +702,8 @@ li a {
   color: #00a4ff;
   float: right;
   z-index: 999;
+  cursor: pointer;
 }
-
 .score-item {
   margin-bottom: 10px;
   position: relative;
@@ -959,6 +992,7 @@ li a {
   height: 350px;
   width: 1400px;
   margin: 50px auto 0;
+  margin-bottom: 50px;
 }
 
 .sevenRow-header {
@@ -971,8 +1005,8 @@ li a {
 .sevenRow-box {
   height: 250px;
   width: 1400px;
-  /* background-color: #f3f5f7; */
-  /* border-radius: 15px; */
+  background-color: #fff;
+  border-radius: 15px;
 }
 
 .sevenRow-header .shuxian {
@@ -1006,10 +1040,6 @@ li a {
 }
 
 .video1 {
-  /* float: left;
-  height: 350px;
-  width: 450px;
-  background-color: #fff; */
   padding: 0 0.2rem;
   background: #f3f5f7;
   -webkit-box-shadow: rgb(0 0 0 / 4%) 0 0.02rem 0.04rem 0;
@@ -1021,12 +1051,13 @@ li a {
 
 .video1-header .list .item {
   /*height: 250px;*/
-  width: 430px;
+  width: 420px;
   /* background-color: #f95e5a; */
   position: relative;
   float: left;
   margin-top: 25px;
-  margin-left: 18px;
+  margin-left: 25px;
+  border-radius: 15px;
   cursor: pointer;
 }
 .video1-header .list li:hover {
@@ -1035,9 +1066,9 @@ li a {
   transform: translate3d(0px, -8px, 0px);
 }
 .video1-header .image {
-  height: 250px;
-  width: 430px;
-  border-radius: 10px;
+  height: 200px;
+  width: 420px;
+  border-radius: 15px;
 }
 
 .play-btn {
@@ -1045,15 +1076,10 @@ li a {
   width: 100px;
   height: 100px;
   z-index: 100;
-  top: 30%;
-  left: 40%;
+  top: 25%;
+  left: 35%;
 }
-
 .video1-box {
-  /* height: 100px;
-  width: 450px;
-  font-weight: bold; */
-  /* margin: 20px 30px 10px 30px; */
   text-align: center;
   color: rgba(0, 0, 0, 0.8);
   font-size: 18px;
@@ -1247,7 +1273,7 @@ li a {
   left: 190px;
 }
 
-.wap .content .content-title {
+/* .wap .content .content-title {
   font-size: 18px;
   color: rgb(30, 30, 30);
   font-weight: bold;
@@ -1256,7 +1282,7 @@ li a {
 
 .wap .content .content-title-gray {
   color: rgb(124, 124, 124);
-}
+} */
 .wap .time {
   float: right;
   margin-right: 50px;
@@ -1264,7 +1290,15 @@ li a {
   color: rgb(174, 174, 174);
   display: inline-block;
 }
-
+.wap .title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: rgb(124, 124, 124);
+}
+.wap .content .titlehover :hover {
+  color: #e5623f;
+}
 .wap .news {
   font-size: 14px;
   color: rgb(124, 124, 124);
@@ -1274,5 +1308,23 @@ li a {
   width: 800px;
   height: 44px;
   margin-top: 35px;
+}
+
+.eldialog-parent /deep/ .el-dialog {
+  border-radius: 20px;
+  /* position: absolute; */
+  /* 控制位置 */
+  /* inset: 20% auto auto 50%; */
+  border: 1px solid rgb(204, 204, 204);
+  outline: none;
+  padding-left: 0.9%;
+  /* padding-bottom: 30px; */
+  /* margin-right: -50%; */
+  /* transform: translate(-50%, -50%); */
+  min-width: 500px;
+  /* height: 65%; */
+}
+.gaokaotianbao {
+  margin-bottom: 25px;
 }
 </style>

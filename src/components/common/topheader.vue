@@ -13,13 +13,13 @@
             <el-col :span="7">
               <el-popover
                 placement="top-start"
-                width="180"
+                width="150"
                 trigger="hover"
                 class="shouji"
               >
                 <div class="erweima">
                   <img class="qq" src="../../assets/QQ.png" alt="" />
-                  <h5>QQ扫一扫，一键入群</h5>
+                  <div>QQ扫一扫，一键入群</div>
                 </div>
                 <el-button class="phone-btn" slot="reference"
                   >高考志愿填报QQ群</el-button
@@ -30,13 +30,13 @@
               <!-- <span>手机APP</span> -->
               <el-popover
                 placement="top-start"
-                width="180"
+                width="150"
                 trigger="hover"
                 class="shouji"
               >
                 <div class="erweima">
                   <img class="qq" src="../../assets/QQ.png" alt="" />
-                  <h5>QQ扫一扫，一键入群</h5>
+                  <div>QQ扫一扫，一键入群</div>
                 </div>
                 <el-button class="phone-btn" slot="reference"
                   >手机APP</el-button
@@ -46,13 +46,13 @@
             <el-col :span="6">
               <el-popover
                 placement="top-start"
-                width="180"
+                width="150"
                 trigger="hover"
                 class="shouji"
               >
                 <div class="erweima">
                   <img class="qq" src="../../assets/QQ.png" alt="" />
-                  <h5>QQ扫一扫，一键入群</h5>
+                  <div>QQ扫一扫，一键入群</div>
                 </div>
                 <el-button class="phone-btn" slot="reference"
                   >微信公众号</el-button
@@ -144,7 +144,7 @@ a {
   text-decoration: none;
 }
 .phone-btn {
-  background-color: hsla(0, 0%, 83%, 0.3);
+  background-color: hsla(0, 0%, 90%, 0.3);
   /* background-color: #dcdfe6; */
   border: none;
 }
@@ -157,13 +157,14 @@ a {
   margin-top: 0.09rem;
 }
 .erweima {
+  /* margin: 0 auto; */
+  margin-top: 7%;
+  margin-left: 10%;
   width: 100%;
-  height: 200px;
-  text-align: center;
+  height: 100%;
 }
 .erweima .qq {
-  width: 200px;
-  height: 190px;
+  width: 80%;
 }
 
 .app-header {
