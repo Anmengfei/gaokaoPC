@@ -173,8 +173,8 @@
     <div class="schoollist">
       <el-row>
         <el-col :span="19">
-          <school-list :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo"></school-list>
-          <MajorList :selected="collegeselete" v-if="false"></MajorList>
+          <school-list :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-if="majorflag"></school-list>
+          <MajorList :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-else></MajorList>
         </el-col>
         <el-col :span="5">
           <div class="auto_fixed" :class="auto_fixed">
@@ -197,7 +197,7 @@
                       <span class="major">{{ item.majorName }}</span>
                     </div>
                     <div class="deleteZhiyuan">
-                      <i class="iconfont icon-shanchu1" @click="handleDeleteInfo"></i>
+                      <i class="iconfont icon-shanchu1" @click="handleDeleteInfo(index)"></i>
                     </div>
                   </div>
                 </div>
@@ -276,12 +276,20 @@ export default {
       isVip: false,
       volForm: [], // 高考志愿表单
       schooladvice: [],
-      majoradvice: []
+      majoradvice: [],
+      majorflag: '',
+      turnname:''
     }
   },
   computed: {
     selectTabs: {
       get () {
+        if(this.$route.params.tab == 'favoriteSchool'){
+          this.majorflag = true;
+        }else {
+          this.majorflag = false;
+        }
+
         return this.$route.params.tab || 'favoriteSchool'
       },
       set () {
@@ -296,9 +304,6 @@ export default {
     this.getProvincesinit()
     this.getcollegeType()
     this.getMajortypelist()
-    this.getZhiyuanTableEdit()
-  },
-  activated () {
     this.getZhiyuanTableEdit()
   },
   methods: {
@@ -471,7 +476,21 @@ export default {
         this.majorType = res.data
       })
     },
-    handleClick () {},
+    handleClick (tab, event) {
+      this.turnname = tab.name
+      if(this.turnname == 'favoriteSchool'){
+        this.majorflag = true
+      }else{
+        this.majorflag = false
+        // this.majorflag = true;
+      }
+      // console.log('selectTabs数据啊', this.selectTabs)
+      // this.majorflag = !this.majorflag
+      // console.log(tab.name)
+      // this.selectTabs = tab.name
+      console.log('2222222222222222222222222', this.selectTabs)
+      this.$forceUpdate()
+    },
     getAddFormInfo (message) {
       // 父子组件传值，父组件接收信息函数
       console.log('父子组件传值', message)
@@ -601,16 +620,19 @@ export default {
       this.volForm.splice(index, 1)
     },
     getZhiyuanTableEdit () {
-      console.log('修改志愿表单数据', this.$route.params.zhiyuanTable)
-      console.log('0000000000000000', (JSON.parse(localStorage.getItem('zhiyuanbiaodan'))).length)
-      if ((JSON.parse(localStorage.getItem('zhiyuanbiaodan'))).length > 0) {
-        this.volForm = JSON.parse(localStorage.getItem('zhiyuanbiaodan'))
-        console.log('88888888888888', this.showvolformdata)
-        // this.showvolformdata = true
-        console.log('取得本地存储数据', this.volForm, this.volForm.length)
-        console.log(this.volForm)
+      // console.log('修改志愿表单数据', this.$route.params.zhiyuanTable)
+      console.log('dsfsdfas', typeof localStorage.getItem('zhiyuanbiaodan'), localStorage.getItem('zhiyuanbiaodan'))
+      if (localStorage.getItem('zhiyuanbiaodan') !== 'undefined') {
+        var temp = JSON.parse(localStorage.getItem('zhiyuanbiaodan'))
+        this.volForm = temp
         this.$forceUpdate()
       }
+
+      // if (temp.length > 0) {
+
+          // JSON.parse(localStorage.getItem('zhiyuanbiaodan'))
+        // this.$forceUpdate()
+      // }
     }
   }
 }
@@ -852,13 +874,13 @@ li{
 }
 .box .fudongBox .content .formdata #name .school {
   color: rgba(0, 0, 0, 0.8);
-  font-size: .25rem;
-  font-weight: 550;
+  font-size: .23rem;
+  font-weight: 700;
 }
 
 .box .fudongBox .content .formdata #name .major{
   color: rgba(0, 0, 0, 0.5);
-  font-size: .23rem;
+  font-size: .19rem;
   font-weight: 400;
   padding-top: .05rem;
 }
@@ -931,6 +953,7 @@ li{
 .deleteZhiyuan {
   margin-right: .2rem;
   padding-top: 3%;
+  cursor:pointer;
 }
 .fixed {
   position: fixed;

@@ -575,7 +575,7 @@ export default {
         alert('请先登录！')
         this.$router.push('/login')
       } else {
-        this.$router.push('/OnlineTeach')
+        this.$router.push('/zhiyuanTable')
       }
       // this.$router.push("/Recruit");
       // this.$router.push("/guanzhu");
