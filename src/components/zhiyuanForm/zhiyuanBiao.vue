@@ -10,7 +10,7 @@
         </div>
         <div class="operation">
           <button @click="gotoEdit">修改</button>
-          <button>保存</button>
+          <button @click="gotoSave(zhiyuanTableList)">保存</button>
           <button>导出</button>
           <button>打印</button>
           <button>分享</button>
@@ -55,10 +55,10 @@
              <div class="operationBtn">
                <div class="op1">
                  <div class="btn1">
-                   <el-button type="text" size="mini" :disabled="scope.$index===0" @click="goUp(scope.$index,scope.row)"><i class="iconfont icon-top-btn-fill"></i></el-button>
+                   <el-button type="text" size="mini" :disabled="scope.$index===0" @click="goUp(scope.$index)"><i class="iconfont icon-top-btn-fill"></i></el-button>
                  </div>
                  <div class="btn2">
-                   <el-button type="text" size="mini" :disabled="scope.$index===zhiyuanTableList.length-1" @click="goDown(scope.$index,scope.row)"><i class="iconfont icon-bottom-btn-fill"></i></el-button>
+                   <el-button type="text" size="mini" :disabled="scope.$index===zhiyuanTableList.length-1" @click="goDown(scope.$index)"><i class="iconfont icon-bottom-btn-fill"></i></el-button>
                  </div>
                </div>
                <div class="op2">
@@ -77,9 +77,12 @@
 </template>
 
 <script>
+import axios from 'axios'
+import qs from 'qs'
 import TopHeader from '@/components/common/topheader'
 import HomeHeader from '@/components/common/header1'
 import Footer from '@/components/common/footer1'
+import { addWishListPC } from '../../api/WishList'
 export default {
   name: 'zhiyuanBiao',
   components: {TopHeader, HomeHeader, Footer},
@@ -88,7 +91,8 @@ export default {
   },
   data () {
     return {
-      zhiyuanTableList: []
+      zhiyuanTableList: [],
+      zhiyuanFormatList: [] // 保存传给接口的数据，调整数据格式
     }
   },
   methods: {
@@ -114,8 +118,7 @@ export default {
         }
       })
     },
-    goUp (index, row) { // 上移
-      console.log('row的信息', row)
+    goUp (index) { // 上移
       console.log('index的信息', index)
       var that = this
       if (index > 0) {
@@ -128,7 +131,7 @@ export default {
         that.zhiyuanTableList.splice(index, 0, upDate)
       }
     },
-    goDown (index, row) { // 下移
+    goDown (index) { // 下移
       var that = this
       const downDate = that.zhiyuanTableList[index + 1]
       that.zhiyuanTableList.splice(index + 1, 1)
@@ -155,6 +158,42 @@ export default {
             message: '已取消删除'
           })
         })
+    },
+    gotoSave (zhiyuanTableList) {
+      console.log('存储数据中。。。', zhiyuanTableList)
+      if (zhiyuanTableList !== undefined) {
+        for (let i = 0; i < zhiyuanTableList.length; i++) {
+          const map = {
+            'chance': zhiyuanTableList[i].risk,
+            'id': 0,
+            'listId': 0,
+            'rank': i,
+            'wishId': zhiyuanTableList[i].id,
+            'wishNum': i}
+          this.zhiyuanFormatList.push(map)
+        }
+        console.log('格式化规整数据', this.zhiyuanFormatList)
+        var url = 'https://www.zytb.top/NEMT/gk/userPC/addWishListPC'
+        axios.post(url, this.zhiyuanFormatList).then((res) => {
+          console.log('成功了', res.data)
+          if (res.data.msg === '成功') {
+            console.log('222222222222222222222222')
+            this.$router.push({
+              name: 'addSucceed'
+            })
+          }
+        })
+      } else {
+        this.$confirm('志愿表中缺少数据无法提交，即将跳转院校选择界面', '警告', {
+          confirmButtonText: '跳转至院校优先',
+          type: 'warning'
+        }).then(() => {
+          this.$router.push({
+            name: 'SchoolRecommand',
+            params: { tab: 'favoriteSchool' }
+          })
+        })
+      }
     }
 
   }
@@ -170,15 +209,8 @@ export default {
   overflow: unset;
 }
 .container{
-  background-color: white;
   width: 100%;
 }
-/*.homeheader {*/
-/*  width: 100%;*/
-/*  margin-top: .2rem;*/
-/*  height: .7rem;*/
-/*  background-color: #ff5a38 !important;*/
-/*}*/
 .container .content .table_head{
   background-color: #00aff0;
   display: flex;

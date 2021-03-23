@@ -86,5 +86,5 @@ export default new Router({
         //     component: resolve => require(['@/components/APP/appCon'], resolve)
         // }
 
-    ]
+  ]
 })

@@ -1,17 +1,17 @@
 <template>
   <div class="app-container">
-    <el-tabs type="border-card">
+    <el-tabs type="border-card" v-model="selectedtag">
       <el-tab-pane label="冲" name="chong">
         <div class="container">
           <ul>
             <li v-for="(item,index) in majorList" :key="index">
               <el-row>
-                <el-col :span="2">
+                <el-col :span="3">
                   <div class="icon">
                     <img  class="schoologo" :src="item.logoPath" />
                   </div>
                 </el-col>
-                <el-col :span="18">
+                <el-col :span="17">
                   <div class="desc">
                     <div>
                       <span class="name">{{ item.majorName }}</span>
@@ -21,10 +21,10 @@
                 </el-col>
                 <el-col :span="4">
                   <div class="chooseBtn">
-                    <button type="button" class="chooseMajor" v-show="btnFlag[index]" @click="btnShow(index,item.majors)">
+                    <button type="button" class="chooseMajor" v-if="item.flag===-1" @click="btnShow(index,item)">
                       <span >加入意向</span>
                     </button>
-                    <button type="button" class="chooseNoMajor" v-show="!btnFlag[index]" @click="btnShow(index,item.majors)">
+                    <button type="button" class="chooseNoMajor" disabled="disabled" v-if="item.flag===index">
                       <span >已加意向</span>
                     </button>
                   </div>
@@ -67,8 +67,7 @@ export default {
   },
   data () {
     return {
-      activeName: 'first',
-      btnFlag: [true, true, true, true, true, true, true, true, true, true], // 控制显示“选择意向专业”“收起专业”
+      selectedtag: 'chong',
       majorList: [], // 保存专业信息
       pageInfo: {
         pagenum: 0, // 当前页数
@@ -76,8 +75,6 @@ export default {
         pagetotal: 100// 总条目数
       },
       pageRecord: 0, // 用于记录每次点击的页号
-      selectnecess: {},
-      majorlist: [], // 专业列表
       addWillFlagofSchool: '',
       addWillFlag: -1// 判断加入志愿按钮是否变灰
 
@@ -93,7 +90,7 @@ export default {
     },
     volform: {
       handler (newValue, oldvalue) {
-        console.log('数据改变', newValue, oldvalue)
+        console.log('majorList数据改变', newValue, oldvalue)
         console.log('this.pageInfo.pagenum的值', this.pageInfo.pagenum)
         // 1.向志愿表单添加数据（新数据长度>旧数据长度）--不执行操作  2.从志愿表单删除或清空数据（新数据长度<=旧数据长度）--执行操作
         if (newValue.length <= oldvalue.length) {
@@ -105,12 +102,11 @@ export default {
 
   },
   methods: {
-    btnShow (id, majorls) {
-      this.$set(this.btnFlag, id, !this.btnFlag[id])
-      this.$set(this.majorShow, id, !this.majorShow[id])
-      // console.log('专业列表', majorls)
-
-      this.majorlist = majorls
+    btnShow (id, item) {
+      console.log('专业列表', item)
+      item.flag = id
+      this.$emit('addform', item)
+      // this.$forceUpdate()
     },
     getAllMajorData (pagenum) {
       getAllMajor({
@@ -131,16 +127,13 @@ export default {
           //   }
           // }
           // 将已经加入志愿表单的学校的按钮状态置为灰色
-          // for (let i = 0; i < this.majorList.length; ++i) {
-          //   for (let j = 0; j < this.majorList[i].majors.length; ++j) {
-          //     for (let k = 0; k < this.volform.length; ++k) {
-          //       if ((this.volform[k].id === this.majorList[i].majors[j].id) && (this.volform[k].schoolName === this.majorList[i].majors[j].schoolName)) {
-          //         this.majorList[i].majors[j].flag = (i + '' + j)
-          //       }
-          //     }
-          //   }
-          // }
-
+          for (let i = 0; i < this.majorList.length; ++i) {
+            for (let j = 0; j < this.volform.length; ++j) {
+              if ((this.volform[j].id === this.majorList[i].id) && (this.volform[j].schoolName === this.majorList[i].schoolName)) {
+                this.majorList[i].flag = i
+              }
+            }
+          }
           console.log('this.majorList数据', this.majorList)
         } else {
           this.$message.error('无法取得数据')
@@ -229,20 +222,18 @@ export default {
   outline: none;
   color: #00aff0;
   cursor: pointer;
-
 }
 
 .container .chooseNoMajor {
   margin-top: .2rem;
   width: 1.7rem;
-  border:.02rem solid #00aff0;
+  border:.02rem solid #b2b2b2;
   padding: .1rem;
   border-radius: .08rem;
   font-size: .1rem;
   background-color: transparent;
   outline: none;
-  color: #00aff0;
-  disabled:disabled;
+  color: #b2b2b2;
 }
 
 .container .chooseMajor .img1{
