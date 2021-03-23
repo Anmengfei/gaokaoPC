@@ -13,6 +13,12 @@ import '@/styles/index.css' // global css
 import clipboard from 'clipboard'
 // import 'videojs-flash'
 import store from './store'
+import Router from 'vue-router'
+
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)

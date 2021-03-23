@@ -4,10 +4,20 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 export default new Router({
-    routes: [{
-            path: '/',
+    routes: [
+        //     {
+        //         path: '/',
+        //         name: 'homepage',
+        //         component: resolve => require(['@/components/homePage/index'], resolve)
+        // },
+        {
+            path: '/homepage',
             name: 'homepage',
             component: resolve => require(['@/components/homePage/index'], resolve)
+        }, {
+            path: '/',
+            name: 'appCon',
+            component: resolve => require(['@/components/APP/appCon'], resolve)
         },
         {
             path: '/SchoolRecommand',
@@ -63,12 +73,13 @@ export default new Router({
             path: '/zhiyuanBiao',
             name: 'zhiyuanBiao',
             component: resolve => require(['@/components/zhiyuanForm/zhiyuanBiao'], resolve)
-        },
-        {
-            path: '/zhiyuanVIP',
-            name: 'zhiyuanVIP',
-            component: resolve => require(['@/components/APP/appCon'], resolve)
         }
+        // ,
+        // {
+        //     path: '/appCon',
+        //     name: 'appCon',
+        //     component: resolve => require(['@/components/APP/appCon'], resolve)
+        // }
 
     ]
 })

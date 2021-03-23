@@ -1,76 +1,47 @@
 <template>
   <div class="app-container">
-    <div class="container">
-      <ul>
-        <li v-for="(item,index) in schoolList" :key="index">
-          <el-row>
-            <el-col :span="2">
-              <div class="icon">
-                <img  class="schoologo" :src="item.logoPath" />
-              </div>
-            </el-col>
-            <el-col :span="18">
-              <div class="desc">
-                <div>
-                  <span class="name">{{ item.schoolName }}</span>
-                  <span class="province">{{ item.province }}</span>
-                </div>
-                <div class="schooltags">
-                  <span v-for="(itemtag1,index) in item.addressTagsPC" :key="index">{{ itemtag1 }}</span>
-                  <span v-for="itemtag2 in item.tags" :key="itemtag2">{{ itemtag2 }}</span>
-                </div>
-              </div>
-            </el-col>
-            <el-col :span="4">
-              <div class="chooseBtn">
-                <button type="button" class="chooseMajor" v-show="btnFlag[index]" @click="btnShow(index,item.majors)">
-                  <span >选择意向专业</span>
-                  <img class="img1" src="../../assets/drop_down_menu.png"/>
-                </button>
-                <button type="button" class="chooseMajor" v-show="!btnFlag[index]" @click="btnShow(index,item.majors)">
-                  <span>收起专业</span>
-                  <img class="img2" src="../../assets/drop_down_menu.png"/>
-                </button>
-              </div>
-            </el-col>
-          </el-row>
-          <div id="major-list" v-show="majorShow[index]">
-            <div class="app-container1">
-              <ul>
-                <li v-for="(item1,index1) in item.majors" :key="index1">
-                  <el-row>
-                    <el-col :span="19">
-                      <div class="text">
-                        <div class="majorinfo">
-                          <span class="flag" v-if="item1.risk === '冲'" style="background:#ee8d22">{{ item1.risk }}</span>
-                          <span class="flag" v-else-if="item1.risk === '稳'" style="background:#439cff">{{ item1.risk }}</span>
-                          <span class="flag" v-if="item1.risk === '保'" style="background:#4caf4e">{{ item1.risk }}</span>
-                          <span class="name">{{ item1.majorName }}</span>
-                          <span class="evaluation">{{ item1.evaluation }}</span>
-                        </div>
+    <el-tabs type="border-card">
+      <el-tab-pane label="冲" name="chong">
+        <div class="container">
+          <ul>
+            <li v-for="(item,index) in majorList" :key="index">
+              <el-row>
+                <el-col :span="2">
+                  <div class="icon">
+                    <img  class="schoologo" :src="item.logoPath" />
+                  </div>
+                </el-col>
+                <el-col :span="18">
+                  <div class="desc">
+                    <div>
+                      <span class="name">{{ item.majorName }}</span>
+                      <span class="province">{{ item.schoolName }}</span>
+                    </div>
+                  </div>
+                </el-col>
+                <el-col :span="4">
+                  <div class="chooseBtn">
+                    <button type="button" class="chooseMajor" v-show="btnFlag[index]" @click="btnShow(index,item.majors)">
+                      <span >加入意向</span>
+                    </button>
+                    <button type="button" class="chooseNoMajor" v-show="!btnFlag[index]" @click="btnShow(index,item.majors)">
+                      <span >已加意向</span>
+                    </button>
+                  </div>
+                </el-col>
+              </el-row>
+            </li>
+          </ul>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="稳" name="wen">
+        <div>235</div>
+      </el-tab-pane>
+      <el-tab-pane label="保" name="bao">
+        <div>567</div>
+      </el-tab-pane>
+    </el-tabs>
 
-                        <div class="desc">
-                          <span>2020年招生人数{{item1.enrollNum}}</span>
-                          <span>选考科目：{{item1.selectionRequirement}}</span>
-                          <span>2020年最低分****</span>
-                          <span>2020年最低位次####</span>
-                        </div>
-                      </div>
-                    </el-col>
-                    <el-col :span="5">
-                      <div class="btn">
-                        <button class="chooseWill"  v-if="item1.flag === -1" @click="addForm(index,item1,index1)">加入意向</button>
-                        <button class="chooseNoWill" v-else-if="item1.flag === (index + '' + index1)">已加意向</button>
-                      </div>
-                    </el-col>
-                  </el-row>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
     <!--        分页器-->
     <div class="box3">
       <el-pagination
@@ -87,19 +58,18 @@
 </template>
 
 <script>
-import { getAllSchool } from '../../api/schoolInfo'
+import { getAllMajor } from '../../api/schoolInfo'
 export default {
-  name: 'schoolList',
+  name: 'majorList',
   props: ['selected', 'volform'],
   mounted () {
-    this.getAllSchoolData(this.pageInfo.pagenum)
+    this.getAllMajorData(this.pageInfo.pagenum)
   },
   data () {
     return {
       activeName: 'first',
       btnFlag: [true, true, true, true, true, true, true, true, true, true], // 控制显示“选择意向专业”“收起专业”
-      majorShow: [false, false, false, false, false, false, false, false, false, false], // 控制显示“学校专业”
-      schoolList: [],
+      majorList: [], // 保存专业信息
       pageInfo: {
         pagenum: 0, // 当前页数
         pagesize: 10, // 每页条数
@@ -116,7 +86,7 @@ export default {
   watch: {
     selected: {
       handler () {
-        this.getAllSchoolData(this.pageInfo.pagenum)
+        this.getAllMajorData(this.pageInfo.pagenum)
       },
       immediate: true,
       deep: true
@@ -128,7 +98,7 @@ export default {
         // 1.向志愿表单添加数据（新数据长度>旧数据长度）--不执行操作  2.从志愿表单删除或清空数据（新数据长度<=旧数据长度）--执行操作
         if (newValue.length <= oldvalue.length) {
           // 将已经加入志愿表单的学校的按钮状态置为灰色
-          this.getAllSchoolData(this.pageRecord)
+          this.getAllMajorData(this.pageRecord)
         }
       }
     }
@@ -142,36 +112,36 @@ export default {
 
       this.majorlist = majorls
     },
-    getAllSchoolData (pagenum) {
-      getAllSchool({
-        provinces: this.selected.provinceSelect,
-        schoolTypes: this.selected.typeSelect,
+    getAllMajorData (pagenum) {
+      getAllMajor({
         feature: this.selected.levelSelect,
         page: pagenum,
         examProvince: '山东',
+        risk: '冲',
         score: 600,
         size: 10
       }).then((res) => {
         if (res.status === 200) {
-          console.log('收到数据啊啊啊啊啊', this.volform)
-          this.schoolList = res.data.data
-          // for (let i = 0; i < this.schoolList.length; ++i) { // 为每一条数据的专业信息添加一条标志位flag=-1
-          //   for (let j = 0; j < this.schoolList[i].majors.length; ++j) {
-          //     this.schoolList[i].majors[j].flag = -1
+          // console.log('收到数据啊啊啊啊啊', this.volform)
+          this.majorList = res.data.data
+          console.log('majorlist信息数据', this.majorList)
+          // for (let i = 0; i < this.majorList.length; ++i) { // 为每一条数据的专业信息添加一条标志位flag=-1
+          //   for (let j = 0; j < this.majorList[i].majors.length; ++j) {
+          //     this.majorList[i].majors[j].flag = -1
           //   }
           // }
           // 将已经加入志愿表单的学校的按钮状态置为灰色
-          for (let i = 0; i < this.schoolList.length; ++i) {
-            for (let j = 0; j < this.schoolList[i].majors.length; ++j) {
-              for (let k = 0; k < this.volform.length; ++k) {
-                if ((this.volform[k].id === this.schoolList[i].majors[j].id) && (this.volform[k].schoolName === this.schoolList[i].majors[j].schoolName)) {
-                  this.schoolList[i].majors[j].flag = (i + '' + j)
-                }
-              }
-            }
-          }
+          // for (let i = 0; i < this.majorList.length; ++i) {
+          //   for (let j = 0; j < this.majorList[i].majors.length; ++j) {
+          //     for (let k = 0; k < this.volform.length; ++k) {
+          //       if ((this.volform[k].id === this.majorList[i].majors[j].id) && (this.volform[k].schoolName === this.majorList[i].majors[j].schoolName)) {
+          //         this.majorList[i].majors[j].flag = (i + '' + j)
+          //       }
+          //     }
+          //   }
+          // }
 
-          console.log('this.schoolList数据', this.schoolList)
+          console.log('this.majorList数据', this.majorList)
         } else {
           this.$message.error('无法取得数据')
           // console.log('无法取得数据')
@@ -185,7 +155,7 @@ export default {
       console.log(`当前页:`, page--)
       this.pageRecord = page
       console.log('this.pageRecord的数据是不是当前页-1?', this.pageRecord)
-      this.getAllSchoolData(page--)
+      this.getAllMajorData(page--)
     },
     addForm (index, item1, index1) { // 加入志愿表单函数
       this.$emit('addform', item1)
@@ -199,17 +169,13 @@ export default {
 </script>
 
 <style scoped>
-*{
-  padding: 0;
-  margin: 0;
-  font-size: 100%;
-}
 .container{
   width:100%;
 }
 .container ul li{
   overflow: auto;
-  margin-top: 1%;
+  height: 1.5rem;
+  margin-top: 2%;
   border-bottom: .001rem dashed #e4e4e4;
 }
 .container .desc{
@@ -225,15 +191,15 @@ export default {
   margin-left: 1%;
 }
 .schoologo {
-  width: 1rem;
-  height: 1rem;
-  border-radius:0.5rem;
+  width: .9rem;
+  height: .9rem;
+  border-radius:0.25rem;
   overflow: hidden;
 
 }
 .container .icon img {
-  width: 1rem;
-  height: 1rem;
+  width: .9rem;
+  height: .9rem;
 }
 .container .desc .schooltags span{
   display: inline-block;
@@ -265,6 +231,20 @@ export default {
   cursor: pointer;
 
 }
+
+.container .chooseNoMajor {
+  margin-top: .2rem;
+  width: 1.7rem;
+  border:.02rem solid #00aff0;
+  padding: .1rem;
+  border-radius: .08rem;
+  font-size: .1rem;
+  background-color: transparent;
+  outline: none;
+  color: #00aff0;
+  disabled:disabled;
+}
+
 .container .chooseMajor .img1{
   height: .25rem;
   border-radius: .2rem;
@@ -327,13 +307,6 @@ li{
 }
 .app-container1 .text{
   float: left;
-}
-.app-container1 .majorinfo .flag{
-  font-size: .2rem;
-  color: white;
-  font-weight: 500;
-  padding: 0.05rem;
-  margin-right: .03rem;
 }
 .app-container1 .name{
   /*float: left;*/
@@ -405,4 +378,5 @@ li{
   margin-left: .2rem;
   disabled:disabled;
 }
+
 </style>

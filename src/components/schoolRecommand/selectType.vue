@@ -150,7 +150,7 @@
                     </el-dropdown-item>
                   </el-checkbox-group>
                   <div class="tzy-dropdown-action">
-                    <el-button type="primary" size="mini" @click="followSearch">确定</el-button>
+                    <el-button type="primary" size="mini" @click="followMajorSearch">确定</el-button>
                   </div>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -174,17 +174,20 @@
       <el-row>
         <el-col :span="19">
           <school-list :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo"></school-list>
+          <MajorList :selected="collegeselete" v-if="false"></MajorList>
         </el-col>
         <el-col :span="5">
           <div class="auto_fixed" :class="auto_fixed">
             <div class="fudongBox">
               <div class="head">已填入意向</div>
               <div class="content">
-                <div class="noformdata" v-show="showvolformdata">
+                <div class="noformdata" v-if="volForm.length === 0">
+<!--                <div class="noformdata" v-if="showvolformdata">-->
                   <img src="../../assets/noData.png" alt="暂无数据">
                   <span>查看左侧院校和专业选择<br/>加入意向</span>
                 </div>
-                <div class="formdata" v-show="!showvolformdata">
+                <div class="formdata" v-if="volForm.length > 0">
+<!--                <div class="formdata" v-if="!showvolformdata">-->
                   <div v-for="(item,index) in volForm" :key="index" class="list">
                     <div id="code">
                       <div class="num">{{ index + 1 }}</div>
@@ -193,8 +196,8 @@
                       <span class="school">{{ item.schoolName }}</span><br/>
                       <span class="major">{{ item.majorName }}</span>
                     </div>
-                    <div >
-                      <i class="icon-shanchu1"></i>
+                    <div class="deleteZhiyuan">
+                      <i class="iconfont icon-shanchu1" @click="handleDeleteInfo"></i>
                     </div>
                   </div>
                 </div>
@@ -214,6 +217,7 @@
 
 <script>
 import SchoolList from '../schoolRecommand/schoolList'
+import MajorList from '../schoolRecommand/majorList'
 import {
   getAllLevel,
   getAllCollegeType,
@@ -230,7 +234,7 @@ import {
 
 export default {
   name: 'selectType',
-  components: {SchoolList},
+  components: {SchoolList, MajorList},
   data () {
     return {
       checkList: [],
@@ -271,7 +275,6 @@ export default {
       loginStatus: true,
       isVip: false,
       volForm: [], // 高考志愿表单
-      showvolformdata: true, // 高考志愿表单是否显示添加志愿（true未添加 false添加）
       schooladvice: [],
       majoradvice: []
     }
@@ -293,6 +296,10 @@ export default {
     this.getProvincesinit()
     this.getcollegeType()
     this.getMajortypelist()
+    this.getZhiyuanTableEdit()
+  },
+  activated () {
+    this.getZhiyuanTableEdit()
   },
   methods: {
     init () {
@@ -477,7 +484,7 @@ export default {
       this.volForm.push(message)
       // console.log('let temp =', temp)
       console.log('高考志愿表', this.volForm)
-      this.showvolformdata = false
+      // this.showvolformdata = false
     },
     clearFormData () { // 清空志愿表单
       this.$confirm('此操作将全部清空已填入意向且无法恢复, 是否继续?', '警告', {
@@ -485,7 +492,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.showvolformdata = true
+        // this.showvolformdata = true
         this.volForm = []
         this.$forceUpdate()
         // this.$message({
@@ -581,17 +588,29 @@ export default {
     },
     handlemajorCheckedfollowChange (value) {
       let checkedCount = value.length
-      this.checkAll = checkedCount === this.followCollege.length
+      this.checkmajorAll = checkedCount === this.followMajor.length
     },
 
     followSearch () {
-      // this.checkList.forEach( item => {
-      //   this.collegeselete.push(item.followName)
-      // })
       this.collegeselete.followSelect = this.checkList
+    },
+    followMajorSearch () {
+      this.majorselect.push.apply(this.majorselect, this.checkmajorList)
     },
     handleDeleteInfo (index) { // 志愿表单删除
       this.volForm.splice(index, 1)
+    },
+    getZhiyuanTableEdit () {
+      console.log('修改志愿表单数据', this.$route.params.zhiyuanTable)
+      console.log('0000000000000000', (JSON.parse(localStorage.getItem('zhiyuanbiaodan'))).length)
+      if ((JSON.parse(localStorage.getItem('zhiyuanbiaodan'))).length > 0) {
+        this.volForm = JSON.parse(localStorage.getItem('zhiyuanbiaodan'))
+        console.log('88888888888888', this.showvolformdata)
+        // this.showvolformdata = true
+        console.log('取得本地存储数据', this.volForm, this.volForm.length)
+        console.log(this.volForm)
+        this.$forceUpdate()
+      }
     }
   }
 }
@@ -906,10 +925,15 @@ li{
 }
 
 .auto_fixed {
+
 }
 
+.deleteZhiyuan {
+  margin-right: .2rem;
+  padding-top: 3%;
+}
 .fixed {
   position: fixed;
-  top: 0px;
+  top: 0rem;
 }
 </style>

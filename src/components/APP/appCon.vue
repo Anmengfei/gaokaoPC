@@ -193,7 +193,7 @@ export default {
   width: 1400px;
   /* height: 1400px; */
   margin: 0 auto;
-  /* background-color: yellow; */
+  margin-top: 70px;
 }
 h1 {
   font-size: 28px;

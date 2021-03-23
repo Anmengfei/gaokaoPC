@@ -9,7 +9,7 @@
           <span>我的成绩：1段 613分 物理,化学,生物</span>
         </div>
         <div class="operation">
-          <button>修改</button>
+          <button @click="gotoEdit">修改</button>
           <button>保存</button>
           <button>导出</button>
           <button>打印</button>
@@ -53,10 +53,20 @@
             label="操作">
            <template slot-scope="scope">
              <div class="operationBtn">
-               <el-button type="text" size="mini" :disabled="scope.$index===0" @click="goUp(scope.$index,scope.row)">上移</el-button>
-               <el-button type="text" size="mini" :disabled="scope.$index===zhiyuanTableList.length-1" @click="goDown(scope.$index,scope.row)">下移</el-button>
+               <div class="op1">
+                 <div class="btn1">
+                   <el-button type="text" size="mini" :disabled="scope.$index===0" @click="goUp(scope.$index,scope.row)"><i class="iconfont icon-top-btn-fill"></i></el-button>
+                 </div>
+                 <div class="btn2">
+                   <el-button type="text" size="mini" :disabled="scope.$index===zhiyuanTableList.length-1" @click="goDown(scope.$index,scope.row)"><i class="iconfont icon-bottom-btn-fill"></i></el-button>
+                 </div>
+               </div>
+               <div class="op2">
+                  <el-button type="text" size="mini" @click="handleDelete(scope.$index)">
+                    <i class="iconfont icon-shanchu1"></i>
+                  </el-button>
+               </div>
              </div>
-             <el-button type="text" size="mini" @click="handleDelete(scope.$index)">删除</el-button>
            </template>
           </el-table-column>
         </el-table>
@@ -88,9 +98,21 @@ export default {
     getAllData () {
       this.zhiyuanTableList = this.$route.params.zhiyuanTable
       console.log('志愿表单取得数据', this.zhiyuanTableList)
+      window.localStorage.setItem('zhiyuanbiaodan', JSON.stringify(this.zhiyuanTableList))
+      console.log('本地存储内容', JSON.parse(localStorage.getItem('zhiyuanbiaodan')))
     },
     indexMethod (index) {
       return index + 1
+    },
+    gotoEdit () { // 修改按钮，跳转回上一个界面
+      window.localStorage.setItem('zhiyuanbiaodan', JSON.stringify(this.zhiyuanTableList))
+      console.log('本地存储内容', JSON.parse(localStorage.getItem('zhiyuanbiaodan')))
+      this.$router.push({
+        name: 'SchoolRecommand',
+        params: {
+          zhiyuanTable: this.zhiyuanTableList
+        }
+      })
     },
     goUp (index, row) { // 上移
       console.log('row的信息', row)
@@ -151,12 +173,12 @@ export default {
   background-color: white;
   width: 100%;
 }
-.homeheader {
-  width: 100%;
-  margin-top: .2rem;
-  height: .7rem;
-  background-color: #ff5a38 !important;
-}
+/*.homeheader {*/
+/*  width: 100%;*/
+/*  margin-top: .2rem;*/
+/*  height: .7rem;*/
+/*  background-color: #ff5a38 !important;*/
+/*}*/
 .container .content .table_head{
   background-color: #00aff0;
   display: flex;
@@ -180,6 +202,34 @@ export default {
   text-align: center;
   margin: 0 auto;
   overflow: unset !important;
+}
+.operationBtn .iconfont{
+  width: .2rem;
+  height: .2rem;
+  font-size: .35rem;
+}
+
+.operationBtn .icon-shanchu1{
+  color: #1e1e1e;
+}
+.operationBtn {
+  display: flex;
+}
+.operationBtn .op1{
+  /*display: inline-block;*/
+  /*margin-right: .3rem;*/
+  flex: 1;
+
+}
+.operationBtn .op2{
+  flex: 3;
+  display: flex;
+  align-items: center;
+  /*vertical-align: baseline;*/
+
+}
+.operationBtn .op1 .btn1{
+  margin-bottom: .2rem;
 }
 
 </style>
