@@ -1,6 +1,6 @@
 import request from '@/utils/request_my'
 
-//通过手机验证码登录
+// 通过手机验证码登录
 export function withVerifyCodelogin (data) {
   return request({
     url: '/userApp/loginByVerifyCode',
@@ -8,8 +8,8 @@ export function withVerifyCodelogin (data) {
     params: data
   })
 }
-//退出登录
-export function userLogout(data) {
+// 退出登录
+export function userLogout (data) {
   return request({
     url: '/userApp/logOut',
     method: 'post',

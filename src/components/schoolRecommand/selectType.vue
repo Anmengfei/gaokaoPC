@@ -173,13 +173,13 @@
     <div class="schoollist">
       <el-row>
         <el-col :span="19">
-          <school-list :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo"></school-list>
-          <MajorList :selected="collegeselete" v-if="false"></MajorList>
+          <school-list :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-if="majorflag"></school-list>
+          <MajorList :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-else></MajorList>
         </el-col>
         <el-col :span="5">
           <div class="auto_fixed" :class="auto_fixed">
             <div class="fudongBox">
-              <div class="head">已填入意向</div>
+              <div class="head"><span>已填入意向</span></div>
               <div class="content">
                 <div class="noformdata" v-if="volForm.length === 0">
 <!--                <div class="noformdata" v-if="showvolformdata">-->
@@ -190,14 +190,14 @@
 <!--                <div class="formdata" v-if="!showvolformdata">-->
                   <div v-for="(item,index) in volForm" :key="index" class="list">
                     <div id="code">
-                      <div class="num">{{ index + 1 }}</div>
+                      <div class="num"><span>{{ index + 1 }}</span></div>
                     </div>
                     <div id="name">
                       <span class="school">{{ item.schoolName }}</span><br/>
                       <span class="major">{{ item.majorName }}</span>
                     </div>
                     <div class="deleteZhiyuan">
-                      <i class="iconfont icon-shanchu1" @click="handleDeleteInfo"></i>
+                      <i class="iconfont icon-shanchu1" @click="handleDeleteInfo(index)"></i>
                     </div>
                   </div>
                 </div>
@@ -276,13 +276,21 @@ export default {
       isVip: false,
       volForm: [], // 高考志愿表单
       schooladvice: [],
-      majoradvice: []
+      majoradvice: [],
+      majorflag: '',
+      turnname: ''
     }
   },
   computed: {
     selectTabs: {
       get () {
-        return this.$route.params.tab
+        if (this.$route.params.tab == 'favoriteSchool') {
+          this.majorflag = true
+        } else {
+          this.majorflag = false
+        }
+
+        return this.$route.params.tab || 'favoriteSchool'
       },
       set () {
       }
@@ -296,9 +304,6 @@ export default {
     this.getProvincesinit()
     this.getcollegeType()
     this.getMajortypelist()
-    this.getZhiyuanTableEdit()
-  },
-  activated () {
     this.getZhiyuanTableEdit()
   },
   methods: {
@@ -338,7 +343,7 @@ export default {
     },
     closemajorselect (index) {
       this.majorselect.splice(index, 1)
-      if (this.majorselect.length == 0) {
+      if (this.majorselect.length === 0) {
         this.majorsecondactive = ''
       }
     },
@@ -471,20 +476,26 @@ export default {
         this.majorType = res.data
       })
     },
-    handleClick () {},
+    handleClick (tab, event) {
+      this.turnname = tab.name
+      if (this.turnname == 'favoriteSchool') {
+        this.majorflag = true
+      } else {
+        this.majorflag = false
+        // this.majorflag = true;
+      }
+      // console.log('selectTabs数据啊', this.selectTabs)
+      // this.majorflag = !this.majorflag
+      // console.log(tab.name)
+      // this.selectTabs = tab.name
+      console.log('2222222222222222222222222', this.selectTabs)
+      this.$forceUpdate()
+    },
     getAddFormInfo (message) {
       // 父子组件传值，父组件接收信息函数
       console.log('父子组件传值', message)
-      // for(let i=0;i<this.volForm.length;++i){
-      //   if(this.volForm[i].id === message.id){//数据已经存在，按钮变灰
-      //
-      //   }
-      // }
-      // let temp = message.split(" ")
       this.volForm.push(message)
-      // console.log('let temp =', temp)
       console.log('高考志愿表', this.volForm)
-      // this.showvolformdata = false
     },
     clearFormData () { // 清空志愿表单
       this.$confirm('此操作将全部清空已填入意向且无法恢复, 是否继续?', '警告', {
@@ -602,15 +613,20 @@ export default {
     },
     getZhiyuanTableEdit () {
       console.log('修改志愿表单数据', this.$route.params.zhiyuanTable)
-      console.log('0000000000000000', (JSON.parse(localStorage.getItem('zhiyuanbiaodan'))).length)
-      if ((JSON.parse(localStorage.getItem('zhiyuanbiaodan'))).length > 0) {
-        this.volForm = JSON.parse(localStorage.getItem('zhiyuanbiaodan'))
-        console.log('88888888888888', this.showvolformdata)
-        // this.showvolformdata = true
-        console.log('取得本地存储数据', this.volForm, this.volForm.length)
-        console.log(this.volForm)
+      console.log('dsfsdfas', typeof sessionStorage.getItem('zhiyuanbiaodan'), sessionStorage.getItem('zhiyuanbiaodan'))
+      console.log("999999999",sessionStorage.getItem('zhiyuanbiaodan'))
+      if (sessionStorage.getItem('zhiyuanbiaodan') !== null) {
+        var temp = JSON.parse(sessionStorage.getItem('zhiyuanbiaodan'))
+        this.volForm = temp
+        console.log("8888888888",this.volForm)
         this.$forceUpdate()
       }
+
+      // if (temp.length > 0) {
+
+      // JSON.parse(localStorage.getItem('zhiyuanbiaodan'))
+      // this.$forceUpdate()
+      // }
     }
   }
 }
@@ -778,7 +794,7 @@ li{
 
 .box .fudongBox {
   position: absolute;
-  top: 10px;
+  top: .08rem;
   margin-left: .2rem;
   margin-top: .2rem;
   height: 8.1rem;
@@ -793,10 +809,11 @@ li{
 .box .fudongBox .head {
   height: .8rem;
   border-bottom: .01rem solid rgba(0, 0, 0, 0.1);
-  padding-left: .3rem;
-  font-size: .3rem;
+  font-size: .27rem;
   line-height: .8rem;
+  text-align: center;
 }
+
 
 .box .fudongBox .content {
   white-space: pre-wrap;
@@ -836,29 +853,31 @@ li{
   height: 100%;
 }
 
-.box .fudongBox .content .formdata #code .num {
+.box .fudongBox .content .formdata #code .num span{
   margin: 0 auto;
-  background-color: #00aff0;
   text-align: center;
+  display: block;
+  background-color: #00aff0;
+  font-size: .3rem;
   font-weight: 600;
   color: #ffffff;
-  /*border-radius: 50%;*/
-  width: 35%;
-  height: 35%;
+  width: 50%;
+  height: 50%;
 }
+
 .box .fudongBox .content .formdata #name{
   flex: 3;
   height:100%;
 }
 .box .fudongBox .content .formdata #name .school {
   color: rgba(0, 0, 0, 0.8);
-  font-size: .25rem;
-  font-weight: 550;
+  font-size: .23rem;
+  font-weight: 700;
 }
 
 .box .fudongBox .content .formdata #name .major{
   color: rgba(0, 0, 0, 0.5);
-  font-size: .23rem;
+  font-size: .19rem;
   font-weight: 400;
   padding-top: .05rem;
 }
@@ -931,6 +950,7 @@ li{
 .deleteZhiyuan {
   margin-right: .2rem;
   padding-top: 3%;
+  cursor:pointer;
 }
 .fixed {
   position: fixed;
