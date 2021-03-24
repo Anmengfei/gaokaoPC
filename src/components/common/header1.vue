@@ -7,13 +7,13 @@
           <li @click="gotoHomepage"><a>首页</a></li>
           <li @click="gotoAllclasses"><a>院校优先</a></li>
           <li @click="gotoWork"><a>专业优先</a></li>
-          <li @click="gotoOnline"><a>志愿表</a></li>
-          <li @click="gotoStudy"><a>志愿VIP</a></li>
-          <li @click="gotoPlat"><a>1V1专家</a></li>
+          <li @click="gotovoluntary"><a>志愿表</a></li>
+          <li @click="gotoVIP"><a>志愿VIP</a></li>
+          <li @click="gotoOneToOne"><a>1V1专家</a></li>
         </ul>
       </div>
       <div class="user-info">
-        <div class="user-login" v-if="loginflag">
+        <div class="user-login" v-if="!loginflag">
           <a title="登录考哪儿" @click="noLogin">登录</a>
         </div>
         <div class="logout" v-else>
@@ -260,7 +260,7 @@ export default {
       strCode: "",
       duanxinNum: "",
       tagsShow: "登录",
-      loginflag: true,
+      loginflag: false,
       loginflag11: false,
       radio: "2",
       showpassword: true,
@@ -302,8 +302,8 @@ export default {
     flagInfo: Boolean,
   },
   created() {
-    this.flag_login = localStorage.getItem("flag_class");
-    if (localStorage.getItem("token") === null) {
+    // this.flag_login = localStorage.getItem("flag_class");
+    if (localStorage.getItem("token") != null) {
       this.loginflag = true;
     } else {
       this.loginflag = false;
@@ -326,7 +326,7 @@ export default {
           if (res.code == 0) {
             this.msgSuccess("退出登录");
             console.log("退出登录成功");
-            this.loginflag = true;
+            this.loginflag = false;
           } else {
             this.msgError("操作失败");
           }
@@ -468,7 +468,6 @@ export default {
       this.$router.push("/coursestudy");
     },
     gotoAllclasses: function () {
-      // if (this.flag_state == true) {
       if (!this.loginflag) {
         this.$message({
           message: "登陆后，即可查看",
@@ -478,16 +477,12 @@ export default {
             this.showlogin = true;
           },
         });
-
-        // this.$router.push('/login')
       } else {
-        // this.$router.push('/AllCourses')
         this.$router.push({
           name: "SchoolRecommand",
           params: { tab: "favoriteSchool" },
         });
       }
-      // this.$router.push('/SchoolRecommand')
     },
     openInfo() {
       this.$confirm("请尽快完善个人资料,完善个人资料后开放此模块", "提示信息", {
@@ -501,15 +496,25 @@ export default {
         .catch(() => {});
     },
     gotoWork() {
-      // if (this.flag_state === true) {
-      //   alert('请先登录！')
-      //   this.$router.push('/login')
-      // } else {
-      //   this.$router.push('/WorkIndex')
-      this.$router.push({
-        name: "WorkIndex",
-        params: { tab: "favoriteMajor" },
-      });
+      if (!this.loginflag) {
+        this.$message({
+          message: "登陆后，即可查看",
+          type: "warning",
+          duration: 600,
+          onClose: () => {
+            this.showlogin = true;
+          },
+        });
+      } else {
+        this.$router.push({
+          name: "WorkIndex",
+          params: { tab: "favoriteMajor" },
+        });
+      }
+      // this.$router.push({
+      //   name: "WorkIndex",
+      //   params: { tab: "favoriteMajor" },
+      // });
       // }
     },
     gotoWorkUpdate() {
@@ -532,21 +537,32 @@ export default {
       // this.$router.push("/appCon");
       this.$router.push("/");
     },
-    gotoStudy() {
-      if (this.flag_state === true) {
-        alert("请先登录！");
-        this.$router.push("/login");
+    gotovoluntary() {
+      if (!this.loginflag) {
+        this.$message({
+          message: "登陆后，即可查看",
+          type: "warning",
+          duration: 600,
+          onClose: () => {
+            this.showlogin = true;
+          },
+        });
       } else {
-        // this.$router.push("/StudyProject");
-        this.$router.push("/zhiyuanVIP");
+        this.$router.push("/zhiyuanTable");
       }
     },
-    gotoTeacher() {
-      if (this.flag_state === true) {
-        alert("请先登录！");
-        this.$router.push("/login");
+    gotoVIP() {
+      if (!this.loginflag) {
+        this.$message({
+          message: "登陆后，即可查看",
+          type: "warning",
+          duration: 600,
+          onClose: () => {
+            this.showlogin = true;
+          },
+        });
       } else {
-        this.$router.push("/ClassShowTen");
+        this.$router.push("/volunteerVIP");
       }
     },
     gotoOnline() {
@@ -562,11 +578,35 @@ export default {
       // this.$router.push("/article");
       this.$router.push("/zhiyuanTable");
     },
-    gotoPlat() {
+    gotoOneToOne() {
+      if (!this.loginflag) {
+        this.$message({
+          message: "登陆后，即可查看",
+          type: "warning",
+          duration: 600,
+          onClose: () => {
+            this.showlogin = true;
+          },
+        });
+      } else {
+        this.$router.push("/onetoone");
+      }
+    },
+    gotoStudy() {
       if (this.flag_state === true) {
         alert("请先登录！");
         this.$router.push("/login");
       } else {
+        // this.$router.push("/StudyProject");
+        this.$router.push("/zhiyuanVIP");
+      }
+    },
+    gotoTeacher() {
+      if (this.flag_state === true) {
+        alert("请先登录！");
+        this.$router.push("/login");
+      } else {
+        this.$router.push("/ClassShowTen");
       }
     },
     gotoCompetition: function () {
@@ -598,26 +638,29 @@ export default {
   font-size: 18px;
 }
 .container .header1 {
-  width: 1500px;
-  height: 60px;
-  margin: 0 auto;
-  margin-right: 100px;
-  list-style-type: none;
-}
-.container .header1 .uzy-nav {
-  width: 1300px;
+  width: 100%;
   height: 60px;
   line-height: 60px;
-  font-size: 18px;
-  float: left;
+  /*margin: 0 auto;*/
+  list-style-type: none;
   position: relative;
+}
+.container .header1 .uzy-nav {
+  width: 1200px;
+  left: 20%;
+  height: 60px;
+  line-height: 60px;
+  margin: 0 auto;
+  font-size: 18px;
+  position: absolute;
 }
 .container .header1 .user-info {
   width: 200px;
   height: 60px;
   line-height: 60px;
   color: #fff;
-  float: right;
+  right: 5%;
+  position: absolute;
 }
 .container .header1 .user-info a {
   text-decoration: none;
@@ -635,7 +678,7 @@ export default {
 .container .header1 .uzy-nav ul li {
   list-style-type: none;
   float: left;
-  margin-right: 1rem;
+  margin-right: 0.8rem;
   line-height: 60px;
   height: 60px;
 }
