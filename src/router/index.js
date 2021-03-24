@@ -78,18 +78,12 @@ export default new Router({
             path: '/zhiyuanTable',
             name: 'zhiyuanTable',
             component: resolve => require(['@/components/zhiyuanForm/zhiyuanTable'], resolve)
+        },
+        {
+            path: '/addSucceed',
+            name: 'addSucceed',
+            component: resolve => require(['@/components/zhiyuanForm/addSucceed'], resolve)
         }
-        // {
-        //     path: '/grade',
-        //     name: 'grade',
-        //     component: resolve => require(['@/components/common/editScore'], resolve)
-        // }
-        // ,
-        // {
-        //     path: '/appCon',
-        //     name: 'appCon',
-        //     component: resolve => require(['@/components/APP/appCon'], resolve)
-        // }
 
     ]
 })

@@ -102,15 +102,15 @@ export default {
     getAllData () {
       this.zhiyuanTableList = this.$route.params.zhiyuanTable
       console.log('志愿表单取得数据', this.zhiyuanTableList)
-      window.localStorage.setItem('zhiyuanbiaodan', JSON.stringify(this.zhiyuanTableList))
-      console.log('本地存储内容', JSON.parse(localStorage.getItem('zhiyuanbiaodan')))
+      window.sessionStorage.setItem('zhiyuanbiaodan', JSON.stringify(this.zhiyuanTableList))
+      console.log('本地存储内容', JSON.parse(sessionStorage.getItem('zhiyuanbiaodan')))
     },
     indexMethod (index) {
       return index + 1
     },
     gotoEdit () { // 修改按钮，跳转回上一个界面
-      window.localStorage.setItem('zhiyuanbiaodan', JSON.stringify(this.zhiyuanTableList))
-      console.log('本地存储内容', JSON.parse(localStorage.getItem('zhiyuanbiaodan')))
+      window.sessionStorage.setItem('zhiyuanbiaodan', JSON.stringify(this.zhiyuanTableList))
+      console.log('本地存储内容', JSON.parse(sessionStorage.getItem('zhiyuanbiaodan')))
       this.$router.push({
         name: 'SchoolRecommand',
         params: {
@@ -177,7 +177,8 @@ export default {
         axios.post(url, this.zhiyuanFormatList).then((res) => {
           console.log('成功了', res.data)
           if (res.data.msg === '成功') {
-            console.log('222222222222222222222222')
+            sessionStorage.removeItem("zhiyuanbiaodan");
+            console.log("sessionStorage内容清理",sessionStorage.getItem("zhiyuanbiaodan"))
             this.$router.push({
               name: 'addSucceed'
             })
