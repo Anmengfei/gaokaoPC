@@ -64,6 +64,7 @@
                   >{{ item }}</el-checkbox-button
                 >
               </el-checkbox-group>
+              <span class="hint" v-if="isShow">限制长度，最多选择三门学科</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -76,10 +77,16 @@
               prop="totalScore"
             >
               <el-input
+                type="text"
                 placeholder="请填写高考总分"
                 class="input-style"
                 v-model="form.totalScore"
+                @input="inputClick"
+                maxlength="3"
+                oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+                onafterpaste="value=value.replace(/^\.+|[^\d.]/g,'')"
               ></el-input>
+              <!-- <span class="hint" v-if="type !='view'">限制长度，3个字符</span> -->
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -108,6 +115,10 @@
                 placeholder="请填写语数外总分"
                 class="input-style"
                 v-model="form.mainTotalScore"
+                @input="inputClick()"
+                maxlength="3"
+                oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+                onafterpaste="value=value.replace(/^\.+|[^\d.]/g,'')"
               ></el-input>
             </el-form-item>
           </el-col>
@@ -130,7 +141,13 @@
             依据历年数据进行推荐，最新招生计划将在6月更新，敬请关注
           </div>
         </el-row>
-        <el-button type="primary" class="btn">确定</el-button>
+        <el-button
+          type="primary"
+          class="btn"
+          :disabled="btnUser"
+          @click="btnClick"
+          >确定</el-button
+        >
       </el-form>
     </div>
   </div>
@@ -141,6 +158,8 @@ export default {
   name: "editScore",
   data() {
     return {
+      isShow: false,
+      btnUser: true,
       placeholder1: false,
       form: {
         province: "",
@@ -175,6 +194,7 @@ export default {
     selectSubject(val) {
       console.log(val);
       if (val.length > 3) {
+        // this.isShow = true;
         alert("不能超过3个");
         console.log(val.pop());
         console.log("val", val);
@@ -186,11 +206,29 @@ export default {
       console.log(this.placeholder1);
       // this.disabled = true;
     },
+    inputClick() {
+      if (this.form.totalScore == "" || this.form.mainTotalScore == "") {
+        this.btnUser = true;
+      } else {
+        this.btnUser = false;
+      }
+    },
+    btnClick() {
+      console.log("我要向后端传数据");
+      console.log(this.form);
+    },
   },
 };
 </script>
 
 <style scoped>
+.hint {
+  /* margin-top: 2px; */
+  margin-left: 82px;
+  font-size: 12px;
+  line-height: 12px;
+  color: rgb(255, 150, 31);
+}
 .score {
   box-sizing: border-box;
   width: 580px;

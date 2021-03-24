@@ -73,6 +73,11 @@ export default new Router({
             path: '/zhiyuanBiao',
             name: 'zhiyuanBiao',
             component: resolve => require(['@/components/zhiyuanForm/zhiyuanBiao'], resolve)
+        },
+        {
+            path: '/zhiyuanTable',
+            name: 'zhiyuanTable',
+            component: resolve => require(['@/components/zhiyuanForm/zhiyuanTable'], resolve)
         }
         // {
         //     path: '/grade',
@@ -86,5 +91,5 @@ export default new Router({
         //     component: resolve => require(['@/components/APP/appCon'], resolve)
         // }
 
-  ]
+    ]
 })
