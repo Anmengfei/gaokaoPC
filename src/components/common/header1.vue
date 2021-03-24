@@ -260,7 +260,7 @@ export default {
       strCode: "",
       duanxinNum: "",
       tagsShow: "登录",
-      loginflag: false,
+      // loginflag: false,
       loginflag11: false,
       radio: "2",
       showpassword: true,
@@ -304,13 +304,19 @@ export default {
   created() {
     // this.flag_login = localStorage.getItem("flag_class");
     if (localStorage.getItem("token") != null) {
-      this.loginflag = true;
+      // this.loginflag = true;
+      this.$store.dispatch('getloginstate',true)
     } else {
-      this.loginflag = false;
-    }
+      // this.loginflag = false;
+      this.$store.dispatch('getloginstate',false)
 
+    }
   },
   computed: {
+    loginflag(){
+      return this.$store.state.loginflag
+    },
+
     showNum() {
       if (this.phoneNum === "") {
         return true;
@@ -327,6 +333,8 @@ export default {
           if (res.code == 0) {
             this.msgSuccess("退出登录");
             console.log("退出登录成功");
+            localStorage.clear()
+            this.$router.push('/')
             this.loginflag = false;
           } else {
             this.msgError("操作失败");

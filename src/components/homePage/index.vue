@@ -2,7 +2,7 @@
   <div class="app_container">
     <!-- <Header :flags = flag_class class="header" :flagInfo="infoState"></Header> -->
     <top-header></top-header>
-    <HomeHeader :flagInfo="loginStatus"></HomeHeader>
+    <HomeHeader></HomeHeader>
     <div class="fourRow">
       <div class="carouselList">
         <el-carousel class="carousel-img" height="300px">
@@ -16,7 +16,7 @@
           </el-carousel-item>
         </el-carousel>
       </div>
-      <div class="zhiyuan" v-if="loginStatus !== false">
+      <div class="zhiyuan" v-if="flag_state == false">
         <div class="content">
           <div class="header">模拟高考志愿填报</div>
           <el-tag class="denglu-label" type="warning"
@@ -32,7 +32,7 @@
               ><span class="span2">预估全省排名</span>
             </div>
             <div class="button">
-              <el-button class="btn" type="primary" round>立即登陆</el-button>
+              <el-button class="btn" type="primary" round>立即登录</el-button>
             </div>
           </div>
         </div>
@@ -136,7 +136,7 @@
             </li>
             <li class="commend-item" @click="gotoAllschool">
               <i class="el-icon-arrow-right moreIcn"></i>
-              <h4 class="commend-item-title more">查看更多</h4>
+              <h4 class="commend-item-title more" >查看更多</h4>
             </li>
           </ul>
         </div>
@@ -321,7 +321,7 @@ export default {
       list: [],
       infoState: false,
       flag_class: "未登录",
-      flag_state: true,
+      flag_state: '',
 
       selectProvince: "",
       provincesList: ["北京", "上海", "广州", "深圳"],
@@ -338,7 +338,7 @@ export default {
   },
 
   created() {
-    if (localStorage.getItem("flag_class") === null) {
+    if (localStorage.getItem('token') != null) {
       this.flag_state = true;
     } else {
       this.flag_state = false;
@@ -397,10 +397,15 @@ export default {
       this.getInfo();
     },
     gotoAllschool() {
-      this.$router.push({
-        name: "SchoolRecommand",
-        params: { tab: "favoriteSchool" },
-      });
+      if (localStorage.getItem("token") != null) {
+        this.$router.push({
+          name: "SchoolRecommand",
+          params: { tab: "favoriteSchool" },
+        });
+      } else {
+        this.msgWarning('请先登录！')
+      }
+
     },
     modifyScore() {
       console.log("123");
@@ -599,7 +604,6 @@ li a {
 .fourRow {
   width: 1500px;
   height: 400px;
-
   /* background: url(../../assets/u23.png);
   background-size: 100%; */
 }
