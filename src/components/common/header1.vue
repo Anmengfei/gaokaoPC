@@ -546,7 +546,7 @@ export default {
       // this.$router.push("/appCon");
       this.$router.push("/");
     },
-    gotovoluntary(){
+    gotovoluntary() {
       if (!this.loginflag) {
         this.$message({
           message: "登陆后，即可查看",
@@ -557,10 +557,10 @@ export default {
           },
         });
       } else {
-        this.$router.push("/zhiyuanBiao");
+        this.$router.push("/zhiyuanTable");
       }
     },
-    gotoVIP(){
+    gotoVIP() {
       if (!this.loginflag) {
         this.$message({
           message: "登陆后，即可查看",
@@ -571,10 +571,23 @@ export default {
           },
         });
       } else {
-        this.$router.push('/volunteerVIP');
+        this.$router.push("/volunteerVIP");
       }
     },
-    gotoOneToOne(){
+    gotoOnline() {
+      // if (this.flag_state === true) {
+      //   alert("请先登录！");
+      //   this.$router.push("/login");
+      // } else {
+      //   this.$router.push("/OnlineTeach");
+      // }
+      // this.$router.push("/grade");
+      // this.$router.push("/Recruit");
+      // this.$router.push("/guanzhu");
+      // this.$router.push("/article");
+      this.$router.push("/zhiyuanTable");
+    },
+    gotoOneToOne() {
       if (!this.loginflag) {
         this.$message({
           message: "登陆后，即可查看",
@@ -585,7 +598,7 @@ export default {
           },
         });
       } else {
-        this.$router.push('/onetoone');
+        this.$router.push("/onetoone");
       }
     },
     gotoStudy() {

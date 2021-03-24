@@ -612,13 +612,13 @@ export default {
       this.volForm.splice(index, 1)
     },
     getZhiyuanTableEdit () {
-      console.log('修改志愿表单数据', this.$route.params.zhiyuanTable)
-      console.log('dsfsdfas', typeof sessionStorage.getItem('zhiyuanbiaodan'), sessionStorage.getItem('zhiyuanbiaodan'))
-      console.log("999999999",sessionStorage.getItem('zhiyuanbiaodan'))
+      // console.log('修改志愿表单数据', this.$route.params.zhiyuanTable)
+      // console.log('dsfsdfas', typeof sessionStorage.getItem('zhiyuanbiaodan'), sessionStorage.getItem('zhiyuanbiaodan'))
+      // console.log("999999999",sessionStorage.getItem('zhiyuanbiaodan'))
       if (sessionStorage.getItem('zhiyuanbiaodan') !== null) {
         var temp = JSON.parse(sessionStorage.getItem('zhiyuanbiaodan'))
         this.volForm = temp
-        console.log("8888888888",this.volForm)
+        // console.log("8888888888",this.volForm)
         this.$forceUpdate()
       }
 
@@ -853,10 +853,10 @@ li{
   height: 100%;
 }
 
-.box .fudongBox .content .formdata #code .num span{
-  margin: 0 auto;
+#code .num {
+  margin-left: .2rem;
   text-align: center;
-  display: block;
+  display: inline-block;
   background-color: #00aff0;
   font-size: .3rem;
   font-weight: 600;
