@@ -3,10 +3,11 @@
   <div v-if="article" class="container">
     <div class="atitle">{{ article.title }}</div>
     <div class="comefrom">
-      <span>来源:</span>
+      <span style="font-size: 15px">{{ article.date }}</span>
+      <!-- <span>来源:</span>
       <span>&nbsp;null</span>
       <span>&nbsp;null</span>
-      <span>&nbsp;null</span>
+      <span>&nbsp;null</span> -->
     </div>
     <p class="image">
       <img :src="article.cover" class="articleImage" />
