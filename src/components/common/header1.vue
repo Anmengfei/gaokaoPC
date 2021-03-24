@@ -9,7 +9,7 @@
           <li @click="gotoWork"><a>专业优先</a></li>
           <li @click="gotovoluntary"><a>志愿表</a></li>
           <li @click="gotoVIP"><a>志愿VIP</a></li>
-          <li @click="gotoOneToOne"><a>1V1专家</a></li>
+<!--          <li @click="gotoOneToOne"><a>1V1专家</a></li>-->
         </ul>
       </div>
       <div class="user-info">
@@ -49,7 +49,7 @@
     </div>
     <div>
       <!--      <div class="login-style">-->
-      <el-dialog :visible.sync="showlogin" width="30%">
+      <el-dialog :visible.sync="showlogin"  @close="closeDialog" width="30%">
         <div class="login-form-content">
           <div class="content-tags">
             <ul>
@@ -293,7 +293,7 @@ export default {
       },
       flag_login: "未登录",
       flag_state: true,
-      showlogin: false,
+      // showlogin: false,
       // showlogin: true
     };
   },
@@ -313,6 +313,9 @@ export default {
     }
   },
   computed: {
+    showlogin(){
+      return this.$store.state.showlogin
+    },
     loginflag(){
       return this.$store.state.loginflag
     },
@@ -327,6 +330,9 @@ export default {
   },
   mounted() {},
   methods: {
+    closeDialog(){
+      this.$store.dispatch('getShowLogin',false)
+    },
     logout(command) {
       if (command == "logout") {
         userLogout().then((res) => {
@@ -343,7 +349,8 @@ export default {
       }
     },
     noLogin() {
-      this.showlogin = true;
+      // this.showlogin = true;
+      this.$store.dispatch('getShowLogin',true)
     },
     getCodes() {
       if (this.phoneNum !== "") {
@@ -446,8 +453,7 @@ export default {
           });
           console.log("登录测试", res);
           localStorage.setItem("token", res.data.token);
-          this.showlogin = false;
-          this.loginflag = true;
+          this.$store.dispatch('getShowLogin',false)
           this.$router.push({
             name: "SchoolRecommand",
             params: { tab: "favoriteSchool" },
@@ -483,7 +489,7 @@ export default {
           type: "warning",
           duration: 600,
           onClose: () => {
-            this.showlogin = true;
+            this.$store.dispatch('getShowLogin',true)
           },
         });
       } else {
@@ -511,7 +517,7 @@ export default {
           type: "warning",
           duration: 600,
           onClose: () => {
-            this.showlogin = true;
+            this.$store.dispatch('getShowLogin',true)
           },
         });
       } else {
@@ -553,7 +559,7 @@ export default {
           type: "warning",
           duration: 600,
           onClose: () => {
-            this.showlogin = true;
+            this.$store.dispatch('getShowLogin',true)
           },
         });
       } else {
@@ -561,18 +567,18 @@ export default {
       }
     },
     gotoVIP() {
-      if (!this.loginflag) {
-        this.$message({
-          message: "登陆后，即可查看",
-          type: "warning",
-          duration: 600,
-          onClose: () => {
-            this.showlogin = true;
-          },
-        });
-      } else {
+      // if (!this.loginflag) {
+      //   this.$message({
+      //     message: "登陆后，即可查看",
+      //     type: "warning",
+      //     duration: 600,
+      //     onClose: () => {
+      //       this.showlogin = true;
+      //     },
+      //   });
+      // } else {
         this.$router.push("/volunteerVIP");
-      }
+      // }
     },
     gotoOnline() {
       // if (this.flag_state === true) {

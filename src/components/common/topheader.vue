@@ -73,7 +73,7 @@
         <el-col :span="6">
           <div class="logo">
             <img src="../../assets/logo.jpg" class="img-logo" />
-            <div class="plateName">智禾 考哪儿</div>
+            <div class="plateName">智禾·考哪儿</div>
           </div>
         </el-col>
         <el-col :span="12">
@@ -202,6 +202,7 @@ a {
   display: inline;
   margin-left: 0.15rem;
   font-size: 0.4rem;
+  font-family: monospace;
   font-weight: 800;
 }
 

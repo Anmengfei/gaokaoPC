@@ -24,15 +24,15 @@
           </el-tag>
           <div class="form-item">
             <div class="gaokaozongfen">
-              <span class="span1">高考总分</span
-              ><span class="span2">输入预估总分</span>
+              <span class="span1">高考总分：</span>
+              <input type="text" v-model="score"></input>
             </div>
             <div class="quanshengpaiming">
-              <span class="span1">全省排名</span
-              ><span class="span2">预估全省排名</span>
+              <span class="span1" v-model="level">全省排名：</span>
+              <input type="text"></input>
             </div>
             <div class="button">
-              <el-button class="btn" type="primary" round>立即登录</el-button>
+              <el-button class="btn" type="primary" round  @click="login">立即登录</el-button>
             </div>
           </div>
         </div>
@@ -111,9 +111,9 @@
       <div class="fiveRow-header">
         <span class="shuxian"></span>
         <div class="shuxian-l">院校推荐</div>
-        <div v-if="loginStatus !== false">
+        <div v-if="!flag_state">
           <div class="btn">
-            <a href="#">登录</a>
+            <a @click="login">登录</a>
           </div>
           <div class="shuxian-r">推荐更合适你的院校</div>
         </div>
@@ -280,6 +280,8 @@ export default {
   components: { TopHeader, HomeHeader, Footer, EditScore },
   data() {
     return {
+      score:'',
+      level:'',
       dialogVisible1: false,
       videoUrl: "",
       scoreDialog: false,
@@ -545,6 +547,9 @@ export default {
       //       }
       //     });
       // }
+    },
+    login(){
+        this.$store.dispatch('getShowLogin',true)
     },
     openInfo() {
       this.$confirm("请尽快完善个人资料", "提示信息", {
@@ -1330,5 +1335,12 @@ li a {
 }
 .gaokaotianbao {
   margin-bottom: 25px;
+}
+input {
+  text-decoration: none;
+  border:0;
+  outline:0;
+  /*line-height: 40px;*/
+  /*font-size: 40px;*/
 }
 </style>
