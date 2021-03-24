@@ -2,7 +2,9 @@
   <div class="container">
     <top-header></top-header>
     <HomeHeader class="homeheader" :flagInfo="true"></HomeHeader>
-    123456789
+    <div class="container">
+
+    </div>
     <Footer></Footer>
   </div>
 
@@ -19,5 +21,12 @@ export default {
 </script>
 
 <style scoped>
+*{
+  padding: 0;
+  margin: 0;
+}
+.container {
+  width: 100%;
+}
 
 </style>
