@@ -853,10 +853,10 @@ li{
   height: 100%;
 }
 
-.box .fudongBox .content .formdata #code .num span{
-  margin: 0 auto;
+#code .num {
+  margin-left: .2rem;
   text-align: center;
-  display: block;
+  display: inline-block;
   background-color: #00aff0;
   font-size: .3rem;
   font-weight: 600;
