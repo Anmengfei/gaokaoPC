@@ -2,7 +2,7 @@
   <div class="app_container">
     <!-- <Header :flags = flag_class class="header" :flagInfo="infoState"></Header> -->
     <top-header></top-header>
-    <HomeHeader :flagInfo="loginStatus"></HomeHeader>
+    <HomeHeader></HomeHeader>
     <div class="fourRow">
       <div class="carouselList">
         <el-carousel class="carousel-img" height="300px">
@@ -16,7 +16,7 @@
           </el-carousel-item>
         </el-carousel>
       </div>
-      <div class="zhiyuan" v-if="loginStatus !== false">
+      <div class="zhiyuan" v-if="flag_state == false">
         <div class="content">
           <div class="header">模拟高考志愿填报</div>
           <el-tag class="denglu-label" type="warning"
@@ -24,15 +24,15 @@
           </el-tag>
           <div class="form-item">
             <div class="gaokaozongfen">
-              <span class="span1">高考总分</span
-              ><span class="span2">输入预估总分</span>
+              <span class="span1">高考总分：</span>
+              <input type="text" v-model="score"></input>
             </div>
             <div class="quanshengpaiming">
-              <span class="span1">全省排名</span
-              ><span class="span2">预估全省排名</span>
+              <span class="span1" v-model="level">全省排名：</span>
+              <input type="text"></input>
             </div>
             <div class="button">
-              <el-button class="btn" type="primary" round>立即登陆</el-button>
+              <el-button class="btn" type="primary" round  @click="login">立即登录</el-button>
             </div>
           </div>
         </div>
@@ -111,9 +111,9 @@
       <div class="fiveRow-header">
         <span class="shuxian"></span>
         <div class="shuxian-l">院校推荐</div>
-        <div v-if="loginStatus !== false">
+        <div v-if="!flag_state">
           <div class="btn">
-            <a href="#">登录</a>
+            <a @click="login">登录</a>
           </div>
           <div class="shuxian-r">推荐更合适你的院校</div>
         </div>
@@ -148,7 +148,7 @@
             </li>
             <li class="commend-item" @click="gotoAllschool">
               <i class="el-icon-arrow-right moreIcn"></i>
-              <h4 class="commend-item-title more">查看更多</h4>
+              <h4 class="commend-item-title more" >查看更多</h4>
             </li>
           </ul>
         </div>
@@ -280,6 +280,8 @@ export default {
   components: { TopHeader, HomeHeader, Footer, EditScore },
   data() {
     return {
+      score:'',
+      level:'',
       dialogVisible1: false,
       videoUrl: "",
       scoreDialog: false,
@@ -351,7 +353,7 @@ export default {
       list: [],
       infoState: false,
       flag_class: "未登录",
-      flag_state: true,
+      flag_state: '',
 
       selectProvince: "",
       provincesList: ["北京", "上海", "广州", "深圳"],
@@ -368,7 +370,7 @@ export default {
   },
 
   created() {
-    if (localStorage.getItem("flag_class") === null) {
+    if (localStorage.getItem('token') != null) {
       this.flag_state = true;
     } else {
       this.flag_state = false;
@@ -427,10 +429,15 @@ export default {
       this.getInfo();
     },
     gotoAllschool() {
-      this.$router.push({
-        name: "SchoolRecommand",
-        params: { tab: "favoriteSchool" },
-      });
+      if (localStorage.getItem("token") != null) {
+        this.$router.push({
+          name: "SchoolRecommand",
+          params: { tab: "favoriteSchool" },
+        });
+      } else {
+        this.msgWarning('请先登录！')
+      }
+
     },
     modifyScore() {
       console.log("123");
@@ -541,6 +548,9 @@ export default {
       //     });
       // }
     },
+    login(){
+        this.$store.dispatch('getShowLogin',true)
+    },
     openInfo() {
       this.$confirm("请尽快完善个人资料", "提示信息", {
         confirmButtonText: "立即前往",
@@ -632,7 +642,6 @@ li a {
 .fourRow {
   width: 1500px;
   height: 400px;
-
   /* background: url(../../assets/u23.png);
   background-size: 100%; */
 }
@@ -1326,5 +1335,12 @@ li a {
 }
 .gaokaotianbao {
   margin-bottom: 25px;
+}
+input {
+  text-decoration: none;
+  border:0;
+  outline:0;
+  /*line-height: 40px;*/
+  /*font-size: 40px;*/
 }
 </style>

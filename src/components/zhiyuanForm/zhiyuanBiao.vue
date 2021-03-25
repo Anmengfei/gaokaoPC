@@ -9,11 +9,10 @@
           <span>我的成绩：1段 613分 物理,化学,生物</span>
         </div>
         <div class="operation">
-          <button @click="gotoEdit">修改</button>
-          <button @click="gotoSave(zhiyuanTableList)">保存</button>
-          <button>导出</button>
-          <button>打印</button>
-          <button>分享</button>
+          <i class="iconfont icon-15" @click="gotoEdit" title="修改"></i>
+          <i class="iconfont icon-baocun" @click="gotoSave(zhiyuanTableList)" title="保存"></i>
+<!--          <button @click="gotoSave(zhiyuanTableList)">保存</button>-->
+          <i class="iconfont icon-daochu" title="导出"></i>
         </div>
       </div>
       <div class="tablecontent">
@@ -213,11 +212,11 @@ export default {
   width: 100%;
 }
 .container .content .table_head{
-  background-color: #00aff0;
   display: flex;
   width: 100%;
   height: 1rem;
   margin-bottom: .4rem;
+  margin-left: .4rem;
 }
 .content .table_head .title{
   flex:5;
@@ -228,6 +227,25 @@ export default {
   flex: 2;
   padding-left: .5rem;
   margin-top: .3rem;
+}
+
+.icon-15{
+  cursor: pointer;
+  font-size: .3rem;
+  color: #fe9003;
+  margin-right: .2rem;
+}
+
+.icon-baocun{
+  cursor: pointer;
+  font-size: .3rem;
+  color: #27d272;
+  margin-right: .2rem;
+}
+.icon-daochu{
+  cursor: pointer;
+  font-size: .3rem;
+
 }
 
 .container .content .tablecontent{
@@ -249,8 +267,6 @@ export default {
   display: flex;
 }
 .operationBtn .op1{
-  /*display: inline-block;*/
-  /*margin-right: .3rem;*/
   flex: 1;
 
 }
