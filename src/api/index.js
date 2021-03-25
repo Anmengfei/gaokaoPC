@@ -147,3 +147,11 @@ export function getHomeschool(data) {
     params: data
   })
 }
+// 获取用户信息
+export function getUserInfo(data) {
+  return request({
+    url: '/userApp/getInformation',
+    method: 'get',
+    params: data
+  })
+}

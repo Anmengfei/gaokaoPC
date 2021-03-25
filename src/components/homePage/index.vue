@@ -19,8 +19,8 @@
       <div class="zhiyuan" v-if="flag_state == false">
         <div class="content">
           <div class="header">模拟高考志愿填报</div>
-          <el-tag class="denglu-label" type="warning"
-            >登录后，推荐适合你的院校
+          <el-tag class="denglu-label" type="warning">
+            登录后，推荐适合你的院校
           </el-tag>
           <div class="form-item">
             <div class="gaokaozongfen">
@@ -40,7 +40,6 @@
       <div class="zhiyuan" v-else>
         <div class="content">
           <div class="header">模拟高考志愿填报</div>
-
           <div class="form-item2">
             <div>
               <div class="editScore" @click="dialogVisible1 = true">
@@ -60,41 +59,29 @@
 
               <div>
                 <div class="score-item">
-                  <span class="label">高考省份</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >北京</span
-                  >
+                  <span class="label">高考省份</span>&nbsp;&nbsp;
+                  <span class="value">北京</span>
                 </div>
                 <div class="score-item">
-                  <span class="label">科目类型</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >物理/化学/生物</span
-                  >
+                  <span class="label">科目类型</span>&nbsp;&nbsp;
+                  <span class="value">物理/化学/生物</span>
                 </div>
                 <div class="score-item">
-                  <span class="label">高考总分</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >572</span
-                  >
+                  <span class="label">高考总分</span>&nbsp;&nbsp;
+                  <span class="value">572</span>
                 </div>
                 <div class="score-item">
-                  <span class="label">本科预估排名</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >13923</span
-                  >
+                  <span class="label">本科预估排名</span>&nbsp;&nbsp;
+                  <span class="value">13923</span>
                 </div>
                 <div class="score-item">
-                  <span class="label">语数外总分</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >360</span
-                  >
+                  <span class="label">语数外总分</span>&nbsp;&nbsp;
+                  <span class="value">360</span>
                 </div>
 
                 <div class="score-item">
-                  <span class="label">专科预估排名</span>&nbsp;&nbsp;<span
-                    class="value"
-                    >28</span
-                  >
+                  <span class="label">专科预估排名</span>&nbsp;&nbsp;
+                  <span class="value">28</span>
                 </div>
               </div>
             </div>
@@ -370,13 +357,16 @@ export default {
   },
 
   created() {
-    if (localStorage.getItem('token') != null) {
+    if (localStorage.getItem('token') != null && !this.flag) {
       this.flag_state = true;
     } else {
       this.flag_state = false;
     }
   },
   computed: {
+    flag(){
+      return this.$store.state.showUserInfo
+    },
     username() {
       if (localStorage.getItem("name") === null) {
         return "ceshi";

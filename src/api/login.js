@@ -16,3 +16,12 @@ export function userLogout (data) {
     params: data
   })
 }
+// 用户信息完善
+export function completeInformation (data) {
+  return request({
+    url: '/userApp/completeInformation',
+    method: 'post',
+    params: data
+  })
+}
+

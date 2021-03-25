@@ -55,6 +55,8 @@
             >
               <el-checkbox-group
                 v-model="form.checkSubjectList"
+                size="mini"
+                max="3"
                 @change="selectSubject"
               >
                 <el-checkbox-button

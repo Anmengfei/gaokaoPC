@@ -9,7 +9,7 @@
           <li @click="gotoWork"><a>专业优先</a></li>
           <li @click="gotovoluntary"><a>志愿表</a></li>
           <li @click="gotoVIP"><a>志愿VIP</a></li>
-<!--          <li @click="gotoOneToOne"><a>1V1专家</a></li>-->
+          <!--          <li @click="gotoOneToOne"><a>1V1专家</a></li>-->
         </ul>
       </div>
       <div class="user-info">
@@ -30,26 +30,45 @@
                 href="/accounts/personInfo/modifyInfo"
                 title="个人资料"
                 id="username"
-                >孙同学</a
+              >孙同学</a
               >
             </div>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="info"
-                ><i class="iconfont icon-gerenziliao" style="color: #e5623f"></i
-                >个人资料</el-dropdown-item
+              ><i class="iconfont icon-gerenziliao" style="color: #e5623f"></i
+              >个人资料
+              </el-dropdown-item
               >
               <el-dropdown-item command="logout"
-                ><i class="iconfont icon-icon-tuichu" style="color: #e5623f"></i
-                >退出登录</el-dropdown-item
+              ><i class="iconfont icon-icon-tuichu" style="color: #e5623f"></i
+              >退出登录
+              </el-dropdown-item
               >
             </el-dropdown-menu>
           </el-dropdown>
         </div>
       </div>
     </div>
+    <div class="eldialog-parent">
+      <el-dialog
+        title="个人资料填写"
+        :close-on-press-escape="false"
+        :show-close="false"
+        :close-on-click-modal="false"
+        :visible.sync="showUserInfo"
+        width="37%"
+      >
+        <div class="gaokaotianbao">
+           <UserInfo></UserInfo>
+        </div>
+      </el-dialog>
+    </div>
+<!--    <div v-if="showUserInfo">-->
+<!--         <editScore></editScore>-->
+<!--    </div>-->
     <div>
       <!--      <div class="login-style">-->
-      <el-dialog :visible.sync="showlogin"  @close="closeDialog" width="30%">
+      <el-dialog :visible.sync="showlogin" @close="closeDialog" width="30%">
         <div class="login-form-content">
           <div class="content-tags">
             <ul>
@@ -81,11 +100,12 @@
                 <template slot="append">
                   <div class="yanzheng-button">
                     <el-button type="text" @click="getCodes" v-if="showCountNum"
-                      >获取验证码</el-button
+                    >获取验证码
+                    </el-button
                     >
                     <span v-else class="yanzheng-text">{{
-                      "重新发送" + countNum + "s"
-                    }}</span>
+                        "重新发送" + countNum + "s"
+                      }}</span>
                   </div>
                 </template>
               </el-input>
@@ -201,59 +221,63 @@
 // import userSettingPopover from '@/components/userSetting/userSettingPopover'
 // import Logout from '@/components/userSetting/logout'
 import md5 from "js-md5";
-import { withVerifyCodelogin, userLogout } from "@/api/login";
+import {withVerifyCodelogin, userLogout} from "@/api/login";
+import {getUserInfo} from "@/api/index"
+import UserInfo from "@/components/login/userInfo";
 export default {
   name: "header1",
-  // components: { userSettingPopover, Logout },
+  components: { UserInfo },
+  inject:['reload'],
   data() {
-    var checkName = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("用户名不能为空"));
-      }
-      setTimeout(() => {
-        callback();
-      }, 1000);
-    };
-    var checkClass = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("请填写学校名称"));
-      }
-      setTimeout(() => {
-        callback();
-      }, 1000);
-    };
-    var checkEmail = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("请填写邮箱地址"));
-      }
-      setTimeout(() => {
-        callback();
-      }, 1000);
-    };
-    var validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
-      } else {
-        if (this.ruleForm2.password2 !== "") {
-          this.$refs.ruleForm2.validateField("password2");
-        }
-        callback();
-      }
-    };
-    var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
-      } else if (value !== this.ruleForm2.password1) {
-        callback(new Error("两次输入密码不一致！"));
-      } else {
-        callback();
-      }
-    };
+    // var checkName = (rule, value, callback) => {
+    //   if (!value) {
+    //     return callback(new Error("用户名不能为空"));
+    //   }
+    //   setTimeout(() => {
+    //     callback();
+    //   }, 1000);
+    // };
+    // var checkClass = (rule, value, callback) => {
+    //   if (!value) {
+    //     return callback(new Error("请填写学校名称"));
+    //   }
+    //   setTimeout(() => {
+    //     callback();
+    //   }, 1000);
+    // };
+    // var checkEmail = (rule, value, callback) => {
+    //   if (!value) {
+    //     return callback(new Error("请填写邮箱地址"));
+    //   }
+    //   setTimeout(() => {
+    //     callback();
+    //   }, 1000);
+    // };
+    // var validatePass = (rule, value, callback) => {
+    //   if (value === "") {
+    //     callback(new Error("请输入密码"));
+    //   } else {
+    //     if (this.ruleForm2.password2 !== "") {
+    //       this.$refs.ruleForm2.validateField("password2");
+    //     }
+    //     callback();
+    //   }
+    // };
+    // var validatePass2 = (rule, value, callback) => {
+    //   if (value === "") {
+    //     callback(new Error("请再次输入密码"));
+    //   } else if (value !== this.ruleForm2.password1) {
+    //     callback(new Error("两次输入密码不一致！"));
+    //   } else {
+    //     callback();
+    //   }
+    // };
     return {
       ruleForm1: {
         username: "",
         password: "",
       },
+      // userInfo:{},
       tagsShow2: "1",
       phoneNum: "",
       timeCode: "",
@@ -274,23 +298,23 @@ export default {
         email: "",
       },
       show1: true,
-      rules: {
-        password1: [{ validator: validatePass, trigger: "blur" }],
-        password2: [{ validator: validatePass2, trigger: "blur" }],
-        username: [{ validator: checkName, trigger: "blur" }],
-        class_name: [
-          {
-            validator: checkClass,
-            trigger: "blur",
-          },
-        ],
-        email: [
-          {
-            validator: checkEmail,
-            trigger: "blur",
-          },
-        ],
-      },
+      // rules: {
+      //   password1: [{ validator: validatePass, trigger: "blur" }],
+      //   password2: [{ validator: validatePass2, trigger: "blur" }],
+      //   username: [{ validator: checkName, trigger: "blur" }],
+      //   class_name: [
+      //     {
+      //       validator: checkClass,
+      //       trigger: "blur",
+      //     },
+      //   ],
+      //   email: [
+      //     {
+      //       validator: checkEmail,
+      //       trigger: "blur",
+      //     },
+      //   ],
+      // },
       flag_login: "未登录",
       flag_state: true,
       // showlogin: false,
@@ -305,18 +329,24 @@ export default {
     // this.flag_login = localStorage.getItem("flag_class");
     if (localStorage.getItem("token") != null) {
       // this.loginflag = true;
-      this.$store.dispatch('getloginstate',true)
+      this.$store.dispatch('getloginstate', true)
     } else {
       // this.loginflag = false;
-      this.$store.dispatch('getloginstate',false)
+      this.$store.dispatch('getloginstate', false)
 
     }
   },
   computed: {
-    showlogin(){
+    showUserInfo(){
+      return this.$store.state.showUserInfo
+    },
+    userInfo() {
+      return this.$store.state.userinfo
+    },
+    showlogin() {
       return this.$store.state.showlogin
     },
-    loginflag(){
+    loginflag() {
       return this.$store.state.loginflag
     },
 
@@ -328,10 +358,11 @@ export default {
       }
     },
   },
-  mounted() {},
+  mounted() {
+  },
   methods: {
-    closeDialog(){
-      this.$store.dispatch('getShowLogin',false)
+    closeDialog() {
+      this.$store.dispatch('getShowLogin', false)
     },
     logout(command) {
       if (command == "logout") {
@@ -350,7 +381,7 @@ export default {
     },
     noLogin() {
       // this.showlogin = true;
-      this.$store.dispatch('getShowLogin',true)
+      this.$store.dispatch('getShowLogin', true)
     },
     getCodes() {
       if (this.phoneNum !== "") {
@@ -452,12 +483,19 @@ export default {
             type: "success",
           });
           console.log("登录测试", res);
+          if(res.data.userInfo.checked == 0){
+            this.$store.dispatch('showuserInfo', true)
+          }else {
+            this.$router.push('/homepage');
+          }
           localStorage.setItem("token", res.data.token);
-          this.$store.dispatch('getShowLogin',false)
-          this.$router.push({
-            name: "SchoolRecommand",
-            params: { tab: "favoriteSchool" },
-          });
+          this.$store.dispatch('getShowLogin', false)
+          getUserInfo().then(res => {
+            this.$store.dispatch('resUserInfo', res.data)
+            console.log('用户信息', this.userInfo)
+
+          })
+
         } else if (res.code == 1) {
           // this.$notify.error({
           //   title: '验证码输入错误或已失效',
@@ -489,13 +527,13 @@ export default {
           type: "warning",
           duration: 600,
           onClose: () => {
-            this.$store.dispatch('getShowLogin',true)
+            this.$store.dispatch('getShowLogin', true)
           },
         });
       } else {
         this.$router.push({
           name: "SchoolRecommand",
-          params: { tab: "favoriteSchool" },
+          params: {tab: "favoriteSchool"},
         });
       }
     },
@@ -508,7 +546,8 @@ export default {
         .then(() => {
           this.$router.push("/userSetting/personalInformation");
         })
-        .catch(() => {});
+        .catch(() => {
+        });
     },
     gotoWork() {
       if (!this.loginflag) {
@@ -517,13 +556,13 @@ export default {
           type: "warning",
           duration: 600,
           onClose: () => {
-            this.$store.dispatch('getShowLogin',true)
+            this.$store.dispatch('getShowLogin', true)
           },
         });
       } else {
         this.$router.push({
           name: "WorkIndex",
-          params: { tab: "favoriteMajor" },
+          params: {tab: "favoriteMajor"},
         });
       }
       // this.$router.push({
@@ -559,7 +598,7 @@ export default {
           type: "warning",
           duration: 600,
           onClose: () => {
-            this.$store.dispatch('getShowLogin',true)
+            this.$store.dispatch('getShowLogin', true)
           },
         });
       } else {
@@ -577,7 +616,7 @@ export default {
       //     },
       //   });
       // } else {
-        this.$router.push("/volunteerVIP");
+      this.$router.push("/volunteerVIP");
       // }
     },
     gotoOnline() {
@@ -652,6 +691,7 @@ export default {
   height: 60px;
   font-size: 18px;
 }
+
 .container .header1 {
   width: 100%;
   height: 60px;
@@ -660,6 +700,7 @@ export default {
   list-style-type: none;
   position: relative;
 }
+
 .container .header1 .uzy-nav {
   width: 1200px;
   left: 20%;
@@ -669,6 +710,7 @@ export default {
   font-size: 18px;
   position: absolute;
 }
+
 .container .header1 .user-info {
   width: 200px;
   height: 60px;
@@ -677,19 +719,23 @@ export default {
   right: 5%;
   position: absolute;
 }
+
 .container .header1 .user-info a {
   text-decoration: none;
   color: white;
   cursor: pointer;
 }
+
 .container .header1 .user-info a:hover {
   color: #4b4b4b;
   background-color: transparent;
 }
+
 .container .header1 .uzy-nav ul {
   display: block;
   list-style-type: none;
 }
+
 .container .header1 .uzy-nav ul li {
   list-style-type: none;
   float: left;
@@ -697,30 +743,36 @@ export default {
   line-height: 60px;
   height: 60px;
 }
+
 .container .header1 .uzy-nav ul li a {
   text-decoration: none;
   color: white;
   cursor: pointer;
 }
+
 .container .header1 .uzy-nav ul li a:hover {
   /*color: #16bcb4;*/
   color: #4b4b4b;
   /* font-weight: bolder; */
   background-color: transparent;
 }
+
 .nav li {
   margin-right: 1rem;
   /*text-align: center;*/
 }
+
 .nav li a {
   color: white;
   cursor: pointer;
 }
+
 .nav_moreList li a:hover {
   color: #16bcb4;
   /* font-weight: bolder; */
   background-color: transparent;
 }
+
 /*.nav_ul {*/
 /*  !*margin-left: 10%;*!*/
 /*  !*margin-left: 3rem;*!*/
@@ -729,6 +781,7 @@ export default {
   margin-right: 0.5rem;
   float: right;
 }
+
 .ul2_nav li a:hover {
   background-color: transparent;
 }
@@ -743,13 +796,16 @@ export default {
   margin-top: 0.2rem;
   margin-left: 0.2rem;
 }
+
 .navbar-brand {
   padding-left: 1.5rem;
 }
+
 .login-bg img {
   width: 100%;
   height: 100%;
 }
+
 .header-title {
   font-size: 50px;
   text-align: center;
@@ -757,6 +813,7 @@ export default {
   letter-spacing: 3px;
   font-family: "STKaiti";
 }
+
 .header-title-mini {
   text-align: center;
   font-size: 18px;
@@ -765,6 +822,7 @@ export default {
   margin-top: 10px;
   color: black;
 }
+
 .login-content {
   width: 1100px;
   height: 600px;
@@ -776,51 +834,62 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
 .col-left {
   height: 600px;
   overflow: hidden;
   position: relative;
 }
+
 .left-icon {
   position: absolute;
   top: 90%;
   left: 5%;
 }
+
 .col-left:hover img {
   transform: scale(1.2);
 }
+
 .left-icon i {
   color: white;
   font-size: 20px;
   margin-right: 20px;
   cursor: pointer;
 }
+
 .left-icon i:hover {
   color: #16bcb4;
 }
+
 .col-left img {
   width: 100%;
   height: 100%;
   cursor: pointer;
   transition: all 0.6s;
 }
+
 .login-form {
   padding: 20px;
 }
+
 .login-img {
   height: 95px;
   margin-top: 30px;
 }
+
 .login-img img {
   width: 100%;
   height: 100%;
 }
+
 .head_title {
   text-align: center;
   font-size: 40px;
   color: #3a8ee6;
   font-weight: bolder;
 }
+
 .login {
   width: 380px;
   background-color: white;
@@ -835,12 +904,14 @@ export default {
   text-align: center;
   transition: all 0.5s;
 }
+
 .wordlogin {
   margin-top: 80px;
   font-size: 30px;
   font-weight: bold;
   /*color: black;*/
 }
+
 .forminput4 >>> .el-input__inner {
   border: 0;
   border-bottom: 1px solid #dcdfe6;
@@ -849,6 +920,7 @@ export default {
   /*height: 60px;*/
   /*line-height: 60px;*/
 }
+
 .forminput >>> .el-input__inner {
   border: 0;
   /*border: 1px solid #DCDFE6;*/
@@ -857,6 +929,7 @@ export default {
   height: 60px;
   line-height: 60px;
 }
+
 .forminput2 >>> .el-input__inner {
   border: 0;
   /*border: 1px solid #DCDFE6;*/
@@ -866,6 +939,7 @@ export default {
   height: 60px;
   line-height: 60px;
 }
+
 .forminput2 >>> .el-input-group__prepend {
   border: 0;
   /*border: 1px solid #DCDFE6;*/
@@ -875,6 +949,7 @@ export default {
   height: 60px;
   line-height: 60px;
 }
+
 .forminput3 >>> .el-input__inner {
   border: 0;
   /*border: 1px solid #DCDFE6;*/
@@ -884,6 +959,7 @@ export default {
   height: 60px;
   line-height: 60px;
 }
+
 .forminput3 >>> .el-input-group__append {
   border: 0;
   /*border: 1px solid #DCDFE6;*/
@@ -894,30 +970,37 @@ export default {
   height: 60px;
   line-height: 60px;
 }
+
 .forminput >>> .el-input__clear {
   font-size: 20px;
 }
+
 .forminput2 >>> .el-input__clear {
   font-size: 20px;
 }
+
 .forminput3 >>> .el-input__clear {
   font-size: 20px;
 }
+
 .loginform {
   width: 250px;
   margin: 40px auto;
   line-height: 70px;
 }
+
 .loginform2 {
   width: 300px;
   margin: 40px auto;
   line-height: 40px;
 }
+
 .formicon {
   /*float: left;*/
   font-size: 28px;
   margin-right: 20px;
 }
+
 .forminput {
   /*float: left;*/
   width: 100%;
@@ -925,12 +1008,14 @@ export default {
   line-height: 40px;
   margin-top: 40px;
 }
+
 .forminput4 {
   /*float: left;*/
   width: 100%;
   font-size: 20px;
   line-height: 40px;
 }
+
 .forminput2 {
   /*float: left;*/
   width: 100%;
@@ -938,68 +1023,84 @@ export default {
   line-height: 40px;
   margin-top: 40px;
 }
+
 .forminput3 {
   width: 100%;
   font-size: 20px;
   line-height: 40px;
   margin-top: 40px;
 }
+
 .form-items {
   margin-top: 40px;
 }
+
 /*.spans2 {*/
 /*margin-right: 20px*/
 /*}*/
 .spans {
   text-align: center;
 }
+
 .spans1 {
   margin-right: 20px;
   font-size: 18px;
   cursor: pointer;
   color: black;
 }
+
 .spans1:hover {
   color: red;
 }
+
 .spans2 {
   font-size: 18px;
   cursor: pointer;
   color: black;
 }
+
 .spans2:hover {
   color: red;
 }
+
 .formlogins-enter-active,
 .formlogins-leave-active {
   transition: all 1.5s;
 }
+
 .formlogins-enter,
 .formlogins-leave-to {
   /*transform: translateX(-10px) translateY(-10px);*/
   opacity: 0;
 }
+
 .iconreturn {
   line-height: 0;
   float: left;
   transition: all 0.6s;
 }
+
 .iconreturn i {
   font-size: 32px;
 }
+
 .iconreturn:hover {
   cursor: pointer;
   transform: translateY(-5px);
 }
+
 .hover_a:hover {
   cursor: pointer;
 }
+
 .login-button {
   width: 100%;
 }
+
 .login-style {
   width: 5rem;
 }
+
 .login-form-content {
   width: 5rem;
   margin: 0 auto;
@@ -1012,9 +1113,11 @@ export default {
   border-radius: 10px;
   padding: 0px 20px 16px 20px;
 }
+
 .content-tags {
   /*text-align: center;*/
 }
+
 .content-tags li {
   display: inline-block;
   list-style: none;
@@ -1023,16 +1126,20 @@ export default {
   color: #545c63;
   font-weight: 700;
 }
+
 .content-tags li:hover div {
   cursor: pointer;
   color: #f20d0d;
 }
+
 .content-tags li:hover .borderLine {
   display: block;
 }
+
 .tagstext {
   color: #f20d0d;
 }
+
 .borderLine {
   display: none;
   /*position: absolute;*/
@@ -1045,12 +1152,15 @@ export default {
   margin: 0 auto;
   margin-top: 12px;
 }
+
 .borderLine2 {
   display: block;
 }
+
 .login-forms {
   margin-top: 40px;
 }
+
 .login-button-style {
   height: 60px;
   width: 100%;
@@ -1063,34 +1173,42 @@ export default {
   margin-top: 40px;
   cursor: pointer;
 }
+
 .login-button-style:hover {
   border: #c20a0a;
   background-color: #c20a0a;
 }
+
 .yanzheng-button {
   padding-right: 10px;
   color: #1481b8;
 }
+
 .yanzheng-button:hover {
   color: #19a1e6;
 }
+
 .input-course-text {
   color: red;
   font-size: 14px;
 }
+
 .yanzheng-text {
   color: #9199a1;
   font-size: 18px;
 }
+
 /deep/ .el-dialog__body {
   /*background: transparent !important;*/
   background-color: transparent;
 }
+
 .logout {
   cursor: pointer;
   float: left;
   position: relative;
 }
+
 .logout .user-head-img .user-head-img-wra {
   /*border: 3px solid #de432b;*/
   border-radius: 50%;
@@ -1101,10 +1219,31 @@ export default {
   margin-right: 10px;
   margin-top: 5px;
 }
+
 .logout .user-head-img .user-head-img-wra img {
   display: inline-block;
   margin-top: -14px;
   border: 0;
   vertical-align: middle;
+}
+.eldialog-parent /deep/ .el-dialog {
+  border-radius: 20px;
+  /* position: absolute; */
+  /* 控制位置 */
+  /* inset: 20% auto auto 50%; */
+  border: 1px solid rgb(204, 204, 204);
+  outline: none;
+  padding-left: 0.9%;
+  /* padding-bottom: 30px; */
+  /* margin-right: -50%; */
+  /* transform: translate(-50%, -50%); */
+  min-width: 500px;
+  /* height: 65%; */
+}
+.eldialog-parent /deep/ .el-dialog__title{
+  font-size: 25px;
+}
+.gaokaotianbao {
+  /*margin-bottom: 25px;*/
 }
 </style>
