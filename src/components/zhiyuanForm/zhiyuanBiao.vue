@@ -153,39 +153,47 @@ export default {
       console.log('存储数据中。。。', zhiyuanTableList)
       if (zhiyuanTableList !== undefined) {
         for (let i = 0; i < zhiyuanTableList.length; i++) {
-          const map = {
-            'chance': zhiyuanTableList[i].risk,
-            'id': 0,
-            'listId': 0,
-            'rank': i,
-            'wishId': parseInt(zhiyuanTableList[i].id),
-            'wishNum': i}
+          const map = {}
+          map.chance = zhiyuanTableList[i].risk
+          map.id = 0
+          map.listId = 0
+          map.rank = i
+          map.wishId = zhiyuanTableList[i].id
+          map.wishNum = i
           this.zhiyuanFormatList.push(map)
         }
         console.log('格式化规整数据', this.zhiyuanFormatList)
-        addWishListPC({
-          phoneNum: '15588556313',
-          wishList: this.zhiyuanFormatList
-        }).then(res => {
-          console.log('555555555555555555', res)
-        })
-        // var url = 'https://www.zytb.top/NEMT/gk/userPC/addWishListPC?phoneNum=15588556313'
-        // axios.post(url, this.zhiyuanFormatList,
-        //   // {
-        //   //   headers: {
-        //   //     token: localStorage.getItem('token')
-        //   //
-        //   //   }}
-        // ).then((res) => {
-        //   console.log('成功了', res.data)
-        //   if (res.data.msg === '成功') {
-        //     sessionStorage.removeItem('zhiyuanbiaodan')
-        //     console.log('sessionStorage内容清理', sessionStorage.getItem('zhiyuanbiaodan'))
-        //     this.$router.push({
-        //       name: 'addSucceed'
-        //     })
-        //   }
+        // addWishListPC({
+        //   phoneNum: '15588556313',
+        //   wishList: this.zhiyuanFormatList
+        // }).then(res => {
+        //   console.log('555555555555555555', res)
         // })
+        var url = 'https://www.zytb.top/NEMT/gk/userPC/addWishListPC'
+
+        axios.post(url, JSON.stringify(this.zhiyuanFormatList),
+          {
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8',
+              "token": localStorage.getItem("token")
+            }
+          }
+
+          // {
+          //   headers: {
+          //     token: localStorage.getItem('token')
+          //
+          //   }}
+        ).then((res) => {
+          console.log('成功了', res.data)
+          if (res.data.msg === '成功') {
+            sessionStorage.removeItem('zhiyuanbiaodan')
+            console.log('sessionStorage内容清理', sessionStorage.getItem('zhiyuanbiaodan'))
+            this.$router.push({
+              name: 'addSucceed'
+            })
+          }
+        })
       } else {
         this.$confirm('志愿表中缺少数据无法提交，即将跳转院校选择界面', '警告', {
           confirmButtonText: '跳转至院校优先',
