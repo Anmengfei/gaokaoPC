@@ -82,10 +82,8 @@ export default {
     }
   },
   methods: {
-    set_cell_style () {
-      return 'overflow: unset'
-    },
     getAllData () {
+      console.log("router信息",this.$route.params.zhiyuanTable)
       this.zhiyuanTableList = this.$route.params.zhiyuanTable
       window.sessionStorage.setItem('zhiyuanbiaodan', JSON.stringify(this.zhiyuanTableList))
       console.log('本地存储内容', JSON.parse(sessionStorage.getItem('zhiyuanbiaodan')))
