@@ -6,69 +6,53 @@
       <div class="table_head">
         <div class="title">
           <h3>志 愿 表 1</h3>
-          <span>我的成绩：1段 613分 物理,化学,生物</span>
+          <span>我的成绩：1段 613分</span><span>物理,化学,生物</span>
         </div>
         <div class="operation">
-          <i class="iconfont icon-15" @click="gotoEdit" title="修改"></i>
-          <i class="iconfont icon-baocun" @click="gotoSave(zhiyuanTableList)" title="保存"></i>
+          <i class="iconfont icon-15" @click="gotoEdit" title="修改">修改</i>
+          <i class="iconfont icon-baocun" @click="gotoSave(zhiyuanTableList)" title="保存">保存</i>
 <!--          <button @click="gotoSave(zhiyuanTableList)">保存</button>-->
-          <i class="iconfont icon-daochu" title="导出"></i>
+          <i class="iconfont icon-daochu" title="导出" @click="exportExcle">导出</i>
         </div>
       </div>
       <div class="tablecontent">
-        <el-table
-          :data="zhiyuanTableList"
-          max-width="50px"
-          :cell-style="set_cell_style"
-          style="overflow: unset!important;"
-          :header-cell-style="{background:'#f0f9eb',fontSize:'20px',height:'35px'}"
-          :row-style="{fontSize:'20px',color:'#666',height: '150px',overflow: 'unset'}"
-        >
-          <el-table-column
-            type="index"
-            label="序号"
-            :index="indexMethod"
-            width="60">
-          </el-table-column>
-          <el-table-column
-            prop="risk"
-            label="录取指标"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="schoolName"
-            label="学校名称"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="majorName"
-            label="专业名称">
-          </el-table-column>
-          <el-table-column
-            prop="enrollNum"
-            label="2021年招生计划">
-          </el-table-column>
-          <el-table-column
-            label="操作">
-           <template slot-scope="scope">
-             <div class="operationBtn">
-               <div class="op1">
-                 <div class="btn1">
-                   <el-button type="text" size="mini" :disabled="scope.$index===0" @click="goUp(scope.$index)"><i class="iconfont icon-top-btn-fill"></i></el-button>
-                 </div>
-                 <div class="btn2">
-                   <el-button type="text" size="mini" :disabled="scope.$index===zhiyuanTableList.length-1" @click="goDown(scope.$index)"><i class="iconfont icon-bottom-btn-fill"></i></el-button>
-                 </div>
-               </div>
-               <div class="op2">
-                  <el-button type="text" size="mini" @click="handleDelete(scope.$index)">
-                    <i class="iconfont icon-shanchu1"></i>
-                  </el-button>
-               </div>
-             </div>
-           </template>
-          </el-table-column>
-        </el-table>
+        <table class="bordered" ref="tables">
+          <thead>
+          <tr ref="tr1">
+            <th>序号</th>
+            <th>录取指标</th>
+            <th>学校名称</th>
+            <th>专业名称</th>
+            <th>选课要求</th>
+            <th>2020年招生计划</th>
+            <th>2021年招生计划</th>
+            <th>操作</th>
+          </tr>
+          </thead>
+          <tr v-for="(item,index) in zhiyuanTableList" :key="index">
+            <td>{{ index+1 }}</td>
+            <td>{{item.risk}}</td>
+            <td>{{ item.schoolName }}{{item.schoolCode}}</td>
+            <td>{{item.majorName}}</td>
+            <td>{{item.selectionRequirement}}</td>
+            <td>{{item.enrollNum}}</td>
+            <td>暂无数据</td>
+            <td>
+              <div class="Btn">
+                <div class="Btn1">
+                  <i class="iconfont icon-top-btn-fill" @click="goUp(index)"></i>
+                  <i class="iconfont icon-bottom-btn-fill" @click="goDown(index)"></i>
+                </div>
+                <div class="Btn2"><i class="iconfont icon-shanchu1" @click="handleDelete(index)"></i></div>
+              </div>
+<!--               <template>-->
+<!--                 <el-button type="text" size="mini" :disabled="scope.$index===0" @click="goUp(scope.$index)"><i class="iconfont icon-top-btn-fill"></i></el-button>-->
+<!--                 <el-button type="text" size="mini" :disabled="scope.$index===zhiyuanTableList.length-1" @click="goDown(scope.$index)"><i class="iconfont icon-bottom-btn-fill"></i></el-button>-->
+<!--                 <el-button type="text" size="mini" @click="handleDelete(scope.$index)"><i class="iconfont icon-shanchu1"></i></el-button>-->
+<!--               </template>-->
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
     <Footer></Footer>
@@ -81,12 +65,15 @@ import qs from 'qs'
 import TopHeader from '@/components/common/topheader'
 import HomeHeader from '@/components/common/header1'
 import Footer from '@/components/common/footer1'
+import { getToken } from '@/utils/auth.js'
 import { addWishListPC } from '../../api/WishList'
+import header1 from '../common/header1'
 export default {
   name: 'zhiyuanBiao',
   components: {TopHeader, HomeHeader, Footer},
   mounted () {
     this.getAllData()
+    this.setTableColor()
   },
   data () {
     return {
@@ -100,9 +87,12 @@ export default {
     },
     getAllData () {
       this.zhiyuanTableList = this.$route.params.zhiyuanTable
-      console.log('志愿表单取得数据', this.zhiyuanTableList)
       window.sessionStorage.setItem('zhiyuanbiaodan', JSON.stringify(this.zhiyuanTableList))
       console.log('本地存储内容', JSON.parse(sessionStorage.getItem('zhiyuanbiaodan')))
+      for (let i = 0; i < this.zhiyuanTableList.length; ++i) {
+        this.zhiyuanTableList[i].xuhao = (i + 1)
+      }
+      console.log('志愿表单取得数据', this.zhiyuanTableList)
     },
     indexMethod (index) {
       return index + 1
@@ -113,7 +103,8 @@ export default {
       this.$router.push({
         name: 'SchoolRecommand',
         params: {
-          zhiyuanTable: this.zhiyuanTableList
+          zhiyuanTable: this.zhiyuanTableList,
+          tab: 'favoriteSchool'
         }
       })
     },
@@ -158,7 +149,7 @@ export default {
           })
         })
     },
-    gotoSave (zhiyuanTableList) {
+    gotoSave (zhiyuanTableList) { // 保存数据
       console.log('存储数据中。。。', zhiyuanTableList)
       if (zhiyuanTableList !== undefined) {
         for (let i = 0; i < zhiyuanTableList.length; i++) {
@@ -167,22 +158,34 @@ export default {
             'id': 0,
             'listId': 0,
             'rank': i,
-            'wishId': zhiyuanTableList[i].id,
+            'wishId': parseInt(zhiyuanTableList[i].id),
             'wishNum': i}
           this.zhiyuanFormatList.push(map)
         }
         console.log('格式化规整数据', this.zhiyuanFormatList)
-        var url = 'https://www.zytb.top/NEMT/gk/userPC/addWishListPC'
-        axios.post(url, this.zhiyuanFormatList).then((res) => {
-          console.log('成功了', res.data)
-          if (res.data.msg === '成功') {
-            sessionStorage.removeItem("zhiyuanbiaodan");
-            console.log("sessionStorage内容清理",sessionStorage.getItem("zhiyuanbiaodan"))
-            this.$router.push({
-              name: 'addSucceed'
-            })
-          }
+        addWishListPC({
+          phoneNum: '15588556313',
+          wishList: this.zhiyuanFormatList
+        }).then(res => {
+          console.log('555555555555555555', res)
         })
+        // var url = 'https://www.zytb.top/NEMT/gk/userPC/addWishListPC?phoneNum=15588556313'
+        // axios.post(url, this.zhiyuanFormatList,
+        //   // {
+        //   //   headers: {
+        //   //     token: localStorage.getItem('token')
+        //   //
+        //   //   }}
+        // ).then((res) => {
+        //   console.log('成功了', res.data)
+        //   if (res.data.msg === '成功') {
+        //     sessionStorage.removeItem('zhiyuanbiaodan')
+        //     console.log('sessionStorage内容清理', sessionStorage.getItem('zhiyuanbiaodan'))
+        //     this.$router.push({
+        //       name: 'addSucceed'
+        //     })
+        //   }
+        // })
       } else {
         this.$confirm('志愿表中缺少数据无法提交，即将跳转院校选择界面', '警告', {
           confirmButtonText: '跳转至院校优先',
@@ -194,6 +197,33 @@ export default {
           })
         })
       }
+    },
+    setTableColor () { // 设置表格标题背景颜色
+      var table = this.$refs.tables
+      console.log('table', table)
+      var tr = this.$refs.tr1
+      console.log('tr', tr)
+      tr.style.backgroundColor = '#f1f3f4'
+    },
+    exportExcle () { // 导出table为excle
+      this.downloadLoading = true
+      import('@/utils/Export2Excel').then((excel) => {
+        const tHeader = ['序号', '录取指标', '学校名称', '专业名称', '选课要求', '2020年招生计划', '2021年招生计划']
+        const filterVal = ['xuhao', 'risk', 'schoolName', 'majorName', 'selectionRequirement', 'enrollNum']
+        const list = this.zhiyuanTableList
+        const data = this.formatJson(filterVal, list)
+        excel.export_json_to_excel({
+          header: tHeader, // 必填   导出数据的表头
+          data, // 必填   导出具体数据
+          filename: '志愿表1', // 非必填   导出文件名
+          autoWidth: true, // 非必填   单元格是否自动适应宽度
+          bookType: 'xlsx' // 非必填   导出文件类型
+        })
+        this.downloadLoading = false
+      })
+    },
+    formatJson (filterVal, jsonData) {
+      return jsonData.map((v) => filterVal.map((j) => v[j]))
     }
 
   }
@@ -232,14 +262,12 @@ export default {
 .icon-15{
   cursor: pointer;
   font-size: .3rem;
-  color: #fe9003;
   margin-right: .2rem;
 }
 
 .icon-baocun{
   cursor: pointer;
   font-size: .3rem;
-  color: #27d272;
   margin-right: .2rem;
 }
 .icon-daochu{
@@ -254,38 +282,63 @@ export default {
   margin: 0 auto;
   overflow: unset !important;
 }
-.operationBtn .iconfont{
+.iconfont{
   width: .2rem;
   height: .2rem;
   font-size: .35rem;
+  cursor: pointer;
 }
 
-.operationBtn .icon-shanchu1{
+.icon-top-btn-fill{
+  display: block;
+}
+.icon-bottom-btn-fill{
+  margin-top: .18rem;
+  display: block;
+}
+
+.icon-shanchu1{
   color: #1e1e1e;
+  cursor: pointer;
+
 }
-.operationBtn {
+
+table {
+  margin: .4rem auto;
+  width: 15rem;
+  border-spacing: 0;
+  overflow: hidden;
+  font-size: .25rem;
+}
+
+.bordered {
+  border: .01rem solid #ccc;
+}
+.bordered td, .bordered th {
+  padding:.2rem;
+  border: .02rem solid #ccc;
+  text-align: center;
+}
+
+.bordered th {
+  border-top: none;
+  height: .5rem;
+}
+.bordered td:first-child, .bordered th:first-child {
+  border-left: none;
+}
+
+.Btn{
   display: flex;
+
 }
-.operationBtn .op1{
+.Btn1{
   flex: 1;
-
 }
-.operationBtn .op2{
-  flex: 3;
-  display: flex;
-  align-items: center;
-  /*vertical-align: baseline;*/
-
-}
-.operationBtn .op1 .btn1{
-  margin-bottom: .2rem;
-}
-
-</style>
-
-<style>
-/deep/ el-table{
-  overflow: unset !important;
+.Btn2{
+  flex: 1;
+  margin-left: .2rem;
+  margin-top: .15rem;
 }
 
 </style>

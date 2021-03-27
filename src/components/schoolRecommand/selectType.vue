@@ -54,7 +54,7 @@
                     <el-col :span="22">
                       <span>{{ item.schoolName }}</span>
                     </el-col>
-                    <el-col :span="2" style="float: right">
+                    <el-col :span="2" style="float: right"  >
                       <el-button class="text-right" type="text">关注</el-button>
                     </el-col>
                   </el-row>
@@ -191,7 +191,7 @@
         <el-col :span="5">
           <div class="auto_fixed" :class="auto_fixed">
             <div class="fudongBox">
-              <div class="head"><span>已填入意向</span></div>
+              <div class="head"><span>已填入意向</span><span class="subhead">(至少填报10个意向)</span></div>
               <div class="content">
                 <div class="noformdata" v-if="volForm.length === 0">
 <!--                <div class="noformdata" v-if="showvolformdata">-->
@@ -575,12 +575,18 @@ export default {
       // this.$forceUpdate()
     },
     clickToZhiyuanBiao () { // 下一步按钮，转向新的界面
-      this.$router.push({
-        name: 'zhiyuanBiao',
-        params: {
-          zhiyuanTable: this.volForm
-        }
-      })
+      if (this.volForm.length > 10) {
+        this.$router.push({
+          name: 'zhiyuanBiao',
+          params: {
+            zhiyuanTable: this.volForm
+          }
+        })
+      } else {
+        this.$alert('<span style="font-size: .2rem">志愿表数据不能少于10条</span>', '', {
+          dangerouslyUseHTMLString: true
+        })
+      }
     },
     // 测试
     querySearch (queryString, cb) {
@@ -866,7 +872,9 @@ li{
   line-height: .8rem;
   text-align: center;
 }
-
+.box .fudongBox .subhead{
+  font-size: .2rem;
+}
 
 .box .fudongBox .content {
   white-space: pre-wrap;
