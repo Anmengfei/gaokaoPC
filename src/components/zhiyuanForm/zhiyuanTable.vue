@@ -3,7 +3,8 @@
     <top-header></top-header>
     <HomeHeader class="homeheader" :flagInfo="true"></HomeHeader>
     <div class="table-container">
-      <div class="box-left">
+      <VolunteerTable></VolunteerTable>
+      <!-- <div class="box-left">
         <div class="top-box">
           <img src="../../assets/head.jpg" class="zhiyuanpng" />
           <div class="yeardiv">高考年份：2021</div>
@@ -14,12 +15,10 @@
               <el-col :span="8">
                 <div class="left-content">
                   <span>关注院校<br />0</span>
-                  <!-- <div class="alltop-span">关注院校</div>
-                  <div class="allbtm-span">0</div> -->
-                </div>
-              </el-col>
-              <el-col :span="8">
-                <div class="bet-content">
+                </div></el-col
+              >
+              <el-col :span="8"
+                ><div class="bet-content">
                   <span>关注专业<br />0</span>
                 </div>
               </el-col>
@@ -30,37 +29,39 @@
               </el-col>
             </el-row>
           </div>
-          <a href="">应用广场</a>
-          <a href="">我的社区</a>
-          <a href="">我的预约</a>
-          <a href="">我的讲堂</a>
-          <a href="">我的选科</a>
-          <a href="">我的职业</a>
+          <a href="#">应用广场</a>
+          <a href="#">我的社区</a>
+          <a href="#">我的预约</a>
+          <a href="#">我的讲堂</a>
+          <a href="#">我的选科</a>
+          <a href="#">我的职业</a>
           <div class="ceDiv">测</div>
-          <a href="">我的测评</a>
+          <a href="#">我的测评</a>
           <div class="ceDiv">填</div>
-          <a href="">我的志愿表</a>
+          <a href="#">我的志愿表</a>
         </div>
-      </div>
+      </div> -->
       <div class="box-right">
         <h2>我的志愿表</h2>
         <div class="zhiyuantable">
           <el-table
-            :data="wishTable"
+            :data="tableData"
             border
             style="width: 97%"
             :header-cell-style="{ background: '#F5F7FA', color: '#606266' }"
             >>
-            <el-table-column type="index" label="志愿表" width="70"> </el-table-column>
-            <el-table-column  prop="userInformation[2]" label="分数"> </el-table-column>
-            <el-table-column  prop="userInformation[1]" label="选课"> </el-table-column>
-            <el-table-column  prop="userInformation[0]" label="省份"> </el-table-column>
-            <el-table-column prop="quantity" label="志愿数量"> </el-table-column>
-            <el-table-column prop="updateTime" label="时间" width="80"> </el-table-column>
-            <el-table-column label="操作"> <div id="chakan" @click="gotoZhiyuanbiao">查看</div> </el-table-column>
+            <el-table-column prop="date" label="志愿表"> </el-table-column>
+            <el-table-column prop="name" label="批次"> </el-table-column>
+            <el-table-column prop="address" label="分数"> </el-table-column>
+            <el-table-column prop="address" label="选测"> </el-table-column>
+            <el-table-column prop="address" label="操作"> </el-table-column>
           </el-table>
         </div>
-        <div class="moniBtn"><el-button type="danger" @click="gotoSchoolRecommand">模拟填报</el-button></div>
+        <div class="moniBtn">
+          <el-button type="danger" @click="gotoSchoolRecommand"
+            >模拟填报</el-button
+          >
+        </div>
       </div>
     </div>
 
@@ -69,51 +70,73 @@
 </template>
 
 <script>
-import TopHeader from '@/components/common/topheader'
-import HomeHeader from '@/components/common/header1'
-import Footer from '@/components/common/footer1'
-import {getWishListByphoneNum} from '@/api/WishList'
+import VolunteerTable from "@/components/zhiyuanForm/zhiyuanLeft";
+import TopHeader from "@/components/common/topheader";
+import HomeHeader from "@/components/common/header1";
+import Footer from "@/components/common/footer1";
+import { getAllWishListID, getAllWishList } from "@/api/WishList";
 export default {
-  name: 'zhiyuanTable',
-  components: { TopHeader, HomeHeader, Footer },
-  data () {
+  name: "zhiyuanTable",
+  components: { TopHeader, HomeHeader, Footer, VolunteerTable },
+  data() {
     return {
-      wishTable: [], // 存储wishTable的内容
-      phoneNum: '15588556313',
-      wishIdList: [] // 存储志愿表的ID
-    }
+      tableData: [
+        {
+          date: "2016-05-02",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄",
+        },
+        {
+          date: "2016-05-04",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1517 弄",
+        },
+        {
+          date: "2016-05-01",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1519 弄",
+        },
+        {
+          date: "2016-05-03",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1516 弄",
+        },
+      ],
+      phoneNum: "15588556313",
+      wishIdList: [], // 存储志愿表的ID
+    };
   },
-  mounted () {
-    this.getWishTable(this.phoneNum)
+  mounted() {
+    this.getAllWishId(this.phoneNum);
   },
   methods: {
-    getWishTable (phoneNum) {
-      getWishListByphoneNum(phoneNum).then(res => {
-        console.log('res数据', res)
-        if (res.msg === '成功') {
-          this.wishTable = res.data
-          for (let i = 0; i < res.data.length; ++i) {
-            console.log(res.data[i].userInformation)
-            console.log(res.data[i].userInformation.split('|'))
-            res.data[i].userInformation = res.data[i].userInformation.split('|')
-            // console.log("3333333333333333333",res.data[i].userInformation[1])
-          }
-          console.log('wishTable内容', this.wishTable)
+    getAllWishId(phoneNum) {
+      getAllWishListID(phoneNum).then((res) => {
+        console.log("res数据", res.data);
+        if (res.msg === "成功") {
+          this.wishIdList = res.data.followedWishId;
+          console.log("获取wishIdList成功", this.wishIdList);
+          this.getWishList(this.wishIdList);
         }
-      })
+      });
     },
-    gotoSchoolRecommand () { // 模拟填报按钮跳转至院校优先
+    getWishList(list) {
+      console.log("list内容", list);
+      for (let i = 0; i < list.length; ++i) {
+        getAllWishList(list[i]).then((res) => {
+          console.log("获取志愿表单数据", res);
+        });
+      }
+    },
+    gotoSchoolRecommand() {
+      // 模拟填报按钮跳转至院校优先
       this.$router.push({
-        name: 'SchoolRecommand',
-        params: { tab: 'favoriteSchool' }
-      })
+        name: "SchoolRecommand",
+        params: { tab: "favoriteSchool" },
+      });
     },
-    gotoZhiyuanbiao () { // 查看志愿表
-      console.log("11111111111111111111111")
-
-    }
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
@@ -258,9 +281,4 @@ a:hover {
   margin-top: 0.5rem;
   margin-left: 40%;
 }
-#chakan {
-  display: block;
-  cursor: pointer;
-}
-
 </style>

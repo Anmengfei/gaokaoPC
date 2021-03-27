@@ -3,23 +3,23 @@
     <div class="eR-l">
       <dl>
         <dt>常见问题</dt>
-        <dd>产品白皮书</dd>
-        <dd>产品说明书</dd>
+        <dd class="team" @click="handleClick()">产品白皮书</dd>
+        <dd class="team">产品说明书</dd>
       </dl>
       <dl>
         <dt>关于我们</dt>
-        <dd>团队介绍</dd>
-        <dd>联系我们</dd>
-        <dd>隐私政策</dd>
-        <dd>用户协议</dd>
+        <dd class="team" @click="handleClick()">团队介绍</dd>
+        <dd class="team" @click="handleClick()">联系我们</dd>
+        <dd class="team" @click="handleClick()">隐私政策</dd>
+        <dd class="team" @click="handleClick()">用户协议</dd>
       </dl>
       <dl>
         <dt>2020微信群</dt>
       </dl>
       <dl>
         <dt>合作伙伴</dt>
-        <dd>合作机构</dd>
-        <dd>合作导师</dd>
+        <dd class="team" @click="handleClick()">合作机构</dd>
+        <dd class="team" @click="handleClick()">合作导师</dd>
       </dl>
       <dl>
         <dt>关注微信公众号</dt>
@@ -38,6 +38,14 @@
 <script>
 export default {
   name: "footer1",
+  methods: {
+    handleClick() {
+      const { href } = this.$router.resolve({
+        name: "appCon",
+      });
+      window.open(href, "_blank");
+    },
+  },
 };
 </script>
 
@@ -86,5 +94,9 @@ export default {
   margin-top: 30px;
   margin-left: 80px;
   color: #fff;
+}
+.team:hover {
+  cursor: pointer;
+  color: #e5623f;
 }
 </style>

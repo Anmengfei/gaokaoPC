@@ -3,12 +3,12 @@
     <div class="header1">
       <div class="uzy-nav">
         <ul>
-          <li @click="gotoAPPpage"><a>APP简介</a></li>
           <li @click="gotoHomepage"><a>首页</a></li>
           <li @click="gotoAllclasses"><a>院校优先</a></li>
           <li @click="gotoWork"><a>专业优先</a></li>
           <li @click="gotovoluntary"><a>志愿表</a></li>
           <li @click="gotoVIP"><a>志愿VIP</a></li>
+          <li @click="gotoAPPpage"><a>APP简介</a></li>
           <!--          <li @click="gotoOneToOne"><a>1V1专家</a></li>-->
         </ul>
       </div>
@@ -30,19 +30,18 @@
                 href="/accounts/personInfo/modifyInfo"
                 title="个人资料"
                 id="username"
-              >孙同学</a
+                >孙同学</a
               >
             </div>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="info"
-              ><i class="iconfont icon-gerenziliao" style="color: #e5623f"></i
-              >个人资料
+                ><i class="iconfont icon-gerenziliao" style="color: #e5623f"></i
+                >个人资料
               </el-dropdown-item>
               <el-dropdown-item command="logout"
-              ><i class="iconfont icon-icon-tuichu" style="color: #e5623f"></i
-              >退出登录
-              </el-dropdown-item
-              >
+                ><i class="iconfont icon-icon-tuichu" style="color: #e5623f"></i
+                >退出登录
+              </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -58,13 +57,13 @@
         width="37%"
       >
         <div class="gaokaotianbao">
-           <UserInfo></UserInfo>
+          <UserInfo></UserInfo>
         </div>
       </el-dialog>
     </div>
-<!--    <div v-if="showUserInfo">-->
-<!--         <editScore></editScore>-->
-<!--    </div>-->
+    <!--    <div v-if="showUserInfo">-->
+    <!--         <editScore></editScore>-->
+    <!--    </div>-->
     <div>
       <!--      <div class="login-style">-->
       <el-dialog :visible.sync="showlogin" @close="closeDialog" width="30%">
@@ -99,12 +98,11 @@
                 <template slot="append">
                   <div class="yanzheng-button">
                     <el-button type="text" @click="getCodes" v-if="showCountNum"
-                    >获取验证码
-                    </el-button
-                    >
+                      >获取验证码
+                    </el-button>
                     <span v-else class="yanzheng-text">{{
-                        "重新发送" + countNum + "s"
-                      }}</span>
+                      "重新发送" + countNum + "s"
+                    }}</span>
                   </div>
                 </template>
               </el-input>
@@ -220,13 +218,13 @@
 // import userSettingPopover from '@/components/userSetting/userSettingPopover'
 // import Logout from '@/components/userSetting/logout'
 import md5 from "js-md5";
-import {withVerifyCodelogin, userLogout} from "@/api/login";
-import {getUserInfo} from "@/api/index"
+import { withVerifyCodelogin, userLogout } from "@/api/login";
+import { getUserInfo } from "@/api/index";
 import UserInfo from "@/components/login/userInfo";
 export default {
   name: "header1",
   components: { UserInfo },
-  inject:['reload'],
+  inject: ["reload"],
   data() {
     // var checkName = (rule, value, callback) => {
     //   if (!value) {
@@ -328,25 +326,24 @@ export default {
     // this.flag_login = localStorage.getItem("flag_class");
     if (localStorage.getItem("token") != null) {
       // this.loginflag = true;
-      this.$store.dispatch('getloginstate', true)
+      this.$store.dispatch("getloginstate", true);
     } else {
       // this.loginflag = false;
-      this.$store.dispatch('getloginstate', false)
-
+      this.$store.dispatch("getloginstate", false);
     }
   },
   computed: {
-    showUserInfo(){
-      return this.$store.state.showUserInfo
+    showUserInfo() {
+      return this.$store.state.showUserInfo;
     },
     userInfo() {
-      return this.$store.state.userinfo
+      return this.$store.state.userinfo;
     },
     showlogin() {
-      return this.$store.state.showlogin
+      return this.$store.state.showlogin;
     },
     loginflag() {
-      return this.$store.state.loginflag
+      return this.$store.state.loginflag;
     },
 
     showNum() {
@@ -357,11 +354,10 @@ export default {
       }
     },
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     closeDialog() {
-      this.$store.dispatch('getShowLogin', false)
+      this.$store.dispatch("getShowLogin", false);
     },
     logout(command) {
       if (command == "logout") {
@@ -369,19 +365,24 @@ export default {
           if (res.code == 0) {
             this.msgSuccess("退出登录");
             console.log("退出登录成功");
-            localStorage.clear()
+            localStorage.clear();
             this.$router.push("/homepage");
             // this.loginflag = false;
-            this.$store.dispatch('getloginstate',false)
+            this.$store.dispatch("getloginstate", false);
           } else {
             this.msgError("操作失败");
           }
         });
+      } else if (command == "info") {
+        this.$router.push("/install");
       }
+    },
+    handleCommand(command) {
+      this.$message("click on item " + command);
     },
     noLogin() {
       // this.showlogin = true;
-      this.$store.dispatch('getShowLogin', true)
+      this.$store.dispatch("getShowLogin", true);
     },
     getCodes() {
       if (this.phoneNum !== "") {
@@ -485,18 +486,17 @@ export default {
           console.log("登录测试", res);
           localStorage.setItem("token", res.data.token);
           localStorage.setItem("phone", res.data.userInfo.phoneNum);
-          this.$store.dispatch('getShowLogin', false)
-          getUserInfo().then(res => {
-            this.$store.dispatch('resUserInfo', res.data)
-            console.log('用户信息', this.userInfo)
-            this.$store.dispatch('getPhone',this.userInfo.phoneNum)
-          })
-          if(res.data.userInfo.checked == 0){
-            this.$store.dispatch('showuserInfo', true)
-          }else {
+          this.$store.dispatch("getShowLogin", false);
+          getUserInfo().then((res) => {
+            this.$store.dispatch("resUserInfo", res.data);
+            console.log("用户信息", this.userInfo);
+            this.$store.dispatch("getPhone", this.userInfo.phoneNum);
+          });
+          if (res.data.userInfo.checked == 0) {
+            this.$store.dispatch("showuserInfo", true);
+          } else {
             this.$router.push("/");
           }
-
         } else if (res.code == 1) {
           // this.$notify.error({
           //   title: '验证码输入错误或已失效',
@@ -528,13 +528,13 @@ export default {
           type: "warning",
           duration: 600,
           onClose: () => {
-            this.$store.dispatch('getShowLogin', true)
+            this.$store.dispatch("getShowLogin", true);
           },
         });
       } else {
         this.$router.push({
           name: "SchoolRecommand",
-          params: {tab: "favoriteSchool"},
+          params: { tab: "favoriteSchool" },
         });
       }
     },
@@ -547,8 +547,7 @@ export default {
         .then(() => {
           this.$router.push("/userSetting/personalInformation");
         })
-        .catch(() => {
-        });
+        .catch(() => {});
     },
     gotoWork() {
       if (!this.loginflag) {
@@ -557,13 +556,13 @@ export default {
           type: "warning",
           duration: 600,
           onClose: () => {
-            this.$store.dispatch('getShowLogin', true)
+            this.$store.dispatch("getShowLogin", true);
           },
         });
       } else {
         this.$router.push({
           name: "WorkIndex",
-          params: {tab: "favoriteMajor"},
+          params: { tab: "favoriteMajor" },
         });
       }
       // this.$router.push({
@@ -585,12 +584,12 @@ export default {
       }
     },
     gotoHomepage() {
-      // this.$router.push("/");
-      this.$router.push("/homepage");
+      this.$router.push("/");
+      // this.$router.push("/homepage");
     },
     gotoAPPpage() {
-      // this.$router.push("/appCon");
-      this.$router.push("/");
+      this.$router.push("/appCon");
+      // this.$router.push("/");
     },
     gotovoluntary() {
       if (!this.loginflag) {
@@ -599,11 +598,12 @@ export default {
           type: "warning",
           duration: 600,
           onClose: () => {
-            this.$store.dispatch('getShowLogin', true)
+            this.$store.dispatch("getShowLogin", true);
           },
         });
       } else {
         this.$router.push("/zhiyuanTable");
+        // this.$router.push("/zhiyuanLeft");
       }
     },
     gotoVIP() {
@@ -1241,7 +1241,7 @@ export default {
   min-width: 500px;
   /* height: 65%; */
 }
-.eldialog-parent /deep/ .el-dialog__title{
+.eldialog-parent /deep/ .el-dialog__title {
   font-size: 25px;
 }
 .gaokaotianbao {
