@@ -2,16 +2,16 @@
   <div class="score">
     <div>
       <el-form ref="form" :model="form" class="form-style" :rules="rules" :inline-message="true">
-        <el-row :gutter="10">
-            <el-form-item prop="userNickName">
-              <label slot="label">姓&emsp;&emsp;名:</label>
-              <el-input
-                style="width:195px"
-                placeholder="请填写姓名"
-                v-model="form.userNickName"
-              />
-            </el-form-item>
-        </el-row>
+<!--        <el-row :gutter="10">-->
+<!--            <el-form-item prop="userNickName">-->
+<!--              <label slot="label">姓&emsp;&emsp;名:</label>-->
+<!--              <el-input-->
+<!--                style="width:195px"-->
+<!--                placeholder="请填写姓名"-->
+<!--                v-model="form.userNickName"-->
+<!--              />-->
+<!--            </el-form-item>-->
+<!--        </el-row>-->
         <el-row>
           <el-col :span="24">
             <el-form-item
@@ -19,9 +19,10 @@
               prop="examYear"
             >
               <el-date-picker
-                style="width: 200px"
                 v-model="form.examYear"
                 type="year"
+                value-format="yyyy"
+                :picker-options="pickerOptions"
                 placeholder="选择高考年份">
               </el-date-picker>
             </el-form-item>
@@ -119,23 +120,33 @@ export default {
   inject:['reload'],
   data() {
     return {
+      pickerOptions:{
+        disabledDate(time) {
+          return time.getTime() < Date.now()-8.64e7;
+        },
+      },
       isShow: false,
       btnUser: true,
       placeholder1: false,
       form: {
-        userNickName: "",
         examYear: "",
-        checkSubjectList: [],
         examProvince: "",
         rank: "",
         score: "",
+        biology:'0',
+        chemistry:'0',
+        geography:'0',
+        history:'0',
+        physics:'0',
+        politics:'0',
+        checkSubjectList:[]
       },
       rules: {
-        userNickName:[
-          { required: true, message: "请填写姓名", trigger: "blur" },
+        examYear:[
+          { required: true, message: "请选择高考年份", trigger: "change" },
         ],
         examProvince: [
-          { required: true, message: '请选择活动区域', trigger: "change" }
+          { required: true, message: '请选择高考省份', trigger: "change" }
         ],
         checkSubjectList: [
           { required: true, message: "请选择科目", trigger: "change" },
@@ -155,6 +166,11 @@ export default {
   mounted() {
     this.getProvincesinit()
   },
+  computed:{
+    phoneNum() {
+      return localStorage.getItem("phone")
+    },
+  },
   methods: {
     getProvincesinit() {
       getAllprovinces().then((res) => {
@@ -163,14 +179,34 @@ export default {
     },
     submitForm(formName) {
       console.log('学科',this.form)
+
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$store.dispatch('showuserInfo', false)
-          this.reload()
-         // if(res.code == 0){
-         //   this.msgSuccess('提交成功')
-         //   this.$store.dispatch('showuserInfo', true)
-         // }
+          completeInformation({
+            biology: this.form.checkSubjectList.includes('生物')?1:0,
+            chemistry:this.form.checkSubjectList.includes('化学')?1:0,
+            examProvince:this.form.examProvince,
+            examYear:this.form.examYear,
+            geography:this.form.checkSubjectList.includes('地理')?1:0,
+            history:this.form.checkSubjectList.includes('历史')?1:0,
+            phoneNum:this.phoneNum,
+            physics:this.form.checkSubjectList.includes('物理')?1:0,
+            politics:this.form.checkSubjectList.includes('政治')?1:0,
+            rank:this.form.rank,
+            score:this.form.score,
+          }).then( res => {
+            if(res.code == 0){
+              this.msgSuccess('提交成功')
+              this.$store.dispatch('showuserInfo', false)
+              this.$router.push("/homepage");
+              this.reload()
+            }
+            console.log('提交用户',res)
+          })
+          // this.$store.dispatch('showuserInfo', false)
+          // this.reload()
+
+
         } else {
           console.log('error submit!!');
           return false;
@@ -181,6 +217,8 @@ export default {
       this.$refs[formName].resetFields();
     },
     selectSubject(val) {
+      this.form.checkSubjectList = val
+      console.log('val',val)
       if (val.length < 3) {
         this.isShow = true;
       }else {

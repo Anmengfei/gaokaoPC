@@ -7,12 +7,16 @@ const store = new Vuex.Store({
   state: {
     loginflag:'',
     showlogin: false,
+    phoneNum:'',
     showUserInfo:false,
     userinfo:{},
     img: 'https://zhongkeruitong.top/towerImg/cms-manager/moren.jpg',
     obj: {}
   },
   mutations: {
+    SET_PHONE(state,flag){
+      state.phoneNum = flag
+    },
     SET_INFOFLAG(state,flag){
       state.showUserInfo = flag
     },
@@ -20,7 +24,10 @@ const store = new Vuex.Store({
       state.loginflag = flag
     },
     SET_USERINFO(state,info){
-      state.userinfo = info
+      // // 创建一个新的对象，将info,state.personInfo对象复制到新对象中
+      // let data = Object.assign({},state.userinfo,info);
+      // // 将state.personInfo指向新对象的引用地址
+      state.userinfo = info;
     },
     SET_SHOWLOGIN(state,flag){
       state.showlogin = flag
@@ -30,6 +37,9 @@ const store = new Vuex.Store({
     }
   },
   actions: {
+    getPhone({commit},flag){
+      commit('SET_PHONE',flag)
+    },
     showuserInfo({commit},flag){
       commit('SET_INFOFLAG',flag)
     },
