@@ -3,7 +3,8 @@
     <top-header></top-header>
     <HomeHeader class="homeheader" :flagInfo="true"></HomeHeader>
     <div class="table-container">
-      <div class="box-left">
+      <VolunteerTable></VolunteerTable>
+      <!-- <div class="box-left">
         <div class="top-box">
           <img src="../../assets/head.jpg" class="zhiyuanpng" />
           <div class="yeardiv">高考年份：2021</div>
@@ -14,8 +15,6 @@
               <el-col :span="8"
                 ><div class="left-content">
                   <span>关注院校<br />0</span>
-                  <!-- <div class="alltop-span">关注院校</div>
-                  <div class="allbtm-span">0</div> -->
                 </div></el-col
               >
               <el-col :span="8"
@@ -30,18 +29,18 @@
               >
             </el-row>
           </div>
-          <a href="">应用广场</a>
-          <a href="">我的社区</a>
-          <a href="">我的预约</a>
-          <a href="">我的讲堂</a>
-          <a href="">我的选科</a>
-          <a href="">我的职业</a>
+          <a href="#">应用广场</a>
+          <a href="#">我的社区</a>
+          <a href="#">我的预约</a>
+          <a href="#">我的讲堂</a>
+          <a href="#">我的选科</a>
+          <a href="#">我的职业</a>
           <div class="ceDiv">测</div>
-          <a href="">我的测评</a>
+          <a href="#">我的测评</a>
           <div class="ceDiv">填</div>
-          <a href="">我的志愿表</a>
+          <a href="#">我的志愿表</a>
         </div>
-      </div>
+      </div> -->
       <div class="box-right">
         <h2>我的志愿表</h2>
         <div class="zhiyuantable">
@@ -67,12 +66,13 @@
 </template>
 
 <script>
+import VolunteerTable from "@/components/zhiyuanForm/zhiyuanLeft";
 import TopHeader from "@/components/common/topheader";
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
 export default {
   name: "zhiyuanTable",
-  components: { TopHeader, HomeHeader, Footer },
+  components: { TopHeader, HomeHeader, Footer, VolunteerTable },
   data() {
     return {
       tableData: [

@@ -2,70 +2,54 @@
   <!--  包含内容：欢迎来到大数据智能高考志愿填报平台-->
   <!--  考哪儿   选择省份   搜大学-->
   <div class="app-header">
-    <div class="bgGrey">
-      <el-row :gutter="20">
-        <el-col :span="8" class="welcomeWord">
-          <span class="ml50">欢迎来到大数据智能高考志愿填报平台</span>
-        </el-col>
-        <el-col :span="7"> &nbsp; </el-col>
-        <el-col :span="9">
-          <el-row :gutter="20">
-            <el-col :span="7">
-              <el-popover
-                placement="top-start"
-                width="150"
-                trigger="hover"
-                class="shouji"
-              >
-                <div class="erweima">
-                  <img class="qq" src="../../assets/QQ.png" alt="" />
-                  <div>QQ扫一扫，一键入群</div>
-                </div>
-                <el-button class="phone-btn" slot="reference"
-                  >高考志愿填报QQ群</el-button
-                >
-              </el-popover>
-            </el-col>
-            <el-col :span="5">
-              <!-- <span>手机APP</span> -->
-              <el-popover
-                placement="top-start"
-                width="150"
-                trigger="hover"
-                class="shouji"
-              >
-                <div class="erweima">
-                  <img class="qq" src="../../assets/QQ.png" alt="" />
-                  <div>QQ扫一扫，一键入群</div>
-                </div>
-                <el-button class="phone-btn" slot="reference"
-                  >手机APP</el-button
-                >
-              </el-popover>
-            </el-col>
-            <el-col :span="6">
-              <el-popover
-                placement="top-start"
-                width="150"
-                trigger="hover"
-                class="shouji"
-              >
-                <div class="erweima">
-                  <img class="qq" src="../../assets/QQ.png" alt="" />
-                  <div>QQ扫一扫，一键入群</div>
-                </div>
-                <el-button class="phone-btn" slot="reference"
-                  >微信公众号</el-button
-                >
-              </el-popover>
-            </el-col>
-            <el-col :span="6">
-              <div class="vipSpan">
-                <span>志愿VIP卡激活</span>
+    <div class="firstRow">
+      <el-row>
+        <el-col :span="12"
+          ><div class="bg-left">欢迎来到大数据智能高考志愿填报平台</div></el-col
+        >
+        <el-col :span="12"
+          ><div class="bg-right">
+            <el-popover
+              placement="top-start"
+              width="160"
+              trigger="hover"
+              class="shouji"
+            >
+              <div class="bg-logo">
+                <img class="bg-QQ" src="../../assets/QQ.png" alt="" />
+                <div>QQ扫一扫，惊喜更多</div>
               </div>
-            </el-col>
-          </el-row>
-        </el-col>
+              <a class="a-erweima" href="" slot="reference">高考志愿填报QQ群</a>
+            </el-popover>
+            <el-popover
+              placement="top-start"
+              width="160"
+              trigger="hover"
+              class="shouji"
+            >
+              <div class="bg-logo">
+                <img class="bg-QQ" src="../../assets/QQ.png" alt="" />
+                <div>下载智禾·考哪儿APP</div>
+              </div>
+              <a class="a-erweima" href="" slot="reference">手机APP</a>
+            </el-popover>
+            <el-popover
+              placement="top-start"
+              width="160"
+              trigger="hover"
+              class="shouji"
+            >
+              <div class="bg-logo">
+                <img class="bg-QQ" src="../../assets/QQ.png" alt="" />
+                <div>微信扫一扫，惊喜更多</div>
+              </div>
+              <a class="a-erweima" href="" slot="reference">微信公众号</a>
+            </el-popover>
+            <a class="a-erweima" href="" slot="reference" @click="VIPClick()"
+              >志愿VIP卡激活</a
+            >
+          </div></el-col
+        >
       </el-row>
     </div>
     <div class="secondRow">
@@ -131,53 +115,64 @@ export default {
         this.provincesList = res.data;
       });
     },
+    VIPClick() {
+      const { href } = this.$router.resolve({
+        name: "volunteerVIP",
+      });
+      window.open(href, "_blank");
+    },
   },
 };
 </script>
 
 <style scoped>
+.app-header {
+  width: 100%;
+  /* font-size: 100%; */
+}
 a {
   text-decoration: none;
 }
-.phone-btn {
-  background-color: hsla(0, 0%, 90%, 0.3);
-  /* background-color: #dcdfe6; */
-  border: none;
-}
-.welcomeWord {
-  /* text-align: center; */
-  /* line-height: 1; */
-  margin-top: 0.09rem;
-}
-.vipSpan {
-  margin-top: 0.09rem;
-}
-.erweima {
-  /* margin: 0 auto; */
-  margin-top: 7%;
-  margin-left: 10%;
+.firstRow {
   width: 100%;
-  height: 100%;
+  height: 0.5rem;
+  /* background-color: pink; */
+  font-size: 0.17rem;
+  line-height: 0.5rem;
 }
-.erweima .qq {
-  width: 80%;
+.bg-logo {
+  width: 100%;
+  height: 2rem;
+  /* background-color: pink; */
+  text-align: center;
+  font-weight: 700;
+}
+.bg-QQ {
+  width: 100%;
+  height: 1.8rem;
+  margin-bottom: 0.06rem;
+}
+.bg-left {
+  /* background: #d3dce6; */
+  height: 0.5rem;
+  padding-left: 1rem;
+  background-color: hsla(0, 0%, 61%, 0.3);
+}
+.bg-right {
+  /* background: #e5e9f2; */
+  height: 0.5rem;
+  background-color: hsla(0, 0%, 61%, 0.3);
+}
+.bg-right a {
+  padding: 0 0.6rem;
+  color: black;
+}
+.bg-right a:hover {
+  color: #e5623f;
 }
 
-.app-header {
-  width: 100%;
-  font-size: 100%;
-}
-.welcome {
-  margin-left: 0.2rem;
-}
-.bgGrey {
-  background-color: rgba(155, 155, 155, 0.3);
-  font-size: 0.15rem;
-}
-.bgGrey .el-rows {
-  padding: 0.02rem 0.01rem;
-}
 .secondRow {
+  width: 100%;
   height: 50px;
   line-height: 50px;
 }

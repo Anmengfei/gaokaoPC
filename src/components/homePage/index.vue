@@ -5,14 +5,14 @@
     <HomeHeader></HomeHeader>
     <div class="fourRow">
       <div class="carouselList">
-        <el-carousel class="carousel-img" height="300px">
+        <el-carousel class="carousel-img" height="400px">
           <el-carousel-item
             v-for="(item, index) in schna"
             :key="index"
             class="carousel-item"
             @click.native="itemClick(item, index)"
           >
-            <img :src="item" alt="" />
+            <img class="image-item" :src="item" alt="" />
           </el-carousel-item>
         </el-carousel>
       </div>
@@ -94,137 +94,124 @@
         </div>
       </div>
     </div>
-    <div class="fiveRow">
-      <div class="fiveRow-header">
-        <span class="shuxian"></span>
-        <div class="shuxian-l">院校推荐</div>
-        <div v-if="!flag_state">
-          <div class="btn">
-            <a @click="login">登录</a>
+    <div class="box-header">
+      <div class="fiveRow">
+        <div class="fiveRow-header">
+          <span class="shuxian"></span>
+          <div class="shuxian-l">院校推荐</div>
+          <div v-if="!flag_state">
+            <div class="btn">
+              <a @click="login">登录</a>
+            </div>
+            <div class="shuxian-r">推荐更合适你的院校</div>
           </div>
-          <div class="shuxian-r">推荐更合适你的院校</div>
-        </div>
-        <div v-else>
-          <div class="shuxian-r">
-            <span>北京</span>&nbsp;&nbsp; <span>物/化/生</span>&nbsp;&nbsp;
-            <span>本科</span>&nbsp;&nbsp;
-            <span>572</span>
+          <div v-else>
+            <div class="shuxian-r">
+              <span>北京</span>&nbsp;&nbsp; <span>物/化/生</span>&nbsp;&nbsp;
+              <span>本科</span>&nbsp;&nbsp;
+              <span>572</span>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div class="fiveRow-box">
-        <div class="box-content" v-if="loginStatus !== false">
-          <a href="#">登录添加成绩信息</a><br />
-          <h>大数据+AI智能准确推荐合适你的院校</h>
-        </div>
-        <div v-else>
-          <ul class="default-list">
-            <li
-              class="commend-item"
-              v-for="(item, index) in recommandschoolList"
-              :key="index"
-              @click="selectSchoolItem(index, item)"
-            >
-              <img :src="item.logo" class="commend-item-image" />
-              <h4 class="commend-item-title textOverflow">
-                {{ item.schoolName }}
-              </h4>
-              <p class="commend-item-code">招生代码 {{ item.schoolCode }}</p>
-              <p class="commend-item-des">{{ item.schoolProvince }}</p>
-            </li>
-            <li class="commend-item" @click="gotoAllschool">
-              <i class="el-icon-arrow-right moreIcn"></i>
-              <h4 class="commend-item-title more" >查看更多</h4>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="sixRow">
-      <div class="sixRow-header">
-        <span class="shuxian"></span>
-        <div class="shuxian-l">大家都在关注</div>
-        <a class="lookMore" href="#" @click="openMore()">查看更多>></a>
-      </div>
-      <div class="sixRow-box">
-        <div class="wap">
-          <div class="skeleton">
-            <ul class="list">
+        <div class="fiveRow-box">
+          <div class="box-content" v-if="loginStatus !== false">
+            <a href="#">登录添加成绩信息</a><br />
+            <h>大数据+AI智能准确推荐合适你的院校</h>
+          </div>
+          <div v-else>
+            <ul class="default-list">
               <li
-                class="item"
-                v-for="(item, index) in threeList"
+                class="commend-item"
+                v-for="(item, index) in recommandschoolList"
                 :key="index"
-                @click="selectZixun(item, index)"
+                @click="selectSchoolItem(index, item)"
               >
-                <div class="image">
-                  <img :src="item.cover" class="zixunImage" />
-                </div>
-                <div class="content">
-                  <el-row>
-                    <el-col :span="12"
-                      ><div class="titlehover">
-                        <span class="title">{{ item.title }}</span>
-                      </div></el-col
-                    >
-                    <el-col :span="12"
-                      ><div>
-                        <span class="time">{{ item.date }}</span>
-                      </div></el-col
-                    >
-                  </el-row>
-                  <!-- <div class="titlehover">
-                    <span class="title">{{ item.title }}</span>
-                    <span class="time">{{ item.date }}</span>
-                  </div> -->
-                  <div class="news" font-size="14">
-                    <i class="el-icon-view"></i>
-                    <span>{{ item.readNum }}</span>
-                  </div>
-                </div>
+                <img :src="item.logo" class="commend-item-image" />
+                <h4 class="commend-item-title textOverflow">
+                  {{ item.schoolName }}
+                </h4>
+                <p class="commend-item-code">招生代码 {{ item.schoolCode }}</p>
+                <p class="commend-item-des">{{ item.schoolProvince }}</p>
+              </li>
+              <li class="commend-item" @click="gotoAllschool">
+                <i class="el-icon-arrow-right moreIcn"></i>
+                <h4 class="commend-item-title more" >查看更多</h4>
               </li>
             </ul>
           </div>
         </div>
       </div>
-    </div>
-    <div class="sevenRow">
-      <div class="sevenRow-header">
-        <span class="shuxian"></span>
-        <div class="shuxian-l">大家都在学</div>
-        <a href="#" @click="openReport()">查看更多>></a>
-      </div>
-      <div class="sevenRow-box">
-        <div class="video1">
-          <div class="video1-header">
-            <ul class="list">
-              <li
-                class="item"
-                v-for="(item, index) in threeVideoList"
-                :key="index"
-                @click="showVideo(item, index)"
-              >
-                <div>
-                  <img :src="item.cover" class="image" />
-                  <img src="../../assets/play_05.png" class="play-btn" />
-                </div>
-                <!-- <el-button type="text" @click="showVideo(item, index)">
+      <div class="sixRow">
+        <div class="sixRow-header">
+          <span class="shuxian"></span>
+          <div class="shuxian-l">大家都在关注</div>
+          <a class="lookMore" href="#" @click="openMore()">查看更多>></a>
+        </div>
+        <div class="sixRow-box">
+          <div class="wap">
+            <div class="skeleton">
+              <ul class="list">
+                <li
+                  class="item"
+                  v-for="(item, index) in threeList"
+                  :key="index"
+                  @click="selectZixun(item, index)"
+                >
                   <div class="image">
+                    <img :src="item.cover" class="zixunImage" />
+                  </div>
+                  <div class="content">
+                    <el-row>
+                      <el-col :span="12"
+                        ><div class="titlehover">
+                          <span class="title">{{ item.title }}</span>
+                        </div></el-col
+                      >
+                      <el-col :span="12"
+                        ><div>
+                          <span class="time">{{ item.date }}</span>
+                        </div></el-col
+                      >
+                    </el-row>
+                    <div class="news" font-size="14">
+                      <i class="el-icon-view"></i>
+                      <span>{{ item.readNum }}</span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sevenRow">
+        <div class="sevenRow-header">
+          <span class="shuxian"></span>
+          <div class="shuxian-l">大家都在学</div>
+          <a href="#" @click="openReport()">查看更多>></a>
+        </div>
+        <div class="sevenRow-box">
+          <div class="video1">
+            <div class="video1-header">
+              <ul class="list">
+                <li
+                  class="item"
+                  v-for="(item, index) in threeVideoList"
+                  :key="index"
+                  @click="showVideo(item, index)"
+                >
+                  <div>
                     <img :src="item.cover" class="image" />
                     <img src="../../assets/play_05.png" class="play-btn" />
                   </div>
-                </el-button> -->
-                <!-- <img :src="item.cover" alt="" class="image" />
-                <img src="../../assets/play_05.png" class="play-btn" /> -->
-              </li>
-            </ul>
+                </li>
+              </ul>
+            </div>
           </div>
-          <!-- <div class="video1-box">
-            <p>iPIN牵手新东方，展开教育+人工智能深度合作</p>
-          </div> -->
         </div>
       </div>
     </div>
+  
     <el-dialog
       :visible.sync="dialogVisible"
       width="50%"
@@ -240,14 +227,6 @@
     <div class="footer">
       <Footer></Footer>
     </div>
-
-    <!-- <el-backtop :bottom="60" class="backtop-style">
-      <div class="backtop-text">
-        <span>返回顶部</span>
-      </div>
-      <i class="el-icon-caret-top backtop-icon" ></i>
-
-    </el-backtop>-->
   </div>
 </template>
 
@@ -267,8 +246,8 @@ export default {
   components: { TopHeader, HomeHeader, Footer, EditScore },
   data() {
     return {
-      score:'',
-      level:'',
+      score: "",
+      level: "",
       dialogVisible1: false,
       videoUrl: "",
       scoreDialog: false,
@@ -340,7 +319,7 @@ export default {
       list: [],
       infoState: false,
       flag_class: "未登录",
-      flag_state: '',
+      flag_state: "",
 
       selectProvince: "",
       provincesList: ["北京", "上海", "广州", "深圳"],
@@ -357,15 +336,15 @@ export default {
   },
 
   created() {
-    if (localStorage.getItem('token') != null && !this.flag) {
+    if (localStorage.getItem("token") != null && !this.flag) {
       this.flag_state = true;
     } else {
       this.flag_state = false;
     }
   },
   computed: {
-    flag(){
-      return this.$store.state.showUserInfo
+    flag() {
+      return this.$store.state.showUserInfo;
     },
     username() {
       if (localStorage.getItem("name") === null) {
@@ -425,9 +404,8 @@ export default {
           params: { tab: "favoriteSchool" },
         });
       } else {
-        this.msgWarning('请先登录！')
+        this.msgWarning("请先登录！");
       }
-
     },
     modifyScore() {
       console.log("123");
@@ -538,8 +516,8 @@ export default {
       //     });
       // }
     },
-    login(){
-        this.$store.dispatch('getShowLogin',true)
+    login() {
+      this.$store.dispatch("getShowLogin", true);
     },
     openInfo() {
       this.$confirm("请尽快完善个人资料", "提示信息", {
@@ -630,25 +608,37 @@ li a {
 
 /*第四行  高考志愿百科*/
 .fourRow {
-  width: 1500px;
-  height: 400px;
+  width: 100%;
+  /* height: 4rem; */
   /* background: url(../../assets/u23.png);
   background-size: 100%; */
+  /* background-color: pink; */
+  position: relative;
 }
-
 .carouselList {
   width: 100%;
-  height: inherit;
-  position: absolute;
-  z-index: 1;
+  height: 400px;
+  /* position: absolute; */
+  /* z-index: 1; */
+}
+.carousel-item {
+  height: 400px;
+  width: 100%;
+}
+.image-item {
+  height: 400px;
+  width: 100%;
 }
 
 .zhiyuan {
   z-index: 2;
-  margin-left: 1300px;
+
+  /* margin-left: 1300px; */
   width: 500px;
   height: 350px;
   position: absolute;
+  top: 30px;
+  left: 1300px;
 }
 
 .zhiyuan .content {
@@ -839,23 +829,26 @@ li a {
   margin-top: 10px;
   font-size: 13px;
 }
-
+.box-header {
+  width: 1400px;
+  margin: 0 auto;
+}
 .fiveRow {
   height: 400px;
-  width: 1400px;
+  width: 100%;
   margin: 0 auto;
 }
 
 .fiveRow-header {
   margin-top: 20px;
   height: 100px;
-  width: 1400px;
+  width: 100%;
   background-color: #f3f5f7;
 }
 
 .fiveRow-box {
   height: 250px;
-  width: 1400px;
+  width: 100%;
   background-color: #fff;
   position: relative;
   border-radius: 15px;
@@ -870,7 +863,7 @@ li a {
   margin-top: 3px;
   margin-right: 16px;
   border-radius: 3px;
-  background-color: #00aff0;
+  background-color: #e5623f;
 }
 
 .shuxian-l {
@@ -886,6 +879,7 @@ li a {
   width: 90px;
   height: 40px;
   border: 2px solid #00a4ff;
+  /* border: 2px solid #e5623f; */
   border-radius: 15px;
   margin-left: 40px;
 }
@@ -928,19 +922,19 @@ li a {
 
 .sixRow {
   height: 560px;
-  width: 1400px;
+  width: 100%;
   margin: 0 auto;
 }
 
 .sixRow-header {
   margin-top: 10px;
   height: 100px;
-  width: 1400px;
+  width: 100%;
   background-color: #f3f5f7;
 }
 .sixRow-box {
   /* height: 660px; */
-  width: 1400px;
+  width: 100%;
   position: relative;
   border-radius: 15px;
 }
@@ -954,7 +948,7 @@ li a {
   margin-top: 3px;
   margin-right: 16px;
   border-radius: 3px;
-  background-color: #00aff0;
+  background-color: #e5623f;
 }
 
 .sixRow-header .shuxian-l {
@@ -989,7 +983,7 @@ li a {
 
 .sevenRow {
   height: 350px;
-  width: 1400px;
+  width: 100%;
   margin: 50px auto 0;
   margin-bottom: 50px;
 }
@@ -997,13 +991,13 @@ li a {
 .sevenRow-header {
   margin-top: 10px;
   height: 100px;
-  width: 1400px;
+  width: 100%;
   background-color: #f3f5f7;
 }
 
 .sevenRow-box {
   height: 250px;
-  width: 1400px;
+  width: 100%;
   background-color: #fff;
   border-radius: 15px;
 }
@@ -1017,7 +1011,7 @@ li a {
   margin-top: 3px;
   margin-right: 16px;
   border-radius: 3px;
-  background-color: #00aff0;
+  background-color: ##e5623f;
 }
 
 .sevenRow-header .shuxian-l {
@@ -1203,7 +1197,7 @@ li a {
 
 .moreIcn {
   font-size: 80px;
-  color: #00a4ff;
+  color: #e5623f;
 }
 
 .commend-item-title {
@@ -1328,8 +1322,8 @@ li a {
 }
 input {
   text-decoration: none;
-  border:0;
-  outline:0;
+  border: 0;
+  outline: 0;
   /*line-height: 40px;*/
   /*font-size: 40px;*/
 }

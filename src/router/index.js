@@ -4,18 +4,18 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 export default new Router({
-    routes: [
-        //     {
-        //         path: '/',
-        //         name: 'homepage',
-        //         component: resolve => require(['@/components/homePage/index'], resolve)
-        // },
-        {
-            path: '/homepage',
+    routes: [{
+            path: '/',
             name: 'homepage',
             component: resolve => require(['@/components/homePage/index'], resolve)
-        }, {
-            path: '/',
+        }
+        // {
+        //     path: '/homepage',
+        //     name: 'homepage',
+        //     component: resolve => require(['@/components/homePage/index'], resolve)
+        // }
+        , {
+            path: '/appCon',
             name: 'appCon',
             component: resolve => require(['@/components/APP/appCon'], resolve)
         },
@@ -34,21 +34,6 @@ export default new Router({
             name: 'SchoolInfo',
             component: resolve => require(['@/components/schoolInfo/index'], resolve)
         },
-        // {
-        //   path: '/',
-        //   name: 'homepage',
-        //   component: resolve => require(['@/components/homePage/index'], resolve)
-        // },
-        // {
-        //   path: '/SchoolRecommand',
-        //   name: 'SchoolRecommand',
-        //   component: resolve => require(['@/components/schoolRecommand/index'], resolve)
-        // },
-        // {
-        //   path: '/SchoolInfo',
-        //   name: 'SchoolInfo',
-        //   component: resolve => require(['@/components/schoolInfo/index'], resolve)
-        // },
         {
             path: '/Recruit',
             name: 'Recruit',
@@ -88,6 +73,10 @@ export default new Router({
             path: '/volunteerVIP',
             name: 'volunteerVIP',
             component: resolve => require(['@/components/volunteerVIP/index'], resolve)
+        }, {
+            path: '/install',
+            name: 'install',
+            component: resolve => require(['@/components/UserInformation/install'], resolve)
         }
 
     ]

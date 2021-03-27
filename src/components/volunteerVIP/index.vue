@@ -81,8 +81,8 @@
                 <span class="value">有效期至2021-08-31</span>
               </div>
               <div class="remark-item" style="line-height: 12px">
-                <span style="color: #ccc; font-size: 10px">咨询热线</span>
-                <span class="value" style="font-size: 16px; margin-right: 0px"
+                <span style="color: #ccc; font-size: 10px">咨询热线:</span>
+                <span class="value" style="font-size: 12px; margin-right: 0px"
                   >400-992-0062</span
                 >
               </div>
@@ -227,7 +227,7 @@ export default {
   height: 16px;
   line-height: 16px;
   color: rgb(255, 255, 255);
-  padding-left: 14px;
+  padding-left: 10px;
   padding-right: 2px;
   margin-bottom: 4px;
   background: url(https://storage-node.ipin.com/wmzy-pc-static/public/web/images/vip/tag.svg)
