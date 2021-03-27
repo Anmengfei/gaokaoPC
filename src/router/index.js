@@ -83,6 +83,11 @@ export default new Router({
             path: '/addSucceed',
             name: 'addSucceed',
             component: resolve => require(['@/components/zhiyuanForm/addSucceed'], resolve)
+        },
+        {
+            path: '/volunteerVIP',
+            name: 'volunteerVIP',
+            component: resolve => require(['@/components/volunteerVIP/index'], resolve)
         }
 
     ]
