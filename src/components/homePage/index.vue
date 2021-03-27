@@ -1,6 +1,5 @@
 <template>
   <div class="app_container">
-    <!-- <Header :flags = flag_class class="header" :flagInfo="infoState"></Header> -->
     <top-header></top-header>
     <HomeHeader></HomeHeader>
     <div class="fourRow">
@@ -60,28 +59,19 @@
               <div>
                 <div class="score-item">
                   <span class="label">高考省份</span>&nbsp;&nbsp;
-                  <span class="value">北京</span>
+                  <span class="value">{{ userInfo.examProvince }}</span>
                 </div>
                 <div class="score-item">
                   <span class="label">科目类型</span>&nbsp;&nbsp;
-                  <span class="value">物理/化学/生物</span>
+                  <span class="value">{{subject[0]+` \\ `+subject[1]+` \\ `+subject[2]}}</span>
                 </div>
                 <div class="score-item">
                   <span class="label">高考总分</span>&nbsp;&nbsp;
-                  <span class="value">572</span>
+                  <span class="value">{{ userInfo.score }}</span>
                 </div>
                 <div class="score-item">
-                  <span class="label">本科预估排名</span>&nbsp;&nbsp;
-                  <span class="value">13923</span>
-                </div>
-                <div class="score-item">
-                  <span class="label">语数外总分</span>&nbsp;&nbsp;
-                  <span class="value">360</span>
-                </div>
-
-                <div class="score-item">
-                  <span class="label">专科预估排名</span>&nbsp;&nbsp;
-                  <span class="value">28</span>
+                  <span class="label">高考排名</span>&nbsp;&nbsp;
+                  <span class="value">{{ userInfo.rank }}</span>
                 </div>
               </div>
             </div>
@@ -106,9 +96,8 @@
         </div>
         <div v-else>
           <div class="shuxian-r">
-            <span>北京</span>&nbsp;&nbsp; <span>物/化/生</span>&nbsp;&nbsp;
-            <span>本科</span>&nbsp;&nbsp;
-            <span>572</span>
+            <span>{{ userInfo.examProvince }}</span>&nbsp;&nbsp; <span>{{subject[0]+` \\ `+subject[1]+` \\ `+subject[2]}}</span>&nbsp;&nbsp;
+            <span>{{ userInfo.score }}</span>
           </div>
         </div>
       </div>
@@ -173,10 +162,6 @@
                       </div></el-col
                     >
                   </el-row>
-                  <!-- <div class="titlehover">
-                    <span class="title">{{ item.title }}</span>
-                    <span class="time">{{ item.date }}</span>
-                  </div> -->
                   <div class="news" font-size="14">
                     <i class="el-icon-view"></i>
                     <span>{{ item.readNum }}</span>
@@ -208,20 +193,9 @@
                   <img :src="item.cover" class="image" />
                   <img src="../../assets/play_05.png" class="play-btn" />
                 </div>
-                <!-- <el-button type="text" @click="showVideo(item, index)">
-                  <div class="image">
-                    <img :src="item.cover" class="image" />
-                    <img src="../../assets/play_05.png" class="play-btn" />
-                  </div>
-                </el-button> -->
-                <!-- <img :src="item.cover" alt="" class="image" />
-                <img src="../../assets/play_05.png" class="play-btn" /> -->
               </li>
             </ul>
           </div>
-          <!-- <div class="video1-box">
-            <p>iPIN牵手新东方，展开教育+人工智能深度合作</p>
-          </div> -->
         </div>
       </div>
     </div>
@@ -252,194 +226,164 @@
 </template>
 
 <script>
-import TopHeader from '@/components/common/topheader'
-import HomeHeader from '@/components/common/header1'
-import Footer from '@/components/common/footer1'
-import EditScore from '@/components/common/editScore'
+import TopHeader from "@/components/common/topheader";
+import HomeHeader from "@/components/common/header1";
+import Footer from "@/components/common/footer1";
+import EditScore from "@/components/common/editScore";
+import {getUserInfo} from "@/api/index"
 import {
   getAllIsLearning,
   getHomeschool,
-  getFollowingList
-} from '@/api/index.js'
+  getFollowingList,
+} from "@/api/index.js";
 
 export default {
-  name: 'index',
+  name: "index",
   components: { TopHeader, HomeHeader, Footer, EditScore },
-  data () {
+  data() {
     return {
-      score: '',
-      level: '',
+      score:'',
+      level:'',
       dialogVisible1: false,
-      videoUrl: '',
+      videoUrl: "",
       scoreDialog: false,
       recommandschoolList: [],
-      recommandList: [
-        {
-          id: 1,
-          url:
-            'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
-          name: '首都师范大学',
-          code: '1052[01]',
-          des: '北京'
-        },
-        {
-          id: 2,
-          url:
-            'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
-          name: '北京大学',
-          code: '1052[01]',
-          des: '北京'
-        },
-        {
-          id: 3,
-          url:
-            'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
-          name: '上海师范大学',
-          code: '1052[01]',
-          des: '北京'
-        },
-        {
-          id: 4,
-          url:
-            'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
-          name: '华中师范大学',
-          code: '1052[01]',
-          des: '北京'
-        },
-        {
-          id: 5,
-          url:
-            'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
-          name: '华中师范大学',
-          code: '1052[01]',
-          des: '北京'
-        },
-        {
-          id: 6,
-          url:
-            'https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg',
-          name: '华中师范大学',
-          code: '1052[01]',
-          des: '北京'
-        }
-      ],
       zixunList: [],
       threeList: [],
       videoList: [],
       threeVideoList: [],
       form: {
-        name: ''
+        name: "",
       },
+      subject:[],
+      userInfo:{},
       dialogVisible: false,
       loginStatus: false,
-      value1: '5',
+      value1: "5",
       navBarFixed: false,
-      bannerH: '',
+      bannerH: "",
       page: 1,
       size: 100,
       list: [],
       infoState: false,
-      flag_class: '未登录',
+      flag_class: "未登录",
       flag_state: '',
 
-      selectProvince: '',
-      provincesList: ['北京', '上海', '广州', '深圳'],
-      searchValue: '',
+      selectProvince: "",
+      provincesList: ["北京", "上海", "广州", "深圳"],
+      searchValue: "",
       schna: [
-        'https://www.zhongkeruitong.top/CCZX_image/newBanner2.jpg',
-        'https://www.zhongkeruitong.top/CCZX_image/banner5.png',
-        'https://www.zhongkeruitong.top/CCZX_image/photo2.jpg'
-      ]
-    }
+        "https://www.zhongkeruitong.top/CCZX_image/newBanner2.jpg",
+        "https://www.zhongkeruitong.top/CCZX_image/banner5.png",
+        "https://www.zhongkeruitong.top/CCZX_image/photo2.jpg",
+      ],
+    };
   },
-  beforeCreate () {
-    document.querySelector('body').setAttribute('style', 'background:#f3f5f7;')
+  beforeCreate() {
+    document.querySelector("body").setAttribute("style", "background:#f3f5f7;");
   },
 
-  created () {
+  created() {
     if (localStorage.getItem('token') != null && !this.flag) {
-      this.flag_state = true
+      this.flag_state = true;
     } else {
-      this.flag_state = false
+      this.flag_state = false;
     }
   },
   computed: {
-    flag () {
+    flag(){
       return this.$store.state.showUserInfo
     },
-    username () {
-      if (localStorage.getItem('name') === null) {
-        return 'ceshi'
+    username() {
+      if (localStorage.getItem("name") === null) {
+        return "ceshi";
       } else {
-        return localStorage.getItem('name')
+        return localStorage.getItem("name");
       }
-    }
+    },
   },
-  mounted () {
-    this.initData()
-    window.addEventListener('scroll', this.watchScroll)
-    this.setBannerH()
+  mounted() {
+    this.initData();
+    window.addEventListener("scroll", this.watchScroll);
+    this.setBannerH();
     window.addEventListener(
-      'resize',
+      "resize",
       () => {
-        this.setBannerH()
+        this.setBannerH();
       },
       false
-    )
-    this.getInfo()
+    );
+    this.getInfo();
   },
 
   methods: {
-    initData () {
-      // 必须这样
-      let _this = this
+    initData() {
+      //必须这样
+      let _this = this;
       getFollowingList().then(function (response) {
-        console.log(response.data)
-        _this.zixunList = response.data
-        console.log(_this.zixunList)
+        console.log(response.data);
+        _this.zixunList = response.data;
+        console.log(_this.zixunList);
         // 使用push不用等号
         for (var i = 0; i < 3; i++) {
-          _this.threeList.push(_this.zixunList[i])
+          _this.threeList.push(_this.zixunList[i]);
         }
         // this.$set(this.threeList, _this.threeList);
-        console.log(_this.threeList)
-      })
+        console.log(_this.threeList);
+      });
       getAllIsLearning().then(function (response) {
-        console.log(response.data)
-        _this.videoList = response.data
-        console.log(_this.videoList)
+        console.log(response.data);
+        _this.videoList = response.data;
+        console.log(_this.videoList);
         // 使用push不用等号
         for (var i = 0; i < 3; i++) {
-          _this.threeVideoList.push(_this.videoList[i])
+          _this.threeVideoList.push(_this.videoList[i]);
         }
         // this.$set(this.threeList, _this.threeList);
-        console.log(_this.threeVideoList)
-      })
+        console.log(_this.threeVideoList);
+      });
+      getUserInfo().then(res => {
+       this.userInfo = res.data
+        // if(this.userInfo.)
 
-      this.getInfo()
+        this.userInfo.biology == 1?this.subject.push('生物'):'';
+        this.userInfo.chemistry == 1?this.subject.push('化学'):'';
+        this.userInfo.geography == 1?this.subject.push('地理'):'';
+        this.userInfo.history == 1?this.subject.push('历史'):'';
+        this.userInfo.physics == 1?this.subject.push('物理'):'';
+        this.userInfo.politics == 1?this.subject.push('政治'):'';
+
+        console.log('1111',this.subject)
+      })
+      this.getInfo();
     },
-    gotoAllschool () {
-      if (localStorage.getItem('token') != null) {
+
+    itemClick(){
+
+    },
+    gotoAllschool() {
+      if (localStorage.getItem("token") != null) {
         this.$router.push({
-          name: 'SchoolRecommand',
-          params: { tab: 'favoriteSchool' }
-        })
+          name: "SchoolRecommand",
+          params: { tab: "favoriteSchool" },
+        });
       } else {
         this.msgWarning('请先登录！')
       }
+
     },
-    modifyScore () {
-      console.log('123')
-      this.scoreDialog = true
+    modifyScore() {
+      console.log("123");
+      this.scoreDialog = true;
     },
-    showVideo (item, index) {
-      this.videoUrl = item.address
-      this.dialogVisible = true
+    showVideo(item, index) {
+      this.videoUrl = item.address;
+      this.dialogVisible = true;
     },
     // 关闭视频
-    handleClose (done) {
-      this.videoUrl = ''
-      this.dialogVisible = false
+    handleClose(done) {
+      this.videoUrl = "";
+      this.dialogVisible = false;
     },
     // handleClose1(done) {
     //   this.$confirm("确认关闭？")
@@ -449,62 +393,62 @@ export default {
     //     .catch((_) => {});
 
     // },
-    selectZixun (item, index) {
+    selectZixun(item, index) {
       const { href } = this.$router.resolve({
-        name: 'Article',
+        name: "Article",
         query: {
-          article: item.id
-        }
-      })
-      window.open(href, '_blank')
+          article: item.id,
+        },
+      });
+      window.open(href, "_blank");
     },
-    openMore () {
+    openMore() {
       const { href } = this.$router.resolve({
-        name: 'Guanzhu'
+        name: "Guanzhu",
         // query: {
         //   article: item.id,
         // },
-      })
-      window.open(href, '_blank')
+      });
+      window.open(href, "_blank");
     },
-    openReport () {
+    openReport() {
       const { href } = this.$router.resolve({
-        name: 'VideoList'
+        name: "VideoList",
         // query: {
         //   article: item.id,
         // },
-      })
-      window.open(href, '_blank')
+      });
+      window.open(href, "_blank");
     },
-    selectSchoolItem (item, index) {
-      console.log('item', item)
-      console.log('index', index)
-      this.$router.push('/SchoolInfo')
+    selectSchoolItem(item, index) {
+      console.log("item", item);
+      console.log("index", index);
+      this.$router.push("/SchoolInfo");
     },
-    regist () {},
-    setBannerH () {
-      this.bannerH = document.body.clientWidth / 4
+    regist() {},
+    setBannerH() {
+      this.bannerH = document.body.clientWidth / 4;
     },
-    watchScroll () {
+    watchScroll() {
       var scrollTop =
         window.pageYOffset ||
         document.documentElement.scrollTop ||
-        document.body.scrollTop
+        document.body.scrollTop;
       if (scrollTop > 49) {
-        this.navBarFixed = true
+        this.navBarFixed = true;
       } else {
-        this.navBarFixed = false
+        this.navBarFixed = false;
       }
     },
 
-    getInfo () {
+    getInfo() {
       getHomeschool({
         page: 1,
-        size: 6
+        size: 6,
       }).then((res) => {
-        console.log(res)
-        this.recommandschoolList = res.data.splice(0, 6)
-      })
+        console.log(res);
+        this.recommandschoolList = res.data.splice(0, 6);
+      });
       // if (this.flag_state === false) {
       //   var url = `http://58.119.112.14:11020/cms/system/user/${localStorage.getItem(
       //     "userId"
@@ -537,22 +481,22 @@ export default {
       //     });
       // }
     },
-    login () {
-      this.$store.dispatch('getShowLogin', true)
+    login(){
+        this.$store.dispatch('getShowLogin',true)
     },
-    openInfo () {
-      this.$confirm('请尽快完善个人资料', '提示信息', {
-        confirmButtonText: '立即前往',
-        type: 'warning',
-        center: true
+    openInfo() {
+      this.$confirm("请尽快完善个人资料", "提示信息", {
+        confirmButtonText: "立即前往",
+        type: "warning",
+        center: true,
       })
         .then(() => {
-          this.$router.push('/userSetting/personalInformation')
+          this.$router.push("/userSetting/personalInformation");
         })
-        .catch(() => {})
-    }
-  }
-}
+        .catch(() => {});
+    },
+  },
+};
 </script>
 
 <style scoped>

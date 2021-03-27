@@ -177,6 +177,7 @@ export default {
 <style>
 .app_container {
   /* background-color: #fff; */
+  background-color: #f3f5f7;
   width: 100%;
   /* height: 100%; */
 }

@@ -37,8 +37,7 @@
               <el-dropdown-item command="info"
               ><i class="iconfont icon-gerenziliao" style="color: #e5623f"></i
               >个人资料
-              </el-dropdown-item
-              >
+              </el-dropdown-item>
               <el-dropdown-item command="logout"
               ><i class="iconfont icon-icon-tuichu" style="color: #e5623f"></i
               >退出登录
@@ -371,8 +370,9 @@ export default {
             this.msgSuccess("退出登录");
             console.log("退出登录成功");
             localStorage.clear()
-            this.$router.push('/')
-            this.loginflag = false;
+            this.$router.push("/homepage");
+            // this.loginflag = false;
+            this.$store.dispatch('getloginstate',false)
           } else {
             this.msgError("操作失败");
           }
@@ -395,7 +395,7 @@ export default {
             // this.strCode = res.data.data.str
             this.$message.success("验证码发送成功！");
           } else {
-            this.$message.success("验证码发送失败，一分钟后重试！");
+            this.$message.warning("验证码发送失败，一分钟后重试！");
           }
         });
         this.countNum = 60;
@@ -483,18 +483,19 @@ export default {
             type: "success",
           });
           console.log("登录测试", res);
-          if(res.data.userInfo.checked == 0){
-            this.$store.dispatch('showuserInfo', true)
-          }else {
-            this.$router.push('/homepage');
-          }
           localStorage.setItem("token", res.data.token);
+          localStorage.setItem("phone", res.data.userInfo.phoneNum);
           this.$store.dispatch('getShowLogin', false)
           getUserInfo().then(res => {
             this.$store.dispatch('resUserInfo', res.data)
             console.log('用户信息', this.userInfo)
-
+            this.$store.dispatch('getPhone',this.userInfo.phoneNum)
           })
+          if(res.data.userInfo.checked == 0){
+            this.$store.dispatch('showuserInfo', true)
+          }else {
+            this.$router.push("/");
+          }
 
         } else if (res.code == 1) {
           // this.$notify.error({
