@@ -61,20 +61,20 @@
           </div>
         </el-col>
         <el-col :span="12">
-          <el-col :span="12">
-            <el-select
-              v-model="selectProvince"
-              placeholder="请选择报考省份"
-              clearable
-              class="selectProvinceStyle"
-            >
-              <el-option
-                v-for="dict in provincesList"
-                :key="dict"
-                :label="dict"
-                :value="dict"
-              ></el-option> </el-select
-          ></el-col>
+          <!--          <el-col :span="12">-->
+          <!--            <el-select-->
+          <!--              v-model="selectProvince"-->
+          <!--              placeholder="请选择报考省份"-->
+          <!--              clearable-->
+          <!--              class="selectProvinceStyle"-->
+          <!--            >-->
+          <!--              <el-option-->
+          <!--                v-for="dict in provincesList"-->
+          <!--                :key="dict"-->
+          <!--                :label="dict"-->
+          <!--                :value="dict"-->
+          <!--              ></el-option> </el-select-->
+          <!--          ></el-col>-->
           <el-col :span="12"
             ><el-input
               v-model="searchValue"
@@ -87,7 +87,8 @@
         <el-col :span="6">
           <div class="desc">
             <span class="tishiOne">祝广大考生金榜提名</span>
-            <span class="tishiTwo">开通VIP</span>
+            <span class="tishiTwo" v-if="vip == 0">开通VIP</span>
+            <span class="tishiTwo" v-else>VIP会员</span>
           </div>
         </el-col>
       </el-row>
@@ -96,18 +97,21 @@
 </template>
 
 <script>
-import { getAllprovinces } from "@/api/index";
+import { getAllprovinces, getUserInfo } from "@/api/index";
 export default {
   name: "top-header",
   data() {
     return {
       selectProvince: "",
       searchValue: "",
+      userInfo: {},
+      vip: "",
       provincesList: [],
     };
   },
   mounted() {
     this.getProvincesinit();
+    this.getInfo();
   },
   methods: {
     getProvincesinit() {
@@ -120,6 +124,13 @@ export default {
         name: "volunteerVIP",
       });
       window.open(href, "_blank");
+    },
+    getInfo() {
+      getUserInfo().then((res) => {
+        this.userInfo = res.data;
+        this.vip = this.userInfo.vip;
+        console.log("1111", this.userInfo);
+      });
     },
   },
 };

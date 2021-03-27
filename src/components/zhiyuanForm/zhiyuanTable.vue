@@ -12,21 +12,21 @@
           <el-button type="danger" class="VIPbtn">开通VIP</el-button>
           <div class="user-count">
             <el-row>
-              <el-col :span="8"
-                ><div class="left-content">
+              <el-col :span="8">
+                <div class="left-content">
                   <span>关注院校<br />0</span>
                 </div></el-col
               >
               <el-col :span="8"
                 ><div class="bet-content">
                   <span>关注专业<br />0</span>
-                </div></el-col
-              >
-              <el-col :span="8"
-                ><div class="right-content">
+                </div>
+              </el-col>
+              <el-col :span="8">
+                <div class="right-content">
                   <span>成绩<br />600分</span>
-                </div></el-col
-              >
+                </div>
+              </el-col>
             </el-row>
           </div>
           <a href="#">应用广场</a>
@@ -57,7 +57,11 @@
             <el-table-column prop="address" label="操作"> </el-table-column>
           </el-table>
         </div>
-        <div class="moniBtn"><el-button type="danger">模拟填报</el-button></div>
+        <div class="moniBtn">
+          <el-button type="danger" @click="gotoSchoolRecommand"
+            >模拟填报</el-button
+          >
+        </div>
       </div>
     </div>
 
@@ -70,6 +74,7 @@ import VolunteerTable from "@/components/zhiyuanForm/zhiyuanLeft";
 import TopHeader from "@/components/common/topheader";
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
+import { getAllWishListID, getAllWishList } from "@/api/WishList";
 export default {
   name: "zhiyuanTable",
   components: { TopHeader, HomeHeader, Footer, VolunteerTable },
@@ -97,7 +102,39 @@ export default {
           address: "上海市普陀区金沙江路 1516 弄",
         },
       ],
+      phoneNum: "15588556313",
+      wishIdList: [], // 存储志愿表的ID
     };
+  },
+  mounted() {
+    this.getAllWishId(this.phoneNum);
+  },
+  methods: {
+    getAllWishId(phoneNum) {
+      getAllWishListID(phoneNum).then((res) => {
+        console.log("res数据", res.data);
+        if (res.msg === "成功") {
+          this.wishIdList = res.data.followedWishId;
+          console.log("获取wishIdList成功", this.wishIdList);
+          this.getWishList(this.wishIdList);
+        }
+      });
+    },
+    getWishList(list) {
+      console.log("list内容", list);
+      for (let i = 0; i < list.length; ++i) {
+        getAllWishList(list[i]).then((res) => {
+          console.log("获取志愿表单数据", res);
+        });
+      }
+    },
+    gotoSchoolRecommand() {
+      // 模拟填报按钮跳转至院校优先
+      this.$router.push({
+        name: "SchoolRecommand",
+        params: { tab: "favoriteSchool" },
+      });
+    },
   },
 };
 </script>

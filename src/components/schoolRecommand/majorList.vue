@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
-    <el-tabs type="border-card" v-model="selectedtag">
-      <el-tab-pane label="冲" name="chong">
+    <el-tabs type="border-card" v-model="selectedtag" @tab-click="getFlag">
+      <el-tab-pane label="冲刺" name="冲">
         <div class="container">
           <ul>
             <li v-for="(item,index) in majorList" :key="index">
@@ -34,14 +34,73 @@
           </ul>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="稳" name="wen">
-        <div>235</div>
+      <el-tab-pane label="稳妥" name="稳">
+        <div class="container">
+          <ul>
+            <li v-for="(item,index) in majorList" :key="index">
+              <el-row>
+                <el-col :span="3">
+                  <div class="icon">
+                    <img  class="schoologo" :src="item.logoPath" />
+                  </div>
+                </el-col>
+                <el-col :span="17">
+                  <div class="desc">
+                    <div>
+                      <span class="name">{{ item.majorName }}</span>
+                      <span class="province">{{ item.schoolName }}</span>
+                    </div>
+                  </div>
+                </el-col>
+                <el-col :span="4">
+                  <div class="chooseBtn">
+                    <button type="button" class="chooseMajor" v-if="item.flag===-1" @click="btnShow(index,item)">
+                      <span >加入意向</span>
+                    </button>
+                    <button type="button" class="chooseNoMajor" disabled="disabled" v-if="item.flag===index">
+                      <span >已加意向</span>
+                    </button>
+                  </div>
+                </el-col>
+              </el-row>
+            </li>
+          </ul>
+        </div>
       </el-tab-pane>
-      <el-tab-pane label="保" name="bao">
-        <div>567</div>
+      <el-tab-pane label="保底" name="保">
+        <div class="container">
+          <ul>
+            <li v-for="(item,index) in majorList" :key="index">
+              <el-row>
+                <el-col :span="3">
+                  <div class="icon">
+                    <img  class="schoologo" :src="item.logoPath" />
+                  </div>
+                </el-col>
+                <el-col :span="17">
+                  <div class="desc">
+                    <div>
+                      <span class="name">{{ item.majorName }}</span>
+                      <span class="province">{{ item.schoolName }}</span>
+                    </div>
+                  </div>
+                </el-col>
+                <el-col :span="4">
+                  <div class="chooseBtn">
+                    <button type="button" class="chooseMajor" v-if="item.flag===-1" @click="btnShow(index,item)">
+                      <span >加入意向</span>
+                    </button>
+                    <button type="button" class="chooseNoMajor" disabled="disabled" v-if="item.flag===index">
+                      <span >已加意向</span>
+                    </button>
+                  </div>
+                </el-col>
+              </el-row>
+            </li>
+          </ul>
+        </div>
       </el-tab-pane>
     </el-tabs>
-
     <!--        分页器-->
     <div class="box3">
       <el-pagination
@@ -49,7 +108,7 @@
         background
         layout="prev, pager, next"
         :total="pageInfo.pagetotal"
-        :current-page ='pageInfo.pagenum'
+        :current-page.sync ='pageInfo.pagenum'
         :page-size='pageInfo.pagesize'
         @current-change="handleCurrentChange">
       </el-pagination>
@@ -63,12 +122,14 @@ export default {
   name: 'majorList',
   props: ['selected', 'volform'],
   mounted () {
-    this.getAllMajorData(this.pageInfo.pagenum)
+    console.log('this.pagenum数据mounted', this.pageInfo)
+    this.getAllMajorData(this.pagenum, this.riskFlag)
   },
   data () {
     return {
-      selectedtag: 'chong',
+      selectedtag: '冲',
       majorList: [], // 保存专业信息
+      pagenum: 0, // 当前页数
       pageInfo: {
         pagenum: 0, // 当前页数
         pagesize: 10, // 每页条数
@@ -76,14 +137,15 @@ export default {
       },
       pageRecord: 0, // 用于记录每次点击的页号
       addWillFlagofSchool: '',
-      addWillFlag: -1// 判断加入志愿按钮是否变灰
+      addWillFlag: -1, // 判断加入志愿按钮是否变灰
+      riskFlag: '冲'// 点击tag,拿取“冲，稳，保”数据
 
     }
   },
   watch: {
     selected: {
       handler () {
-        this.getAllMajorData(this.pageInfo.pagenum)
+        this.getAllMajorData(this.pagenum, this.riskFlag)
       },
       immediate: true,
       deep: true
@@ -91,11 +153,11 @@ export default {
     volform: {
       handler (newValue, oldvalue) {
         console.log('majorList数据改变', newValue, oldvalue)
-        console.log('this.pageInfo.pagenum的值', this.pageInfo.pagenum)
+        console.log('this.pagenum的值', this.pagenum, this.riskFlag)
         // 1.向志愿表单添加数据（新数据长度>旧数据长度）--不执行操作  2.从志愿表单删除或清空数据（新数据长度<=旧数据长度）--执行操作
         if (newValue.length <= oldvalue.length) {
           // 将已经加入志愿表单的学校的按钮状态置为灰色
-          this.getAllMajorData(this.pageRecord)
+          this.getAllMajorData(this.pageRecord, this.riskFlag)
         }
       }
     }
@@ -108,12 +170,12 @@ export default {
       this.$emit('addform', item)
       // this.$forceUpdate()
     },
-    getAllMajorData (pagenum) {
+    getAllMajorData (pagenum, riskflag) {
       getAllMajor({
         feature: this.selected.levelSelect,
         page: pagenum,
         examProvince: '山东',
-        risk: '冲',
+        risk: riskflag,
         score: 600,
         size: 10
       }).then((res) => {
@@ -121,15 +183,10 @@ export default {
           // console.log('收到数据啊啊啊啊啊', this.volform)
           this.majorList = res.data.data
           console.log('majorlist信息数据', this.majorList)
-          // for (let i = 0; i < this.majorList.length; ++i) { // 为每一条数据的专业信息添加一条标志位flag=-1
-          //   for (let j = 0; j < this.majorList[i].majors.length; ++j) {
-          //     this.majorList[i].majors[j].flag = -1
-          //   }
-          // }
           // 将已经加入志愿表单的学校的按钮状态置为灰色
           for (let i = 0; i < this.majorList.length; ++i) {
             for (let j = 0; j < this.volform.length; ++j) {
-              if ((this.volform[j].id === this.majorList[i].id) && (this.volform[j].schoolName === this.majorList[i].schoolName)) {
+              if ((this.volform[j].id === this.majorList[i].id) && (this.volform[j].schoolName === this.majorList[i].schoolName) && (this.volform[j].risk === this.majorList[i].risk)) {
                 this.majorList[i].flag = i
               }
             }
@@ -142,18 +199,24 @@ export default {
       })
     },
     handleCurrentChange (val) { // 分页器执行函数
-      this.btnFlag = [true, true, true, true, true, true, true, true, true, true]
-      this.majorShow = [false, false, false, false, false, false, false, false, false, false]
       let page = val
       console.log(`当前页:`, page--)
       this.pageRecord = page
       console.log('this.pageRecord的数据是不是当前页-1?', this.pageRecord)
-      this.getAllMajorData(page--)
+      this.getAllMajorData(page--, this.riskFlag)
     },
     addForm (index, item1, index1) { // 加入志愿表单函数
       this.$emit('addform', item1)
       item1.flag = index + '' + index1
       // this.$forceUpdate() // 数据更新之后，强制试图更新
+    },
+    getFlag (tab) { // “冲”“稳”“保”
+      console.log('“冲”“稳”“保”', tab.name)
+      this.riskFlag = tab.name
+      console.log('55555555555555555', this.riskFlag)
+      this.pagenum = 0
+      this.getAllMajorData(this.pagenum, this.riskFlag)
+      this.$forceUpdate()
     }
 
   }

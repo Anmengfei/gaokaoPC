@@ -54,7 +54,7 @@
                     <el-col :span="22">
                       <span>{{ item.schoolName }}</span>
                     </el-col>
-                    <el-col :span="2" style="float: right">
+                    <el-col :span="2" style="float: right"  >
                       <el-button class="text-right" type="text">关注</el-button>
                     </el-col>
                   </el-row>
@@ -68,7 +68,7 @@
                 :hide-on-click=false
               >
                 <span>用户关注({{ followCollege.length }}) <i class="el-icon-arrow-down el-icon--right"></i></span>
-                <el-dropdown-menu slot="dropdown" class="dropdown">
+                <el-dropdown-menu slot="dropdown" class="dropdown" v-if="followCollege.length">
                   <el-checkbox-group v-model="checkList" v-for="item in followCollege" :key="item.id"  @change="handleCheckedfollowChange">
                     <el-dropdown-item>
                       <el-checkbox :label="item.followName">{{ item.followName }}</el-checkbox>
@@ -76,6 +76,12 @@
                   </el-checkbox-group>
                   <div class="tzy-dropdown-action">
                     <el-button type="primary" size="mini" @click="followSearch">确定</el-button>
+                  </div>
+                </el-dropdown-menu>
+                <el-dropdown-menu slot="dropdown" class="dropdown1" v-else>
+                  <div style="text-align: center">
+                    <span style="text-align: center;position: absolute;left: 30%;font-size: 14px">暂无关注</span>
+                    <img src="@/assets/nullg.png" alt="">
                   </div>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -143,7 +149,7 @@
                 :hide-on-click=false
               >
                 <span>用户关注({{ followMajor.length }}) <i class="el-icon-arrow-down el-icon--right"></i></span>
-                <el-dropdown-menu slot="dropdown" class="dropdown">
+                <el-dropdown-menu slot="dropdown" class="dropdown" v-if="followMajor.length>0">
                   <el-checkbox-group v-model="checkmajorList" v-for="item in followMajor" :key="item.id"  @change="handlemajorCheckedfollowChange">
                     <el-dropdown-item>
                       <el-checkbox :label="item.followName">{{ item.followName }}</el-checkbox>
@@ -151,6 +157,12 @@
                   </el-checkbox-group>
                   <div class="tzy-dropdown-action">
                     <el-button type="primary" size="mini" @click="followMajorSearch">确定</el-button>
+                  </div>
+                </el-dropdown-menu>
+                <el-dropdown-menu slot="dropdown" class="dropdown1" v-else>
+                  <div style="text-align: center">
+                    <span style="text-align: center;position: absolute;left: 30%;font-size: 14px">暂无关注</span>
+                    <img src="@/assets/nullg.png" alt="">
                   </div>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -170,7 +182,7 @@
         </el-tab-pane>
       </el-tabs>
     </div>
-    <div class="schoollist">
+    <div class="schoollist" v-if="vip == 1">
       <el-row>
         <el-col :span="19">
           <school-list :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-if="majorflag"></school-list>
@@ -179,7 +191,7 @@
         <el-col :span="5">
           <div class="auto_fixed" :class="auto_fixed">
             <div class="fudongBox">
-              <div class="head"><span>已填入意向</span></div>
+              <div class="head"><span>已填入意向</span><span class="subhead">(至少填报10个意向)</span></div>
               <div class="content">
                 <div class="noformdata" v-if="volForm.length === 0">
 <!--                <div class="noformdata" v-if="showvolformdata">-->
@@ -212,12 +224,33 @@
         </el-col>
       </el-row>
     </div>
+    <div class="schoollist" v-else>
+     <novipschool :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-if="majorflag" ></novipschool>
+      <novipmajor :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-else></novipmajor>
+      <div>
+        <div class="permission-tip-wrapper-toC">
+             <p class="text-center">查看完整推荐院校</p>
+          <div class="flex center">
+            <el-button type="danger" class="action"> 开通VIP &emsp;查看全部</el-button>
+          </div>
+          <div class="flex center qrcode">
+            <img src="../../assets/QQ.png" alt="" width="80px" height="80px">
+            <div>
+              <p>扫码下载 考哪儿APP</p>
+              <p>实时资讯 互动答疑</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import SchoolList from '../schoolRecommand/schoolList'
 import MajorList from '../schoolRecommand/majorList'
+import novipschool from "./novipschool";
+import novipmajor from "./novipmajor";
 import {
   getAllLevel,
   getAllCollegeType,
@@ -229,14 +262,17 @@ import {
   getAllFollowSchool,
   getAllFollowMajor, findMajorFollowOrNot,
   findSchoolFollowOrNot,
-  getAllMajorType
+  getAllMajorType,
+  getUserInfo
 } from '@/api/index'
 
 export default {
   name: 'selectType',
-  components: {SchoolList, MajorList},
+  components: {SchoolList, MajorList,novipschool,novipmajor},
   data () {
     return {
+      userInfo:{},
+      vip:'',
       checkList: [],
       checkmajorList: [],
       followCollege: [],
@@ -244,7 +280,7 @@ export default {
       checkAll: false,
       checkmajorAll: false,
       isIndeterminate: true,
-      phoneNum: '18551452231',
+      // phoneNum: '18551452231',
       majorname: '',
       collegename: '',
       auto_fixed: {
@@ -281,6 +317,9 @@ export default {
       turnname: ''
     }
   },
+  created() {
+    this.phoneNum = localStorage.getItem("phone")
+  },
   computed: {
     selectTabs: {
       get () {
@@ -296,8 +335,11 @@ export default {
       }
     }
   },
+
   mounted () {
+
     this.init()
+    this.getInfo()
     this.$nextTick(function () {
       window.addEventListener('scroll', this.onScroll)
     })
@@ -307,19 +349,30 @@ export default {
     this.getZhiyuanTableEdit()
   },
   methods: {
+
     init () {
+      // getUserInfo().then(res => {
+      //   this.phoneNum = res.data.phoneNum
+      // })
+      console.log('444',this.phoneNum)
       getAllFollowSchool({
         phoneNum: this.phoneNum
       }).then(res => {
-        this.followCollege = res.data
+        this.followCollege = res.data || []
       })
       getAllFollowMajor({
         phoneNum: this.phoneNum
       }).then(res => {
-        this.followMajor = res.data
+        this.followMajor = res.data  || []
       })
     },
-
+    getInfo(){
+      getUserInfo().then(res => {
+        this.userInfo = res.data
+        this.vip = this.userInfo.vip
+        console.log('1111',this.userInfo)
+      })
+    },
     onScroll () {
       let scrolled = document.documentElement.scrollTop || document.body.scrollTop
       let height = 450
@@ -460,12 +513,12 @@ export default {
     },
     getProvincesinit () {
       getAllprovinces().then(res => {
-        this.provincesList = res.data
+        this.provincesList = res.data || []
       })
     },
     getcollegeType () {
       getAllCollegeType().then(res => {
-        this.collegeType = res.data
+        this.collegeType = res.data || []
       })
       getAllLevel().then(response => {
         this.collegeLevel = response.data
@@ -473,7 +526,7 @@ export default {
     },
     getMajortypelist () {
       getAllMajorType().then(res => {
-        this.majorType = res.data
+        this.majorType = res.data  || []
       })
     },
     handleClick (tab, event) {
@@ -522,12 +575,18 @@ export default {
       // this.$forceUpdate()
     },
     clickToZhiyuanBiao () { // 下一步按钮，转向新的界面
-      this.$router.push({
-        name: 'zhiyuanBiao',
-        params: {
-          zhiyuanTable: this.volForm
-        }
-      })
+      if (this.volForm.length > 10) {
+        this.$router.push({
+          name: 'zhiyuanBiao',
+          params: {
+            zhiyuanTable: this.volForm
+          }
+        })
+      } else {
+        this.$alert('<span style="font-size: .2rem">志愿表数据不能少于10条</span>', '', {
+          dangerouslyUseHTMLString: true
+        })
+      }
     },
     // 测试
     querySearch (queryString, cb) {
@@ -544,7 +603,7 @@ export default {
       getsearchMajor({
         majorName: queryString
       }).then(res => {
-        this.majoradvice = res.data
+        this.majoradvice = res.data  || []
         cb(this.majoradvice)
       })
     },
@@ -813,7 +872,9 @@ li{
   line-height: .8rem;
   text-align: center;
 }
-
+.box .fudongBox .subhead{
+  font-size: .2rem;
+}
 
 .box .fudongBox .content {
   white-space: pre-wrap;
@@ -955,5 +1016,36 @@ li{
 .fixed {
   position: fixed;
   top: 0rem;
+}
+
+.permission-tip-wrapper-toC{
+  background: #f2f2f2;
+  width: 100%;
+  padding: 30px 0;
+  margin: 0 auto;
+}
+.text-center{
+  font-size: 30px;
+  font-weight: 550;
+  text-align: center;
+}
+.flex{
+  display: flex;
+}
+
+.center {
+align-items: center;
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+}
+.qrcode {
+  margin-top: 20px;
+}
+.qrcode img{
+  margin-right: 15px;
+}
+.action{
+  font-size: 25px;
 }
 </style>

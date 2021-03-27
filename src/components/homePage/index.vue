@@ -1,6 +1,5 @@
 <template>
   <div class="app_container">
-    <!-- <Header :flags = flag_class class="header" :flagInfo="infoState"></Header> -->
     <top-header></top-header>
     <HomeHeader></HomeHeader>
     <div class="fourRow">
@@ -60,28 +59,19 @@
               <div>
                 <div class="score-item">
                   <span class="label">高考省份</span>&nbsp;&nbsp;
-                  <span class="value">北京</span>
+                  <span class="value">{{ userInfo.examProvince }}</span>
                 </div>
                 <div class="score-item">
                   <span class="label">科目类型</span>&nbsp;&nbsp;
-                  <span class="value">物理/化学/生物</span>
+                  <span class="value">{{subject[0]+` \\ `+subject[1]+` \\ `+subject[2]}}</span>
                 </div>
                 <div class="score-item">
                   <span class="label">高考总分</span>&nbsp;&nbsp;
-                  <span class="value">572</span>
+                  <span class="value">{{ userInfo.score }}</span>
                 </div>
                 <div class="score-item">
-                  <span class="label">本科预估排名</span>&nbsp;&nbsp;
-                  <span class="value">13923</span>
-                </div>
-                <div class="score-item">
-                  <span class="label">语数外总分</span>&nbsp;&nbsp;
-                  <span class="value">360</span>
-                </div>
-
-                <div class="score-item">
-                  <span class="label">专科预估排名</span>&nbsp;&nbsp;
-                  <span class="value">28</span>
+                  <span class="label">高考排名</span>&nbsp;&nbsp;
+                  <span class="value">{{ userInfo.rank }}</span>
                 </div>
               </div>
             </div>
@@ -107,9 +97,8 @@
           </div>
           <div v-else>
             <div class="shuxian-r">
-              <span>北京</span>&nbsp;&nbsp; <span>物/化/生</span>&nbsp;&nbsp;
-              <span>本科</span>&nbsp;&nbsp;
-              <span>572</span>
+              <span>{{ userInfo.examProvince }}</span>&nbsp;&nbsp; <span>{{subject[0]+` \\ `+subject[1]+` \\ `+subject[2]}}</span>&nbsp;&nbsp;
+              <span>{{ userInfo.score }}</span>
             </div>
           </div>
         </div>
@@ -130,8 +119,8 @@
                 <h4 class="commend-item-title textOverflow">
                   {{ item.schoolName }}
                 </h4>
-                <p class="commend-item-code">招生代码 {{ item.schoolCode }}</p>
-                <p class="commend-item-des">{{ item.schoolProvince }}</p>
+                <p class="commend-item-code">招生代码 {{ item.schoolCode }}</p >
+                <p class="commend-item-des">{{ item.schoolProvince }}</p >
               </li>
               <li class="commend-item" @click="gotoAllschool">
                 <i class="el-icon-arrow-right moreIcn"></i>
@@ -139,6 +128,7 @@
               </li>
             </ul>
           </div>
+         
         </div>
       </div>
       <div class="sixRow">
@@ -235,6 +225,7 @@ import TopHeader from "@/components/common/topheader";
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
 import EditScore from "@/components/common/editScore";
+import { getUserInfo } from "@/api/index";
 import {
   getAllIsLearning,
   getHomeschool,
@@ -252,56 +243,6 @@ export default {
       videoUrl: "",
       scoreDialog: false,
       recommandschoolList: [],
-      recommandList: [
-        {
-          id: 1,
-          url:
-            "https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg",
-          name: "首都师范大学",
-          code: "1052[01]",
-          des: "北京",
-        },
-        {
-          id: 2,
-          url:
-            "https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg",
-          name: "北京大学",
-          code: "1052[01]",
-          des: "北京",
-        },
-        {
-          id: 3,
-          url:
-            "https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg",
-          name: "上海师范大学",
-          code: "1052[01]",
-          des: "北京",
-        },
-        {
-          id: 4,
-          url:
-            "https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg",
-          name: "华中师范大学",
-          code: "1052[01]",
-          des: "北京",
-        },
-        {
-          id: 5,
-          url:
-            "https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg",
-          name: "华中师范大学",
-          code: "1052[01]",
-          des: "北京",
-        },
-        {
-          id: 6,
-          url:
-            "https://storage-oss.ipin.com/school-icon/52ac2e97747aec013fcf49c4.jpg",
-          name: "华中师范大学",
-          code: "1052[01]",
-          des: "北京",
-        },
-      ],
       zixunList: [],
       threeList: [],
       videoList: [],
@@ -309,6 +250,8 @@ export default {
       form: {
         name: "",
       },
+      subject: [],
+      userInfo: {},
       dialogVisible: false,
       loginStatus: false,
       value1: "5",
@@ -394,9 +337,23 @@ export default {
         // this.$set(this.threeList, _this.threeList);
         console.log(_this.threeVideoList);
       });
+      getUserInfo().then((res) => {
+        this.userInfo = res.data;
+        // if(this.userInfo.)
 
+        this.userInfo.biology == 1 ? this.subject.push("生物") : "";
+        this.userInfo.chemistry == 1 ? this.subject.push("化学") : "";
+        this.userInfo.geography == 1 ? this.subject.push("地理") : "";
+        this.userInfo.history == 1 ? this.subject.push("历史") : "";
+        this.userInfo.physics == 1 ? this.subject.push("物理") : "";
+        this.userInfo.politics == 1 ? this.subject.push("政治") : "";
+
+        console.log("1111", this.subject);
+      });
       this.getInfo();
     },
+
+    itemClick() {},
     gotoAllschool() {
       if (localStorage.getItem("token") != null) {
         this.$router.push({
