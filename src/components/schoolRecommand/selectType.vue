@@ -369,7 +369,8 @@ export default {
     getInfo(){
       getUserInfo().then(res => {
         this.userInfo = res.data
-        this.vip = this.userInfo.vip
+        // this.vip = this.userInfo.vip
+        this.vip = 1
         console.log('1111',this.userInfo)
       })
     },
