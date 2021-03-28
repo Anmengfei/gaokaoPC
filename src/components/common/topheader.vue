@@ -87,7 +87,7 @@
         <el-col :span="6">
           <div class="desc">
             <span class="tishiOne">祝广大考生金榜提名</span>
-            <span class="tishiTwo" v-if="vip == 0">开通VIP</span>
+            <span class="tishiTwo" v-if="vip == 0" @click="gotoVIP">开通VIP</span>
             <span class="tishiTwo" v-else>VIP会员</span>
           </div>
         </el-col>
@@ -125,6 +125,9 @@ export default {
       // });
       // window.open(href, "_blank");
       this.$router.push("/volunteerVIP");
+    },
+    gotoVIP(){
+      this.$router.push('/volunteerVIP')
     },
     getInfo() {
       getUserInfo().then((res) => {
@@ -229,6 +232,7 @@ a {
   color: rgb(235, 16, 16);
 }
 .tishiTwo {
+  cursor: pointer;
   border: 1px solid red;
   background-color: red;
   color: white;

@@ -26,14 +26,14 @@
             <th>选课要求</th>
             <th>2020年招生计划</th>
             <th>2021年招生计划</th>
-            <th>操作</th>
+            <th>操作</th>·
           </tr>
           </thead>
           <tr v-for="(item,index) in zhiyuanTableList" :key="index">
             <td>{{ index+1 }}</td>
             <td>{{item.risk}}</td>
-            <td>{{ item.schoolName }}{{item.schoolCode}}</td>
-            <td>{{item.majorName}}</td>
+            <td>{{ item.schoolName }}<br/><span>(代码：{{item.schoolCode}})</span></td>
+            <td>{{item.majorName}}<br/><span>(代码：{{item.majorCode}})</span></td>
             <td>{{item.selectionRequirement}}</td>
             <td>{{item.enrollNum}}</td>
             <td>暂无数据</td>
@@ -82,10 +82,8 @@ export default {
     }
   },
   methods: {
-    set_cell_style () {
-      return 'overflow: unset'
-    },
     getAllData () {
+      console.log("router信息",this.$route.params.zhiyuanTable)
       this.zhiyuanTableList = this.$route.params.zhiyuanTable
       window.sessionStorage.setItem('zhiyuanbiaodan', JSON.stringify(this.zhiyuanTableList))
       console.log('本地存储内容', JSON.parse(sessionStorage.getItem('zhiyuanbiaodan')))
@@ -153,39 +151,47 @@ export default {
       console.log('存储数据中。。。', zhiyuanTableList)
       if (zhiyuanTableList !== undefined) {
         for (let i = 0; i < zhiyuanTableList.length; i++) {
-          const map = {
-            'chance': zhiyuanTableList[i].risk,
-            'id': 0,
-            'listId': 0,
-            'rank': i,
-            'wishId': parseInt(zhiyuanTableList[i].id),
-            'wishNum': i}
+          const map = {}
+          map.chance = zhiyuanTableList[i].risk
+          map.id = 0
+          map.listId = 0
+          map.rank = i
+          map.wishId = zhiyuanTableList[i].id
+          map.wishNum = i
           this.zhiyuanFormatList.push(map)
         }
         console.log('格式化规整数据', this.zhiyuanFormatList)
-        addWishListPC({
-          phoneNum: '15588556313',
-          wishList: this.zhiyuanFormatList
-        }).then(res => {
-          console.log('555555555555555555', res)
-        })
-        // var url = 'https://www.zytb.top/NEMT/gk/userPC/addWishListPC?phoneNum=15588556313'
-        // axios.post(url, this.zhiyuanFormatList,
-        //   // {
-        //   //   headers: {
-        //   //     token: localStorage.getItem('token')
-        //   //
-        //   //   }}
-        // ).then((res) => {
-        //   console.log('成功了', res.data)
-        //   if (res.data.msg === '成功') {
-        //     sessionStorage.removeItem('zhiyuanbiaodan')
-        //     console.log('sessionStorage内容清理', sessionStorage.getItem('zhiyuanbiaodan'))
-        //     this.$router.push({
-        //       name: 'addSucceed'
-        //     })
-        //   }
+        // addWishListPC({
+        //   phoneNum: '15588556313',
+        //   wishList: this.zhiyuanFormatList
+        // }).then(res => {
+        //   console.log('555555555555555555', res)
         // })
+        var url = 'https://www.zytb.top/NEMT/gk/userPC/addWishListPC'
+
+        axios.post(url, JSON.stringify(this.zhiyuanFormatList),
+          {
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8',
+              "token": localStorage.getItem("token")
+            }
+          }
+
+          // {
+          //   headers: {
+          //     token: localStorage.getItem('token')
+          //
+          //   }}
+        ).then((res) => {
+          console.log('成功了', res.data)
+          if (res.data.msg === '成功') {
+            sessionStorage.removeItem('zhiyuanbiaodan')
+            console.log('sessionStorage内容清理', sessionStorage.getItem('zhiyuanbiaodan'))
+            this.$router.push({
+              name: 'addSucceed'
+            })
+          }
+        })
       } else {
         this.$confirm('志愿表中缺少数据无法提交，即将跳转院校选择界面', '警告', {
           confirmButtonText: '跳转至院校优先',

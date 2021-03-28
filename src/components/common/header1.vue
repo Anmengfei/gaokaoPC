@@ -366,7 +366,7 @@ export default {
             this.msgSuccess("退出登录");
             console.log("退出登录成功");
             localStorage.clear();
-            this.$router.push("/homepage");
+            this.$router.push("/");
             // this.loginflag = false;
             this.$store.dispatch("getloginstate", false);
           } else {
@@ -495,7 +495,7 @@ export default {
           if (res.data.userInfo.checked == 0) {
             this.$store.dispatch("showuserInfo", true);
           } else {
-            this.$router.push("/");
+            this.$router.push("/SchoolRecommand");
           }
         } else if (res.code == 1) {
           // this.$notify.error({

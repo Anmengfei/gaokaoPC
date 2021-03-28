@@ -46,6 +46,7 @@
                       type="button"
                       class="strong-btn"
                       style="width: 180px"
+                      @click="applyVIP"
                     >
                       开通VIP
                     </button>
@@ -142,6 +143,9 @@ export default {
       this.isShow3 = true;
       // console.log("执行了");
     },
+    applyVIP(){
+        this.msgWarning('功能暂未开通')
+    }
   },
 };
 </script>
