@@ -231,7 +231,7 @@
         <div class="permission-tip-wrapper-toC">
              <p class="text-center">查看完整推荐院校</p>
           <div class="flex center">
-            <el-button type="danger" class="action"> 开通VIP &emsp;查看全部</el-button>
+            <el-button type="danger" class="action" @click="gotoVIP"> 开通VIP &emsp;查看全部</el-button>
           </div>
           <div class="flex center qrcode">
             <img src="../../assets/QQ.png" alt="" width="80px" height="80px">
@@ -369,8 +369,8 @@ export default {
     getInfo(){
       getUserInfo().then(res => {
         this.userInfo = res.data
-        // this.vip = this.userInfo.vip
-        this.vip = 1
+        this.vip = this.userInfo.vip
+        // this.vip = 1
         console.log('1111',this.userInfo)
       })
     },
@@ -687,6 +687,9 @@ export default {
       // JSON.parse(localStorage.getItem('zhiyuanbiaodan'))
       // this.$forceUpdate()
       // }
+    },
+    gotoVIP(){
+      this.$router.push('/volunteerVIP')
     }
   }
 }
