@@ -26,14 +26,14 @@
             <th>选课要求</th>
             <th>2020年招生计划</th>
             <th>2021年招生计划</th>
-            <th>操作</th>
+            <th>操作</th>·
           </tr>
           </thead>
           <tr v-for="(item,index) in zhiyuanTableList" :key="index">
             <td>{{ index+1 }}</td>
             <td>{{item.risk}}</td>
-            <td>{{ item.schoolName }}{{item.schoolCode}}</td>
-            <td>{{item.majorName}}</td>
+            <td>{{ item.schoolName }}<br/><span>(代码：{{item.schoolCode}})</span></td>
+            <td>{{item.majorName}}<br/><span>(代码：{{item.majorCode}})</span></td>
             <td>{{item.selectionRequirement}}</td>
             <td>{{item.enrollNum}}</td>
             <td>暂无数据</td>

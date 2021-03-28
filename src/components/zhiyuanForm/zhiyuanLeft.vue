@@ -3,8 +3,17 @@
     <div class="top-box">
       <img src="../../assets/head.jpg" class="zhiyuanpng" />
       <div class="yeardiv">高考年份：2021</div>
-      <el-avatar icon="el-icon-user-solid" class="touxiang"></el-avatar>
-      <el-button type="danger" class="VIPbtn">开通VIP</el-button>
+      <div @click="headImgClick()">
+        <el-avatar
+          icon="el-icon-user-solid"
+          class="touxiang"
+          src="https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eod5XoDYQzN4ib6CTytO2EwibibARW7IhUEo9L5ia5Ud8XRhShw7WWobOgvfTXibW92qNe9aSkpYdE4TqQ/132"
+        ></el-avatar>
+      </div>
+
+      <el-button type="danger" class="VIPbtn" @click="VIPClick()"
+        >开通VIP</el-button
+      >
       <div class="user-count">
         <el-row>
           <el-col :span="8"
@@ -26,13 +35,13 @@
           >
         </el-row>
       </div>
-      <div class="ceDiv">功能区</div>
+      <div class="ceDiv">个人资料</div>
       <a @click="zhiyuanClick()">我的志愿</a>
-      <a href="#">我的订单</a>
-      <a href="#">我的关注</a>
-      <a href="#">激活志愿卡</a>
+      <a @click="orderClick()">我的订单</a>
+      <a @click="followClick()">我的关注</a>
+      <a @click="openVIPClick()">激活志愿卡</a>
       <!-- <a href="#">我的选科</a> -->
-      <a @click="installClick()">设置</a>
+      <a @click="installClick()">修改密码</a>
       <!-- <div class="ceDiv">测</div>
       <a href="#">我的测评</a>
       <div class="ceDiv">填</div>
@@ -45,11 +54,27 @@
 export default {
   name: "zhiyuanLeft",
   methods: {
+    headImgClick() {
+      console.log("headImgClick执行了");
+      this.$router.push("/touxiang");
+    },
+    VIPClick() {
+      this.$router.push("/volunteerVIP");
+    },
     zhiyuanClick() {
       this.$router.push("/zhiyuanTable");
     },
     installClick() {
       this.$router.push("/install");
+    },
+    orderClick() {
+      this.$router.push("/order");
+    },
+    followClick() {
+      this.$router.push("/follow");
+    },
+    openVIPClick() {
+      this.$router.push("/openVIP");
     },
   },
 };
@@ -109,6 +134,7 @@ a:hover {
   position: absolute;
   top: 1.5rem;
   left: 0.18rem;
+  cursor: pointer;
 }
 .left-content {
   min-height: 0.8rem;

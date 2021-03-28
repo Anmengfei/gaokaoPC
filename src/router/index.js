@@ -77,6 +77,22 @@ export default new Router({
             path: '/install',
             name: 'install',
             component: resolve => require(['@/components/UserInformation/install'], resolve)
+        }, {
+            path: '/follow',
+            name: 'follow',
+            component: resolve => require(['@/components/UserInformation/follow'], resolve)
+        }, {
+            path: '/openVIP',
+            name: 'openVIP',
+            component: resolve => require(['@/components/UserInformation/openVIP'], resolve)
+        }, {
+            path: '/order',
+            name: 'order',
+            component: resolve => require(['@/components/UserInformation/order'], resolve)
+        }, {
+            path: '/touxiang',
+            name: 'touxiang',
+            component: resolve => require(['@/components/UserInformation/touxiang'], resolve)
         }
 
     ]

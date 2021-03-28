@@ -1,7 +1,7 @@
 <template>
   <div class="app_container">
     <top-header></top-header>
-    <HomeHeader></HomeHeader>
+    <HomeHeader class="homeheader"></HomeHeader>
     <div class="table-container">
       <VolunteerTable></VolunteerTable>
       <div class="box-right">
@@ -72,6 +72,9 @@
             <el-col :span="10"><div class="grid-content"></div></el-col>
           </el-row>
         </div>
+        <div class="OKbtn">
+          <el-button type="danger">确认修改</el-button>
+        </div>
       </div>
     </div>
 
@@ -97,6 +100,9 @@ export default {
 };
 </script>
 <style scoped>
+.homeheader {
+  margin-bottom: 0.5rem;
+}
 /deep/.shurukuang .el-input {
   border-color: red;
   width: 300px;
@@ -126,5 +132,9 @@ h2 {
   padding-bottom: 10px;
   margin-bottom: 30px;
   border-bottom: 0;
+}
+.OKbtn {
+  margin-top: 10px;
+  padding-left: 25%;
 }
 </style>

@@ -118,6 +118,10 @@ export default {
         console.log('数据来了', res)
         if (res.msg === '成功') {
           this.volform = res.data.wishes
+          for (let i = 0; i < this.volform.length; ++i) {
+            this.volform[i].risk = this.volform[i].chances
+            this.volform[i].selectionRequirement = this.volform[i].selectSubject
+          }
           console.log('8888888888888', this.volform)
           this.$router.push({
             name: 'zhiyuanBiao',
@@ -127,8 +131,6 @@ export default {
           })
         }
       })
-
-
     }
   }
 }
