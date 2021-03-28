@@ -156,14 +156,14 @@ a {
 }
 .bg-logo {
   width: 100%;
-  height: 2rem;
+  /*height: 2rem;*/
   /* background-color: pink; */
   text-align: center;
   font-weight: 700;
 }
 .bg-QQ {
   width: 100%;
-  height: 1.8rem;
+  height: 50%;
   margin-bottom: 0.06rem;
 }
 .bg-left {
