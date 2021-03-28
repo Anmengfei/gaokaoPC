@@ -45,7 +45,7 @@
               </div>
               <a class="a-erweima" href="" slot="reference">微信公众号</a>
             </el-popover>
-            <a class="a-erweima" href="" slot="reference" @click="VIPClick()"
+            <a class="a-erweima" slot="reference" @click="VIPClick()"
               >志愿VIP卡激活</a
             >
           </div></el-col
@@ -120,10 +120,11 @@ export default {
       });
     },
     VIPClick() {
-      const { href } = this.$router.resolve({
-        name: "volunteerVIP",
-      });
-      window.open(href, "_blank");
+      // const { href } = this.$router.resolve({
+      //   name: "volunteerVIP",
+      // });
+      // window.open(href, "_blank");
+      this.$router.push("/volunteerVIP");
     },
     getInfo() {
       getUserInfo().then((res) => {
@@ -143,6 +144,7 @@ export default {
 }
 a {
   text-decoration: none;
+  cursor: pointer;
 }
 .firstRow {
   width: 100%;
@@ -153,14 +155,14 @@ a {
 }
 .bg-logo {
   width: 100%;
-  height: 2rem;
+  /* height: 100%; */
   /* background-color: pink; */
   text-align: center;
   font-weight: 700;
 }
 .bg-QQ {
   width: 100%;
-  height: 1.8rem;
+  height: 50%;
   margin-bottom: 0.06rem;
 }
 .bg-left {

@@ -243,7 +243,7 @@ export default {
   margin-right: 10px;
   padding: 0px 20px;
   text-align: center;
-  width: 110px;
+  width: 150px;
   height: 45px;
   line-height: 45px;
   border: 1px solid rgba(0, 0, 0, 0.1);
