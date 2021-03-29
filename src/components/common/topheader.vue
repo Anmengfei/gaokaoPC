@@ -75,14 +75,22 @@
           <!--                :value="dict"-->
           <!--              ></el-option> </el-select-->
           <!--          ></el-col>-->
-          <el-col :span="12"
-            ><el-input
-              v-model="searchValue"
-              placeholder="搜大学/查专业"
-              suffix-icon="el-icon-search"
+          <el-col :span="12">
+<!--            <el-input-->
+<!--              v-model="searchValue"-->
+<!--              placeholder="搜大学/查专业"-->
+<!--              suffix-icon="el-icon-search"-->
+<!--              class="search"-->
+<!--            ></el-input>-->
+            <el-autocomplete
+              style="width: 320px"
               class="search"
-            ></el-input
-          ></el-col>
+              v-model="searchValue"
+              :fetch-suggestions="querySearch"
+              placeholder="搜大学/查专业"
+              :trigger-on-focus="false"
+            ></el-autocomplete>
+          </el-col>
         </el-col>
         <el-col :span="6">
           <div class="desc">
@@ -97,46 +105,57 @@
 </template>
 
 <script>
-import { getAllprovinces, getUserInfo } from "@/api/index";
+import { getAllprovinces, getUserInfo, getsearchSchool } from '@/api/index'
 export default {
-  name: "top-header",
-  data() {
+  name: 'top-header',
+  data () {
     return {
-      selectProvince: "",
-      searchValue: "",
+      selectProvince: '',
+      searchValue: '',
       userInfo: {},
-      vip: "",
+      vip: '',
       provincesList: [],
-    };
+      schooladvice: [],
+    }
   },
-  mounted() {
-    this.getProvincesinit();
-    this.getInfo();
+  mounted () {
+    this.getProvincesinit()
+    this.getInfo()
   },
   methods: {
-    getProvincesinit() {
+    getProvincesinit () {
       getAllprovinces().then((res) => {
-        this.provincesList = res.data;
-      });
+        this.provincesList = res.data
+      })
     },
-    VIPClick() {
+    VIPClick () {
       const { href } = this.$router.resolve({
-        name: "volunteerVIP",
-      });
-      window.open(href, "_blank");
+        name: 'volunteerVIP'
+      })
+      window.open(href, '_blank')
     },
-    gotoVIP(){
+    gotoVIP () {
       this.$router.push('/volunteerVIP')
     },
-    getInfo() {
+    getInfo () {
       getUserInfo().then((res) => {
-        this.userInfo = res.data;
-        this.vip = this.userInfo.vip;
-        console.log("1111", this.userInfo);
-      });
+        this.userInfo = res.data
+        this.vip = this.userInfo.vip
+        console.log('1111', this.userInfo)
+      })
     },
-  },
-};
+    querySearch (queryString, cb) { // 搜索框模糊查询
+      console.log('ceshi', queryString, cb)
+      getsearchSchool({
+        schoolName: queryString
+      }).then(res => {
+        console.log('mohu查询', res.data)
+        this.schooladvice = res.data
+        cb(this.schooladvice)
+      })
+    }
+  }
+}
 </script>
 
 <style scoped>

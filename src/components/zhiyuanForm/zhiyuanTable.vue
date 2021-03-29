@@ -86,11 +86,12 @@ export default {
   data () {
     return {
       willTable: [], // 志愿表数据
-      phoneNum: '15588556313',
+      phoneNum: '',
       volform: [] // 查看按钮取得的数据
     }
   },
   mounted () {
+    this.phoneNum = localStorage.getItem('phone')
     this.getWishTable(this.phoneNum)
   },
   methods: {
