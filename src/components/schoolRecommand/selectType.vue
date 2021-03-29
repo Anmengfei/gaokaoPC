@@ -595,6 +595,7 @@ export default {
       getsearchSchool({
         schoolName: queryString
       }).then(res => {
+        console.log('mohu查询', res.data)
         this.schooladvice = res.data
         cb(this.schooladvice)
       })

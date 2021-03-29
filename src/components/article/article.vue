@@ -4,10 +4,6 @@
     <div class="atitle">{{ article.title }}</div>
     <div class="comefrom">
       <span style="font-size: 15px">{{ article.date }}</span>
-      <!-- <span>来源:</span>
-      <span>&nbsp;null</span>
-      <span>&nbsp;null</span>
-      <span>&nbsp;null</span> -->
     </div>
     <p class="image">
       <img :src="article.cover" class="articleImage" />
@@ -26,11 +22,13 @@ export default {
       article: null,
     };
   },
+  // 调用 生命周期，在页面加载的同时进行调用
   mounted() {
     console.log(this.$route.query.article);
     this.initData(this.$route.query.article);
   },
   methods: {
+    // 定义.then就是获取后端数据,token就是验证用得，可能每一个用户有一个特有的token
     initData(id) {
       console.log(typeof id);
       //必须这样

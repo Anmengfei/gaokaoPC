@@ -60,35 +60,25 @@
           </div>
         </el-col>
         <el-col :span="12">
-          <!--          <el-col :span="12">-->
-          <!--            <el-select-->
-          <!--              v-model="selectProvince"-->
-          <!--              placeholder="请选择报考省份"-->
-          <!--              clearable-->
-          <!--              class="selectProvinceStyle"-->
-          <!--            >-->
-          <!--              <el-option-->
-          <!--                v-for="dict in provincesList"-->
-          <!--                :key="dict"-->
-          <!--                :label="dict"-->
-          <!--                :value="dict"-->
-          <!--              ></el-option> </el-select-->
-          <!--          ></el-col>-->
-          <el-col :span="12"
-          >
-            <el-input
-              v-model="searchValue"
-              placeholder="搜大学/查专业"
-              suffix-icon="el-icon-search"
-              class="search"
-            ></el-input
+          <el-col :span="12">
+            <el-autocomplete
+              style="width: 320px"
+              class="inline-input"
+              v-model="collegename"
+              :fetch-suggestions="querySearch"
+              placeholder="查学校/查专业"
+              :trigger-on-focus="false"
+              @select="handleSelect"
             >
+            </el-autocomplete>
           </el-col>
         </el-col>
         <el-col :span="6">
           <div class="desc">
             <span class="tishiOne">祝广大考生金榜提名</span>
-            <span class="tishiTwo" v-if="vip == 0" @click="gotoVIP">开通VIP</span>
+            <span class="tishiTwo" v-if="vip == 0" @click="gotoVIP"
+              >开通VIP</span
+            >
             <span class="tishiTwo" v-else>VIP会员</span>
           </div>
         </el-col>
@@ -98,8 +88,7 @@
 </template>
 
 <script>
-import {getAllprovinces, getUserInfo} from "@/api/index";
-
+import { getAllprovinces, getUserInfo, getsearchSchool } from "@/api/index";
 export default {
   name: "top-header",
   data() {
@@ -109,6 +98,8 @@ export default {
       userInfo: {},
       vip: "",
       provincesList: [],
+      collegename: "",
+      schooladvice: [],
     };
   },
   mounted() {
@@ -129,7 +120,7 @@ export default {
       this.$router.push("/volunteerVIP");
     },
     gotoVIP() {
-      this.$router.push('/volunteerVIP')
+      this.$router.push("/volunteerVIP");
     },
     getInfo() {
       getUserInfo().then((res) => {
@@ -137,6 +128,20 @@ export default {
         this.vip = this.userInfo.vip;
         console.log("1111", this.userInfo);
       });
+    },
+    querySearch(queryString, cb) {
+      // 搜索框
+      console.log("ceshi", queryString, cb);
+      getsearchSchool({
+        schoolName: queryString,
+      }).then((res) => {
+        console.log("mohu查询", res.data);
+        this.schooladvice = res.data;
+        cb(this.schooladvice);
+      });
+    },
+    handleSelect(item) {
+      console.log(item);
     },
   },
 };

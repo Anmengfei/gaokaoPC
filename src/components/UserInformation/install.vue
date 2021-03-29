@@ -19,8 +19,9 @@
                     ><div class="grid-content shurukuang">
                       <el-input
                         placeholder="请输入密码"
-                        v-model="input"
+                        v-model="originpassword"
                         show-password
+                        @blur="originClick()"
                       ></el-input></div
                   ></el-col>
                 </el-row></div
@@ -41,7 +42,7 @@
                     ><div class="grid-content shurukuang">
                       <el-input
                         placeholder="请输入密码"
-                        v-model="input"
+                        v-model="newpassword"
                         show-password
                       ></el-input></div
                   ></el-col>
@@ -63,7 +64,7 @@
                     ><div class="grid-content shurukuang">
                       <el-input
                         placeholder="请输入密码"
-                        v-model="input"
+                        v-model="secondpassword"
                         show-password
                       ></el-input></div
                   ></el-col>
@@ -73,7 +74,7 @@
           </el-row>
         </div>
         <div class="OKbtn">
-          <el-button type="danger">确认修改</el-button>
+          <el-button type="danger" @click="enterClick()">确认修改</el-button>
         </div>
       </div>
     </div>
@@ -87,16 +88,45 @@ import VolunteerTable from "@/components/zhiyuanForm/zhiyuanLeft";
 import TopHeader from "@/components/common/topheader";
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
+import { getPassWord } from "@/api/index.js";
+import { checkPassWord } from "@/api/index.js";
 export default {
   name: "install",
   components: { TopHeader, HomeHeader, Footer, VolunteerTable },
   data() {
     return {
       isRouterAlive: true, // 控制视图是否显示的变量
-      input: "",
+      originpassword: "",
+      newpassword: "",
+      secondpassword: "",
     };
   },
-  methods: {},
+  mounted() {
+    // this.initData();
+  },
+  methods: {
+    originClick() {
+      console.log("执行了");
+      // let _this = this;
+      checkPassWord({ passWord: this.originpassword }).then((res) => {
+        console.log(res);
+        console.log(res.data);
+      });
+    },
+    // initData() {
+    //   let _this = this;
+    //   getPassWord().then(function (response) {
+    //     console.log(response.data);
+    //   });
+    // },
+    enterClick() {
+      if (this.newpassword === this.secondpassword) {
+        console.log("两次密码完全一致");
+      } else {
+        console.log("两次密码输入不一致，请重新输入");
+      }
+    },
+  },
 };
 </script>
 <style scoped>
