@@ -4,11 +4,11 @@
   <div class="app-header">
     <div class="firstRow">
       <el-row>
-        <el-col :span="12"
-          ><div class="bg-left">欢迎来到大数据智能高考志愿填报平台</div></el-col
-        >
-        <el-col :span="12"
-          ><div class="bg-right">
+        <el-col :span="12">
+          <div class="bg-left">欢迎来到大数据智能高考志愿填报平台</div>
+        </el-col>
+        <el-col :span="12">
+          <div class="bg-right">
             <el-popover
               placement="top-start"
               width="160"
@@ -16,7 +16,7 @@
               class="shouji"
             >
               <div class="bg-logo">
-                <img class="bg-QQ" src="../../assets/QQ.png" alt="" />
+                <img class="bg-QQ" src="../../assets/QQ.png" alt=""/>
                 <div>QQ扫一扫，惊喜更多</div>
               </div>
               <a class="a-erweima" href="" slot="reference">高考志愿填报QQ群</a>
@@ -28,7 +28,7 @@
               class="shouji"
             >
               <div class="bg-logo">
-                <img class="bg-QQ" src="../../assets/QQ.png" alt="" />
+                <img class="bg-QQ" src="../../assets/QQ.png" alt=""/>
                 <div>下载智禾·考哪儿APP</div>
               </div>
               <a class="a-erweima" href="" slot="reference">手机APP</a>
@@ -40,23 +40,22 @@
               class="shouji"
             >
               <div class="bg-logo">
-                <img class="bg-QQ" src="../../assets/QQ.png" alt="" />
+                <img class="bg-QQ" src="../../assets/QQ.png" alt=""/>
                 <div>微信扫一扫，惊喜更多</div>
               </div>
               <a class="a-erweima" href="" slot="reference">微信公众号</a>
             </el-popover>
-            <a class="a-erweima" slot="reference" @click="VIPClick()"
-              >志愿VIP卡激活</a
-            >
-          </div></el-col
-        >
+            <a class="a-erweima" slot="reference" @click="VIPClick()" v-if="vip == 0">志愿VIP卡激活</a>
+            <a class="a-erweima" slot="reference">志愿VIP卡已激活</a>
+          </div>
+        </el-col>
       </el-row>
     </div>
     <div class="secondRow">
       <el-row class="logo-search">
         <el-col :span="6">
           <div class="logo">
-            <img src="../../assets/logo.jpg" class="img-logo" />
+            <img src="../../assets/logo.jpg" class="img-logo"/>
             <div class="plateName">智禾·考哪儿</div>
           </div>
         </el-col>
@@ -76,13 +75,15 @@
           <!--              ></el-option> </el-select-->
           <!--          ></el-col>-->
           <el-col :span="12"
-            ><el-input
+          >
+            <el-input
               v-model="searchValue"
               placeholder="搜大学/查专业"
               suffix-icon="el-icon-search"
               class="search"
             ></el-input
-          ></el-col>
+            >
+          </el-col>
         </el-col>
         <el-col :span="6">
           <div class="desc">
@@ -97,7 +98,8 @@
 </template>
 
 <script>
-import { getAllprovinces, getUserInfo } from "@/api/index";
+import {getAllprovinces, getUserInfo} from "@/api/index";
+
 export default {
   name: "top-header",
   data() {
@@ -126,7 +128,7 @@ export default {
       // window.open(href, "_blank");
       this.$router.push("/volunteerVIP");
     },
-    gotoVIP(){
+    gotoVIP() {
       this.$router.push('/volunteerVIP')
     },
     getInfo() {
@@ -145,10 +147,12 @@ export default {
   width: 100%;
   /* font-size: 100%; */
 }
+
 a {
   text-decoration: none;
   cursor: pointer;
 }
+
 .firstRow {
   width: 100%;
   height: 0.5rem;
@@ -156,6 +160,7 @@ a {
   font-size: 0.17rem;
   line-height: 0.5rem;
 }
+
 .bg-logo {
   width: 100%;
   /* height: 100%; */
@@ -163,26 +168,31 @@ a {
   text-align: center;
   font-weight: 700;
 }
+
 .bg-QQ {
   width: 100%;
   height: 50%;
   margin-bottom: 0.06rem;
 }
+
 .bg-left {
   /* background: #d3dce6; */
   height: 0.5rem;
   padding-left: 1rem;
   background-color: hsla(0, 0%, 61%, 0.3);
 }
+
 .bg-right {
   /* background: #e5e9f2; */
   height: 0.5rem;
   background-color: hsla(0, 0%, 61%, 0.3);
 }
+
 .bg-right a {
   padding: 0 0.6rem;
   color: black;
 }
+
 .bg-right a:hover {
   color: #e5623f;
 }
@@ -192,23 +202,28 @@ a {
   height: 50px;
   line-height: 50px;
 }
+
 .secondRow .logo-search {
   margin-left: 0.2rem;
 }
+
 .secondRow .logo-search .search {
   margin-top: 0.1rem;
   width: 80%;
 }
+
 .secondRow .logo {
   display: flex;
   align-items: center;
   width: 100%;
   margin-left: 0.8rem;
 }
+
 .secondRow .img-logo {
   width: 0.65rem;
   height: 0.65rem;
 }
+
 .secondRow .plateName {
   display: inline;
   margin-left: 0.15rem;
@@ -231,6 +246,7 @@ a {
   border: 1px solid red;
   color: rgb(235, 16, 16);
 }
+
 .tishiTwo {
   cursor: pointer;
   border: 1px solid red;

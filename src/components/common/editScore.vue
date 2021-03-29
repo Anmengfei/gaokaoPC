@@ -3,226 +3,193 @@
     <h3 class="gaokaoTitle">模拟高考志愿填报</h3>
     <div class="sub-title">输入成绩信息，为您精准推荐</div>
     <div>
-      <el-form ref="form" :model="form" class="form-style" :rules="rules">
-        <el-row>
-          <el-col :span="24">
-            <el-form-item
-              class="form-item-style"
-              label="高考省份"
-              prop="province"
-            >
-              <el-select
-                placeholder="请选择高考省份"
-                class="select-style"
-                v-model="form.province"
-                @change="handClick()"
-                :disabled="placeholder1"
-              >
-                <el-option
-                  v-for="item in provinceList"
-                  :key="item"
-                  :label="item"
-                  :value="item"
-                >
-                </el-option>
-              </el-select>
-              <el-form-item class="form-item-style" prop="zsType">
-                <el-select
-                  placeholder="请选择招生类型"
-                  class="select-style fRight"
-                  v-model="form.zsType"
-                >
-                  <el-option
-                    v-for="item in zsTypeList"
-                    :key="item"
-                    :label="item"
-                    :value="item"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <p class="provinceTs">高考地区一经确认不可修改</p>
-            </el-form-item>
-          </el-col>
-        </el-row>
-
-        <el-row>
-          <el-col :span="24">
-            <el-form-item
-              class="form-item-style"
-              label="选择科目"
-              prop="checkSubjectList"
-            >
-              <el-checkbox-group
-                v-model="form.checkSubjectList"
-                size="mini"
-                max="3"
-                @change="selectSubject"
-              >
-                <el-checkbox-button
-                  v-for="item in subjects"
-                  :label="item"
-                  :key="item"
-                  >{{ item }}</el-checkbox-button
-                >
-              </el-checkbox-group>
-              <span class="hint" v-if="isShow">限制长度，最多选择三门学科</span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-
+      <el-form ref="form" :model="form" class="form-style" :rules="rules" :inline-message="true">
         <el-row :gutter="10">
-          <el-col :span="12">
-            <el-form-item
-              class="form-item-style"
-              label="高考总分"
-              prop="totalScore"
-            >
-              <el-input
-                type="text"
-                placeholder="请填写高考总分"
-                class="input-style"
-                v-model="form.totalScore"
-                @input="inputClick"
-                maxlength="3"
-                oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
-                onafterpaste="value=value.replace(/^\.+|[^\d.]/g,'')"
-              ></el-input>
-              <!-- <span class="hint" v-if="type !='view'">限制长度，3个字符</span> -->
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item
-              class="form-item-style"
-              label="本科排名"
-              prop="ranking"
-            >
-              <el-input
-                placeholder="请填写本科排名"
-                class="input-style"
-                v-model="form.ranking"
-              ></el-input>
-            </el-form-item>
-          </el-col>
+          <el-form-item
+            label="高考总分:"
+            prop="score"
+          >
+            <el-input
+              type="text"
+              placeholder="请填写高考总分"
+              v-model="form.score"
+              maxlength="3"
+              style="width: 200px"
+              oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+              onafterpaste="value=value.replace(/^\.+|[^\d.]/g,'')"
+            ></el-input>
+            <!-- <span class="hint" v-if="type !='view'">限制长度，3个字符</span> -->
+          </el-form-item>
         </el-row>
-
         <el-row :gutter="10">
-          <el-col :span="12">
-            <el-form-item
-              class="form-item-style"
-              label="语数外总分"
-              prop="mainTotalScore"
-            >
-              <el-input
-                placeholder="请填写语数外总分"
-                class="input-style"
-                v-model="form.mainTotalScore"
-                @input="inputClick()"
-                maxlength="3"
-                oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
-                onafterpaste="value=value.replace(/^\.+|[^\d.]/g,'')"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item
-              class="form-item-style"
-              label="专科排名"
-              prop="zRanking"
-            >
-              <el-input
-                placeholder="请填写专科排名"
-                class="input-style"
-                v-model="form.zRanking"
-              ></el-input>
-            </el-form-item>
-          </el-col>
+          <el-form-item
+            label="排名:"
+            prop="rank"
+          >
+            <label slot="label">排&emsp;&emsp;名:</label>
+            <el-input
+              style="width: 200px"
+              placeholder="请填写排名"
+              v-model="form.rank"
+            />
+          </el-form-item>
         </el-row>
-        <el-row>
-          <div class="infoPro">
-            依据历年数据进行推荐，最新招生计划将在6月更新，敬请关注
-          </div>
-        </el-row>
-        <el-button
-          type="primary"
-          class="btn"
-          :disabled="btnUser"
-          @click="btnClick"
-          >确定</el-button
+        <el-form-item
+          class="form-item-style"
+          label="选择科目:"
+          prop="checkSubjectList"
         >
+          <el-checkbox-group
+            size="mini"
+            :max="3"
+            v-model="form.checkSubjectList"
+            @change="selectSubject"
+          >
+            <el-checkbox-button
+              v-for="item in subjects"
+              :label="item"
+              :key="item"
+            >{{ item }}</el-checkbox-button>
+          </el-checkbox-group>
+          <span class="hint" v-if="isShow">需要选择三门学科</span>
+        </el-form-item>
+        <el-form-item>
+          <el-row>
+            <div class="infoPro">
+              依据历年数据进行推荐，最新招生计划将在6月更新，敬请关注
+            </div>
+          </el-row>
+        </el-form-item>
+
+        <el-form-item>
+          <div style="text-align: center">
+            <el-button type="primary" @click="submitForm('form')">提交修改</el-button>
+            <el-button @click="resetForm('form')">重置</el-button></div>
+
+        </el-form-item>
       </el-form>
     </div>
   </div>
 </template>
 
 <script>
+import {getUserInfo} from "@/api/index"
+import {completeInformation} from "@/api/login"
 export default {
   name: "editScore",
+  inject:['reload'],
   data() {
     return {
       isShow: false,
       btnUser: true,
       placeholder1: false,
       form: {
-        province: "",
-        zsType: "",
-        checkSubjectList: [],
-        totalScore: "",
-        ranking: "",
-        mainTotalScore: "",
-        zRanking: "",
+        examYear: "",
+        examProvince: "",
+        rank: "",
+        score: "",
+        biology:'0',
+        phoneNum:'',
+        chemistry:'0',
+        geography:'0',
+        history:'0',
+        physics:'0',
+        politics:'0',
+        checkSubjectList:[]
       },
       rules: {
-        province: [
-          { required: true, message: "请选择高考省份", trigger: "blur" },
+        examYear:[
+          { required: true, message: "请选择高考年份", trigger: "change" },
+        ],
+        examProvince: [
+          { required: true, message: '请选择高考省份', trigger: "change" }
         ],
         checkSubjectList: [
-          { required: true, message: "请选择科目", trigger: "blur" },
+          { required: true, message: "请选择科目", trigger: "change" },
         ],
-        totalScore: [
+        rank: [
+          { required: true, message: "请填写高考排名", trigger: "blur" },
+        ],
+        score: [
           { required: true, message: "请填写高考总分", trigger: "blur" },
         ],
-        mainTotalScore: [
-          { required: true, message: "请填写语数外总分", trigger: "blur" },
-        ],
       },
-      provinceList: ["河北", "山东", "北京", "上海", "广州", "深圳"],
-      zsTypeList: ["普通招生", "自主招生"],
+      provinceList: [],
       subjects: ["物理", "化学", "生物", "政治", "历史", "地理"],
-      checkSubjectList: [],
     };
   },
+  mounted() {
+    this.init()
+  },
   methods: {
+    init(){
+      getUserInfo().then(res => {
+        console.log(res)
+        this.form.score = res.data.score
+        this.form.rank = res.data.rank
+        this.form.phoneNum = res.data.phoneNum
+        this.form.examYear = res.data.examYear
+        this.form.examProvince = res.data.examProvince
+        res.data.biology == 1?this.form.checkSubjectList.push('生物'):'';
+        res.data.chemistry == 1?this.form.checkSubjectList.push('化学'):'';
+        res.data.geography == 1?this.form.checkSubjectList.push('地理'):'';
+        res.data.history == 1?this.form.checkSubjectList.push('历史'):'';
+        res.data.physics == 1?this.form.checkSubjectList.push('物理'):'';
+        res.data.politics == 1?this.form.checkSubjectList.push('政治'):'';
+      })
+    },
+    submitForm(formName) {
+      console.log('学科',this.form)
+      console.log('学科',this.form.checkSubjectList)
+
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          completeInformation({
+            biology: this.form.checkSubjectList.includes('生物')?1:0,
+            chemistry:this.form.checkSubjectList.includes('化学')?1:0,
+            examProvince:this.form.examProvince,
+            examYear:this.form.examYear,
+            geography:this.form.checkSubjectList.includes('地理')?1:0,
+            history:this.form.checkSubjectList.includes('历史')?1:0,
+            phoneNum:this.form.phoneNum,
+            physics:this.form.checkSubjectList.includes('物理')?1:0,
+            politics:this.form.checkSubjectList.includes('政治')?1:0,
+            rank:this.form.rank,
+            score:this.form.score,
+          }).then( res => {
+            if(res.code == 0){
+              this.msgSuccess('提交修改成功')
+              this.$router.push("/");
+              this.reload()
+            }
+            console.log('提交用户',res)
+          })
+        } else {
+            this.msgError('提交修改失败')
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
     selectSubject(val) {
-      console.log(val);
-      if (val.length > 3) {
-        // this.isShow = true;
-        alert("不能超过3个");
-        console.log(val.pop());
-        console.log("val", val);
+      this.form.checkSubjectList = val
+      console.log('val',val)
+      if (val.length < 3) {
+        this.isShow = true;
+      }else {
+        this.isShow = false
       }
     },
     handClick() {
-      // document.getElementById("el-select").disabled = true;
-      this.placeholder1 = true;
-      console.log(this.placeholder1);
-      // this.disabled = true;
+      // this.placeholder1 = true;
+      // console.log(this.placeholder1);
     },
-    inputClick() {
-      if (this.form.totalScore == "" || this.form.mainTotalScore == "") {
-        this.btnUser = true;
-      } else {
-        this.btnUser = false;
-      }
-    },
-    btnClick() {
-      console.log("我要向后端传数据");
-      console.log(this.form);
-    },
+
   },
 };
 </script>
-
 <style scoped>
 .hint {
   /* margin-top: 2px; */
@@ -308,4 +275,5 @@ h3 .jsx-3804238702 {
   linght-height: 45px;
   cursor: pointer;
 }
+
 </style>
