@@ -30,7 +30,7 @@
                 href="/accounts/personInfo/modifyInfo"
                 title="个人资料"
                 id="username"
-                >孙同学</a
+                >{{phone}}</a
               >
             </div>
             <el-dropdown-menu slot="dropdown">
@@ -331,8 +331,10 @@ export default {
       // this.loginflag = false;
       this.$store.dispatch("getloginstate", false);
     }
+
   },
   computed: {
+
     showUserInfo() {
       return this.$store.state.showUserInfo;
     },
@@ -342,6 +344,10 @@ export default {
     showlogin() {
       return this.$store.state.showlogin;
     },
+    phone(){
+      return localStorage.getItem("phone")
+    },
+
     loginflag() {
       return this.$store.state.loginflag;
     },

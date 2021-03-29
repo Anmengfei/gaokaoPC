@@ -11,14 +11,14 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      // "/api":{
-      //   target:"https://www.zytb.top/NEMT/gk/",
-      //   secure:false,
-      //   changeOrigin:true,
-      //   pathRewrite:{
-      //     "^/api":""
-      //   }
-      // }
+      "/api":{
+        target:"https://www.zytb.top/NEMT/gk/",
+        secure:false,
+        changeOrigin:true,
+        pathRewrite:{
+          "^/api":""
+        }
+      }
       // '/api': {
       //   target: 'https://www.zytb.top/NEMT/gk',//后端接口地址
       //   changeOrigin: true,//是否允许跨越

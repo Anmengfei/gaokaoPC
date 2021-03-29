@@ -45,7 +45,7 @@
               </div>
               <a class="a-erweima" href="" slot="reference">微信公众号</a>
             </el-popover>
-            <a class="a-erweima" href="" slot="reference" @click="VIPClick()"
+            <a class="a-erweima" slot="reference" @click="VIPClick()"
               >志愿VIP卡激活</a
             >
           </div></el-col
@@ -75,22 +75,14 @@
           <!--                :value="dict"-->
           <!--              ></el-option> </el-select-->
           <!--          ></el-col>-->
-          <el-col :span="12">
-<!--            <el-input-->
-<!--              v-model="searchValue"-->
-<!--              placeholder="搜大学/查专业"-->
-<!--              suffix-icon="el-icon-search"-->
-<!--              class="search"-->
-<!--            ></el-input>-->
-            <el-autocomplete
-              style="width: 320px"
-              class="search"
+          <el-col :span="12"
+            ><el-input
               v-model="searchValue"
-              :fetch-suggestions="querySearch"
               placeholder="搜大学/查专业"
-              :trigger-on-focus="false"
-            ></el-autocomplete>
-          </el-col>
+              suffix-icon="el-icon-search"
+              class="search"
+            ></el-input
+          ></el-col>
         </el-col>
         <el-col :span="6">
           <div class="desc">
@@ -107,42 +99,42 @@
 <script>
 import { getAllprovinces, getUserInfo, getsearchSchool } from '@/api/index'
 export default {
-  name: 'top-header',
-  data () {
+  name: "top-header",
+  data() {
     return {
-      selectProvince: '',
-      searchValue: '',
+      selectProvince: "",
+      searchValue: "",
       userInfo: {},
-      vip: '',
+      vip: "",
       provincesList: [],
-      schooladvice: [],
     }
   },
-  mounted () {
-    this.getProvincesinit()
-    this.getInfo()
+  mounted() {
+    this.getProvincesinit();
+    this.getInfo();
   },
   methods: {
-    getProvincesinit () {
+    getProvincesinit() {
       getAllprovinces().then((res) => {
-        this.provincesList = res.data
-      })
+        this.provincesList = res.data;
+      });
     },
-    VIPClick () {
-      const { href } = this.$router.resolve({
-        name: 'volunteerVIP'
-      })
-      window.open(href, '_blank')
+    VIPClick() {
+      // const { href } = this.$router.resolve({
+      //   name: "volunteerVIP",
+      // });
+      // window.open(href, "_blank");
+      this.$router.push("/volunteerVIP");
     },
-    gotoVIP () {
+    gotoVIP(){
       this.$router.push('/volunteerVIP')
     },
-    getInfo () {
+    getInfo() {
       getUserInfo().then((res) => {
-        this.userInfo = res.data
-        this.vip = this.userInfo.vip
-        console.log('1111', this.userInfo)
-      })
+        this.userInfo = res.data;
+        this.vip = this.userInfo.vip;
+        console.log("1111", this.userInfo);
+      });
     },
     querySearch (queryString, cb) { // 搜索框模糊查询
       console.log('ceshi', queryString, cb)
@@ -165,6 +157,7 @@ export default {
 }
 a {
   text-decoration: none;
+  cursor: pointer;
 }
 .firstRow {
   width: 100%;
@@ -175,14 +168,14 @@ a {
 }
 .bg-logo {
   width: 100%;
-  height: 2rem;
+  /* height: 100%; */
   /* background-color: pink; */
   text-align: center;
   font-weight: 700;
 }
 .bg-QQ {
   width: 100%;
-  height: 1.8rem;
+  height: 50%;
   margin-bottom: 0.06rem;
 }
 .bg-left {
