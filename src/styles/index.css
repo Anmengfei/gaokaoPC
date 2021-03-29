@@ -1,65 +1,71 @@
 a {
-  text-decoration:none;
+    text-decoration: none;
 }
 
 .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active {
-  /*color: #f95e5a;*/
-  color: #e5623f;
+    /*color: #f95e5a;*/
+    color: #e5623f;
 }
-.el-tabs--border-card>.el-tabs__header .el-tabs__item:not(.is-disabled):hover{
-  /*color: #f95e5a;*/
-  color: #e5623f;
+
+.el-tabs--border-card>.el-tabs__header .el-tabs__item:not(.is-disabled):hover {
+    /*color: #f95e5a;*/
+    color: #e5623f;
 }
 
 .el-tabs--border-card>.el-tabs__header .el-tabs__item {
-
-  font-size: 0.15rem;
+    font-size: 0.15rem;
 }
+
 .customer-college .customer-college-input .el-input__inner:focus {
-  border-color: #e9302d;
+    border-color: #e9302d;
 }
-.customer-college .customer-college-input .el-input--small .el-input__inner {
-  height: 0.4rem;
-  line-height: 0.4rem;
 
+.customer-college .customer-college-input .el-input--small .el-input__inner {
+    height: 0.4rem;
+    line-height: 0.4rem;
 }
+
 .customer-college-input .schoolname {
-  padding: 0 20px;
-  margin: 0;
-  line-height: 34px;
-  cursor: pointer;
-  color: #606266;
-  font-size: 14px;
-  list-style: none;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    padding: 0 20px;
+    margin: 0;
+    line-height: 34px;
+    cursor: pointer;
+    color: #606266;
+    font-size: 14px;
+    list-style: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
 .dropdown .el-dropdown-menu__item {
-  border-bottom: 1px solid #e6e6e6;
-  list-style: none;
-  line-height: 36px;
-  padding: 0 20px;
-  margin: 0;
-  font-size: 14px;
-  color: #606266;
-  cursor: pointer;
-  outline: 0;
+    border-bottom: 1px solid #e6e6e6;
+    list-style: none;
+    line-height: 36px;
+    padding: 0 20px;
+    margin: 0;
+    font-size: 14px;
+    color: #606266;
+    cursor: pointer;
+    outline: 0;
 }
+
 .dropdown .el-dropdown-menu {
-  transform-origin: center top;
-  z-index: 2134;
-  padding: 10px 0;
-  margin: 5px 0;
-  background-color: #fff;
-  border: 1px solid #ebeef5;
-  border-radius: 4px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  width: 216px;
+    transform-origin: center top;
+    z-index: 2134;
+    padding: 10px 0;
+    margin: 5px 0;
+    background-color: #fff;
+    border: 1px solid #ebeef5;
+    border-radius: 4px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    width: 216px;
 }
+
 .login-style .el-dialog__header {
-  background: transparent !important;
+    background: transparent !important;
 }
+
 .login-style .el-dialog__body {
-  background: transparent !important;
+    background: transparent !important;
 }

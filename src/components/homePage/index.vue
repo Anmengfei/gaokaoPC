@@ -237,6 +237,7 @@ export default {
   components: { TopHeader, HomeHeader, Footer, EditScore },
   data() {
     return {
+    
       score: "",
       level: "",
       dialogVisible1: false,
