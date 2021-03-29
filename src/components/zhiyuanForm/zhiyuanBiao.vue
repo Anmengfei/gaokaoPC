@@ -26,7 +26,7 @@
             <th>选课要求</th>
             <th>2020年招生计划</th>
             <th>2021年招生计划</th>
-            <th>操作</th>·
+            <th>操作</th>
           </tr>
           </thead>
           <tr v-for="(item,index) in zhiyuanTableList" :key="index">
@@ -176,12 +176,6 @@ export default {
               "token": localStorage.getItem("token")
             }
           }
-
-          // {
-          //   headers: {
-          //     token: localStorage.getItem('token')
-          //
-          //   }}
         ).then((res) => {
           console.log('成功了', res.data)
           if (res.data.msg === '成功') {

@@ -109,7 +109,8 @@ export default {
       console.log("执行了");
       // let _this = this;
       checkPassWord({ passWord: this.originpassword }).then((res) => {
-        console.log("kkk");
+        console.log(res);
+        console.log(res.data);
       });
     },
     // initData() {

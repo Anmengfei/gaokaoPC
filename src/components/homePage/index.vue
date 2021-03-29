@@ -128,7 +128,7 @@
               </li>
             </ul>
           </div>
-         
+
         </div>
       </div>
       <div class="sixRow">
@@ -201,7 +201,7 @@
         </div>
       </div>
     </div>
-  
+
     <el-dialog
       :visible.sync="dialogVisible"
       width="50%"
