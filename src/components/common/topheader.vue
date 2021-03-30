@@ -46,7 +46,7 @@
               <a class="a-erweima" href="" slot="reference">微信公众号</a>
             </el-popover>
             <a class="a-erweima" slot="reference" @click="VIPClick()" v-if="vip == 0">志愿VIP卡激活</a>
-            <a class="a-erweima" slot="reference">志愿VIP卡已激活</a>
+            <a class="a-erweima" slot="reference" v-else>志愿VIP卡已激活</a>
           </div>
         </el-col>
       </el-row>
