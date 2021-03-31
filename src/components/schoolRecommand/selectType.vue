@@ -635,11 +635,12 @@ export default {
       }).then(res => {
         if (res.code == 0) {
           this.msgSuccess('关注成功')
+          this.init()
         } else if (res.code == 617) {
           this.msgWarning('用户已关注')
         }
       })
-      this.init()
+
     },
     handleCheckAllChange (val) {
       this.checkedCities = val ? cityOptions : []

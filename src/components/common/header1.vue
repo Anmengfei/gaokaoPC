@@ -372,7 +372,7 @@ export default {
             this.msgSuccess("退出登录");
             console.log("退出登录成功");
             localStorage.clear();
-            this.$router.push("/");
+            this.$router.push("/appCon");
             // this.loginflag = false;
             this.$store.dispatch("getloginstate", false);
           } else {
@@ -393,7 +393,7 @@ export default {
     getCodes() {
       if (this.phoneNum !== "") {
         var url =
-          "https://www.zytb.top/NEMT/gk/userApp/getPhoneCode?phoneNum=" +
+          "https://www.zytb.top/NEMT/gk/userPC/getPhoneCode?phoneNum=" +
           this.phoneNum;
         this.$axios.get(url).then((res) => {
           console.log("return", res.data);
@@ -501,7 +501,7 @@ export default {
           if (res.data.userInfo.checked == 0) {
             this.$store.dispatch("showuserInfo", true);
           } else {
-            this.$router.push("/SchoolRecommand");
+            this.$router.push("/");
           }
         } else if (res.code == 1) {
           // this.$notify.error({

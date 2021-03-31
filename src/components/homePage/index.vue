@@ -77,9 +77,11 @@
             </div>
 
             <div class="tuijianButton">
-              <el-button class="btn" type="primary" round>智能推荐</el-button>
+              <div class="tuijianbtn">
+                <el-button class="btn" type="primary" round>智能推荐</el-button>
+              </div>
             </div>
-            <div class="viewTable">查看志愿表>></div>
+<!--            <div class="viewTable">查看志愿表>></div>-->
           </div>
         </div>
       </div>
@@ -155,13 +157,13 @@
                       <el-col :span="12"
                         ><div class="titlehover">
                           <span class="title">{{ item.title }}</span>
-                        </div></el-col
-                      >
-                      <el-col :span="12"
-                        ><div>
+                        </div>
+                      </el-col>
+                      <el-col :span="12">
+                        <div>
                           <span class="time">{{ item.date }}</span>
-                        </div></el-col
-                      >
+                        </div>
+                      </el-col>
                     </el-row>
                     <div class="news" font-size="14">
                       <i class="el-icon-view"></i>
@@ -442,37 +444,6 @@ export default {
         console.log(res);
         this.recommandschoolList = res.data.splice(0, 6);
       });
-      // if (this.flag_state === false) {
-      //   var url = `http://58.119.112.14:11020/cms/system/user/${localStorage.getItem(
-      //     "userId"
-      //   )}`;
-      //
-      //   this.$axios
-      //     .get(
-      //       url,
-      //       {
-      //         headers: {
-      //           Authorization: "Bearer " + localStorage.getItem("token"),
-      //         },
-      //       },
-      //       {
-      //         headers: {
-      //           Authorization: "Bearer " + localStorage.getItem("token"),
-      //         },
-      //       }
-      //     )
-      //     .then((res) => {
-      //       if (localStorage.getItem("userId")) {
-      //         this.infoState = false;
-      //       } else {
-      //         this.infoState = true;
-      //       }
-      //
-      //       if (this.infoState === true) {
-      //         this.openInfo();
-      //       }
-      //     });
-      // }
     },
     login() {
       this.$store.dispatch("getShowLogin", true);
@@ -493,10 +464,6 @@ export default {
 </script>
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-}
 a {
   text-decoration: none;
 }
@@ -504,7 +471,6 @@ a {
 .app_container {
   background-color: #f3f5f7;
   width: 100%;
-  /* height: 100%; */
 }
 
 .mt20 {
@@ -602,6 +568,7 @@ li a {
 .zhiyuan .content {
   width: 100%;
   height: 100%;
+  margin: 0 auto;
   background-color: #fff;
   border-radius: 10px;
   padding: 5px 30px 5px 30px;
@@ -613,6 +580,7 @@ li a {
   font-weight: bold;
   color: rgba(0, 0, 0, 0.8);
   text-align: center;
+  margin-top: 20px;
 }
 
 .denglu-label {
@@ -1284,5 +1252,20 @@ input {
   outline: 0;
   /*line-height: 40px;*/
   /*font-size: 40px;*/
+}
+.tuijianButton {
+  margin-top: 30px;
+  position: relative;
+}
+.tuijianButton .tuijianbtn {
+  margin-top: 30px;
+  position: absolute;
+  top:10%;
+}
+/deep/ .eldialog-parent .el-dialog__header {
+  padding: 0;
+}
+/deep/ .eldialog-parent .el-dialog__body {
+  padding: 0;
 }
 </style>

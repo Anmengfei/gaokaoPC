@@ -116,7 +116,7 @@ import { getAllprovinces } from "@/api/index";
 import { completeInformation } from "@/api/login";
 
 export default {
-  name: "editScore",
+
   inject:['reload'],
   data() {
     return {
