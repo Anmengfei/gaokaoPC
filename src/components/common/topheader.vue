@@ -56,7 +56,7 @@
         <el-col :span="6">
           <div class="logo">
             <img src="../../assets/logo.jpg" class="img-logo"/>
-            <div class="plateName">智禾·考哪儿</div>
+            <div class="plateName">智禾考哪儿</div>
           </div>
         </el-col>
         <el-col :span="12">
