@@ -157,10 +157,10 @@ export function getUserInfo(data) {
     })
 }
 //设置密码
-export function getPassWord(data) {
+export function setPassWord(data) {
     return request({
         url: '/userApp/setPassWord',
-        method: 'get',
+        method: 'post',
         params: data
     })
 }
