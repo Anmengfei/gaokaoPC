@@ -2,7 +2,10 @@
   <div class="box-left">
     <div class="top-box">
       <img src="../../assets/head.jpg" class="zhiyuanpng" />
-      <div class="yeardiv">高考年份：2021</div>
+      <div class="yeardiv">
+        <span>高考年份:</span>
+        <span>{{ userInfoList.examYear }}</span>
+      </div>
       <div @click="headImgClick()">
         <el-avatar
           icon="el-icon-user-solid"
@@ -11,37 +14,45 @@
         ></el-avatar>
       </div>
 
-      <el-button type="danger" class="VIPbtn" @click="VIPClick()"
+      <el-button
+        type="danger"
+        class="VIPbtn"
+        @click="VIPClick()"
+        :disabled="vipbtn"
         >开通VIP</el-button
       >
       <div class="user-count">
         <el-row>
           <el-col :span="8"
             ><div class="left-content">
-              <span>关注院校<br />0</span>
+              <button @click="AllFollowSchoolClick()">关注院校</button>
+
+              <!-- <span>关注院校<br />0</span> -->
               <!-- <div class="alltop-span">关注院校</div>
                   <div class="allbtm-span">0</div> -->
             </div></el-col
           >
           <el-col :span="8"
             ><div class="bet-content">
-              <span>关注专业<br />0</span>
+              <!-- <span>关注专业<br />0</span> -->
+              <button @click="AllFollowMajorClick()">关注专业</button>
             </div></el-col
           >
           <el-col :span="8"
             ><div class="right-content">
-              <span>成绩<br />600分</span>
+              <span>成绩<br /></span>
+              <span>{{ userInfoList.score }}</span>
             </div></el-col
           >
         </el-row>
       </div>
       <div class="ceDiv">个人资料</div>
       <a @click="zhiyuanClick()">我的志愿</a>
-      <a @click="orderClick()">我的订单</a>
+      <a @click="orderClick()">关注院校</a>
       <a @click="followClick()">我的关注</a>
-      <a @click="openVIPClick()">激活志愿卡</a>
-      <!-- <a href="#">我的选科</a> -->
+      <a @click="AllFollowMajorClick()">关注专业</a>
       <a @click="installClick()">修改密码</a>
+      <!-- <a href="#">我的选科</a> -->
       <!-- <div class="ceDiv">测</div>
       <a href="#">我的测评</a>
       <div class="ceDiv">填</div>
@@ -51,11 +62,35 @@
 </template>
 
 <script>
+import { getUserInfo } from "@/api/index.js";
 export default {
   name: "zhiyuanLeft",
+  data() {
+    return {
+      userInfoList: [],
+      vipbtn: false,
+    };
+  },
+  mounted() {
+    this.initData();
+  },
   methods: {
+    initData() {
+      getUserInfo(localStorage.getItem("token")).then((res) => {
+        // console.log("这是用户信息");
+        // console.log(res.data);
+        this.userInfoList = res.data;
+        if (this.userInfoList.vip == 0) {
+          this.vipbtn = false;
+        } else {
+          this.vipbtn = true;
+        }
+        // console.log("这是userInfoList用户信息");
+        // console.log(this.userInfoList);
+      });
+    },
     headImgClick() {
-      console.log("headImgClick执行了");
+      // console.log("headImgClick执行了");
       this.$router.push("/touxiang");
     },
     VIPClick() {
@@ -75,6 +110,12 @@ export default {
     },
     openVIPClick() {
       this.$router.push("/openVIP");
+    },
+    AllFollowMajorClick() {
+      this.$router.push("/AllFollowMajor");
+    },
+    AllFollowSchoolClick() {
+      this.$router.push("/AllFollowSchool");
     },
   },
 };
@@ -148,13 +189,27 @@ a:hover {
   color: #e5623f;
   cursor: pointer;
 }
+.left-content button {
+  min-height: 0.8rem;
+  width: 100%;
+  font-size: 22px;
+  border: none;
+  background-color: #fff;
+}
 .bet-content {
   min-height: 0.8rem;
   /* background: #d3dce6; */
   border-right: 0.5px solid #99a9bf;
-  text-align: center;
-  line-height: 0.4rem;
+  /* text-align: center; */
+  /* line-height: 0.4rem; */
   color: #666666;
+}
+.bet-content button {
+  min-height: 0.8rem;
+  width: 100%;
+  font-size: 22px;
+  border: none;
+  background-color: #fff;
 }
 .bet-content :hover {
   color: #e5623f;
@@ -166,11 +221,9 @@ a:hover {
   text-align: center;
   line-height: 0.4rem;
   color: #666666;
+  background-color: #fff;
 }
-.right-content :hover {
-  color: #e5623f;
-  cursor: pointer;
-}
+
 .user-count {
   margin-top: 0.2rem;
 }
@@ -196,7 +249,7 @@ a:hover {
 .yeardiv {
   background-color: rgba(0, 0, 0, 0.2);
   position: absolute;
-  top: 1.71rem;
+  top: 1.72rem;
   left: 0;
   width: 100%;
   padding-left: 1.4rem;

@@ -93,6 +93,14 @@ export default new Router({
             path: '/touxiang',
             name: 'touxiang',
             component: resolve => require(['@/components/UserInformation/touxiang'], resolve)
+        }, {
+            path: '/AllFollowMajor',
+            name: 'AllFollowMajor',
+            component: resolve => require(['@/components/UserInformation/AllFollowMajor'], resolve)
+        }, {
+            path: '/AllFollowSchool',
+            name: 'AllFollowSchool',
+            component: resolve => require(['@/components/UserInformation/AllFollowSchool'], resolve)
         }
 
     ]

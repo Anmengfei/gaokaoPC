@@ -23,7 +23,10 @@
               <ul class="school-list">
                 <li
                   class="school-item"
-                  v-for="(item, index) in AllFollowSchoolList"
+                  v-for="(item, index) in AllFollowSchoolList.slice(
+                    (currentPage - 1) * pagesize,
+                    currentPage * pagesize
+                  )"
                   :key="index"
                 >
                   <div class="schoolitemBox">
@@ -64,6 +67,17 @@
                   </div>
                 </li>
               </ul>
+              <div class="pagination">
+                <el-pagination
+                  :current-page="currentPage"
+                  :page-size="pagesize"
+                  :total="AllFollowMajorList.length"
+                  @current-change="handleCurrentChange"
+                  background
+                  layout="total,prev, pager, next"
+                >
+                </el-pagination>
+              </div>
               <!-- <div class="hezi">123</div> -->
             </div>
             <div class="item">
@@ -83,9 +97,12 @@
               </ul>
               <div class="pagination">
                 <el-pagination
+                  :current-page="currentPage"
+                  :page-size="pagesize"
+                  :total="AllFollowMajorList.length"
+                  @current-change="handleCurrentChange"
                   background
-                  layout="prev, pager, next"
-                  :total="50"
+                  layout="total,prev, pager, next"
                 >
                 </el-pagination>
               </div>
@@ -119,6 +136,8 @@ export default {
       // Is985: false,
       // is211: false,
       isone: false,
+      pagesize: 5,
+      currentPage: 1,
     };
   },
   // mounted() {
@@ -240,31 +259,10 @@ export default {
       }
       items[index].style.display = "block";
     },
-    // handleClick() {
-    //   var tab_list = document.querySelector(".tab_list");
-    //   var lis = tab_list.querySelectorAll("li");
-    //   var items = document.querySelectorAll(".item");
-    //   console.log("执行了");
-    //   console.log(lis);
-    //   lis[1].setAttribute("index", 1);
-    //   console.log(lis[1].getAttribute("index"));
-    //   for (var i = 0; i < lis.lenght; i++) {
-    //     lis[i].setAttribute("index", i);
-    //     console.log("ninfdfas执行了");
-    //     lis[i].onclick = function () {
-    //       for (var i = 0; i < lis.length; i++) {
-    //         lis[i].className = "";
-    //       }
-    //       this.className = "current";
-    //       var index = this.getAttribute("index");
-    //       console.log(index);
-    //       for (var i = 0; i < items.length; i++) {
-    //         item[i].style.display == "none";
-    //       }
-    //       items[index].style.display = "block";
-    //     };
-    //   }
-    // },
+    handleCurrentChange(currentPage) {
+      this.currentPage = currentPage;
+      console.log(this.currentPage); //点击第几页
+    },
   },
 };
 </script>

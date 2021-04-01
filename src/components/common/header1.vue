@@ -30,7 +30,7 @@
                 href="/accounts/personInfo/modifyInfo"
                 title="个人资料"
                 id="username"
-                >{{phone}}</a
+                >{{ phone }}</a
               >
             </div>
             <el-dropdown-menu slot="dropdown">
@@ -331,10 +331,8 @@ export default {
       // this.loginflag = false;
       this.$store.dispatch("getloginstate", false);
     }
-
   },
   computed: {
-
     showUserInfo() {
       return this.$store.state.showUserInfo;
     },
@@ -344,8 +342,8 @@ export default {
     showlogin() {
       return this.$store.state.showlogin;
     },
-    phone(){
-      return localStorage.getItem("phone")
+    phone() {
+      return localStorage.getItem("phone");
     },
 
     loginflag() {
@@ -380,7 +378,7 @@ export default {
           }
         });
       } else if (command == "info") {
-        this.$router.push("/install");
+        this.$router.push("/zhiyuanTable");
       }
     },
     handleCommand(command) {
