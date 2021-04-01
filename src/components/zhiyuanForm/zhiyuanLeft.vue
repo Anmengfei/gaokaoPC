@@ -46,10 +46,10 @@
           >
         </el-row>
       </div>
-      <div class="ceDiv">个人资料</div>
+      <div class="ceDiv"></div>
       <a @click="zhiyuanClick()">我的志愿</a>
       <a @click="orderClick()">关注院校</a>
-      <a @click="followClick()">我的关注</a>
+      <!-- <a @click="followClick()">我的关注</a> -->
       <a @click="AllFollowMajorClick()">关注专业</a>
       <a @click="installClick()">修改密码</a>
       <!-- <a href="#">我的选科</a> -->
@@ -115,7 +115,7 @@ export default {
       this.$router.push("/AllFollowMajor");
     },
     AllFollowSchoolClick() {
-      this.$router.push("/AllFollowSchool");
+      this.$router.push("/order");
     },
   },
 };
@@ -125,23 +125,26 @@ export default {
 a {
   display: block;
   text-decoration: none;
-  height: 0.6rem;
+  height: 0.76rem;
   width: 100%;
   background-color: #fff;
   color: #666666;
-  line-height: 0.6rem;
+  line-height: 0.76rem;
   padding-left: 0.6rem;
   cursor: pointer;
 }
 a:hover {
   background-color: #e5e9f2;
 }
+
 .box-left {
   /* width: 3.5rem; */
   width: 25%;
   /* height: 1000px; */
   /* background-color: aqua; */
+  height: 710px;
   margin-bottom: 50px;
+  /* background-color: pink; */
 }
 .box-right {
   position: absolute;
