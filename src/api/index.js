@@ -172,3 +172,11 @@ export function checkPassWord(data) {
         params: data
     })
 }
+//获取学校详情
+export function getSchoolDetails(data) {
+    return request({
+        url: '/schoolApp/getSchoolDetails',
+        method: 'get',
+        params: data
+    })
+}

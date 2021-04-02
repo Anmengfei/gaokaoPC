@@ -102,6 +102,5 @@ export default new Router({
             name: 'AllFollowSchool',
             component: resolve => require(['@/components/UserInformation/AllFollowSchool'], resolve)
         }
-
     ]
 })

@@ -414,10 +414,32 @@ export default {
       });
       window.open(href, "_blank");
     },
-    selectSchoolItem(item, index) {
+    // selectZixun(item, index) {
+    //   const { href } = this.$router.resolve({
+    //     name: "Article",
+    //     query: {
+    //       article: item.id,
+    //     },
+    //   });
+    //   window.open(href, "_blank");
+    // },
+    selectSchoolItem(index, item) {
       console.log("item", item);
-      console.log("index", index);
-      this.$router.push("/SchoolInfo");
+      // console.log("index", index);
+      // this.$router.push("/SchoolInfo");
+      // const { href } = this.$router.resolve({
+      //   name: "SchoolInfo",
+      //   query: {
+      //     SchoolName: item.schoolName,
+      //   },
+      // });
+      // window.open(href, "_blank");
+      this.$router.push({
+        path: "/SchoolInfo",
+        query: {
+          SchoolName: item.schoolName,
+        },
+      });
     },
     regist() {},
     setBannerH() {
@@ -442,6 +464,8 @@ export default {
       }).then((res) => {
         console.log(res);
         this.recommandschoolList = res.data.splice(0, 6);
+        console.log("这是院校推荐");
+        console.log(this.recommandschoolList);
       });
     },
     login() {

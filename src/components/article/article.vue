@@ -30,7 +30,7 @@ export default {
   methods: {
     // 定义.then就是获取后端数据,token就是验证用得，可能每一个用户有一个特有的token
     initData(id) {
-      console.log(typeof id);
+      // console.log(typeof id);
       //必须这样
       let _this = this;
       eval("id=" + id);
