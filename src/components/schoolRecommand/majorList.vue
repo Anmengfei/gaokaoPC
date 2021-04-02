@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import { getAllMajor } from '../../api/schoolInfo'
+import { getAllMajor } from '@/api/schoolInfo'
 export default {
   name: 'majorList',
   props: ['selected', 'volform'],

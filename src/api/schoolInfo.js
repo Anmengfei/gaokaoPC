@@ -1,4 +1,4 @@
-import request from '@/utils/request_my'
+import request from '@/utils/request'
 
 export function getAllSchool (req) {
   return request({
