@@ -81,7 +81,7 @@
                 <el-dropdown-menu slot="dropdown" class="dropdown1" v-else>
                   <div style="text-align: center">
                     <span style="text-align: center;position: absolute;left: 30%;font-size: 14px">暂无关注</span>
-                    <img src="@/assets/nullg.png" alt="">
+                    <img src="@/assets/empty.png" alt="">
                   </div>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -162,7 +162,7 @@
                 <el-dropdown-menu slot="dropdown" class="dropdown1" v-else>
                   <div style="text-align: center">
                     <span style="text-align: center;position: absolute;left: 30%;font-size: 14px">暂无关注</span>
-                    <img src="@/assets/nullg.png" alt="">
+                    <img src="@/assets/empty.png" alt="">
                   </div>
                 </el-dropdown-menu>
               </el-dropdown>

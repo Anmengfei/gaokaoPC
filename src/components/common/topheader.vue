@@ -70,15 +70,25 @@
               :trigger-on-focus="false"
               @select="handleSelect"
             >
+              <i
+                class="el-icon-search"
+                slot="suffix"
+                >
+              </i>
+              <template slot-scope="{ item }">
+                <el-row>
+                  <el-col :span="22">
+                    <span>{{ item.schoolName }}</span>
+                  </el-col>
+                </el-row>
+              </template>
             </el-autocomplete>
           </el-col>
         </el-col>
         <el-col :span="6">
           <div class="desc">
             <span class="tishiOne">祝广大考生金榜提名</span>
-            <span class="tishiTwo" v-if="vip == 0" @click="gotoVIP"
-              >开通VIP</span
-            >
+            <span class="tishiTwo" v-if="vip == 0" @click="gotoVIP">开通VIP</span>
             <span class="tishiTwo" v-else>VIP会员</span>
           </div>
         </el-col>
