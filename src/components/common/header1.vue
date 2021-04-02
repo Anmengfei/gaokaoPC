@@ -332,10 +332,8 @@ export default {
       // this.loginflag = false;
       this.$store.dispatch("getloginstate", false);
     }
-
   },
   computed: {
-
     showUserInfo() {
       return this.$store.state.showUserInfo;
     },
@@ -382,7 +380,7 @@ export default {
           }
         });
       } else if (command == "info") {
-        this.$router.push("/install");
+        this.$router.push("/zhiyuanTable");
       }
     },
     handleCommand(command) {

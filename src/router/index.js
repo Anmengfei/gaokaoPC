@@ -94,6 +94,15 @@ export default new Router({
         name: 'OnetoOne',
         component: resolve => require(['@/components/oneToone/index'], resolve)
       },
+      {
+            path: '/AllFollowMajor',
+            name: 'AllFollowMajor',
+            component: resolve => require(['@/components/UserInformation/AllFollowMajor'], resolve)
+        }, {
+            path: '/AllFollowSchool',
+            name: 'AllFollowSchool',
+            component: resolve => require(['@/components/UserInformation/AllFollowSchool'], resolve)
+        }
 
     ]
 })

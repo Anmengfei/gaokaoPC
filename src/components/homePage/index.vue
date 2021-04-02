@@ -239,7 +239,6 @@ export default {
   components: { TopHeader, HomeHeader, Footer, EditScore },
   data() {
     return {
-    
       score: "",
       level: "",
       dialogVisible1: false,
@@ -533,6 +532,7 @@ li a {
 /*第四行  高考志愿百科*/
 .fourRow {
   width: 100%;
+  height: 400px;
   /* height: 4rem; */
   /* background: url(../../assets/u23.png);
   background-size: 100%; */
@@ -541,7 +541,7 @@ li a {
 }
 .carouselList {
   width: 100%;
-  height: 400px;
+  height: 100%;
   /* position: absolute; */
   /* z-index: 1; */
 }
@@ -550,7 +550,7 @@ li a {
   width: 100%;
 }
 .image-item {
-  height: 400px;
+  height: 100%;
   width: 100%;
 }
 
@@ -760,14 +760,14 @@ li a {
   margin: 0 auto;
 }
 .fiveRow {
-  height: 400px;
+  height: 390px;
   width: 100%;
   margin: 0 auto;
+  margin-top: 50px;
 }
 
 .fiveRow-header {
-  margin-top: 20px;
-  height: 100px;
+  height: 0.8rem;
   width: 100%;
   background-color: #f3f5f7;
 }
@@ -776,7 +776,6 @@ li a {
   height: 250px;
   width: 100%;
   background-color: #fff;
-  position: relative;
   border-radius: 15px;
 }
 
@@ -847,14 +846,13 @@ li a {
 }
 
 .sixRow {
-  height: 560px;
+  height: 570px;
   width: 100%;
   margin: 0 auto;
 }
 
 .sixRow-header {
-  margin-top: 10px;
-  height: 100px;
+  height: 0.8rem;
   width: 100%;
   background-color: #f3f5f7;
 }
@@ -908,15 +906,15 @@ li a {
 }
 
 .sevenRow {
-  height: 350px;
+  /* height: 350px; */
   width: 100%;
-  margin: 50px auto 0;
+  margin: 0 auto;
   margin-bottom: 50px;
 }
 
 .sevenRow-header {
   margin-top: 10px;
-  height: 100px;
+  height: 0.8rem;
   width: 100%;
   background-color: #f3f5f7;
 }
@@ -1260,7 +1258,7 @@ input {
 .tuijianButton .tuijianbtn {
   margin-top: 30px;
   position: absolute;
-  top:10%;
+  top: 10%;
 }
 /deep/ .eldialog-parent .el-dialog__header {
   padding: 0;

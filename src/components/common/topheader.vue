@@ -16,7 +16,7 @@
               class="shouji"
             >
               <div class="bg-logo">
-                <img class="bg-QQ" src="../../assets/QQ.png" alt=""/>
+                <img class="bg-QQ" src="../../assets/QQ.png" alt="" />
                 <div>QQ扫一扫，惊喜更多</div>
               </div>
               <a class="a-erweima" href="" slot="reference">高考志愿填报QQ群</a>
@@ -28,7 +28,7 @@
               class="shouji"
             >
               <div class="bg-logo">
-                <img class="bg-QQ" src="../../assets/QQ.png" alt=""/>
+                <img class="bg-QQ" src="../../assets/QQ.png" alt="" />
                 <div>下载智禾·考哪儿APP</div>
               </div>
               <a class="a-erweima" href="" slot="reference">手机APP</a>
@@ -40,12 +40,18 @@
               class="shouji"
             >
               <div class="bg-logo">
-                <img class="bg-QQ" src="../../assets/QQ.png" alt=""/>
+                <img class="bg-QQ" src="../../assets/QQ.png" alt="" />
                 <div>微信扫一扫，惊喜更多</div>
               </div>
               <a class="a-erweima" href="" slot="reference">微信公众号</a>
             </el-popover>
-            <a class="a-erweima" slot="reference" @click="VIPClick()" v-if="vip == 0">志愿VIP卡激活</a>
+            <a
+              class="a-erweima"
+              slot="reference"
+              @click="VIPClick()"
+              v-if="vip == 0"
+              >志愿VIP卡激活</a
+            >
             <a class="a-erweima" slot="reference" v-else>志愿VIP卡已激活</a>
           </div>
         </el-col>
@@ -55,7 +61,7 @@
       <el-row class="logo-search">
         <el-col :span="6">
           <div class="logo">
-            <img src="../../assets/logo.jpg" class="img-logo"/>
+            <img src="../../assets/logo.jpg" class="img-logo" />
             <div class="plateName">智禾考哪儿</div>
           </div>
         </el-col>
@@ -217,7 +223,9 @@ a {
   height: 50px;
   line-height: 50px;
 }
-
+.e-input {
+  margin-top: 0.06rem;
+}
 .secondRow .logo-search {
   margin-left: 0.2rem;
 }
@@ -255,6 +263,7 @@ a {
 
 .secondRow .desc {
   margin-top: 0.1rem;
+  padding-left: 0.8rem;
 }
 
 .tishiOne {
