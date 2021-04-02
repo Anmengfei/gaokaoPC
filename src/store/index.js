@@ -10,7 +10,6 @@ const store = new Vuex.Store({
     phoneNum:'',
     showUserInfo:false,
     userinfo:{},
-    img: 'https://zhongkeruitong.top/towerImg/cms-manager/moren.jpg',
     obj: {}
   },
   mutations: {
@@ -32,9 +31,6 @@ const store = new Vuex.Store({
     SET_SHOWLOGIN(state,flag){
       state.showlogin = flag
     },
-    changeMsg (state, msg) {
-      state.img = msg
-    }
   },
   actions: {
     getPhone({commit},flag){
@@ -52,10 +48,6 @@ const store = new Vuex.Store({
     getloginstate({commit},flag){
       commit('SET_FLAG',flag)
     },
-
-    changeMsg (mss, msg) {
-      mss.commit('changeMsg', msg)
-    }
   }
 
 })

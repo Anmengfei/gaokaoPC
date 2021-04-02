@@ -9,14 +9,6 @@ const service = axios.create({
     })
     // request拦截器
 service.interceptors.request.use(config => {
-        // 在发送请求之前做些什么
-        // console.log('333',localStorage.getItem('token'))
-        //   if (localStorage.getItem("token") != null) {
-        //     this.$store.dispatch('getloginstate',true)
-        //   } else {
-        //     this.$store.dispatch('getloginstate',false)
-        //   }
-
         config['headers']['Content-Type'] = 'application/x-www-form-urlencoded'
         console.log()
         if (localStorage.getItem('token')) {

@@ -1,7 +1,7 @@
 <template>
   <div class="app_container">
     <top-header></top-header>
-    <HomeHeader :flagInfo="loginStatus"></HomeHeader>
+    <HomeHeader></HomeHeader>
     <div class="sixRow">
       <ul class="article-list">
         <li
@@ -111,7 +111,6 @@ export default {
       },
       false
     );
-    // this.getInfo();
   },
   methods: {
     showVideo(item, index) {
@@ -159,51 +158,6 @@ export default {
       } else {
         this.navBarFixed = false;
       }
-    },
-
-    getInfo() {
-      if (this.flag_state === false) {
-        var url = `http://58.119.112.14:11020/cms/system/user/${localStorage.getItem(
-          "userId"
-        )}`;
-
-        this.$axios
-          .get(
-            url,
-            {
-              headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-              },
-            },
-            {
-              headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-              },
-            }
-          )
-          .then((res) => {
-            if (localStorage.getItem("userId")) {
-              this.infoState = false;
-            } else {
-              this.infoState = true;
-            }
-
-            if (this.infoState === true) {
-              this.openInfo();
-            }
-          });
-      }
-    },
-    openInfo() {
-      this.$confirm("请尽快完善个人资料", "提示信息", {
-        confirmButtonText: "立即前往",
-        type: "warning",
-        center: true,
-      })
-        .then(() => {
-          this.$router.push("/userSetting/personalInformation");
-        })
-        .catch(() => {});
     },
   },
 };

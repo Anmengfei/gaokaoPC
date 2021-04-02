@@ -9,11 +9,6 @@ export default new Router({
             name: 'homepage',
             component: resolve => require(['@/components/homePage/index'], resolve)
         }
-        // {
-        //     path: '/homepage',
-        //     name: 'homepage',
-        //     component: resolve => require(['@/components/homePage/index'], resolve)
-        // }
         , {
             path: '/appCon',
             name: 'appCon',
@@ -93,7 +88,13 @@ export default new Router({
             path: '/touxiang',
             name: 'touxiang',
             component: resolve => require(['@/components/UserInformation/touxiang'], resolve)
-        }, {
+        },
+      {
+        path: '/onetoone',
+        name: 'OnetoOne',
+        component: resolve => require(['@/components/oneToone/index'], resolve)
+      },
+      {
             path: '/AllFollowMajor',
             name: 'AllFollowMajor',
             component: resolve => require(['@/components/UserInformation/AllFollowMajor'], resolve)

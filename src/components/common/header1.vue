@@ -9,7 +9,7 @@
           <li @click="gotovoluntary"><a>志愿表</a></li>
           <li @click="gotoVIP"><a>志愿VIP</a></li>
           <li @click="gotoAPPpage"><a>APP简介</a></li>
-          <!--          <li @click="gotoOneToOne"><a>1V1专家</a></li>-->
+          <li @click="gotoOneToOne"><a>1V1专家</a></li>
         </ul>
       </div>
       <div class="user-info">
@@ -21,7 +21,7 @@
             <div class="user-head-img">
               <div class="user-head-img-wra">
                 <img
-                  src="https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eod5XoDYQzN4ib6CTytO2EwibibARW7IhUEo9L5ia5Ud8XRhShw7WWobOgvfTXibW92qNe9aSkpYdE4TqQ/132"
+                  :src="require('@/assets/headlogo1.png')"
                   width="50"
                   height="50"
                 />
@@ -30,17 +30,17 @@
                 href="/accounts/personInfo/modifyInfo"
                 title="个人资料"
                 id="username"
-                >{{ phone }}</a
+              >{{ phone }}</a
               >
             </div>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="info"
-                ><i class="iconfont icon-gerenziliao" style="color: #e5623f"></i
-                >个人资料
+              ><i class="iconfont icon-gerenziliao" style="color: #e5623f"></i
+              >个人资料
               </el-dropdown-item>
               <el-dropdown-item command="logout"
-                ><i class="iconfont icon-icon-tuichu" style="color: #e5623f"></i
-                >退出登录
+              ><i class="iconfont icon-icon-tuichu" style="color: #e5623f"></i
+              >退出登录
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -98,11 +98,11 @@
                 <template slot="append">
                   <div class="yanzheng-button">
                     <el-button type="text" @click="getCodes" v-if="showCountNum"
-                      >获取验证码
+                    >获取验证码
                     </el-button>
                     <span v-else class="yanzheng-text">{{
-                      "重新发送" + countNum + "s"
-                    }}</span>
+                        "重新发送" + countNum + "s"
+                      }}</span>
                   </div>
                 </template>
               </el-input>
@@ -218,12 +218,13 @@
 // import userSettingPopover from '@/components/userSetting/userSettingPopover'
 // import Logout from '@/components/userSetting/logout'
 import md5 from "js-md5";
-import { withVerifyCodelogin, userLogout } from "@/api/login";
-import { getUserInfo } from "@/api/index";
+import {withVerifyCodelogin, userLogout} from "@/api/login";
+import {getUserInfo} from "@/api/index";
 import UserInfo from "@/components/login/userInfo";
+
 export default {
   name: "header1",
-  components: { UserInfo },
+  components: {UserInfo},
   inject: ["reload"],
   data() {
     // var checkName = (rule, value, callback) => {
@@ -343,7 +344,7 @@ export default {
       return this.$store.state.showlogin;
     },
     phone() {
-      return localStorage.getItem("phone");
+      return localStorage.getItem("phone")
     },
 
     loginflag() {
@@ -358,7 +359,8 @@ export default {
       }
     },
   },
-  mounted() {},
+  mounted() {
+  },
   methods: {
     closeDialog() {
       this.$store.dispatch("getShowLogin", false);
@@ -538,7 +540,7 @@ export default {
       } else {
         this.$router.push({
           name: "SchoolRecommand",
-          params: { tab: "favoriteSchool" },
+          params: {tab: "favoriteSchool"},
         });
       }
     },
@@ -551,7 +553,8 @@ export default {
         .then(() => {
           this.$router.push("/userSetting/personalInformation");
         })
-        .catch(() => {});
+        .catch(() => {
+        });
     },
     gotoWork() {
       if (!this.loginflag) {
@@ -566,7 +569,7 @@ export default {
       } else {
         this.$router.push({
           name: "WorkIndex",
-          params: { tab: "favoriteMajor" },
+          params: {tab: "favoriteMajor"},
         });
       }
       // this.$router.push({
@@ -638,18 +641,18 @@ export default {
       this.$router.push("/zhiyuanTable");
     },
     gotoOneToOne() {
-      if (!this.loginflag) {
-        this.$message({
-          message: "登陆后，即可查看",
-          type: "warning",
-          duration: 600,
-          onClose: () => {
-            this.showlogin = true;
-          },
-        });
-      } else {
-        this.$router.push("/onetoone");
-      }
+      // if (!this.loginflag) {
+      //   this.$message({
+      //     message: "登陆后，即可查看",
+      //     type: "warning",
+      //     duration: 600,
+      //     onClose: () => {
+      //       this.showlogin = true;
+      //     },
+      //   });
+      // } else {
+      this.$router.push("/onetoone");
+      // }
     },
     gotoStudy() {
       if (this.flag_state === true) {
@@ -1216,21 +1219,24 @@ export default {
 
 .logout .user-head-img .user-head-img-wra {
   /*border: 3px solid #de432b;*/
-  border-radius: 50%;
+  /*border-radius: 50%;*/
   width: 50px;
   height: 50px;
-  overflow: hidden;
+  /*overflow: hidden;*/
   float: left;
   margin-right: 10px;
   margin-top: 5px;
 }
 
 .logout .user-head-img .user-head-img-wra img {
+  width: 45px;
+  height: 45px;
   display: inline-block;
   margin-top: -14px;
   border: 0;
   vertical-align: middle;
 }
+
 .eldialog-parent /deep/ .el-dialog {
   border-radius: 20px;
   /* position: absolute; */
@@ -1245,9 +1251,11 @@ export default {
   min-width: 500px;
   /* height: 65%; */
 }
+
 .eldialog-parent /deep/ .el-dialog__title {
   font-size: 25px;
 }
+
 .gaokaotianbao {
   /*margin-bottom: 25px;*/
 }

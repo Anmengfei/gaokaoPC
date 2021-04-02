@@ -2,7 +2,13 @@
   <div class="app_container">
     <top-header></top-header>
     <HomeHeader ></HomeHeader>
-    <H3>1v1专家</H3>
+    <div style="text-align: center">
+      <el-image
+        :src="require('@/assets/1v1.png')"
+        @click="goto1v1"
+        :fit="contain"/>
+    </div>
+
     <Footer></Footer>
   </div>
 </template>
@@ -17,7 +23,11 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    goto1v1(){
+      this.msgWarning('功能暂未开通')
+    }
+  },
 };
 </script>
 
