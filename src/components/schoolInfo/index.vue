@@ -17,20 +17,31 @@
                 {{ schoolDetail.schoolName }}<span>{{ schoolTags[3] }}</span>
               </div>
               <div class="tags">
+                <span
+                  class="tag"
+                  v-for="(item, index) in schoolTags"
+                  :key="index"
+                  >{{ item }}</span
+                >
+              </div>
+              <!-- <div class="tags">
                 <span class="tag">{{ schoolTags[4] }}</span>
                 <span class="tag">{{ schoolTags[0] }}</span>
                 <span class="tag">{{ schoolTags[1] }}</span>
                 <span class="tag">{{ schoolTags[2] }}</span>
-              </div>
+              </div> -->
             </div>
           </el-col>
         </el-row>
       </div>
     </div>
-    <div class="bodyContent">
-      <div class="title">学校介绍</div>
-      <div id="school" class="schoolProfile"></div>
+    <div class="bodyboxContent">
+      <div class="bodyContent">
+        <div class="title">学校介绍</div>
+        <div id="school" class="schoolProfile"></div>
+      </div>
     </div>
+
     <Footer></Footer>
   </div>
 </template>
@@ -90,6 +101,7 @@ export default {
   /* background-color: pink; */
   background-color: #e5623f;
   /* background: url("../../assets/02.png"); */
+  margin-bottom: 0.5rem;
 }
 .childContent {
   position: absolute;
@@ -102,12 +114,21 @@ export default {
   padding-top: 1rem;
   box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%);
 }
+.bodyboxContent {
+  margin: 0 auto;
+  width: 80%;
+  box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%);
+  background-color: #fff;
+  border-radius: 20px;
+  margin-bottom: 0.5rem;
+}
 .bodyContent {
   padding-bottom: 0.5rem;
   margin: 0 auto;
-  padding-top: 1.5rem;
-  width: 70%;
+  padding-top: 1.2rem;
+  width: 75%;
   /* background-color: pink; */
+  border-radius: 20px;
 }
 .title {
   position: relative;

@@ -5,11 +5,10 @@
     <div class="table-container">
       <VolunteerTable></VolunteerTable>
       <div class="box-right">
-        <div style="witdh: 100%; height: 40px">关注院校</div>
+        <div class="major">我关注的专业</div>
         <div class="item">
-          <ul class="major-list">
+          <ul>
             <li
-              class="major-item"
               v-for="(item, index) in AllFollowMajorList.slice(
                 (currentPage - 1) * pagesize,
                 currentPage * pagesize
@@ -17,7 +16,7 @@
               :key="index"
             >
               <div class="major-box">
-                <span class="majorspan1">{{ item.followName }}</span>
+                <div class="majorspan1">{{ item.followName }}</div>
                 <span class="majorspan">{{ item.level }}</span>
                 <span class="majorspan">{{ item.category }}</span>
                 <span class="majorspan">{{ item.subject }}</span>
@@ -38,7 +37,7 @@
         </div>
       </div>
     </div>
-    <Footer></Footer>
+    <Footer class="homefooter"></Footer>
   </div>
 </template>
 
@@ -90,32 +89,40 @@ li {
 }
 .box-right {
   position: absolute;
-  width: 75%;
-  height: 710px;
-  background-color: #fff;
   top: 0rem;
   left: 3.8rem;
+  width: 75%;
+  /* height: 8rem; */
+  background-color: #fff;
+  padding: 0 0.3rem;
 }
-.major-box {
-  border-top: 0.5px solid #99a9bf;
-  margin-bottom: 15px;
-  /* background: #e5e9f2; */
-  height: 100px;
-  line-height: 100px;
-  padding-left: 150px;
+.box-right .major {
+  width: 100%;
+  height: 0.7rem;
+  border-bottom: 1px solid #e5e5e5;
+  line-height: 0.7rem;
+  font-size: 30px;
+  color: #333;
+  font-weight: 500;
 }
-.majorspan1 {
-  font-size: 20px;
+.item .major-box {
+  border-bottom: 1px dashed #e5e5e5;
+  padding: 0.2rem 0;
+}
+.item .major-box .majorspan1 {
+  margin-bottom: 20px;
+  font-size: 25px;
   font-weight: 700;
 }
-.majorspan {
+.item .major-box .majorspan {
   font-size: 12px;
-  padding-left: 20px;
+
   color: #99a9bf;
 }
 .pagination {
   padding-left: 35%;
-  position: absolute;
-  bottom: 0.1rem;
+}
+.homefooter {
+  margin-top: 1rem;
 }
 </style>

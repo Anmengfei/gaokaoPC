@@ -5,11 +5,10 @@
     <div class="table-container">
       <VolunteerTable></VolunteerTable>
       <div class="box-right">
-        <div style="witdh: 100%; height: 40px">关注院校</div>
-        <div>
-          <ul class="school-list">
+        <div class="school">我关注的大学</div>
+        <div class="item">
+          <ul>
             <li
-              class="school-item"
               v-for="(item, index) in AllFollowSchoolList.slice(
                 (currentPage - 1) * pagesize,
                 currentPage * pagesize
@@ -18,32 +17,25 @@
             >
               <div class="schoolitemBox">
                 <el-row>
-                  <el-col :span="7">
+                  <el-col :span="4">
                     <div class="Logo">
                       <img class="schoolLogo" :src="item.logo" alt="" />
                     </div>
                   </el-col>
-                  <el-col :span="17">
+                  <el-col :span="20">
                     <div class="desc">
                       <span class="name">{{ item.followName }}</span>
                       <span class="province">{{ item.province }}</span>
                     </div>
                     <div class="schooltags">
-                      <span>教育部</span>
                       <span>{{ item.type }}</span>
-                      <span>公办</span>
                       <!-- <span v-show="Is985">{{ jiubawu(item.f985) }}</span> -->
-                      <span>{{ jiubawu(item.f985) }}</span>
-                      <span>{{ eryaoyao(item.f211) }}</span>
-                      <span v-show="isone">{{
+                      <span v-if="item.f985 === 1">985</span>
+                      <span v-if="item.f211 === 1">211</span>
+                      <span v-if="item.dualClassName === '双一流'">双一流</span>
+                      <!-- <span v-show="isone">{{
                         doubleOneSchool(item.dualClassName)
-                      }}</span>
-                      <!-- <span v-show="Is211">{{
-                              eryaoyao(item.f211)
-                            }}</span>
-                            <span v-show="IsOne">{{
-                              shuangyiliu(item.dualClassName)
-                            }}</span> -->
+                      }}</span> -->
                     </div>
                   </el-col>
                 </el-row>
@@ -64,7 +56,7 @@
         </div>
       </div>
     </div>
-    <Footer></Footer>
+    <Footer class="homefooter"></Footer>
   </div>
 </template>
 
@@ -79,11 +71,8 @@ export default {
   components: { TopHeader, HomeHeader, Footer, VolunteerTable },
   data() {
     return {
-      isRouterAlive: true, // 控制视图是否显示的变量
-      input: "",
-      isone: false,
       AllFollowSchoolList: [],
-      pagesize: 4,
+      pagesize: 5,
       currentPage: 1,
     };
   },
@@ -93,28 +82,10 @@ export default {
   methods: {
     initData() {
       getAllFollowSchool({ phoneNum: "13465631985" }).then((res) => {
-        console.log("这是关注院校");
+        console.log("这是关注院校aaaaaaaaa");
         this.AllFollowSchoolList = res.data;
         console.log(this.AllFollowSchoolList);
       });
-    },
-    jiubawu(date) {
-      if (date == 1) {
-        return 985;
-      }
-    },
-    eryaoyao(date) {
-      if (date == "1") {
-        return "211";
-      }
-    },
-    doubleOneSchool(date) {
-      if (date === "") {
-        this.Isone = false;
-      } else if (date === "双一流") {
-        this.isone = true;
-        return "双一流";
-      }
     },
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage;
@@ -127,14 +98,6 @@ export default {
 .homeheader {
   margin-bottom: 0.5rem;
 }
-/deep/.shurukuang .el-input {
-  border-color: red;
-  width: 300px;
-}
-.grid-content {
-  min-height: 0.6rem;
-}
-
 .table-container {
   width: 1400px;
   margin: 0 auto;
@@ -142,57 +105,48 @@ export default {
 }
 .box-right {
   position: absolute;
-  width: 75%;
-  height: 710px;
-  background-color: #fff;
   top: 0rem;
   left: 3.8rem;
-  /* background-color: pink; */
+  width: 75%;
+  background-color: #fff;
+  padding: 0 0.3rem;
 }
-.school-list {
+.box-right .school {
   width: 100%;
-  /* height: 600px; */
-  /* background-color: pink; */
+  height: 0.7rem;
+  /* border-bottom: 1px solid #e5e5e5; */
+  line-height: 0.7rem;
+  font-size: 30px;
+  color: #333;
+  font-weight: 500;
 }
 li {
   list-style: none;
 }
-.schoolitemBox {
-  border-top: 0.5px solid #99a9bf;
-  /* border-bottom: 0.5px solid #99a9bf; */
-  margin-bottom: 15px;
-  height: 1.3rem;
-}
-.Logo {
-  /* margin-top: 0.05rem; */
-  height: 1.3rem;
-  line-height: 1.3rem;
-  padding-left: 1.6rem;
+.item .schoolitemBox {
+  /* border-bottom: 1px dashed #e5e5e5; */
+  border-bottom: 1px solid #e5e5e5;
+  padding: 0.2rem 0;
 }
 .schoolLogo {
   /* margin-top: 0.05rem; */
-  width: 1rem;
-  height: 1rem;
+  width: 1.3rem;
+  height: 1.3rem;
 }
-.desc {
-  /* background-color: blue;
-  margin-top: 0.05rem;
-  padding-top: 0.1rem;
-  padding-bottom: 0.2rem;
-  padding-left: 0.4rem; */
-  margin-top: 0.2rem;
+.schoolitemBox .desc {
+  margin-top: 0.15rem;
+  padding: 0.07rem 0;
+  border-bottom: 1px dashed #e5e5e5;
 }
-.name {
-  font-weight: 800;
+.schoolitemBox .desc .name {
+  font-size: 0.25rem;
+  font-weight: 600;
 }
-.province {
+.schoolitemBox .desc .province {
   font-size: 0.15rem;
   margin-left: 0.2rem;
 }
-.schoolitemBox .schooltags {
-  /* padding-bottom: 10px; */
-  /* background-color: aqua; */
-}
+
 .schooltags span {
   display: inline-block;
   margin-right: 0.25rem;
@@ -220,16 +174,13 @@ li {
   padding-left: 20px;
   color: #99a9bf;
 }
-.bg-purple {
-  /* background: #d3dce6; */
-  /* background: #e5e9f2; */
-}
-.bg-purple-light {
-  /* background: #e5e9f2; */
-}
+
 .pagination {
   padding-left: 35%;
-  position: absolute;
+  /* position: absolute; */
   bottom: 0.1rem;
+}
+.homefooter {
+  margin-top: 3rem;
 }
 </style>

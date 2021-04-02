@@ -6,7 +6,7 @@
         <span>高考年份:</span>
         <span>{{ userInfoList.examYear }}</span>
       </div>
-      <div @click="headImgClick()">
+      <div>
         <el-avatar
           icon="el-icon-user-solid"
           class="touxiang"
@@ -25,50 +25,55 @@
         <el-row>
           <el-col :span="8"
             ><div class="left-content">
-              <button @click="AllFollowSchoolClick()">关注院校</button>
-
-              <!-- <span>关注院校<br />0</span> -->
-              <!-- <div class="alltop-span">关注院校</div>
-                  <div class="allbtm-span">0</div> -->
+              <!-- <button @click="AllFollowSchoolClick()">关注院校</button> -->
+              <span style="font-size: 15px; color: #333">关注院校<br /></span>
+              <span style="font-size: 14px; font-weight: 700; color: #333">{{
+                SchoolLength
+              }}</span>
             </div></el-col
           >
           <el-col :span="8"
             ><div class="bet-content">
-              <!-- <span>关注专业<br />0</span> -->
-              <button @click="AllFollowMajorClick()">关注专业</button>
+              <!-- <button @click="AllFollowMajorClick()">关注专业</button> -->
+              <span style="font-size: 15px; color: #333">关注专业<br /></span>
+              <span style="font-size: 14px; font-weight: 700; color: #333">{{
+                MajorLength
+              }}</span>
             </div></el-col
           >
           <el-col :span="8"
             ><div class="right-content">
-              <span>成绩<br /></span>
-              <span>{{ userInfoList.score }}</span>
+              <span style="font-size: 15px; color: #333">成绩<br /></span>
+              <span style="font-weight: 700; color: #f56c6c">{{
+                userInfoList.score
+              }}</span>
             </div></el-col
           >
         </el-row>
       </div>
       <div class="ceDiv"></div>
-      <a @click="zhiyuanClick()">我的志愿</a>
+      <a @click="zhiyuanClick()">我的志愿表</a>
       <a @click="orderClick()">关注院校</a>
-      <!-- <a @click="followClick()">我的关注</a> -->
       <a @click="AllFollowMajorClick()">关注专业</a>
       <a @click="installClick()">修改密码</a>
-      <!-- <a href="#">我的选科</a> -->
-      <!-- <div class="ceDiv">测</div>
-      <a href="#">我的测评</a>
-      <div class="ceDiv">填</div>
-      <a href="#">我的志愿表</a> -->
     </div>
   </div>
 </template>
 
 <script>
 import { getUserInfo } from "@/api/index.js";
+import { getAllFollowMajor } from "@/api/index.js";
+import { getAllFollowSchool } from "@/api/index.js";
 export default {
   name: "zhiyuanLeft",
   data() {
     return {
       userInfoList: [],
+      AllFollowMajorList: [],
+      AllFollowSchoolList: [],
       vipbtn: false,
+      MajorLength: "",
+      SchoolLength: "",
     };
   },
   mounted() {
@@ -77,16 +82,23 @@ export default {
   methods: {
     initData() {
       getUserInfo(localStorage.getItem("token")).then((res) => {
-        // console.log("这是用户信息");
-        // console.log(res.data);
         this.userInfoList = res.data;
         if (this.userInfoList.vip == 0) {
           this.vipbtn = false;
         } else {
           this.vipbtn = true;
         }
-        // console.log("这是userInfoList用户信息");
-        // console.log(this.userInfoList);
+        let params = {
+          phoneNum: parseInt(this.userInfoList.phoneNum),
+        };
+        getAllFollowMajor(params).then((res) => {
+          this.AllFollowMajorList = res.data;
+          this.MajorLength = this.AllFollowMajorList.length;
+        });
+        getAllFollowSchool(params).then((res) => {
+          this.AllFollowSchoolList = res.data;
+          this.SchoolLength = this.AllFollowSchoolList.length;
+        });
       });
     },
     headImgClick() {
@@ -128,7 +140,7 @@ a {
   height: 0.76rem;
   width: 100%;
   background-color: #fff;
-  color: #666666;
+  color: #333;
   line-height: 0.76rem;
   padding-left: 0.6rem;
   cursor: pointer;
@@ -158,9 +170,9 @@ a:hover {
   position: relative;
 }
 .ceDiv {
-  height: 0.5rem;
+  height: 0.2rem;
   widows: 100%;
-  background-color: #e5e9f2;
+  /* background-color: #e5e9f2; */
   line-height: 0.5rem;
   padding-left: 0.3rem;
 }
@@ -178,53 +190,29 @@ a:hover {
   position: absolute;
   top: 1.5rem;
   left: 0.18rem;
-  cursor: pointer;
 }
 .left-content {
   min-height: 0.8rem;
-  /* background: #99a9bf; */
-  border-right: 0.5px solid #99a9bf;
+  border-right: 1px solid #ddd;
   text-align: center;
   line-height: 0.4rem;
   color: #666666;
 }
-.left-content :hover {
-  color: #e5623f;
-  cursor: pointer;
-}
-.left-content button {
-  min-height: 0.8rem;
-  width: 100%;
-  font-size: 22px;
-  border: none;
-  background-color: #fff;
-}
+
 .bet-content {
   min-height: 0.8rem;
-  /* background: #d3dce6; */
-  border-right: 0.5px solid #99a9bf;
-  /* text-align: center; */
-  /* line-height: 0.4rem; */
+  border-right: 1px solid #ddd;
+  text-align: center;
+  line-height: 0.4rem;
   color: #666666;
 }
-.bet-content button {
-  min-height: 0.8rem;
-  width: 100%;
-  font-size: 22px;
-  border: none;
-  background-color: #fff;
-}
-.bet-content :hover {
-  color: #e5623f;
-  cursor: pointer;
-}
+
 .right-content {
   min-height: 0.8rem;
   /* background: #e5e9f2; */
   text-align: center;
   line-height: 0.4rem;
   color: #666666;
-  background-color: #fff;
 }
 
 .user-count {

@@ -61,7 +61,7 @@
       <el-row class="logo-search">
         <el-col :span="6">
           <div class="logo">
-            <img src="../../assets/logo.jpg" class="img-logo" />
+            <img src="../../assets/logo.png" class="img-logo" />
             <div class="plateName">智禾考哪儿</div>
           </div>
         </el-col>
@@ -72,15 +72,11 @@
               class="inline-input"
               v-model="collegename"
               :fetch-suggestions="querySearch"
-              placeholder="查学校/查专业"
+              placeholder="查学校"
               :trigger-on-focus="false"
               @select="handleSelect"
             >
-              <i
-                class="el-icon-search"
-                slot="suffix"
-                >
-              </i>
+              <i class="el-icon-search" slot="suffix"> </i>
               <template slot-scope="{ item }">
                 <el-row>
                   <el-col :span="22">
@@ -94,7 +90,9 @@
         <el-col :span="6">
           <div class="desc">
             <span class="tishiOne">祝广大考生金榜提名</span>
-            <span class="tishiTwo" v-if="vip == 0" @click="gotoVIP">开通VIP</span>
+            <span class="tishiTwo" v-if="vip == 0" @click="gotoVIP"
+              >开通VIP</span
+            >
             <span class="tishiTwo" v-else>VIP会员</span>
           </div>
         </el-col>
@@ -157,7 +155,14 @@ export default {
       });
     },
     handleSelect(item) {
+      console.log("这是item");
       console.log(item);
+      this.$router.push({
+        path: "/SchoolInfo",
+        query: {
+          SchoolName: item.schoolName,
+        },
+      });
     },
   },
 };
@@ -254,7 +259,13 @@ a {
   font-family: monospace;
   font-weight: 800;
 }
-
+/deep/ .el-input__inner {
+  height: 0.5rem;
+  line-height: 0.5rem;
+}
+.inline-input {
+  margin-top: 0.065rem;
+}
 .selectProvinceStyle {
   margin-top: 0.1rem;
   margin-left: 1rem;
@@ -263,7 +274,7 @@ a {
 
 .secondRow .desc {
   margin-top: 0.1rem;
-  padding-left: 0.8rem;
+  padding-left: 1.1rem;
 }
 
 .tishiOne {
