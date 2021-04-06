@@ -8,8 +8,7 @@ export default new Router({
             path: '/',
             name: 'homepage',
             component: resolve => require(['@/components/homePage/index'], resolve)
-        }
-        , {
+        }, {
             path: '/appCon',
             name: 'appCon',
             component: resolve => require(['@/components/APP/appCon'], resolve)
@@ -68,33 +67,43 @@ export default new Router({
             path: '/volunteerVIP',
             name: 'volunteerVIP',
             component: resolve => require(['@/components/volunteerVIP/index'], resolve)
-        }, {
-            path: '/install',
-            name: 'install',
-            component: resolve => require(['@/components/UserInformation/install'], resolve)
-        }, {
+        },
+        // {
+        //     path: '/install',
+        //     name: 'install',
+        //     component: resolve => require(['@/components/UserInformation/install'], resolve)
+        // },
+        {
+            path: '/UpdatePassword',
+            name: 'UpdatePassword',
+            component: resolve => require(['@/components/UserInformation/updatePassword'], resolve)
+        },
+        {
             path: '/follow',
             name: 'follow',
             component: resolve => require(['@/components/UserInformation/follow'], resolve)
-        }, {
+        },
+        {
             path: '/openVIP',
             name: 'openVIP',
             component: resolve => require(['@/components/UserInformation/openVIP'], resolve)
-        }, {
-            path: '/order',
-            name: 'order',
-            component: resolve => require(['@/components/UserInformation/order'], resolve)
-        }, {
+        },
+        // {
+        //     path: '/order',
+        //     name: 'order',
+        //     component: resolve => require(['@/components/UserInformation/order'], resolve)
+        // },
+        {
             path: '/touxiang',
             name: 'touxiang',
             component: resolve => require(['@/components/UserInformation/touxiang'], resolve)
         },
-      {
-        path: '/onetoone',
-        name: 'OnetoOne',
-        component: resolve => require(['@/components/oneToone/index'], resolve)
-      },
-      {
+        {
+            path: '/onetoone',
+            name: 'OnetoOne',
+            component: resolve => require(['@/components/oneToone/index'], resolve)
+        },
+        {
             path: '/AllFollowMajor',
             name: 'AllFollowMajor',
             component: resolve => require(['@/components/UserInformation/AllFollowMajor'], resolve)

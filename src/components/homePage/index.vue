@@ -4,7 +4,7 @@
     <HomeHeader></HomeHeader>
     <div class="fourRow">
       <div class="carouselList">
-        <el-carousel class="carousel-img" height="400px">
+        <el-carousel class="carousel-img" height="470px">
           <el-carousel-item
             v-for="(item, index) in schna"
             :key="index"
@@ -270,9 +270,9 @@ export default {
       provincesList: ["北京", "上海", "广州", "深圳"],
       searchValue: "",
       schna: [
-        "https://www.zhongkeruitong.top/CCZX_image/newBanner2.jpg",
-        "https://www.zhongkeruitong.top/CCZX_image/banner5.png",
-        "https://www.zhongkeruitong.top/CCZX_image/photo2.jpg",
+        "https://www.zytb.top/NEMT/gk/static/pc_img/lunbo01.png",
+        "https://www.zytb.top/NEMT/gk/static/pc_img/lunbo02.png",
+        "https://www.zytb.top/NEMT/gk/static/pc_img/lunbo03.png",
       ],
     };
   },
@@ -570,7 +570,7 @@ li a {
   /* z-index: 1; */
 }
 .carousel-item {
-  height: 400px;
+  height: 470px;
   width: 100%;
 }
 .image-item {
@@ -787,7 +787,7 @@ li a {
   height: 390px;
   width: 100%;
   margin: 0 auto;
-  margin-top: 50px;
+  margin-top: 120px;
 }
 
 .fiveRow-header {
