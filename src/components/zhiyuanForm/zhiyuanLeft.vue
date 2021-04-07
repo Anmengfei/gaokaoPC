@@ -244,7 +244,7 @@ a:hover {
 .yeardiv {
   background-color: rgba(0, 0, 0, 0.2);
   position: absolute;
-  top: 1.72rem;
+  top: 1.7rem;
   left: 0;
   width: 100%;
   padding-left: 1.4rem;
