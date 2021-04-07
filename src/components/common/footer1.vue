@@ -9,9 +9,9 @@
       <dl>
         <dt>关于我们</dt>
         <dd class="team" @click="handleClick()">团队介绍</dd>
-        <dd class="team" @click="handleClick()">联系我们</dd>
         <dd class="team" @click="handleClick()">隐私政策</dd>
         <dd class="team" @click="handleClick()">用户协议</dd>
+        <dd class="team" @click="handleClick()">联系我们 : 400-168-6292</dd>
       </dl>
       <dl>
         <dt>2020微信群</dt>

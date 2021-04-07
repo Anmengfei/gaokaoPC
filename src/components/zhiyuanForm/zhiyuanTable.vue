@@ -14,7 +14,7 @@
             :header-cell-style="{ background: '#F5F7FA', color: '#606266' }"
           >
             <el-table-column label="志愿表" width="60">
-              <template slot-scope="scope">{{scope.$index+1}}</template>
+              <template slot-scope="scope">{{ scope.$index + 1 }}</template>
             </el-table-column>
             <el-table-column prop="userInformation[2]" label="分数"> </el-table-column>
             <el-table-column prop="userInformation[1]" label="选科"> </el-table-column>
@@ -22,13 +22,17 @@
             <el-table-column prop="quantity" label="意向志愿数目"> </el-table-column>
             <el-table-column prop="address" label="操作">
               <template slot-scope="scope">
-                <span id="chakan" @click="gotoZhiyuanbiao(scope.row.id)">查看</span>
+                <span id="chakan" @click="gotoZhiyuanbiao(scope.row.id)"
+                  >查看</span
+                >
               </template>
             </el-table-column>
           </el-table>
         </div>
         <div class="moniBtn">
-          <el-button type="danger" @click="gotoSchoolRecommand">模拟填报</el-button>
+          <el-button type="danger" @click="gotoSchoolRecommand"
+            >模拟填报</el-button
+          >
         </div>
       </div>
     </div>
@@ -38,66 +42,71 @@
 </template>
 
 <script>
-import VolunteerTable from '@/components/zhiyuanForm/zhiyuanLeft'
-import TopHeader from '@/components/common/topheader'
-import HomeHeader from '@/components/common/header1'
-import Footer from '@/components/common/footer1'
-import { getWishListByphoneNum, getWishListById } from '@/api/WishList'
+import VolunteerTable from "@/components/zhiyuanForm/zhiyuanLeft";
+import TopHeader from "@/components/common/topheader";
+import HomeHeader from "@/components/common/header1";
+import Footer from "@/components/common/footer1";
+import { getWishListByphoneNum, getWishListById } from "@/api/WishList";
 export default {
-  name: 'zhiyuanTable',
+  name: "zhiyuanTable",
   components: { TopHeader, HomeHeader, Footer, VolunteerTable },
-  data () {
+  data() {
     return {
       willTable: [], // 志愿表数据
-      phoneNum: '',
-      volform: [] // 查看按钮取得的数据
-    }
+      phoneNum: "",
+      volform: [], // 查看按钮取得的数据
+    };
   },
-  mounted () {
-    this.phoneNum = localStorage.getItem('phone')
-    this.getWishTable(this.phoneNum)
+  mounted() {
+    this.phoneNum = localStorage.getItem("phone");
+    this.getWishTable(this.phoneNum);
   },
   methods: {
-    getWishTable (phoneNum) {
+    getWishTable(phoneNum) {
       getWishListByphoneNum(phoneNum).then((res) => {
-        console.log('res数据', res.data)
-        if (res.msg === '成功') {
+        console.log("res数据", res.data);
+        if (res.msg === "成功") {
           for (let i = 0; i < res.data.length; ++i) {
-            res.data[i].userInformation = res.data[i].userInformation.split('|')
+            res.data[i].userInformation = res.data[i].userInformation.split(
+              "|"
+            );
           }
-          this.willTable = res.data
+          this.willTable = res.data;
         }
-      })
+      });
     },
-    gotoSchoolRecommand () {
+    gotoSchoolRecommand() {
       // 模拟填报按钮跳转至院校优先
       this.$router.push({
-        name: 'SchoolRecommand',
-        params: { tab: 'favoriteSchool' }
-      })
+        name: "SchoolRecommand",
+        params: { tab: "favoriteSchool" },
+      });
     },
-    gotoZhiyuanbiao (id) { // 查看志愿表
-      console.log('id值', id)
-      getWishListById(id).then(res => {
-        console.log('数据来了', res)
-        if (res.msg === '成功') {
-          this.volform = res.data.wishes
+    gotoZhiyuanbiao(id) {
+      // 查看志愿表
+      console.log("id值", id);
+      getWishListById(id).then((res) => {
+        console.log("数据来了", res);
+        if (res.msg === "成功") {
+          this.volform = res.data.wishes;
           for (let i = 0; i < this.volform.length; ++i) {
-            this.volform[i].risk = this.volform[i].chances
-            this.volform[i].selectionRequirement = this.volform[i].selectSubject
+            this.volform[i].risk = this.volform[i].chances;
+            this.volform[i].selectionRequirement = this.volform[
+              i
+            ].selectSubject;
           }
-          console.log('8888888888888', this.volform)
+          console.log("8888888888888", this.volform);
           this.$router.push({
-            name: 'zhiyuanBiao',
+            name: "zhiyuanBiao",
             params: {
-              zhiyuanTable: this.volform
-            }
-          })
+              zhiyuanTable: this.volform,
+            },
+          });
         }
-      })
-    }
-  }
-}
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -215,10 +224,6 @@ a:hover {
   margin: 0 auto;
   position: relative;
 }
-.VIPbtn {
-  margin-top: 0.15rem;
-  margin-left: 1.35rem;
-}
 
 .zhiyuanpng {
   width: 100%;
@@ -228,7 +233,7 @@ a:hover {
 .yeardiv {
   background-color: rgba(0, 0, 0, 0.2);
   position: absolute;
-  top: 1.71rem;
+  top: 1.7rem;
   left: 0;
   width: 100%;
   padding-left: 1.4rem;
@@ -242,14 +247,14 @@ a:hover {
   margin-top: 0.5rem;
   margin-left: 40%;
 }
-#chakan{
+#chakan {
   display: inline-block;
   cursor: pointer;
 }
 
-#chakan:hover{
+#chakan:hover {
   display: inline-block;
   cursor: pointer;
-  color:red
+  color: red;
 }
 </style>

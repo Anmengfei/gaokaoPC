@@ -3,12 +3,11 @@
     <top-header></top-header>
     <HomeHeader></HomeHeader>
     <div class="fourRow">
-      <div class="carouselList">
-        <el-carousel  class="carousel-img" height="400px">
+      <div>
+        <el-carousel  class="carousel-img" height="4rem">
           <el-carousel-item
             v-for="(item, index) in schna"
             :key="index"
-            class="carousel-item"
             @click.native="itemClick(item, index)"
           >
             <img class="image-item" :src="item" alt="" />
@@ -80,7 +79,6 @@
                 <el-button class="btn" type="primary" round>智能推荐</el-button>
               </div>
             </div>
-<!--            <div class="viewTable">查看志愿表>></div>-->
           </div>
         </div>
       </div>
@@ -98,7 +96,12 @@
           </div>
           <div v-else>
             <div class="shuxian-r">
-              <span>{{ userInfo.examProvince }}</span>&nbsp;&nbsp; <span>{{subject[0]+` \\ `+subject[1]+` \\ `+subject[2]}}</span>&nbsp;&nbsp;
+              <span>{{ userInfo.examProvince }}</span
+              >&nbsp;&nbsp;
+              <span>{{
+                subject[0] + ` \\ ` + subject[1] + ` \\ ` + subject[2]
+              }}</span
+              >&nbsp;&nbsp;
               <span>{{ userInfo.score }}</span>
             </div>
           </div>
@@ -120,16 +123,15 @@
                 <h4 class="commend-item-title textOverflow">
                   {{ item.schoolName }}
                 </h4>
-                <p class="commend-item-code">招生代码 {{ item.schoolCode }}</p >
-                <p class="commend-item-des">{{ item.schoolProvince }}</p >
+                <p class="commend-item-code">招生代码 {{ item.schoolCode }}</p>
+                <p class="commend-item-des">{{ item.schoolProvince }}</p>
               </li>
               <li class="commend-item" @click="gotoAllschool">
                 <i class="el-icon-arrow-right moreIcn"></i>
-                <h4 class="commend-item-title more" >查看更多</h4>
+                <h4 class="commend-item-title more">查看更多</h4>
               </li>
             </ul>
           </div>
-
         </div>
       </div>
       <div class="sixRow">
@@ -555,37 +557,18 @@ li a {
 /*第四行  高考志愿百科*/
 .fourRow {
   width: 75%;
-  height: 400px;
-  margin: 0 auto;
   /* height: 4rem; */
-  /* background: url(../../assets/u23.png);
-  background-size: 100%; */
+  margin: 0 auto;
   /* background-color: pink; */
   position: relative;
-}
-.carouselList {
-  width: 100%;
-  height: 100%;
-  /* position: absolute; */
-  /* z-index: 1; */
-}
-.carousel-item {
-  height: 470px;
-  width: 100%;
-}
-.image-item {
-  height: 100%;
-  width: 100%;
 }
 
 .zhiyuan {
   z-index: 2;
-
-  /* margin-left: 1300px; */
-  width: 500px;
-  height: 350px;
+  width: 5rem;
+  height: 3.5rem;
   position: absolute;
-  top: 30px;
+  top: 7%;
   right: 4%;
 }
 
@@ -593,7 +576,7 @@ li a {
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  background-color: rgba(255,255,255,0.9);
+  background-color: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
   padding: 5px 30px 5px 30px;
 }
@@ -777,10 +760,11 @@ li a {
   margin: 0 auto;
 }
 .fiveRow {
-  height: 350px;
+  height: 3.4rem;
   width: 100%;
   margin: 0 auto;
-  margin-top: 15px;
+  margin-top: 0.24rem;
+  /* background-color: #00a4ff; */
 }
 
 .fiveRow-header {
@@ -790,9 +774,11 @@ li a {
 }
 
 .fiveRow-box {
+  margin-top: 0.15rem;
   height: 250px;
   width: 100%;
   background-color: #fff;
+  /* background-color: pink; */
   border-radius: 15px;
 }
 
@@ -874,6 +860,7 @@ li a {
   background-color: #f3f5f7;
 }
 .sixRow-box {
+  margin-top: 0.15rem;
   /* height: 660px; */
   width: 100%;
   position: relative;
@@ -930,13 +917,14 @@ li a {
 }
 
 .sevenRow-header {
-  margin-top: 10px;
+  margin-top: 0.2rem;
   height: 0.5rem;
   width: 100%;
   background-color: #f3f5f7;
 }
 
 .sevenRow-box {
+  margin-top: 0.15rem;
   height: 250px;
   width: 100%;
   background-color: #fff;

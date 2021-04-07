@@ -24,12 +24,6 @@
                   >{{ item }}</span
                 >
               </div>
-              <!-- <div class="tags">
-                <span class="tag">{{ schoolTags[4] }}</span>
-                <span class="tag">{{ schoolTags[0] }}</span>
-                <span class="tag">{{ schoolTags[1] }}</span>
-                <span class="tag">{{ schoolTags[2] }}</span>
-              </div> -->
             </div>
           </el-col>
         </el-row>
@@ -38,7 +32,11 @@
     <div class="bodyboxContent">
       <div class="bodyContent">
         <div class="title">学校介绍</div>
-        <div id="school" class="schoolProfile"></div>
+        <div
+          id="school"
+          class="schoolProfile"
+          v-html="schoolDetail.summary"
+        ></div>
       </div>
     </div>
 
@@ -59,30 +57,38 @@ export default {
       majorList: [],
       schoolDetail: [],
       schoolTags: [],
+      schoolDetails: [],
     };
   },
   mounted() {
     // console.log("121", this.$route.query.SchoolName);
-    this.initData(this.$route.query.SchoolName);
+    this.initData();
   },
-  computed: {},
+  computed: {
+    schoolName() {
+      return;
+    },
+  },
   methods: {
-    initData(schoolName) {
-      var schoolProfile = document.getElementById("school");
+    initData() {
+      // var schoolProfile = document.getElementById("school");
       let _this = this;
       console.log("我接受的schoolname");
       //   console.log(typeof schoolName);
       let params = {
-        schoolName: schoolName,
+        schoolName: this.$route.query.SchoolName,
       };
       getSchoolDetails(params).then(function (response) {
+        console.log("获取到的学校详情：");
         console.log(response.data);
         _this.schoolDetails = response.data;
         _this.schoolTags = _this.schoolDetails.schoolDetail.tags;
+        console.log("这是修改好的");
         _this.schoolDetail = _this.schoolDetails.schoolDetail;
         _this.majorList = _this.schoolDetails.majorList;
-        schoolProfile.innerHTML = _this.schoolDetails.schoolDetail.summary;
+        // schoolProfile.innerHTML = _this.schoolDetails.schoolDetail.summary;
         _this.imgURL = _this.schoolDetail.logo;
+        this.initData();
       });
     },
   },
