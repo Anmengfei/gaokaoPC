@@ -13,14 +13,14 @@
             style="width: 97%"
             :header-cell-style="{ background: '#F5F7FA', color: '#606266' }"
           >
-            <el-table-column label="志愿表" width="60">
+            <el-table-column label="志愿表" align="center">
               <template slot-scope="scope">{{ scope.$index + 1 }}</template>
             </el-table-column>
-            <el-table-column prop="userInformation[2]" label="分数"> </el-table-column>
-            <el-table-column prop="userInformation[1]" label="选科"> </el-table-column>
-            <el-table-column prop="userInformation[3]" label="排名"> </el-table-column>
-            <el-table-column prop="quantity" label="意向志愿数目"> </el-table-column>
-            <el-table-column prop="address" label="操作">
+            <el-table-column prop="userInformation[2]" label="分数" align="center"> </el-table-column>
+            <el-table-column prop="userInformation[1]" label="选科" align="center"> </el-table-column>
+            <el-table-column prop="userInformation[3]" label="排名" align="center"> </el-table-column>
+            <el-table-column prop="quantity" label="意向志愿数目" align="center"> </el-table-column>
+            <el-table-column prop="address" label="操作" align="center">
               <template slot-scope="scope">
                 <span id="chakan" @click="gotoZhiyuanbiao(scope.row.id)"
                   >查看</span

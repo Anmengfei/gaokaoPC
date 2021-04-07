@@ -497,6 +497,7 @@ export default {
             this.$store.dispatch("showuserInfo", true);
           } else {
             this.$router.push("/");
+            this.reload()
           }
         } else if (res.code == 1) {
           // this.$notify.error({
