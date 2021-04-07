@@ -53,7 +53,7 @@
       </div>
       <div class="ceDiv"></div>
       <a @click="zhiyuanClick()">我的志愿表</a>
-      <a @click="orderClick()">关注院校</a>
+      <a @click="AllFollowSchoolClick()">关注院校</a>
       <a @click="AllFollowMajorClick()">关注专业</a>
       <a @click="installClick()">修改密码</a>
     </div>
@@ -112,14 +112,18 @@ export default {
       this.$router.push("/zhiyuanTable");
     },
     installClick() {
-      this.$router.push("/install");
+      // this.$router.push("/install");
+      this.$router.push("/updatePassword");
     },
-    orderClick() {
-      this.$router.push("/order");
-    },
+    // orderClick() {
+    //   this.$router.push("/order");
+    // },
     followClick() {
       this.$router.push("/follow");
     },
+    // followClick() {
+    //   this.$router.push("/updatePassword");
+    // },
     openVIPClick() {
       this.$router.push("/openVIP");
     },
@@ -127,7 +131,7 @@ export default {
       this.$router.push("/AllFollowMajor");
     },
     AllFollowSchoolClick() {
-      this.$router.push("/order");
+      this.$router.push("/AllFollowSchool");
     },
   },
 };

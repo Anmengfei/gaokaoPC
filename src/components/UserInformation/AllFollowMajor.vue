@@ -46,12 +46,14 @@ import VolunteerTable from "@/components/zhiyuanForm/zhiyuanLeft";
 import TopHeader from "@/components/common/topheader";
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
+import { getUserInfo } from "@/api/index.js";
 import { getAllFollowMajor } from "@/api/index.js";
 export default {
   name: "install",
   components: { TopHeader, HomeHeader, Footer, VolunteerTable },
   data() {
     return {
+      userInfoList: [],
       AllFollowMajorList: [],
       pagesize: 5,
       currentPage: 1,
@@ -62,10 +64,16 @@ export default {
   },
   methods: {
     initData() {
-      getAllFollowMajor({ phoneNum: "13465631985" }).then((res) => {
-        console.log("这是关注专业");
-        this.AllFollowMajorList = res.data;
-        console.log(this.AllFollowMajorList);
+      getUserInfo(localStorage.getItem("token")).then((res) => {
+        this.userInfoList = res.data;
+        let params = {
+          phoneNum: this.userInfoList.phoneNum,
+        };
+        getAllFollowMajor(params).then((res) => {
+          console.log("这是关注专业");
+          this.AllFollowMajorList = res.data;
+          console.log(this.AllFollowMajorList);
+        });
       });
     },
     handleCurrentChange(currentPage) {

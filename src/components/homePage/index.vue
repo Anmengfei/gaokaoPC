@@ -570,7 +570,7 @@ li a {
   /* z-index: 1; */
 }
 .carousel-item {
-  height: 400px;
+  height: 470px;
   width: 100%;
 }
 .image-item {
