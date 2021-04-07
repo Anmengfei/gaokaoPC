@@ -4,43 +4,6 @@
     <HomeHeader class="homeheader" :flagInfo="true"></HomeHeader>
     <div class="table-container">
       <VolunteerTable></VolunteerTable>
-      <!-- <div class="box-left">
-        <div class="top-box">
-          <img src="../../assets/head.jpg" class="zhiyuanpng" />
-          <div class="yeardiv">高考年份：2021</div>
-          <el-avatar icon="el-icon-user-solid" class="touxiang"></el-avatar>
-          <el-button type="danger" class="VIPbtn">开通VIP</el-button>
-          <div class="user-count">
-            <el-row>
-              <el-col :span="8">
-                <div class="left-content">
-                  <span>关注院校<br />0</span>
-                </div></el-col
-              >
-              <el-col :span="8"
-                ><div class="bet-content">
-                  <span>关注专业<br />0</span>
-                </div>
-              </el-col>
-              <el-col :span="8">
-                <div class="right-content">
-                  <span>成绩<br />600分</span>
-                </div>
-              </el-col>
-            </el-row>
-          </div>
-          <a href="#">应用广场</a>
-          <a href="#">我的社区</a>
-          <a href="#">我的预约</a>
-          <a href="#">我的讲堂</a>
-          <a href="#">我的选科</a>
-          <a href="#">我的职业</a>
-          <div class="ceDiv">测</div>
-          <a href="#">我的测评</a>
-          <div class="ceDiv">填</div>
-          <a href="#">我的志愿表</a>
-        </div>
-      </div> -->
       <div class="box-right">
         <h2>我的志愿表</h2>
         <div class="zhiyuantable">
@@ -264,10 +227,6 @@ a:hover {
   width: 1400px;
   margin: 0 auto;
   position: relative;
-}
-.VIPbtn {
-  margin-top: 0.15rem;
-  margin-left: 1.35rem;
 }
 
 .zhiyuanpng {

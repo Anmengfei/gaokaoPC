@@ -10,7 +10,7 @@
         <el-avatar
           icon="el-icon-user-solid"
           class="touxiang"
-          src="https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eod5XoDYQzN4ib6CTytO2EwibibARW7IhUEo9L5ia5Ud8XRhShw7WWobOgvfTXibW92qNe9aSkpYdE4TqQ/132"
+          src=""
         ></el-avatar>
       </div>
 
@@ -19,8 +19,8 @@
         class="VIPbtn"
         @click="VIPClick()"
         :disabled="vipbtn"
-        >开通VIP</el-button
-      >
+        v-text="vipword"
+      ></el-button>
       <div class="user-count">
         <el-row>
           <el-col :span="8"
@@ -74,6 +74,7 @@ export default {
       vipbtn: false,
       MajorLength: "",
       SchoolLength: "",
+      vipword: "开通vip",
     };
   },
   mounted() {
@@ -87,6 +88,7 @@ export default {
           this.vipbtn = false;
         } else {
           this.vipbtn = true;
+          this.vipword = "已开通VIP";
         }
         let params = {
           phoneNum: parseInt(this.userInfoList.phoneNum),

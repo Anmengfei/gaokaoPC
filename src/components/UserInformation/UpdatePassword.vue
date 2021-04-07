@@ -163,6 +163,9 @@ export default {
 };
 </script>
 <style scoped>
+.homeheader {
+  margin-bottom: 0.5rem;
+}
 .table-container {
   width: 1400px;
   margin: 0 auto;
