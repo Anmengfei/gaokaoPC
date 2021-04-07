@@ -16,7 +16,7 @@
     "codemirror": "^5.49.2",
     "echarts": "^4.8.0",
     "element-china-area-data": "^5.0.2",
-    "element-ui": "^2.15.1",
+    "element-ui": "^2.9.2",
     "file-saver": "^2.0.5",
     "is-obj": "^2.0.0",
     "jquery": "^3.4.1",

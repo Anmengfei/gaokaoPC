@@ -188,11 +188,6 @@ export default {
 </script>
 
 <style scoped>
-*{
-  padding: 0;
-  margin: 0;
-  font-size: 100%;
-}
 .container{
   width:100%;
 }

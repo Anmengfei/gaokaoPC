@@ -1,11 +1,10 @@
 <template>
   <div class="app_container">
     <top-header></top-header>
-    <div class="mt20 thirdRow">
-      <HomeHeader :flagInfo="loginStatus"></HomeHeader>
-    </div>
+    <HomeHeader></HomeHeader>
     <div class="picture">
-      <img src="../../assets/banner5.png" alt="" />
+<!--      <img src="../../assets/banner5.png" alt="" />-->
+      <img src="https://www.zytb.top/NEMT/gk/static/pc_img/lunbo03.png" alt="" />
     </div>
     <div class="section">
       <div>
@@ -182,8 +181,9 @@ export default {
   /* height: 100%; */
 }
 .picture {
-  width: 100%;
-  height: 300px;
+  width: 75%;
+  height: 400px;
+  margin: 0 auto;
   /* background-color: pink; */
 }
 .picture img {
