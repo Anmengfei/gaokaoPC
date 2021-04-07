@@ -4,7 +4,7 @@
     <HomeHeader></HomeHeader>
     <div class="fourRow">
       <div class="carouselList">
-        <el-carousel class="carousel-img" height="400px">
+        <el-carousel  class="carousel-img" height="400px">
           <el-carousel-item
             v-for="(item, index) in schna"
             :key="index"
@@ -75,7 +75,6 @@
                 </div>
               </div>
             </div>
-
             <div class="tuijianButton">
               <div class="tuijianbtn">
                 <el-button class="btn" type="primary" round>智能推荐</el-button>
@@ -270,9 +269,9 @@ export default {
       provincesList: ["北京", "上海", "广州", "深圳"],
       searchValue: "",
       schna: [
-        "https://www.zhongkeruitong.top/CCZX_image/newBanner2.jpg",
-        "https://www.zhongkeruitong.top/CCZX_image/banner5.png",
-        "https://www.zhongkeruitong.top/CCZX_image/photo2.jpg",
+        "https://www.zytb.top/NEMT/gk/static/pc_img/lunbo01.png",
+        "https://www.zytb.top/NEMT/gk/static/pc_img/lunbo02.png",
+        "https://www.zytb.top/NEMT/gk/static/pc_img/lunbo03.png",
       ],
     };
   },
@@ -555,8 +554,9 @@ li a {
 
 /*第四行  高考志愿百科*/
 .fourRow {
-  width: 100%;
+  width: 75%;
   height: 400px;
+  margin: 0 auto;
   /* height: 4rem; */
   /* background: url(../../assets/u23.png);
   background-size: 100%; */
@@ -586,14 +586,14 @@ li a {
   height: 350px;
   position: absolute;
   top: 30px;
-  left: 1300px;
+  right: 4%;
 }
 
 .zhiyuan .content {
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  background-color: #fff;
+  background-color: rgba(255,255,255,0.9);
   border-radius: 10px;
   padding: 5px 30px 5px 30px;
 }
@@ -628,14 +628,6 @@ li a {
 .input-style >>> .el-input__inner {
   border: 0;
 }
-
-.form-item2 {
-  margin-top: 10px;
-  padding: 15px 20px;
-  background-color: rgba(0, 175, 240, 0.05);
-  border-radius: 10px;
-}
-
 .editScore {
   position: relative;
   color: #00a4ff;
@@ -679,7 +671,8 @@ li a {
 .form-item2 {
   margin-top: 10px;
   padding: 15px 20px;
-  background-color: rgba(0, 175, 240, 0.05);
+  /*background-color: rgba(0, 175, 240, 0.05);*/
+  background-color: rgba(242, 251, 254, 1);
   border-radius: 10px;
 }
 
@@ -784,14 +777,14 @@ li a {
   margin: 0 auto;
 }
 .fiveRow {
-  height: 390px;
+  height: 350px;
   width: 100%;
   margin: 0 auto;
-  margin-top: 50px;
+  margin-top: 15px;
 }
 
 .fiveRow-header {
-  height: 0.8rem;
+  height: 0.5rem;
   width: 100%;
   background-color: #f3f5f7;
 }
@@ -837,7 +830,7 @@ li a {
   display: block;
   text-align: center;
   font-size: 18px;
-  line-height: 40px;
+  line-height: 28px;
   color: #00a4ff;
   text-decoration: none;
 }
@@ -870,13 +863,13 @@ li a {
 }
 
 .sixRow {
-  height: 570px;
+  height: 520px;
   width: 100%;
   margin: 0 auto;
 }
 
 .sixRow-header {
-  height: 0.8rem;
+  height: 0.5rem;
   width: 100%;
   background-color: #f3f5f7;
 }
@@ -938,7 +931,7 @@ li a {
 
 .sevenRow-header {
   margin-top: 10px;
-  height: 0.8rem;
+  height: 0.5rem;
   width: 100%;
   background-color: #f3f5f7;
 }
@@ -1070,8 +1063,10 @@ li a {
 }
 
 .carousel-img {
-  width: 100%;
+  /*width: 100%;*/
   /*height: 665px;*/
+  text-align: center;
+  margin: 0 auto;
 }
 
 .carousel-img img {

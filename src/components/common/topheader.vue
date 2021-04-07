@@ -62,7 +62,9 @@
         <el-col :span="6">
           <div class="logo">
             <img src="../../assets/logo.png" class="img-logo" />
-            <div class="plateName">智禾考哪儿</div>
+            <img src="../../assets/logo-word.png" class="img-logo-word" />
+
+<!--            <div class="plateName">智禾考哪儿</div>-->
           </div>
         </el-col>
         <el-col :span="12">
@@ -181,10 +183,10 @@ a {
 
 .firstRow {
   width: 100%;
-  height: 0.5rem;
+  /*height: 0.5rem;*/
   /* background-color: pink; */
   font-size: 0.17rem;
-  line-height: 0.5rem;
+  /*line-height: 0.5rem;*/
 }
 
 .bg-logo {
@@ -203,14 +205,14 @@ a {
 
 .bg-left {
   /* background: #d3dce6; */
-  height: 0.5rem;
+  /*height: 0.5rem;*/
   padding-left: 1rem;
   background-color: hsla(0, 0%, 61%, 0.3);
 }
 
 .bg-right {
   /* background: #e5e9f2; */
-  height: 0.5rem;
+  /*height: 0.5rem;*/
   background-color: hsla(0, 0%, 61%, 0.3);
 }
 
@@ -250,6 +252,12 @@ a {
 .secondRow .img-logo {
   width: 0.65rem;
   height: 0.65rem;
+  border-radius: 10px;
+}
+.secondRow .img-logo-word {
+  width: 300px;
+  height: 0.5rem;
+  border-radius: 10px;
 }
 
 .secondRow .plateName {
