@@ -180,28 +180,24 @@ export default {
   left: 3.8rem;
 }
 .app-container {
-  padding: 30px;
+  padding: 0.3rem;
 }
 .information_one .information_one_span {
-  /*display: block;*/
-  /*height: 50px;*/
-  /*width: 200px;*/
-  /*line-height: 50px;*/
-  padding-left: 50px;
+  padding-left: 0.5rem;
   border-left-style: solid;
   border-left-width: 4px;
   border-left-color: #a0b9ec;
-  font-size: 20px;
+  font-size: 0.25rem;
 }
 .form-style-update {
-  width: 500px;
-  margin: 100px auto;
+  width: 5rem;
+  margin: 1rem auto;
 }
 .form-item-style >>> .el-form-item__label {
-  font-size: 20px;
+  font-size: 0.17rem;
 }
 .input-style >>> .el-input__inner {
-  height: 50px;
-  font-size: 16px;
+  height: 0.5rem;
+  font-size: 0.16rem;
 }
 </style>
