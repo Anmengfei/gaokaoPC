@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <top-header></top-header>
-    <HomeHeader class="homeheader" :flagInfo="true"></HomeHeader>
+    <HomeHeader class="homeheader"></HomeHeader>
     <div class="content">
       <div class="table_head">
         <div class="title">
@@ -231,10 +231,6 @@ export default {
 </script>
 
 <style scoped>
-*{
-  padding: 0;
-  margin: 0;
-}
 /deep/ .el-table .cell {
   overflow: unset;
 }

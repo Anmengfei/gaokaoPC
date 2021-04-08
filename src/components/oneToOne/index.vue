@@ -5,8 +5,7 @@
     <div style="text-align: center">
       <el-image
         :src="require('@/assets/1v1.png')"
-        @click="goto1v1"
-        :fit="contain"/>
+        @click="goto1v1"/>
     </div>
 
     <Footer></Footer>
@@ -34,7 +33,6 @@ export default {
 <style scoped>
 
 .app_container {
-  /*background-color: white;*/
   background-color: #f3f5f7;
 }
 </style>

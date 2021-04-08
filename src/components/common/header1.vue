@@ -27,20 +27,15 @@
                 />
               </div>
               <a
-                href="/accounts/personInfo/modifyInfo"
                 title="个人资料"
                 id="username"
-              >{{ phone }}</a
-              >
+              >{{ phone }}</a>
             </div>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="info"
-              ><i class="iconfont icon-gerenziliao" style="color: #e5623f"></i
-              >个人资料
+              <el-dropdown-item command="info">
+                <i class="iconfont icon-gerenziliao" style="color: #e5623f"></i>个人资料
               </el-dropdown-item>
-              <el-dropdown-item command="logout"
-              ><i class="iconfont icon-icon-tuichu" style="color: #e5623f"></i
-              >退出登录
+              <el-dropdown-item command="logout"><i class="iconfont icon-icon-tuichu" style="color: #e5623f"></i>退出登录
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -502,6 +497,7 @@ export default {
             this.$store.dispatch("showuserInfo", true);
           } else {
             this.$router.push("/");
+            this.reload()
           }
         } else if (res.code == 1) {
           // this.$notify.error({

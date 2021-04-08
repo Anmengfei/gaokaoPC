@@ -68,31 +68,16 @@ export default new Router({
             name: 'volunteerVIP',
             component: resolve => require(['@/components/volunteerVIP/index'], resolve)
         },
-        // {
-        //     path: '/install',
-        //     name: 'install',
-        //     component: resolve => require(['@/components/UserInformation/install'], resolve)
-        // },
         {
             path: '/UpdatePassword',
             name: 'UpdatePassword',
             component: resolve => require(['@/components/UserInformation/updatePassword'], resolve)
         },
         {
-            path: '/follow',
-            name: 'follow',
-            component: resolve => require(['@/components/UserInformation/follow'], resolve)
-        },
-        {
             path: '/openVIP',
             name: 'openVIP',
             component: resolve => require(['@/components/UserInformation/openVIP'], resolve)
         },
-        // {
-        //     path: '/order',
-        //     name: 'order',
-        //     component: resolve => require(['@/components/UserInformation/order'], resolve)
-        // },
         {
             path: '/touxiang',
             name: 'touxiang',

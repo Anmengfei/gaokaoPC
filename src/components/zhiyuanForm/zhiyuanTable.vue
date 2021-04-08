@@ -1,30 +1,26 @@
 <template>
   <div class="container">
     <top-header></top-header>
-    <HomeHeader class="homeheader" :flagInfo="true"></HomeHeader>
+    <HomeHeader class="homeheader"></HomeHeader>
     <div class="table-container">
       <VolunteerTable></VolunteerTable>
       <div class="box-right">
         <h2>我的志愿表</h2>
-        <div class="zhiyuantable">
+        <div class="zhiyuantable11">
           <el-table
             :data="willTable"
             border
             style="width: 97%"
             :header-cell-style="{ background: '#F5F7FA', color: '#606266' }"
           >
-            <el-table-column label="志愿表" width="60">
+            <el-table-column label="志愿表" align="center">
               <template slot-scope="scope">{{ scope.$index + 1 }}</template>
             </el-table-column>
-            <el-table-column prop="userInformation[2]" label="分数">
-            </el-table-column>
-            <el-table-column prop="userInformation[1]" label="选课">
-            </el-table-column>
-            <el-table-column prop="userInformation[3]" label="排名">
-            </el-table-column>
-            <el-table-column prop="quantity" label="意向志愿数目">
-            </el-table-column>
-            <el-table-column prop="address" label="操作">
+            <el-table-column prop="userInformation[2]" label="分数" align="center"> </el-table-column>
+            <el-table-column prop="userInformation[1]" label="选科" align="center"> </el-table-column>
+            <el-table-column prop="userInformation[3]" label="排名" align="center"> </el-table-column>
+            <el-table-column prop="quantity" label="意向志愿数目" align="center"> </el-table-column>
+            <el-table-column prop="address" label="操作" align="center">
               <template slot-scope="scope">
                 <span id="chakan" @click="gotoZhiyuanbiao(scope.row.id)"
                   >查看</span
@@ -161,7 +157,7 @@ a:hover {
 }
 .ceDiv {
   height: 0.5rem;
-  widows: 100%;
+  width: 100%;
   background-color: #e5e9f2;
   line-height: 0.5rem;
   padding-left: 0.3rem;
@@ -243,7 +239,7 @@ a:hover {
   padding-left: 1.4rem;
   color: #fff;
 }
-.zhiyuantable {
+.zhiyuantable11 {
   width: 100%;
   padding-left: 0.3rem;
 }

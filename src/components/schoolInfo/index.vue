@@ -60,23 +60,19 @@ export default {
       schoolDetails: [],
     };
   },
-  mounted() {
-    // console.log("121", this.$route.query.SchoolName);
-    this.initData();
-  },
-  computed: {
-    schoolName() {
-      return;
+  watch: {
+    '$route'(to, from) {
+      this.initData(this.$route.query.SchoolName)
     },
   },
   methods: {
-    initData() {
+    initData(schoolname) {
       // var schoolProfile = document.getElementById("school");
       let _this = this;
       console.log("我接受的schoolname");
       //   console.log(typeof schoolName);
       let params = {
-        schoolName: this.$route.query.SchoolName,
+        schoolName: schoolname,
       };
       getSchoolDetails(params).then(function (response) {
         console.log("获取到的学校详情：");
