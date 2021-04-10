@@ -489,12 +489,12 @@ export default {
           localStorage.setItem("phone", res.data.userInfo.phoneNum);
           this.$store.dispatch("getShowLogin", false);
           getUserInfo().then((res) => {
-            this.$store.dispatch("resUserInfo", res.data);
+            this.$store.commit("resUserInfo", res.data);
             console.log("用户信息", this.userInfo);
-            this.$store.dispatch("getPhone", this.userInfo.phoneNum);
+            this.$store.commit("getPhone", this.userInfo.phoneNum);
           });
           if (res.data.userInfo.checked == 0) {
-            this.$store.dispatch("showuserInfo", true);
+            this.$store.commit("showuserInfo", true);
           } else {
             this.$router.push("/");
             this.reload()

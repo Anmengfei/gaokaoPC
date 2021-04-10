@@ -76,7 +76,7 @@
             </div>
             <div class="tuijianButton">
               <div class="tuijianbtn">
-                <el-button class="btn" type="primary" round>智能推荐</el-button>
+                <el-button type="primary" style="width: 4rem" @click="gotoAllschool"  round>智能推荐</el-button>
               </div>
             </div>
           </div>
