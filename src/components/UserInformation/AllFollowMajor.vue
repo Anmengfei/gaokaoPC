@@ -131,6 +131,6 @@ li {
   padding-left: 35%;
 }
 .homefooter {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 </style>
