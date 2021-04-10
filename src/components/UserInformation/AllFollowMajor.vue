@@ -109,7 +109,7 @@ li {
   height: 0.7rem;
   border-bottom: 1px solid #e5e5e5;
   line-height: 0.7rem;
-  font-size: 30px;
+  font-size: 0.25rem;
   color: #333;
   font-weight: 500;
 }
@@ -131,6 +131,6 @@ li {
   padding-left: 35%;
 }
 .homefooter {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 </style>

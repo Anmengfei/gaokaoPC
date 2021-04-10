@@ -156,6 +156,30 @@ export function getUserInfo(data) {
         params: data
     })
 }
+//获取支付二维码
+export function getweiXinPay(data) {
+    return request({
+        url: '/PCpay/weiXinPay',
+        method: 'get',
+        params: data
+    })
+}
+//获取订单编码
+export function addPayOrder(data) {
+    return request({
+        url: '/PCpay/addPayOrder',
+        method: 'get',
+        params: data
+    })
+}
+//微信支付状态轮询
+export function orderPayState(data) {
+    return request({
+        url: '/PCpay/orderPayState',
+        method: 'get',
+        params: data
+    })
+}
 //设置密码
 export function setPassWord(data) {
     return request({
@@ -180,3 +204,4 @@ export function getSchoolDetails(data) {
         params: data
     })
 }
+
