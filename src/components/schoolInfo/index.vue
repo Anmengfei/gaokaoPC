@@ -60,31 +60,31 @@ export default {
       schoolDetails: [],
     };
   },
+  mounted() {
+    this.initData()
+  },
   watch: {
     '$route'(to, from) {
-      this.initData(this.$route.query.SchoolName)
+      this.initData()
     },
   },
   methods: {
-    initData(schoolname) {
+    initData() {
       // var schoolProfile = document.getElementById("school");
       let _this = this;
-      console.log("我接受的schoolname");
-      //   console.log(typeof schoolName);
       let params = {
-        schoolName: schoolname,
+        schoolName: this.$route.query.SchoolName,
       };
       getSchoolDetails(params).then(function (response) {
-        console.log("获取到的学校详情：");
-        console.log(response.data);
+        // console.log("获取到的学校详情：");
+        // console.log(response.data);
         _this.schoolDetails = response.data;
         _this.schoolTags = _this.schoolDetails.schoolDetail.tags;
-        console.log("这是修改好的");
+        // console.log("这是修改好的");
         _this.schoolDetail = _this.schoolDetails.schoolDetail;
         _this.majorList = _this.schoolDetails.majorList;
         // schoolProfile.innerHTML = _this.schoolDetails.schoolDetail.summary;
         _this.imgURL = _this.schoolDetail.logo;
-        this.initData();
       });
     },
   },
