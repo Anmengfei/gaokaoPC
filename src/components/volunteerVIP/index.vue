@@ -6,26 +6,22 @@
       <div class="vip-background">
         <div class="vip-content">
           <span class="vipcard" v-if="isShow1">
-            <img
-              alt="mask"
-              class="card-icon"
-              src="../../assets/vip.jpg"
-            />
+            <img alt="mask" class="card-icon" src="../../assets/vip.jpg" />
           </span>
-<!--          <span class="vipcard" v-if="isShow2">-->
-<!--            <img-->
-<!--              alt="mask"-->
-<!--              class="card-icon"-->
-<!--              src="../../assets/vip.jpg"-->
-<!--            />-->
-<!--          </span>-->
-<!--          <span class="vipcard" v-if="isShow3">-->
-<!--            <img-->
-<!--              alt="mask"-->
-<!--              class="card-icon"-->
-<!--              src="../../assets/pushimage2.png"-->
-<!--            />-->
-<!--          </span>-->
+          <!--          <span class="vipcard" v-if="isShow2">-->
+          <!--            <img-->
+          <!--              alt="mask"-->
+          <!--              class="card-icon"-->
+          <!--              src="../../assets/vip.jpg"-->
+          <!--            />-->
+          <!--          </span>-->
+          <!--          <span class="vipcard" v-if="isShow3">-->
+          <!--            <img-->
+          <!--              alt="mask"-->
+          <!--              class="card-icon"-->
+          <!--              src="../../assets/pushimage2.png"-->
+          <!--            />-->
+          <!--          </span>-->
           <div class="card-info">
             <div class="vip-name">
               <el-row>
@@ -35,7 +31,7 @@
                     ￥
                     <span class="fee">588</span>
                     <div class="price-info">
-<!--                      <div class="tag">金榜题名</div>-->
+                      <!--                      <div class="tag">金榜题名</div>-->
                       <div class="origin">原价:￥588</div>
                     </div>
                   </div></el-col
@@ -56,10 +52,10 @@
             </div>
             <div class="vip-type">
               <span class="type-item" @click="handleClick1">VIP会员卡</span>
-<!--              <span class="type-item" @click="handleClick2">高级卡</span>-->
-<!--              <span class="type-item" @click="handleClick3">标准卡</span>-->
+              <!--              <span class="type-item" @click="handleClick2">高级卡</span>-->
+              <!--              <span class="type-item" @click="handleClick3">标准卡</span>-->
             </div>
-<!--            <span class="line"></span>-->
+            <!--            <span class="line"></span>-->
             <div class="description">
               <div style="height: 8px"></div>
               <div class="remark-item" style="width: 285px">
@@ -73,9 +69,7 @@
               <div style="height: 8px"></div>
               <div class="remark-item" style="width: 285px">
                 <span style="color: #ccc; font-size: 10px">适用范围:</span>
-                <span class="value"
-                  >仅限本人在高考省份使用</span
-                >
+                <span class="value">仅限本人在高考省份使用</span>
               </div>
               <div class="remark-item" style="width: 250px">
                 <span style="color: #ccc; font-size: 10px">使用日期:</span>
@@ -95,13 +89,13 @@
     <div class="bottom-header">
       <div class="bottom-content">
         <div class="image-wrap">
-<!--          <img class="images" src="../../assets/allbusinessimage.png" />-->
+          <!--          <img class="images" src="../../assets/allbusinessimage.png" />-->
         </div>
         <div class="image-wrap">
           <img class="images" src="../../assets/allbusinessimage2.png" />
         </div>
         <div class="image-wrap">
-<!--          <img class="images" src="../../assets/allbusinessimage3.png" />-->
+          <!--          <img class="images" src="../../assets/allbusinessimage3.png" />-->
         </div>
       </div>
     </div>
@@ -143,9 +137,11 @@ export default {
       this.isShow3 = true;
       // console.log("执行了");
     },
-    applyVIP(){
-        this.msgWarning('功能暂未开通')
-    }
+    applyVIP() {
+      // this.msgWarning('功能暂未开通')
+      this.$router.push("/OrderCenter");
+      // this.$router.push("/PayCenter");
+    },
   },
 };
 </script>

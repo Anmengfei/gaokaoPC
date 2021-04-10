@@ -131,9 +131,21 @@
         </div>
       </el-tab-pane>
     </el-tabs>
+    <div>
+      <el-row>
+        <el-col :span="24"
+          ><div class="grid-content bg-purple-dark"></div
+        ></el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12"><div class="grid-content bg-purple"></div></el-col>
+        <el-col :span="12"
+          ><div class="grid-content bg-purple-light"></div
+        ></el-col>
+      </el-row>
+    </div>
   </div>
 </template>
-
 <script>
 import { getAllMajor } from "../../api/schoolInfo";
 import { getUserInfo } from "../../api/index";
@@ -205,6 +217,7 @@ export default {
         }).then((res) => {
           if (res.status === 200) {
             this.majorList = res.data.data;
+            console.log("这是专业列表，今天突然出错了");
             console.log(this.majorList);
             // 将已经加入志愿表单的学校的按钮状态置为灰色
             for (let i = 0; i < this.majorList.length; ++i) {
