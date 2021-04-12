@@ -1,7 +1,7 @@
 <template>
   <div class="box-left">
     <div class="top-box">
-      <img src="../../assets/head.jpg" class="zhiyuanpng"/>
+      <img src="../../assets/head.jpg" class="zhiyuanpng" />
       <div class="yeardiv">
         <span>高考年份:</span>
         <span>{{ userInfoList.examYear }}</span>
@@ -26,38 +26,44 @@
           <el-col :span="8">
             <div class="left-content">
               <!-- <button @click="AllFollowSchoolClick()">关注院校</button> -->
-              <span style="font-size: 15px; color: #333">关注院校<br/></span>
-              <span style="font-size: 14px; font-weight: 700; color: #333">{{SchoolLength }}</span>
+              <span style="font-size: 15px; color: #333">收藏院校<br /></span>
+              <span style="font-size: 14px; font-weight: 700; color: #333">{{
+                SchoolLength
+              }}</span>
             </div>
           </el-col>
           <el-col :span="8">
             <div class="bet-content">
               <!-- <button @click="AllFollowMajorClick()">关注专业</button> -->
-              <span style="font-size: 15px; color: #333">关注专业<br/></span>
-              <span style="font-size: 14px; font-weight: 700; color: #333">{{ MajorLength }}</span>
+              <span style="font-size: 15px; color: #333">收藏专业<br /></span>
+              <span style="font-size: 14px; font-weight: 700; color: #333">{{
+                MajorLength
+              }}</span>
             </div>
           </el-col>
           <el-col :span="8">
             <div class="right-content">
-              <span style="font-size: 15px; color: #333">成绩<br/></span>
-              <span style="font-weight: 700; color: #f56c6c">{{userInfoList.score }}</span>
+              <span style="font-size: 15px; color: #333">成绩<br /></span>
+              <span style="font-weight: 700; color: #f56c6c">{{
+                userInfoList.score
+              }}</span>
             </div>
           </el-col>
         </el-row>
       </div>
       <div class="ceDiv"></div>
       <a @click="zhiyuanClick()">我的志愿表</a>
-      <a @click="AllFollowSchoolClick()">关注院校</a>
-      <a @click="AllFollowMajorClick()">关注专业</a>
+      <a @click="AllFollowSchoolClick()">收藏院校</a>
+      <a @click="AllFollowMajorClick()">收藏专业</a>
       <!--      <a @click="installClick()">修改密码</a>-->
     </div>
   </div>
 </template>
 
 <script>
-import {getUserInfo} from "@/api/index.js";
-import {getAllFollowMajor} from "@/api/index.js";
-import {getAllFollowSchool} from "@/api/index.js";
+import { getUserInfo } from "@/api/index.js";
+import { getAllFollowMajor } from "@/api/index.js";
+import { getAllFollowSchool } from "@/api/index.js";
 
 export default {
   name: "zhiyuanLeft",
@@ -67,8 +73,8 @@ export default {
       AllFollowMajorList: [],
       AllFollowSchoolList: [],
       vipbtn: false,
-      MajorLength: "",
-      SchoolLength: "",
+      MajorLength: 0,
+      SchoolLength: 0,
       vipword: "开通vip",
     };
   },

@@ -78,10 +78,15 @@ export default new Router({
         name: 'touxiang',
         component: resolve => require(['@/components/UserInformation/touxiang'], resolve)
     },
+    // {
+    //     path: '/onetoone',
+    //     name: 'OnetoOne',
+    //     component: resolve => require(['@/components/oneToone/index'], resolve)
+    // },
     {
-        path: '/onetoone',
-        name: 'OnetoOne',
-        component: resolve => require(['@/components/oneToone/index'], resolve)
+        path: '/myOrder',
+        name: 'myOrder',
+        component: resolve => require(['@/components/volunteerVIP/myOrder'], resolve)
     },
     {
         path: '/AllFollowMajor',

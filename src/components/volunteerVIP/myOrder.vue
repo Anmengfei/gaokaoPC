@@ -4,27 +4,27 @@
     <HomeHeader></HomeHeader>
     <div class="cart-head">
       <div class="cart-header-warp">
-        <h1>确认订单</h1>
+        <h1>订单中心</h1>
       </div>
     </div>
     <div class="cart-body">
       <div class="title-box">
-        <p class="goods-info-title">商品信息</p>
+        <i class="el-icon-edit"></i>
+        <p class="goods-info-title">订单编号:</p>
       </div>
       <div class="detail-box">
         <div class="detail-box-content">
           <img src="/static/img/vip.c657b9e.jpg" alt="" />
-          <div class="right-text">
+          <!-- <div class="right-text">
             <span class="right-text-con"></span>
-          </div>
-          <div class="paymoney">￥ 298</div>
+          </div> -->
+          <!-- <div class="paymoney">￥ 298</div> -->
+          <span class="pay_text1"> 商品总金额： ¥ 298</span>
+          <span class="pay_text2"> 应付： </span>
+          <span class="pay_text3"> ¥ 288 </span>
+          <el-button class="payBtn" type="danger" round>立即支付</el-button>
+          <el-link type="info" class="deleteBtn">取消订单</el-link>
         </div>
-      </div>
-      <div class="pay_action">
-        <span class="pay_text1"> 商品总金额： ¥ 298</span>
-        <span class="pay_text2"> 应付： </span>
-        <span class="pay_text3"> ¥ 288 </span>
-        <div class="submit-btn" @click="gotoPay">提交订单</div>
       </div>
     </div>
     <div class="footer">
@@ -37,52 +37,18 @@
 import TopHeader from "@/components/common/topheader";
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
-import { addPayOrder, getUserInfo } from "@/api/index.js";
 export default {
   components: { TopHeader, HomeHeader, Footer },
   data() {
-    return {
-      userInfoList: [],
-    };
+    return {};
   },
+  computed: {},
+  watch: {},
+  methods: {},
+  created() {},
   mounted() {},
-  methods: {
-    gotoPay() {
-      getUserInfo(localStorage.getItem("token")).then((res) => {
-        this.userInfoList = res.data;
-
-        var params = {
-          phoneNum: this.userInfoList.phoneNum,
-        };
-        addPayOrder(params).then((res) => {
-          console.log("AAA", res);
-          this.$router.push({
-            path: "/PayCenter",
-            query: {
-              orderId: res.data.orderId,
-            },
-          });
-        });
-
-        // this.$router.push("/PayCenter");
-        // var url = `https://www.zytb.top/NEMT/gk/PCpay/addPayOrder?phoneNum=${this.userInfoList.phoneNum}`;
-        // this.$axios
-        //   .get(url, {
-        //     headers: {
-        //       Authorization: "Bearer " + localStorage.getItem("token"),
-        //     },
-        //   })
-        //   .then((res) => {
-        //     console.log("张伟大神又在测试数据");
-        //     console.log(res);
-
-        //   });
-      });
-    },
-  },
 };
 </script>
-
 <style scoped>
 .app_container {
   /*background-color: white;*/
@@ -118,19 +84,26 @@ export default {
   border-radius: 15px;
   box-sizing: border-box;
   position: relative;
+  padding-bottom: 0.5rem;
 }
 .title-box {
   padding-top: 40px;
   padding-bottom: 24px;
 }
+.el-icon-edit {
+  float: left;
+}
 .goods-info-title {
-  margin-left: 20px;
+  display: block;
+  float: left;
+  margin-left: 0.1rem;
   color: #07111b;
   font-size: 20px;
   line-height: 16px;
 }
 .detail-box {
   width: 100%;
+  margin-top: 0.2rem;
   padding: 30px;
   background-color: #f3f5f7;
 }
@@ -166,12 +139,14 @@ export default {
 }
 .pay_action {
   margin-top: 60px;
-  border-top: 1px solid #d9dde1;
-  border-bottom: 1px solid #d9dde1;
+  /* border-top: 1px solid #d9dde1;
+  border-bottom: 1px solid #d9dde1; */
   padding-top: 30px;
   padding-bottom: 30px;
+  background-color: #f3f5f7;
 }
 .pay_text1 {
+  margin-left: 0.3rem;
   font-size: 20px;
 }
 .pay_text2 {
@@ -183,5 +158,10 @@ export default {
   font-size: 36px;
   font-weight: 700;
 }
+.payBtn {
+  margin-left: 4rem;
+}
+.deleteBtn {
+  margin-left: 0.3rem;
+}
 </style>
-

@@ -29,10 +29,10 @@
                   志愿卡VIP
                   <div class="price">
                     ￥
-                    <span class="fee">588</span>
+                    <span class="fee">298</span>
                     <div class="price-info">
                       <!--                      <div class="tag">金榜题名</div>-->
-                      <div class="origin">原价:￥588</div>
+                      <div class="origin">原价:￥498</div>
                     </div>
                   </div></el-col
                 >
@@ -43,9 +43,21 @@
                       class="strong-btn"
                       style="width: 180px"
                       @click="applyVIP"
+                      v-if="vip == 0"
                     >
                       开通VIP
                     </button>
+                    <el-button
+                      type="warning"
+                      class="strong-btn"
+                      v-else
+                      disabled
+                      plain
+                      >已开通VIP</el-button
+                    >
+                    <!-- <button class="strong-btn" v-else disabled>
+                      已开通VIP
+                    </button> -->
                   </span>
                 </el-col>
               </el-row>
@@ -110,6 +122,7 @@
 import TopHeader from "@/components/common/topheader";
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
+import { getUserInfo } from "@/api/index";
 export default {
   loginStatus: true,
   components: { TopHeader, HomeHeader, Footer },
@@ -118,7 +131,11 @@ export default {
       isShow1: true,
       isShow2: false,
       isShow3: false,
+      vip: "",
     };
+  },
+  mounted() {
+    this.getInfo();
   },
   methods: {
     handleClick1() {
@@ -141,6 +158,11 @@ export default {
       // this.msgWarning('功能暂未开通')
       this.$router.push("/OrderCenter");
       // this.$router.push("/PayCenter");
+    },
+    getInfo() {
+      getUserInfo().then((res) => {
+        this.vip = res.data.vip;
+      });
     },
   },
 };
@@ -201,6 +223,14 @@ export default {
   padding: 0 2px;
   border: 0;
   outline: 0;
+}
+.el-button--primary.is-disabled,
+.el-button--primary.is-disabled:active,
+.el-button--primary.is-disabled:focus,
+.el-button--primary.is-disabled:hover {
+  color: #fff;
+  background-color: rgb(255, 150, 31);
+  border-color: rgb(255, 150, 31);
 }
 .vip-name {
   font-weight: bold;

@@ -2,7 +2,7 @@
   <div class="app_container">
     <el-dialog :visible.sync="code_show" class="dialogPay">
       <div>
-        <h1>微信支付 ¥ 588</h1>
+        <h1>微信支付 ¥ 298</h1>
         <img :src="Paycode" />
         <p>使用微信扫描二维码付款</p>
       </div>
@@ -66,11 +66,11 @@
         <div class="bottom-panel">
           <div class="info-panel">
             <div class="price">
-              <span class="item"> 商品原价: ￥588 </span>
+              <span class="item"> 商品原价: ￥298 </span>
               <span class="item">
                 实付金额:
                 <span class="enum">￥</span>
-                <span class="fee">588</span>
+                <span class="fee">298</span>
               </span>
             </div>
             <div class="protocol">

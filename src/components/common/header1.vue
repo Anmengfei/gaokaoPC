@@ -8,7 +8,7 @@
           <li @click="gotoWork"><a>专业优先</a></li>
           <li @click="gotovoluntary"><a>志愿表</a></li>
           <li @click="gotoVIP"><a>志愿VIP</a></li>
-          <li @click="gotoAPPpage"><a>APP简介</a></li>
+          <!-- <li @click="gotoAPPpage"><a>APP简介</a></li> -->
           <li @click="gotoOneToOne"><a>1V1专家</a></li>
         </ul>
       </div>
@@ -26,16 +26,16 @@
                   height="50"
                 />
               </div>
-              <a
-                title="个人资料"
-                id="username"
-              >{{ phone }}</a>
+              <a title="个人资料" id="username">{{ phone }}</a>
             </div>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="info">
-                <i class="iconfont icon-gerenziliao" style="color: #e5623f"></i>个人资料
+                <i class="iconfont icon-gerenziliao" style="color: #e5623f"></i
+                >个人资料
               </el-dropdown-item>
-              <el-dropdown-item command="logout"><i class="iconfont icon-icon-tuichu" style="color: #e5623f"></i>退出登录
+              <el-dropdown-item command="logout"
+                ><i class="iconfont icon-icon-tuichu" style="color: #e5623f"></i
+                >退出登录
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -93,11 +93,11 @@
                 <template slot="append">
                   <div class="yanzheng-button">
                     <el-button type="text" @click="getCodes" v-if="showCountNum"
-                    >获取验证码
+                      >获取验证码
                     </el-button>
                     <span v-else class="yanzheng-text">{{
-                        "重新发送" + countNum + "s"
-                      }}</span>
+                      "重新发送" + countNum + "s"
+                    }}</span>
                   </div>
                 </template>
               </el-input>
@@ -213,13 +213,13 @@
 // import userSettingPopover from '@/components/userSetting/userSettingPopover'
 // import Logout from '@/components/userSetting/logout'
 import md5 from "js-md5";
-import {withVerifyCodelogin, userLogout} from "@/api/login";
-import {getUserInfo} from "@/api/index";
+import { withVerifyCodelogin, userLogout } from "@/api/login";
+import { getUserInfo } from "@/api/index";
 import UserInfo from "@/components/login/userInfo";
 
 export default {
   name: "header1",
-  components: {UserInfo},
+  components: { UserInfo },
   inject: ["reload"],
   data() {
     // var checkName = (rule, value, callback) => {
@@ -339,7 +339,7 @@ export default {
       return this.$store.state.showlogin;
     },
     phone() {
-      return localStorage.getItem("phone")
+      return localStorage.getItem("phone");
     },
 
     loginflag() {
@@ -354,8 +354,7 @@ export default {
       }
     },
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     closeDialog() {
       this.$store.dispatch("getShowLogin", false);
@@ -497,7 +496,7 @@ export default {
             this.$store.dispatch("showuserInfo", true);
           } else {
             this.$router.push("/");
-            this.reload()
+            this.reload();
           }
         } else if (res.code == 1) {
           // this.$notify.error({
@@ -536,7 +535,7 @@ export default {
       } else {
         this.$router.push({
           name: "SchoolRecommand",
-          params: {tab: "favoriteSchool"},
+          params: { tab: "favoriteSchool" },
         });
       }
     },
@@ -549,8 +548,7 @@ export default {
         .then(() => {
           this.$router.push("/userSetting/personalInformation");
         })
-        .catch(() => {
-        });
+        .catch(() => {});
     },
     gotoWork() {
       if (!this.loginflag) {
@@ -565,7 +563,7 @@ export default {
       } else {
         this.$router.push({
           name: "WorkIndex",
-          params: {tab: "favoriteMajor"},
+          params: { tab: "favoriteMajor" },
         });
       }
       // this.$router.push({
@@ -647,7 +645,8 @@ export default {
       //     },
       //   });
       // } else {
-      this.$router.push("/onetoone");
+      // this.$router.push("/onetoone");
+      this.$router.push("/myOrder");
       // }
     },
     gotoStudy() {

@@ -20,6 +20,12 @@
                 <span class="majorspan">{{ item.level }}</span>
                 <span class="majorspan">{{ item.category }}</span>
                 <span class="majorspan">{{ item.subject }}</span>
+                <el-button
+                  class="deleteBtn"
+                  type="danger"
+                  @click="deleteClick(index)"
+                  >删除</el-button
+                >
               </div>
             </li>
           </ul>
@@ -46,8 +52,7 @@ import VolunteerTable from "@/components/zhiyuanForm/zhiyuanLeft";
 import TopHeader from "@/components/common/topheader";
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
-import { getUserInfo } from "@/api/index.js";
-import { getAllFollowMajor } from "@/api/index.js";
+import { getUserInfo, getAllFollowMajor, unfollowMajor } from "@/api/index.js";
 export default {
   name: "install",
   components: { TopHeader, HomeHeader, Footer, VolunteerTable },
@@ -57,6 +62,7 @@ export default {
       AllFollowMajorList: [],
       pagesize: 5,
       currentPage: 1,
+      phoneNum: "",
     };
   },
   mounted() {
@@ -66,6 +72,7 @@ export default {
     initData() {
       getUserInfo(localStorage.getItem("token")).then((res) => {
         this.userInfoList = res.data;
+        this.phoneNum = this.userInfoList.phoneNum;
         let params = {
           phoneNum: this.userInfoList.phoneNum,
         };
@@ -79,6 +86,17 @@ export default {
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage;
       console.log(this.currentPage); //点击第几页
+    },
+    deleteClick(index) {
+      let params = {
+        majorName: this.AllFollowMajorList[index].followName,
+        phoneNum: this.phoneNum,
+      };
+      unfollowMajor(params).then((res) => {
+        console.log(res);
+        console.log("删除成功");
+        this.AllFollowMajorList.splice(index, 1);
+      });
     },
   },
 };
@@ -124,13 +142,17 @@ li {
 }
 .item .major-box .majorspan {
   font-size: 12px;
-
   color: #99a9bf;
 }
+.item .major-box .deleteBtn {
+  float: right;
+  margin-top: -0.4rem;
+}
+
 .pagination {
   padding-left: 35%;
 }
 .homefooter {
-  margin-top: 1.5rem;
+  margin-top: 2.2rem;
 }
 </style>
