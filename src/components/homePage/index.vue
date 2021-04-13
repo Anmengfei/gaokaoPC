@@ -96,8 +96,7 @@
           </div>
           <div v-else>
             <div class="shuxian-r">
-              <span>{{ userInfo.examProvince }}</span
-              >&nbsp;&nbsp;
+              <span>{{ userInfo.examProvince }}</span>&nbsp;&nbsp;
               <span>{{
                 subject[0] + ` \\ ` + subject[1] + ` \\ ` + subject[2]
               }}</span

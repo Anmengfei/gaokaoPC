@@ -23,10 +23,9 @@
         </el-row>
         <el-row :gutter="10">
           <el-form-item
-            label="排名:"
+            label="总分位次:"
             prop="rank"
           >
-            <label slot="label">排&emsp;&emsp;名:</label>
             <el-input
               style="width: 200px"
               placeholder="请填写排名"
@@ -39,20 +38,78 @@
           label="选择科目:"
           prop="checkSubjectList"
         >
-          <el-checkbox-group
-            size="mini"
-            :max="3"
-            v-model="form.checkSubjectList"
-            @change="selectSubject"
-          >
-            <el-checkbox-button
-              v-for="item in subjects"
-              :label="item"
-              :key="item"
-            >{{ item }}</el-checkbox-button>
-          </el-checkbox-group>
-          <span class="hint" v-if="isShow">需要选择三门学科</span>
+          <div v-if="form.examProvince == '河北' || form.examProvince == '辽宁' || form.examProvince == '江苏' || form.examProvince == '福建' || form.examProvince == '湖北' || form.examProvince == '湖南' || form.examProvince == '广东' || form.examProvince == '重庆' ">
+            <el-checkbox-group
+              size="mini"
+              :max="1"
+              v-model="form.checkSubjectList"
+              @change="selectSubject1"
+            >
+              <el-checkbox-button
+                v-for="item in subjects1"
+                :label="item"
+                :key="item"
+              >{{ item }}</el-checkbox-button>
+            </el-checkbox-group>
+            <el-form-item
+              class="form-item-style"
+              prop="checkSubjectList"
+            >
+              <label slot="label">&nbsp;&emsp;&emsp;&emsp;&emsp;</label>
+              <el-checkbox-group
+                size="mini"
+                :max="2"
+                v-model="form.checkSubjectList2"
+                @change="selectSubject2"
+              >
+                <el-checkbox-button
+                  v-for="item in subjects2"
+                  :label="item"
+                  :key="item"
+                >{{ item }}</el-checkbox-button>
+              </el-checkbox-group>
+
+            </el-form-item>
+            <span class="hint">高考选科3+1+2模式，物理历史必选一科，需要选择三门学科</span>
+          </div>
+
+          <div v-else>
+            <el-checkbox-group
+              size="mini"
+              :max="3"
+              v-model="form.checkSubjectList"
+              @change="selectSubject"
+            >
+              <el-checkbox-button
+                v-for="item in subjects"
+                :label="item"
+                :key="item"
+              >{{ item }}</el-checkbox-button>
+            </el-checkbox-group>
+            <span class="hint" v-if="isShow">高考选科3+3模式，需要选择三门学科</span>
+          </div>
+
+
         </el-form-item>
+<!--        <el-form-item-->
+<!--          class="form-item-style"-->
+<!--          label="选择科目:"-->
+<!--          prop="checkSubjectList"-->
+<!--        >-->
+<!--          <el-checkbox-group-->
+<!--            size="mini"-->
+<!--            :max="3"-->
+<!--            v-model="form.checkSubjectList"-->
+<!--            @change="selectSubject"-->
+<!--          >-->
+<!--            <el-checkbox-button-->
+<!--              v-for="item in subjects"-->
+<!--              :label="item"-->
+<!--              :key="item"-->
+<!--            >{{ item }}</el-checkbox-button>-->
+<!--          </el-checkbox-group>-->
+<!--          <span class="hint" v-if="isShow">需要选择三门学科</span>-->
+<!--        </el-form-item>-->
         <el-form-item>
           <el-row>
             <div class="infoPro">
@@ -81,6 +138,7 @@ export default {
   data() {
     return {
       isShow: false,
+      isShow1: false,
       btnUser: true,
       placeholder1: false,
       form: {
@@ -95,7 +153,8 @@ export default {
         history:'0',
         physics:'0',
         politics:'0',
-        checkSubjectList:[]
+        checkSubjectList:[],
+        checkSubjectList2:[]
       },
       rules: {
         examYear:[
@@ -107,6 +166,9 @@ export default {
         checkSubjectList: [
           { required: true, message: "请选择科目", trigger: "change" },
         ],
+        checkSubjectList2: [
+          { required: true, message: "请选择科目", trigger: "change" },
+        ],
         rank: [
           { required: true, message: "请填写高考排名", trigger: "blur" },
         ],
@@ -116,6 +178,8 @@ export default {
       },
       provinceList: [],
       subjects: ["物理", "化学", "生物", "政治", "历史", "地理"],
+      subjects1: ["物理",  "历史"],
+      subjects2: [ "化学", "生物", "政治",  "地理"],
     };
   },
   mounted() {
@@ -130,30 +194,39 @@ export default {
         this.form.phoneNum = res.data.phoneNum
         this.form.examYear = res.data.examYear
         this.form.examProvince = res.data.examProvince
-        res.data.biology == 1?this.form.checkSubjectList.push('生物'):'';
-        res.data.chemistry == 1?this.form.checkSubjectList.push('化学'):'';
-        res.data.geography == 1?this.form.checkSubjectList.push('地理'):'';
-        res.data.history == 1?this.form.checkSubjectList.push('历史'):'';
-        res.data.physics == 1?this.form.checkSubjectList.push('物理'):'';
-        res.data.politics == 1?this.form.checkSubjectList.push('政治'):'';
+        if(this.form.examProvince == '河北' || form.examProvince == '辽宁' || form.examProvince == '江苏' || form.examProvince == '福建' || form.examProvince == '湖北' || form.examProvince == '湖南' || form.examProvince == '广东' || form.examProvince == '重庆'){
+          res.data.biology == 1?this.form.checkSubjectList2.push('生物'):'';
+          res.data.chemistry == 1?this.form.checkSubjectList2.push('化学'):'';
+          res.data.geography == 1?this.form.checkSubjectList2.push('地理'):'';
+          res.data.history == 1?this.form.checkSubjectList.push('历史'):'';
+          res.data.physics == 1?this.form.checkSubjectList.push('物理'):'';
+          res.data.politics == 1?this.form.checkSubjectList2.push('政治'):'';
+        }else {
+          res.data.biology == 1?this.form.checkSubjectList.push('生物'):'';
+          res.data.chemistry == 1?this.form.checkSubjectList.push('化学'):'';
+          res.data.geography == 1?this.form.checkSubjectList.push('地理'):'';
+          res.data.history == 1?this.form.checkSubjectList.push('历史'):'';
+          res.data.physics == 1?this.form.checkSubjectList.push('物理'):'';
+          res.data.politics == 1?this.form.checkSubjectList.push('政治'):'';
+        }
       })
     },
     submitForm(formName) {
       console.log('学科',this.form)
       console.log('学科',this.form.checkSubjectList)
-
+      var submit = this.form.checkSubjectList.concat(this.form.checkSubjectList2)
       this.$refs[formName].validate((valid) => {
         if (valid) {
           completeInformation({
-            biology: this.form.checkSubjectList.includes('生物')?1:0,
-            chemistry:this.form.checkSubjectList.includes('化学')?1:0,
+            biology: submit.includes('生物')?1:0,
+            chemistry:submit.includes('化学')?1:0,
             examProvince:this.form.examProvince,
             examYear:this.form.examYear,
-            geography:this.form.checkSubjectList.includes('地理')?1:0,
-            history:this.form.checkSubjectList.includes('历史')?1:0,
+            geography:submit.includes('地理')?1:0,
+            history:submit.includes('历史')?1:0,
             phoneNum:this.form.phoneNum,
-            physics:this.form.checkSubjectList.includes('物理')?1:0,
-            politics:this.form.checkSubjectList.includes('政治')?1:0,
+            physics:submit.includes('物理')?1:0,
+            politics:submit.includes('政治')?1:0,
             rank:this.form.rank,
             score:this.form.score,
           }).then( res => {
@@ -161,6 +234,8 @@ export default {
               this.msgSuccess('提交修改成功')
               this.$router.push("/");
               this.reload()
+            }else {
+              this.msgError('提交修改失败，请补充全信息')
             }
             console.log('提交用户',res)
           })
