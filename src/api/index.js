@@ -106,11 +106,27 @@ export function findMajorFollowOrNot(data) {
         params: data
     })
 }
+//取消关注专业
+export function unfollowMajor(data) {
+    return request({
+        url: '/extendApp/unfollowMajor',
+        method: 'delete',
+        params: data
+    })
+}
 // 判断学校是否关注
 export function findSchoolFollowOrNot(data) {
     return request({
         url: '/extendApp/findSchoolFollowOrNot',
         method: 'get',
+        params: data
+    })
+}
+//取消关注学校
+export function unfollowSchool(data) {
+    return request({
+        url: '/extendApp/unfollowSchool',
+        method: 'delete',
         params: data
     })
 }
@@ -177,6 +193,14 @@ export function orderPayState(data) {
     return request({
         url: '/PCpay/orderPayState',
         method: 'get',
+        params: data
+    })
+}
+//删除订单
+export function delPayOrder(data) {
+    return request({
+        url: '/PCpay/delPayOrder',
+        method: 'post',
         params: data
     })
 }

@@ -3,17 +3,19 @@
     <div class="eR-l">
       <dl>
         <dt>常见问题</dt>
-        <dd class="team" @click="handleClick()">产品白皮书</dd>
+        <!-- <dd class="team" @click="handleClick()">产品白皮书</dd> -->
         <dd class="team">产品说明书</dd>
       </dl>
       <dl>
         <dt>关于我们</dt>
+        <dd class="team" @click="handleClick()">APP简介</dd>
         <dd class="team" @click="handleClick()">团队介绍</dd>
         <dd class="team" @click="handleClick()">隐私政策</dd>
         <dd class="team" @click="handleClick()">用户协议</dd>
         <dd class="team" @click="handleClick()">联系我们 : 400-168-6292</dd>
       </dl>
       <dl>
+        97
         <dt>2020微信群</dt>
       </dl>
       <dl>

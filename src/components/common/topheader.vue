@@ -40,7 +40,7 @@
               class="shouji"
             >
               <div class="bg-logo">
-                <img class="bg-QQ" src="../../assets/QQ.png" alt="" />
+                <img class="bg-QQ" src="../../assets/erweima.jpg" alt="" />
                 <div>微信扫一扫，惊喜更多</div>
               </div>
               <a class="a-erweima" href="" slot="reference">微信公众号</a>
@@ -64,10 +64,10 @@
             <img src="../../assets/logo.png" class="img-logo" />
             <img src="../../assets/logo-word.png" class="img-logo-word" />
 
-<!--            <div class="plateName">智禾考哪儿</div>-->
+            <!--            <div class="plateName">智禾考哪儿</div>-->
           </div>
         </el-col>
-        <el-col :span="12">
+        <el-col class="elco" :span="8">
           <el-col :span="12">
             <el-autocomplete
               style="width: 320px"
@@ -89,8 +89,10 @@
             </el-autocomplete>
           </el-col>
         </el-col>
-        <el-col :span="6">
+        <el-col class="elco1" :span="10">
           <div class="desc">
+            <span class="top-hotline">全国服务热线:</span>
+            <span class="hotline">400-168-6292</span>
             <span class="tishiOne">祝广大考生金榜提名</span>
             <span class="tishiTwo" v-if="vip == 0" @click="gotoVIP"
               >开通VIP</span
@@ -282,10 +284,19 @@ a {
 
 .secondRow .desc {
   margin-top: 0.1rem;
-  padding-left: 1.1rem;
+  /* padding-left: 1.1rem; */
 }
-
+.secondRow .desc .top-hotline {
+  padding-left: 0.1rem;
+  font-size: 0.2rem;
+}
+.secondRow .desc .hotline {
+  color: rgb(235, 16, 16);
+  font-size: 0.2rem;
+  font-weight: bold;
+}
 .tishiOne {
+  margin-left: 0.8rem;
   border: 1px solid red;
   color: rgb(235, 16, 16);
 }

@@ -14,6 +14,7 @@
                 currentPage * pagesize
               )"
               :key="index"
+              v-show="AllFollowSchoolList.length > 0"
             >
               <div class="schoolitemBox">
                 <el-row>
@@ -26,6 +27,12 @@
                     <div class="desc">
                       <span class="name">{{ item.followName }}</span>
                       <span class="province">{{ item.province }}</span>
+                      <el-button
+                        class="deleteBtn"
+                        type="danger"
+                        @click="deleteClick(index)"
+                        >删除</el-button
+                      >
                     </div>
                     <div class="schooltags">
                       <span>{{ item.type }}</span>
@@ -42,6 +49,10 @@
               </div>
             </li>
           </ul>
+          <div class="empty" v-show="AllFollowSchoolList == 0">
+            <!-- <span style="font-size: 0.3rem">暂无关注</span> -->
+            <img src="@/assets/empty.png" alt="" />
+          </div>
           <div class="pagination">
             <el-pagination
               background
@@ -50,6 +61,7 @@
               :current-page="currentPage"
               :page-size="pagesize"
               @current-change="handleCurrentChange"
+              v-show="AllFollowSchoolList.length > 0"
             >
             </el-pagination>
           </div>
@@ -65,8 +77,11 @@ import VolunteerTable from "@/components/zhiyuanForm/zhiyuanLeft";
 import TopHeader from "@/components/common/topheader";
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
-import { getUserInfo } from "@/api/index.js";
-import { getAllFollowSchool } from "@/api/index.js";
+import {
+  getUserInfo,
+  getAllFollowSchool,
+  unfollowSchool,
+} from "@/api/index.js";
 export default {
   name: "order",
   components: { TopHeader, HomeHeader, Footer, VolunteerTable },
@@ -76,6 +91,7 @@ export default {
       AllFollowSchoolList: [],
       pagesize: 5,
       currentPage: 1,
+      phoneNum: "",
     };
   },
   mounted() {
@@ -85,20 +101,33 @@ export default {
     initData() {
       getUserInfo(localStorage.getItem("token")).then((res) => {
         this.userInfoList = res.data;
+        this.phoneNum = this.userInfoList.phoneNum;
+        console.log("这是我的手机号", this.phoneNum);
         let params = {
           phoneNum: this.userInfoList.phoneNum,
         };
         getAllFollowSchool(params).then((res) => {
-          console.log("这是关注院校aaaaaaaaa");
           this.AllFollowSchoolList = res.data;
+          console.log("这是关注院校aaaaaaaaa");
           console.log(this.AllFollowSchoolList);
+          // console.log(this.followName);
         });
       });
     },
-
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage;
       console.log(this.currentPage); //点击第几页
+    },
+    deleteClick(index) {
+      let params = {
+        phoneNum: this.phoneNum,
+        schoolName: this.AllFollowSchoolList[index].followName,
+      };
+      unfollowSchool(params).then((res) => {
+        console.log(res);
+        console.log("删除成功");
+        this.AllFollowSchoolList.splice(index, 1);
+      });
     },
   },
 };
@@ -137,6 +166,10 @@ li {
   border-bottom: 1px solid #e5e5e5;
   padding: 0.2rem 0;
 }
+.item .empty {
+  text-align: center;
+  padding-top: 1rem;
+}
 .schoolLogo {
   /* margin-top: 0.05rem; */
   width: 1.3rem;
@@ -146,6 +179,7 @@ li {
   margin-top: 0.15rem;
   padding: 0.07rem 0;
   border-bottom: 1px dashed #e5e5e5;
+  /* background-color: pink; */
 }
 .schoolitemBox .desc .name {
   font-size: 0.25rem;
@@ -154,6 +188,11 @@ li {
 .schoolitemBox .desc .province {
   font-size: 0.15rem;
   margin-left: 0.2rem;
+}
+.schoolitemBox .desc .deleteBtn {
+  float: right;
+  margin-top: 0.5rem;
+  /* margin-left: 5rem; */
 }
 
 .schooltags span {

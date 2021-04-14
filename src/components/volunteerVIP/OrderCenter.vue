@@ -1,5 +1,15 @@
 <template>
   <div class="app_container">
+    <div class="paycode_style" v-show="show_pay_order">
+      <div class="paybox">
+        <div class="paybox-title">
+          <h3>您存在未支付的订单，请移步订单中心完成支付或取消未支付订单！</h3>
+        </div>
+        <div>
+          <div class="submit-btn2" @click="gotoOrderCenter">移步订单中心</div>
+        </div>
+      </div>
+    </div>
     <top-header></top-header>
     <HomeHeader></HomeHeader>
     <div class="cart-head">
@@ -9,22 +19,46 @@
     </div>
     <div class="cart-body">
       <div class="title-box">
-        <p class="goods-info-title">商品信息</p>
+        <p class="goods-info-title">商品信息:</p>
       </div>
       <div class="detail-box">
         <div class="detail-box-content">
           <img src="/static/img/vip.c657b9e.jpg" alt="" />
-          <div class="right-text">
-            <span class="right-text-con"></span>
+          <div class="paymoney">
+            <div class="card-info">
+              <div class="vip-type">
+                <span class="type-item">VIP会员卡</span>
+              </div>
+              <div class="description">
+                <div style="height: 0.08rem"></div>
+                <div class="remark-item" style="width: 3.1rem">
+                  <span style="color: #ccc; font-size: 0.15rem">适用考生:</span>
+                  <span class="value">普通类文理科考生(不含艺术体育类)</span>
+                </div>
+                <div class="remark-item" style="width: 2.85rem">
+                  <span style="color: #ccc; font-size: 0.15rem">适用批次:</span>
+                  <span class="value">普通类非提前批</span>
+                </div>
+                <div style="height: 0.08rem"></div>
+                <div class="remark-item" style="width: 2.85rem">
+                  <span style="color: #ccc; font-size: 0.15rem">适用范围:</span>
+                  <span class="value">仅限本人在高考省份使用</span>
+                </div>
+                <div class="remark-item" style="width: 2.5rem">
+                  <span style="color: #ccc; font-size: 0.15rem">使用日期:</span>
+                  <span class="value">有效期至2021-08-31</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="paymoney">￥ 288</div>
         </div>
       </div>
       <div class="pay_action">
-        <span class="pay_text1"> 商品总金额： ¥ 288</span>
+        <span class="pay_text1"> 商品总金额： ¥ 298</span>
         <span class="pay_text2"> 应付： </span>
         <span class="pay_text3"> ¥ 288 </span>
-        <div class="submit-btn" @click="gotoPay">提交订单</div>
+        <!-- <el-button type="warning" round>警告按钮</el-button> -->
+        <span class="submit-btn" @click="gotoPay">提交订单</span>
       </div>
     </div>
     <div class="footer">
@@ -43,41 +77,58 @@ export default {
   data() {
     return {
       userInfoList: [],
+      show_pay_order: false,
+      code: 0,
     };
   },
-  mounted() {},
+  mounted() {
+    // getUserInfo(localStorage.getItem("token")).then((res) => {
+    //   this.userInfoList = res.data;
+    //   console.log("获取用户信息状态");
+    //   console.log(this.userInfoList);
+    // });
+    this.initData();
+  },
   methods: {
-    gotoPay() {
+    initData() {
       getUserInfo(localStorage.getItem("token")).then((res) => {
         this.userInfoList = res.data;
-
         var params = {
           phoneNum: this.userInfoList.phoneNum,
         };
         addPayOrder(params).then((res) => {
-          console.log("AAA", res);
-          this.$router.push({
-            path: "/PayCenter",
-            query: {
-              orderId: res.data.orderId,
-            },
-          });
+          this.code = res.code;
+          if (res.code == 517) {
+            this.show_pay_order = true;
+          }
         });
-
-        // this.$router.push("/PayCenter");
-        // var url = `https://www.zytb.top/NEMT/gk/PCpay/addPayOrder?phoneNum=${this.userInfoList.phoneNum}`;
-        // this.$axios
-        //   .get(url, {
-        //     headers: {
-        //       Authorization: "Bearer " + localStorage.getItem("token"),
-        //     },
-        //   })
-        //   .then((res) => {
-        //     console.log("张伟大神又在测试数据");
-        //     console.log(res);
-
-        //   });
       });
+    },
+    gotoPay() {
+      if (this.code === 0) {
+        this.$router.push(
+          "/PayCenter"
+          //   {
+          //   path: "/PayCenter",
+          //   query: {
+          //     orderId: res.data.orderId,
+          //   },
+          // }
+        );
+      } else if (this.code === 517) {
+        this.$router.push(
+          "/myOrder"
+          //   {
+          //   path: "/myOrder",
+          //   query: {
+          //     orderId: res.data,
+          //   },
+          // }
+        );
+      }
+    },
+    gotoOrderCenter() {
+      this.$router.push("/myOrder");
     },
   },
 };
@@ -87,6 +138,50 @@ export default {
 .app_container {
   /*background-color: white;*/
   background-color: #f3f5f7;
+}
+.paycode_style {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+  position: fixed;
+}
+.paybox {
+  width: 400px;
+  height: 250px;
+  background-color: #fff;
+  border-radius: 10px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.1);
+  padding: 36px;
+}
+.paybox-title {
+  text-align: center;
+}
+.paybox-title h3 {
+  font-size: 20px;
+  color: #1c1f21;
+  line-height: 24px;
+  font-weight: 700;
+}
+.submit-btn2 {
+  width: 148px;
+  height: 48px;
+  margin: 20px auto;
+  line-height: 48px;
+  font-size: 16px;
+  border-radius: 24px;
+  background-color: #f01414;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+}
+.submit-btn2:hover {
+  border-color: #c20a0a;
+  background: #c20a0a;
 }
 .cart-head {
   height: 260px;
@@ -105,13 +200,13 @@ export default {
 .footer {
   width: 100%;
   height: 3rem;
-  /* margin-top: 0.3rem; */
+  margin-top: 1rem;
 }
 .cart-body {
   width: 1400px;
   padding: 0 36px 32px;
   background-color: #fff;
-  margin-top: -40px;
+  margin-top: -60px;
   left: 50%;
   transform: translateX(-50%);
   box-shadow: 0 8px 16px 0 rgba(7, 17, 27, 0.1);
@@ -124,9 +219,8 @@ export default {
   padding-bottom: 24px;
 }
 .goods-info-title {
-  margin-left: 20px;
   color: #07111b;
-  font-size: 20px;
+  font-size: 0.25rem;
   line-height: 16px;
 }
 .detail-box {
@@ -159,10 +253,9 @@ export default {
 .paymoney {
   position: absolute;
   top: 50%;
-  right: 250px;
+  right: 3rem;
   transform: translateY(-50%);
-  color: #f01414;
-  font-size: 20px;
+  font-size: 0.2rem;
 }
 .pay_action {
   margin-top: 60px;
@@ -242,6 +335,16 @@ export default {
   color: #1c1f21;
   line-height: 24px;
   font-weight: 700;
+}
+.remark-item {
+  display: inline-block;
+  vertical-align: top;
+}
+.remark-item .value {
+  font-size: 0.15rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+.card-info {
 }
 </style>
 

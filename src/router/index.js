@@ -84,6 +84,11 @@ export default new Router({
         component: resolve => require(['@/components/oneToone/index'], resolve)
     },
     {
+        path: '/myOrder',
+        name: 'myOrder',
+        component: resolve => require(['@/components/volunteerVIP/myOrder'], resolve)
+    },
+    {
         path: '/AllFollowMajor',
         name: 'AllFollowMajor',
         component: resolve => require(['@/components/UserInformation/AllFollowMajor'], resolve)
