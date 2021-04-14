@@ -196,6 +196,14 @@ export function orderPayState(data) {
         params: data
     })
 }
+//删除订单
+export function delPayOrder(data) {
+    return request({
+        url: '/PCpay/delPayOrder',
+        method: 'post',
+        params: data
+    })
+}
 //设置密码
 export function setPassWord(data) {
     return request({

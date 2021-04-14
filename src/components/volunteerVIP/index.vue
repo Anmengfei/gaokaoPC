@@ -8,20 +8,6 @@
           <span class="vipcard" v-if="isShow1">
             <img alt="mask" class="card-icon" src="../../assets/vip.jpg" />
           </span>
-          <!--          <span class="vipcard" v-if="isShow2">-->
-          <!--            <img-->
-          <!--              alt="mask"-->
-          <!--              class="card-icon"-->
-          <!--              src="../../assets/vip.jpg"-->
-          <!--            />-->
-          <!--          </span>-->
-          <!--          <span class="vipcard" v-if="isShow3">-->
-          <!--            <img-->
-          <!--              alt="mask"-->
-          <!--              class="card-icon"-->
-          <!--              src="../../assets/pushimage2.png"-->
-          <!--            />-->
-          <!--          </span>-->
           <div class="card-info">
             <div class="vip-name">
               <el-row>
@@ -31,7 +17,6 @@
                     ￥
                     <span class="fee">298</span>
                     <div class="price-info">
-                      <!--                      <div class="tag">金榜题名</div>-->
                       <div class="origin">原价:￥498</div>
                     </div>
                   </div></el-col
@@ -55,9 +40,6 @@
                       plain
                       >已开通VIP</el-button
                     >
-                    <!-- <button class="strong-btn" v-else disabled>
-                      已开通VIP
-                    </button> -->
                   </span>
                 </el-col>
               </el-row>

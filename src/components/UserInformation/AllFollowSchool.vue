@@ -14,6 +14,7 @@
                 currentPage * pagesize
               )"
               :key="index"
+              v-show="AllFollowSchoolList.length > 0"
             >
               <div class="schoolitemBox">
                 <el-row>
@@ -48,6 +49,10 @@
               </div>
             </li>
           </ul>
+          <div class="empty" v-show="AllFollowSchoolList == 0">
+            <!-- <span style="font-size: 0.3rem">暂无关注</span> -->
+            <img src="@/assets/empty.png" alt="" />
+          </div>
           <div class="pagination">
             <el-pagination
               background
@@ -56,6 +61,7 @@
               :current-page="currentPage"
               :page-size="pagesize"
               @current-change="handleCurrentChange"
+              v-show="AllFollowSchoolList.length > 0"
             >
             </el-pagination>
           </div>
@@ -159,6 +165,10 @@ li {
   /* border-bottom: 1px dashed #e5e5e5; */
   border-bottom: 1px solid #e5e5e5;
   padding: 0.2rem 0;
+}
+.item .empty {
+  text-align: center;
+  padding-top: 1rem;
 }
 .schoolLogo {
   /* margin-top: 0.05rem; */

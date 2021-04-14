@@ -1,6 +1,10 @@
 <template>
   <div class="app_container">
-    <el-dialog :visible.sync="code_show" class="dialogPay">
+    <el-dialog
+      :visible.sync="code_show"
+      class="dialogPay"
+      @close="closeClick()"
+    >
       <div>
         <h1>微信支付 ¥ 298</h1>
         <img :src="Paycode" />
@@ -16,6 +20,7 @@
     </div>
     <div class="cart">
       <div class="cart-header">
+        <span>订单编码：{{ orderId }}</span>
         <div class="card-box">
           <img class="card-icon" src="/static/img/vip.c657b9e.jpg" alt="" />
           <span class="card-title">考哪儿 会员卡</span>
@@ -47,7 +52,7 @@
           <span class="primary-line"></span>
           <span class="title">选择支付方式</span>
         </div>
-        <div>
+        <div class="payMethods">
           <el-radio v-model="radio" label="1" border
             ><img
               class="wechatImg"
@@ -78,12 +83,14 @@
               <span data-track="10500">《智禾考哪儿会员服务协议》</span>
             </div>
           </div>
-          <el-button
-            type="primary"
-            style="width: 120px; height: 45px; vertical-align: buttom"
-            @click="pay_submit()"
-            >立即支付</el-button
-          >
+          <div class="payClass">
+            <el-button
+              type="primary"
+              style="width: 1.2rem; height: 0.5rem"
+              @click="pay_submit()"
+              >立即支付</el-button
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -97,7 +104,7 @@
 import TopHeader from "@/components/common/topheader";
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
-import { getweiXinPay, getUserInfo, orderPayState } from "@/api/index.js";
+import { getUserInfo, addPayOrder, orderPayState } from "@/api/index.js";
 export default {
   components: { TopHeader, HomeHeader, Footer },
   data() {
@@ -113,21 +120,24 @@ export default {
     };
   },
   mounted() {
-    this.orderId = this.$route.query.orderId;
+    // this.orderId = this.$route.query.orderId;
     this.initData();
   },
   methods: {
     initData() {
-      // weiXinPay()
       getUserInfo(localStorage.getItem("token")).then((res) => {
         this.userInfoList = res.data;
-        // let params = {
-        //   phoneNum: this.userInfoList.phoneNum,
-        // };
-        // getweiXinPay(params).then((res) => {
-        //   console.log("这是张伟大神在测试二维码");
-        //   console.log(res);
-        // });
+        var params = {
+          phoneNum: this.userInfoList.phoneNum,
+        };
+        addPayOrder(params).then((res) => {
+          this.code = res.code;
+          if (res.code == 517) {
+            this.orderId = res.data;
+          } else if (res.code == 0) {
+            this.orderId = res.data.outTradeNo;
+          }
+        });
       });
     },
     pay_submit() {
@@ -166,13 +176,17 @@ export default {
         });
     },
     PaySuccessPage() {
-      alert("支付成功！欢迎下次光临");
+      this.$message({ type: "success", message: "支付成功" });
+      // alert("支付成功！欢迎下次光临");
       // this.$router.push({
       //   path: "/PaySuccess",
       //   query: {
       //     outTradeNo: this.outTradeNo,
       //   },
       // });
+    },
+    closeClick() {
+      clearInterval(this.maver);
     },
   },
 };
@@ -233,6 +247,7 @@ export default {
   border-radius: 10px;
   padding: 20px;
   margin: 0 auto;
+  margin-top: 0.3rem;
 }
 .card-box .card-icon {
   width: 2.5rem;
@@ -291,15 +306,22 @@ export default {
   height: 0.4rem;
   width: 0.4rem;
 }
+.payMethods {
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
 .bottom-panel {
+  float: right;
   margin-top: 0.3rem;
-  padding-top: 22px;
   text-align: right;
-  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  /* border-top: 1px solid rgba(0, 0, 0, 0.3); */
+  /* background-color: pink; */
 }
 .info-panel {
+  float: left;
   display: inline-block;
   margin-right: 20px;
+  /* background-color: #e5623f; */
 }
 .info-panel .price {
   font-size: 14px;
@@ -331,9 +353,13 @@ export default {
   background-color: rgb(255, 150, 31);
   border-color: rgb(255, 150, 31);
 }
+.payClass {
+  float: left;
+  margin-top: 0.1rem;
+}
 .el-button {
-  padding: 16px 28px;
-  font-size: 0.21rem;
+  /* margin-bottom: 30px; */
+  font-size: 0.17rem;
   border-radius: 10px;
   letter-spacing: 0px;
   cursor: pointer;

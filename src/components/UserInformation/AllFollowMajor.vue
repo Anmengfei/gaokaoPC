@@ -14,6 +14,7 @@
                 currentPage * pagesize
               )"
               :key="index"
+              v-show="AllFollowMajorList.length > 0"
             >
               <div class="major-box">
                 <div class="majorspan1">{{ item.followName }}</div>
@@ -29,6 +30,10 @@
               </div>
             </li>
           </ul>
+          <div class="empty" v-show="AllFollowMajorList == 0">
+            <!-- <span style="font-size: 0.3rem">暂无关注</span> -->
+            <img class="emptyImg" src="@/assets/empty.png" alt="" />
+          </div>
           <div class="pagination">
             <el-pagination
               :current-page="currentPage"
@@ -37,6 +42,7 @@
               @current-change="handleCurrentChange"
               background
               layout="total,prev, pager, next"
+              v-show="AllFollowMajorList.length > 0"
             >
             </el-pagination>
           </div>
@@ -148,7 +154,10 @@ li {
   float: right;
   margin-top: -0.4rem;
 }
-
+.item .empty {
+  text-align: center;
+  padding-top: 1rem;
+}
 .pagination {
   padding-left: 35%;
 }

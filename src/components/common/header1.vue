@@ -645,8 +645,8 @@ export default {
       //     },
       //   });
       // } else {
-      // this.$router.push("/onetoone");
-      this.$router.push("/myOrder");
+      this.$router.push("/onetoone");
+      // this.$router.push("/myOrder");
       // }
     },
     gotoStudy() {

@@ -16,10 +16,30 @@
             <el-table-column label="志愿表" align="center">
               <template slot-scope="scope">{{ scope.$index + 1 }}</template>
             </el-table-column>
-            <el-table-column prop="userInformation[2]" label="分数" align="center"> </el-table-column>
-            <el-table-column prop="userInformation[1]" label="选科" align="center"> </el-table-column>
-            <el-table-column prop="userInformation[3]" label="排名" align="center"> </el-table-column>
-            <el-table-column prop="quantity" label="意向志愿数目" align="center"> </el-table-column>
+            <el-table-column
+              prop="userInformation[2]"
+              label="分数"
+              align="center"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="userInformation[1]"
+              label="选科"
+              align="center"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="userInformation[3]"
+              label="排名"
+              align="center"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="quantity"
+              label="意向志愿数目"
+              align="center"
+            >
+            </el-table-column>
             <el-table-column prop="address" label="操作" align="center">
               <template slot-scope="scope">
                 <span id="chakan" @click="gotoZhiyuanbiao(scope.row.id)"
@@ -89,6 +109,8 @@ export default {
         console.log("数据来了", res);
         if (res.msg === "成功") {
           this.volform = res.data.wishes;
+          console.log("这到底是什么");
+          console.log(this.volform);
           for (let i = 0; i < this.volform.length; ++i) {
             this.volform[i].risk = this.volform[i].chances;
             this.volform[i].selectionRequirement = this.volform[
@@ -98,9 +120,13 @@ export default {
           console.log("8888888888888", this.volform);
           this.$router.push({
             name: "zhiyuanBiao",
+            // path: "/zhiyuanBiao",
             params: {
               zhiyuanTable: this.volform,
             },
+            // query: {
+            //   zhiyuanTable: this.volform,
+            // },
           });
         }
       });
