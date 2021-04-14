@@ -113,11 +113,16 @@ export default {
       isShow1: true,
       isShow2: false,
       isShow3: false,
-      vip: "",
+      vip: this.$store.state.vip,
     };
   },
+  watch: {
+    '$route'(to, from) {
+      this.getInfo()
+    },
+  },
   mounted() {
-    this.getInfo();
+    // this.getInfo();
   },
   methods: {
     handleClick1() {

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-tabs type="border-card" v-model="selectedtag">
-      <el-tab-pane label="冲" name="冲">
+      <el-tab-pane label="冲刺" name="冲">
         <div class="container">
           <ul>
             <li v-for="(item, index) in majorList" :key="index">
@@ -44,7 +44,7 @@
           </ul>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="稳" name="稳">
+      <el-tab-pane label="稳妥" name="稳">
         <div class="container">
           <ul>
             <li v-for="(item, index) in majorList" :key="index">
@@ -87,7 +87,7 @@
           </ul>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="保" name="保">
+      <el-tab-pane label="保底" name="保">
         <div class="container">
           <ul>
             <li v-for="(item, index) in majorList" :key="index">

@@ -114,7 +114,6 @@ export default {
       Paycode: "",
       code_show: false,
       maver: "",
-      Paycode: "",
       orderId: "",
       checkCode: "",
     };
@@ -177,13 +176,12 @@ export default {
     },
     PaySuccessPage() {
       this.$message({ type: "success", message: "支付成功" });
+      getUserInfo().then((res) => {
+        this.$store.dispatch("getVip", res.data.vip);
+        localStorage.setItem('state', JSON.stringify(this.$store.state))
+      });
       // alert("支付成功！欢迎下次光临");
-      // this.$router.push({
-      //   path: "/PaySuccess",
-      //   query: {
-      //     outTradeNo: this.outTradeNo,
-      //   },
-      // });
+      this.$router.push("/volunteerVIP");
     },
     closeClick() {
       clearInterval(this.maver);

@@ -65,7 +65,6 @@ export default {
       show_cancel_order: false,
       userInfoList: [],
       orderList: [],
-      orderId: "",
     };
   },
   computed: {},
