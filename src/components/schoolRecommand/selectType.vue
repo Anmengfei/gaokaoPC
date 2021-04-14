@@ -272,7 +272,7 @@ export default {
   data () {
     return {
       userInfo:{},
-      vip:'',
+      vip:this.$store.state.vip,
       checkList: [],
       checkmajorList: [],
       followCollege: [],
@@ -351,10 +351,6 @@ export default {
   methods: {
 
     init () {
-      // getUserInfo().then(res => {
-      //   this.phoneNum = res.data.phoneNum
-      // })
-      console.log('444',this.phoneNum)
       getAllFollowSchool({
         phoneNum: this.phoneNum
       }).then(res => {
@@ -536,13 +532,7 @@ export default {
         this.majorflag = true
       } else {
         this.majorflag = false
-        // this.majorflag = true;
       }
-      // console.log('selectTabs数据啊', this.selectTabs)
-      // this.majorflag = !this.majorflag
-      // console.log(tab.name)
-      // this.selectTabs = tab.name
-      console.log('2222222222222222222222222', this.selectTabs)
       this.$forceUpdate()
     },
     getAddFormInfo (message) {
@@ -557,13 +547,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        // this.showvolformdata = true
         this.volForm = []
         this.$forceUpdate()
-        // this.$message({
-        //   type: 'success',
-        //   message: '删除成功!'
-        // })
       }).catch(() => {
         this.$message({
           type: 'info',

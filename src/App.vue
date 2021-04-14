@@ -19,11 +19,15 @@ export default {
     }
   },
   mounted () {
+    window.addEventListener('unload', this.saveState)
     this.$router.afterEach((to, from, next) => {
       window.scrollTo(0, 0)
     })
   },
   methods: {
+    saveState() {
+      localStorage.setItem('state', JSON.stringify(this.$store.state))
+    },
     reload () {
       this.isRouterAlive = false // 先关闭，
       this.$nextTick(function () {

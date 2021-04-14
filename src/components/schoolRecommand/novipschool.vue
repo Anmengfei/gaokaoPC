@@ -189,8 +189,8 @@ export default {
     getAllSchoolData(pagenum) {
       getUserInfo(localStorage.getItem("token")).then((res) => {
         this.userInfoList = res.data;
-        console.log("这是测试的是userInfo的列表");
-        console.log(this.userInfoList);
+        // console.log("这是测试的是userInfo的列表");
+        // console.log(this.userInfoList);
         getAllSchool({
           provinces: this.selected.provinceSelect,
           schoolTypes: this.selected.typeSelect,

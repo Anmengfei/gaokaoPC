@@ -253,7 +253,7 @@ export default {
         name: "",
       },
       subject: [],
-      userInfo: {},
+      userInfo: this.$store.state.userinfo,
       dialogVisible: false,
       loginStatus: false,
       value1: "5",
@@ -300,6 +300,12 @@ export default {
     },
   },
   mounted() {
+    this.userInfo.biology == 1 ? this.subject.push("生物") : "";
+    this.userInfo.chemistry == 1 ? this.subject.push("化学") : "";
+    this.userInfo.geography == 1 ? this.subject.push("地理") : "";
+    this.userInfo.history == 1 ? this.subject.push("历史") : "";
+    this.userInfo.physics == 1 ? this.subject.push("物理") : "";
+    this.userInfo.politics == 1 ? this.subject.push("政治") : "";
     this.initData();
     window.addEventListener("scroll", this.watchScroll);
     this.setBannerH();
@@ -341,16 +347,23 @@ export default {
       });
       getUserInfo().then((res) => {
         this.userInfo = res.data;
-        // if(this.userInfo.)
-
         this.userInfo.biology == 1 ? this.subject.push("生物") : "";
         this.userInfo.chemistry == 1 ? this.subject.push("化学") : "";
         this.userInfo.geography == 1 ? this.subject.push("地理") : "";
         this.userInfo.history == 1 ? this.subject.push("历史") : "";
         this.userInfo.physics == 1 ? this.subject.push("物理") : "";
         this.userInfo.politics == 1 ? this.subject.push("政治") : "";
-
-        console.log("1111", this.subject);
+        // this.userInfo = res.data;
+        // // if(this.userInfo.)
+        //
+        // this.userInfo.biology == 1 ? this.subject.push("生物") : "";
+        // this.userInfo.chemistry == 1 ? this.subject.push("化学") : "";
+        // this.userInfo.geography == 1 ? this.subject.push("地理") : "";
+        // this.userInfo.history == 1 ? this.subject.push("历史") : "";
+        // this.userInfo.physics == 1 ? this.subject.push("物理") : "";
+        // this.userInfo.politics == 1 ? this.subject.push("政治") : "";
+        //
+        // console.log("1111", this.subject);
       });
       this.getInfo();
     },

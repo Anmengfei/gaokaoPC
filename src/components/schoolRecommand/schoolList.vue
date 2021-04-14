@@ -195,7 +195,6 @@ export default {
       this.$set(this.btnFlag, id, !this.btnFlag[id]);
       this.$set(this.majorShow, id, !this.majorShow[id]);
       // console.log('专业列表', majorls)
-
       this.majorlist = majorls;
     },
     getAllSchoolData(pagenum) {

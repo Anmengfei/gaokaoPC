@@ -194,7 +194,7 @@ export default {
         this.form.phoneNum = res.data.phoneNum
         this.form.examYear = res.data.examYear
         this.form.examProvince = res.data.examProvince
-        if(this.form.examProvince == '河北' || form.examProvince == '辽宁' || form.examProvince == '江苏' || form.examProvince == '福建' || form.examProvince == '湖北' || form.examProvince == '湖南' || form.examProvince == '广东' || form.examProvince == '重庆'){
+        if(this.form.examProvince == '河北' || this.form.examProvince == '辽宁' || this.form.examProvince == '江苏' || this.form.examProvince == '福建' || this.form.examProvince == '湖北' || this.form.examProvince == '湖南' || this.form.examProvince == '广东' || this.form.examProvince == '重庆'){
           res.data.biology == 1?this.form.checkSubjectList2.push('生物'):'';
           res.data.chemistry == 1?this.form.checkSubjectList2.push('化学'):'';
           res.data.geography == 1?this.form.checkSubjectList2.push('地理'):'';
@@ -231,6 +231,10 @@ export default {
             score:this.form.score,
           }).then( res => {
             if(res.code == 0){
+              getUserInfo().then((res) => {
+                this.$store.dispatch("resUserInfo", res.data);
+                localStorage.setItem('state', JSON.stringify(this.$store.state))
+              });
               this.msgSuccess('提交修改成功')
               this.$router.push("/");
               this.reload()

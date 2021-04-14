@@ -492,6 +492,7 @@ export default {
             this.$store.dispatch("resUserInfo", res.data);
             console.log("用户信息", this.userInfo);
             this.$store.dispatch("getPhone", this.userInfo.phoneNum);
+            this.$store.dispatch("getVip", this.userInfo.vip);
           });
           if (res.data.userInfo.checked == 0) {
             this.$store.dispatch("showuserInfo", true);

@@ -112,7 +112,7 @@ export default {
       selectProvince: "",
       searchValue: "",
       userInfo: {},
-      vip: "",
+      vip: this.$store.state.vip,
       provincesList: [],
       collegename: "",
       schooladvice: [],

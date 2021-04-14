@@ -4,10 +4,11 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  state: {
+  state:localStorage.getItem('state') ? JSON.parse(localStorage.getItem('state')):  {
     loginflag:'',
     showlogin: false,
     phoneNum:'',
+    vip:'',
     showUserInfo:false,
     userinfo:{},
     obj: {}
@@ -31,8 +32,14 @@ const store = new Vuex.Store({
     SET_SHOWLOGIN(state,flag){
       state.showlogin = flag
     },
+    SET_VIP(state,flag){
+      state.vip = flag
+    },
   },
   actions: {
+    getVip({commit},flag){
+      commit('SET_VIP',flag)
+    },
     getPhone({commit},flag){
       commit('SET_PHONE',flag)
     },

@@ -205,8 +205,8 @@ export default {
     getAllMajorData(pagenum, riskflag) {
       getUserInfo(localStorage.getItem("token")).then((res) => {
         this.userInfoList = res.data;
-        console.log("这是测试的是userInfo的列表");
-        console.log(this.userInfoList);
+        // console.log("这是测试的是userInfo的列表");
+        // console.log(this.userInfoList);
         getAllMajor({
           feature: this.selected.levelSelect,
           page: pagenum,
