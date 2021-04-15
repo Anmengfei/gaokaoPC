@@ -366,6 +366,8 @@ export default {
             this.msgSuccess("退出登录");
             console.log("退出登录成功");
             localStorage.clear();
+            this.$store.dispatch("getVip", '');
+            this.$store.dispatch("resUserInfo", {});
             this.$router.push("/appCon");
             // this.loginflag = false;
             this.$store.dispatch("getloginstate", false);
@@ -390,7 +392,7 @@ export default {
           "https://www.zytb.top/NEMT/gk/userPC/getPhoneCode?phoneNum=" +
           this.phoneNum;
         this.$axios.get(url).then((res) => {
-          console.log("return", res.data);
+          // console.log("return", res.data);
           if (res.data.code == 0) {
             // this.timeCode = res.data.data.time
             // this.strCode = res.data.data.str
@@ -443,7 +445,7 @@ export default {
       });
     },
     login() {
-      console.log("token是", localStorage.getItem("token"));
+      // console.log("token是", localStorage.getItem("token"));
       if (this.ruleForm1.username === "" || this.ruleForm1.password === "") {
         this.$message.warning("请输入用户名或密码！");
       } else {
@@ -459,7 +461,7 @@ export default {
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("schoolname", this.ruleForm2.class_name);
             localStorage.setItem("password", this.ruleForm1.password);
-            console.log("登录后的token是", localStorage.getItem("token"));
+            // console.log("登录后的token是", localStorage.getItem("token"));
             this.$router.push("/");
             // this.$router.push({
             //   path: '/',
@@ -483,7 +485,7 @@ export default {
             message: "登录成功",
             type: "success",
           });
-          console.log("登录测试", res);
+          // console.log("登录测试", res);
           localStorage.setItem("token", res.data.token);
           localStorage.setItem("phone", res.data.userInfo.phoneNum);
           this.$store.dispatch("getShowLogin", false);
@@ -520,7 +522,7 @@ export default {
       // }
     },
     goToCourseIndex: function () {
-      console.log("我要跳转界面了");
+      // console.log("我要跳转界面了");
       this.$router.push("/coursestudy");
     },
     gotoAllclasses: function () {

@@ -111,7 +111,7 @@ import TopHeader from "@/components/common/topheader";
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
 import { getToken } from "@/utils/auth.js";
-import { addWishListPC } from "../../api/WishList";
+import { updateWishListPC } from "../../api/WishList";
 import header1 from "../common/header1";
 export default {
   name: "zhiyuanBiao",
@@ -223,22 +223,7 @@ export default {
           this.zhiyuanFormatList.push(map);
         }
         console.log("格式化规整数据", this.zhiyuanFormatList);
-        // addWishListPC({
-        //   phoneNum: '15588556313',
-        //   wishList: this.zhiyuanFormatList
-        // }).then(res => {
-        //   console.log('555555555555555555', res)
-        // })
-        var url = "https://www.zytb.top/NEMT/gk/userPC/addWishListPC";
-
-        axios
-          .post(url, JSON.stringify(this.zhiyuanFormatList), {
-            headers: {
-              "Content-Type": "application/json;charset=UTF-8",
-              token: localStorage.getItem("token"),
-            },
-          })
-          .then((res) => {
+        updateWishListPC({listId:66},this.zhiyuanFormatList).then((res) => {
             console.log("成功了", res.data);
             if (res.data.msg === "成功") {
               sessionStorage.removeItem("zhiyuanbiaodan");

@@ -118,16 +118,16 @@ export default {
             ].selectSubject;
           }
           console.log("8888888888888", this.volform);
-          this.$router.push({
-            name: "zhiyuanBiao",
-            // path: "/zhiyuanBiao",
-            params: {
-              zhiyuanTable: this.volform,
-            },
-            // query: {
-            //   zhiyuanTable: this.volform,
-            // },
-          });
+          // this.$router.push({
+          //   name: "zhiyuanBiao",
+          //   // path: "/zhiyuanBiao",
+          //   params: {
+          //     zhiyuanTable: this.volform,
+          //   },
+          //   // query: {
+          //   //   zhiyuanTable: this.volform,
+          //   // },
+          // });
         }
       });
     },

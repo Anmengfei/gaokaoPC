@@ -3,7 +3,6 @@
     <top-header></top-header>
     <HomeHeader></HomeHeader>
     <div class="picture">
-<!--      <img src="../../assets/banner5.png" alt="" />-->
       <img src="https://www.zytb.top/NEMT/gk/static/pc_img/lunbo03.png" alt="" />
     </div>
     <div class="section">
@@ -167,7 +166,6 @@ export default {
   components: { TopHeader, HomeHeader, Footer },
   data() {
     return {
-      loginStatus: false,
     };
   },
 };
@@ -175,16 +173,13 @@ export default {
 
 <style>
 .app_container {
-  /* background-color: #fff; */
   background-color: #f3f5f7;
   width: 100%;
-  /* height: 100%; */
 }
 .picture {
   width: 75%;
   height: 400px;
   margin: 0 auto;
-  /* background-color: pink; */
 }
 .picture img {
   width: 100%;
@@ -192,9 +187,7 @@ export default {
 }
 .section {
   width: 1400px;
-  /* height: 1400px; */
   margin: 0 auto;
-  margin-top: 70px;
 }
 h1 {
   font-size: 28px;
@@ -226,7 +219,7 @@ h2 {
 }
 .pic {
   margin-top: 50px;
-  margin-bottom: 60px;
+  /*margin-bottom: 60px;*/
   text-align: center;
 }
 .pic1 {
@@ -245,7 +238,6 @@ h2 {
 }
 .ph3 {
   width: 250px;
-  height: 200xp;
   border-radius: 20px;
   margin-left: 10px;
 }
@@ -257,13 +249,4 @@ h2 {
   width: 400px;
   height: 400px;
 }
-/* .el-tabs__header {
-  margin-left: auto;
-  margin-right: auto;
-  width: 70%;
-} */
-/* /deep/.pane1 {
-  height: 30px;
-  font-size: 30px !important;
-} */
 </style>

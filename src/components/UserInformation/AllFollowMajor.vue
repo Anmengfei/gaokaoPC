@@ -83,15 +83,15 @@ export default {
           phoneNum: this.userInfoList.phoneNum,
         };
         getAllFollowMajor(params).then((res) => {
-          console.log("这是关注专业");
+          // console.log("这是关注专业");
           this.AllFollowMajorList = res.data;
-          console.log(this.AllFollowMajorList);
+          // console.log(this.AllFollowMajorList);
         });
       });
     },
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage;
-      console.log(this.currentPage); //点击第几页
+      // console.log(this.currentPage); //点击第几页
     },
     deleteClick(index) {
       let params = {
@@ -99,8 +99,8 @@ export default {
         phoneNum: this.phoneNum,
       };
       unfollowMajor(params).then((res) => {
-        console.log(res);
-        console.log("删除成功");
+        // console.log(res);
+        // console.log("删除成功");
         this.AllFollowMajorList.splice(index, 1);
       });
     },

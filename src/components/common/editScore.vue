@@ -188,7 +188,7 @@ export default {
   methods: {
     init(){
       getUserInfo().then(res => {
-        console.log(res)
+        // console.log(res)
         this.form.score = res.data.score
         this.form.rank = res.data.rank
         this.form.phoneNum = res.data.phoneNum
@@ -212,8 +212,8 @@ export default {
       })
     },
     submitForm(formName) {
-      console.log('学科',this.form)
-      console.log('学科',this.form.checkSubjectList)
+      // console.log('学科',this.form)
+      // console.log('学科',this.form.checkSubjectList)
       var submit = this.form.checkSubjectList.concat(this.form.checkSubjectList2)
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -241,7 +241,7 @@ export default {
             }else {
               this.msgError('提交修改失败，请补充全信息')
             }
-            console.log('提交用户',res)
+            // console.log('提交用户',res)
           })
         } else {
             this.msgError('提交修改失败')
@@ -254,7 +254,7 @@ export default {
     },
     selectSubject(val) {
       this.form.checkSubjectList = val
-      console.log('val',val)
+      // console.log('val',val)
       if (val.length < 3) {
         this.isShow = true;
       }else {

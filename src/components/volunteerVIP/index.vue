@@ -122,7 +122,7 @@ export default {
     },
   },
   mounted() {
-    // this.getInfo();
+    this.getInfo();
   },
   methods: {
     handleClick1() {

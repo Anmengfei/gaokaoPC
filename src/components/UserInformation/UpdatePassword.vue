@@ -113,7 +113,7 @@ export default {
       } else {
         checkPassWord({ passWord: value }).then((res) => {
           if (res.msg === "密码正确") {
-            console.log("1");
+            // console.log("1");
             callback();
           } else {
             callback(new Error("请输入正确的原始密码"));

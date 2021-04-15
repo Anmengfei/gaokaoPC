@@ -1,6 +1,5 @@
 <template>
-  <!-- 这里为什么加v-if -->
-  <div v-if="article" class="container">
+  <div  class="container">
     <div class="atitle">{{ article.title }}</div>
     <div class="comefrom">
       <span style="font-size: 15px">{{ article.date }}</span>

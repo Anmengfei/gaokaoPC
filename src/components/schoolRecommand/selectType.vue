@@ -561,7 +561,7 @@ export default {
       // this.$forceUpdate()
     },
     clickToZhiyuanBiao () { // 下一步按钮，转向新的界面
-      if (this.volForm.length > 10) {
+      if (this.volForm.length > 1) {
         this.$router.push({
           name: 'zhiyuanBiao',
           params: {
