@@ -42,21 +42,18 @@
             </el-table-column>
             <el-table-column prop="address" label="操作" align="center">
               <template slot-scope="scope">
-                <span id="chakan" @click="gotoZhiyuanbiao(scope.row.id)"
-                  >查看</span
-                >
+                <!-- <span id="chakan" @click="gotoZhiyuanbiao(scope.row.id)">查看</span> -->
+                <span id="chakan" @click="gotoZhiyuanbiao()">查看</span>
               </template>
             </el-table-column>
           </el-table>
         </div>
         <div class="moniBtn">
           <el-button type="danger" @click="gotoSchoolRecommand"
-            >模拟填报</el-button
-          >
+            >模拟填报</el-button>
         </div>
       </div>
     </div>
-
     <Footer></Footer>
   </div>
 </template>
@@ -66,7 +63,8 @@ import VolunteerTable from "@/components/zhiyuanForm/zhiyuanLeft";
 import TopHeader from "@/components/common/topheader";
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
-import { getWishListByphoneNum, getWishListById } from "@/api/WishList";
+import { getWishListByphoneNum, getAllHandleWishId } from "@/api/WishList";
+// import { getWishListById } from "@/api/WishList";
 export default {
   name: "zhiyuanTable",
   components: { TopHeader, HomeHeader, Footer, VolunteerTable },
@@ -75,6 +73,7 @@ export default {
       willTable: [], // 志愿表数据
       phoneNum: "",
       volform: [], // 查看按钮取得的数据
+      listId:0
     };
   },
   mounted() {
@@ -82,9 +81,17 @@ export default {
     this.getWishTable(this.phoneNum);
   },
   methods: {
+    initData(){
+        let params={
+        phoneNum:localStorage.getItem("phone")
+      }
+        getAllHandleWishId(params).then((res) => {
+        this.listId=res.data;
+        })
+    },
     getWishTable(phoneNum) {
       getWishListByphoneNum(phoneNum).then((res) => {
-        console.log("res数据", res.data);
+        console.log('res',res)
         if (res.msg === "成功") {
           for (let i = 0; i < res.data.length; ++i) {
             res.data[i].userInformation = res.data[i].userInformation.split(
@@ -92,6 +99,7 @@ export default {
             );
           }
           this.willTable = res.data;
+          // console.log('willTable',this.willTable)
         }
       });
     },
@@ -102,35 +110,37 @@ export default {
         params: { tab: "favoriteSchool" },
       });
     },
-    gotoZhiyuanbiao(id) {
+    gotoZhiyuanbiao(){
+      this.$router.push('/zhiyuanBiao')
+    }
+    // gotoZhiyuanbiao(id) {
       // 查看志愿表
-      console.log("id值", id);
-      getWishListById(id).then((res) => {
-        console.log("数据来了", res);
-        if (res.msg === "成功") {
-          this.volform = res.data.wishes;
-          console.log("这到底是什么");
-          console.log(this.volform);
-          for (let i = 0; i < this.volform.length; ++i) {
-            this.volform[i].risk = this.volform[i].chances;
-            this.volform[i].selectionRequirement = this.volform[
-              i
-            ].selectSubject;
-          }
-          console.log("8888888888888", this.volform);
-          this.$router.push({
-            name: "zhiyuanBiao",
-            // path: "/zhiyuanBiao",
-            params: {
-              zhiyuanTable: this.volform,
-            },
-            // query: {
-            //   zhiyuanTable: this.volform,
-            // },
-          });
-        }
-      });
-    },
+      // console.log("iddddddddddddddddddddddddddddddd值", id);
+      // let params={
+      //     listId:id,
+      //   }
+      // getAllWishByListId2(params).then((res) => {
+      //   console.log("数据来了", res);
+      //   if (res.msg === "成功") {
+      //     // wish存放的就是表单数据
+      //     this.volform = res.data.wishes;
+      //     console.log(this.volform);
+      //     for (let i = 0; i < this.volform.length; ++i) {
+      //       this.volform[i].risk = this.volform[i].chances;
+      //       this.volform[i].selectionRequirement = this.volform[
+      //         i
+      //       ].selectSubject;
+      //     }
+      //     this.$router.push({
+      //       name: "zhiyuanBiao",
+      //       params: {
+      //         zhiyuanTable: this.volform,
+      //       },
+      //     });
+      //   }
+      // });
+      // this.$router.push('/zhiyuanBiao')
+    // },
   },
 };
 </script>

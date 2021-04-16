@@ -200,8 +200,6 @@ export default {
     getAllSchoolData(pagenum) {
       getUserInfo(localStorage.getItem("token")).then((res) => {
         this.userInfoList = res.data;
-        console.log("这是测试的是userInfo的列表");
-        console.log(this.userInfoList);
         getAllSchool({
           provinces: this.selected.provinceSelect,
           schoolTypes: this.selected.typeSelect,
@@ -233,7 +231,6 @@ export default {
                 }
               }
             }
-
             console.log("this.schoolList数据", this.schoolList);
           } else {
             this.$message.error("无法取得数据");

@@ -224,9 +224,11 @@ export default {
           page: pagenum,
           examProvince: this.userInfoList.examProvince,
           risk: riskflag,
+          rank:this.userInfoList.rank,
           score: this.userInfoList.score,
           size: 10,
         }).then((res) => {
+          console.log('张伟是最棒的',res)
           if (res.status === 200) {
             // console.log('收到数据啊啊啊啊啊', this.volform)
             this.majorList = res.data.data;

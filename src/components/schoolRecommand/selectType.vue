@@ -1,7 +1,9 @@
 <template>
   <div class="box">
+    <!-- tab:心仪的院校与喜欢的专业 -->
     <div class="box1">
       <el-tabs v-model="selectTabs" type="border-card" @tab-click="handleClick">
+        <!-- 心仪的院校 -->
         <el-tab-pane label="心仪的院校" name="favoriteSchool">
           <div class="filter-list">
             <span class="filter-list-title">院校省份</span>
@@ -99,6 +101,7 @@
             </div>
           </div>
         </el-tab-pane>
+        <!-- 喜欢的专业 -->
         <el-tab-pane label="喜欢的专业" name="favoriteMajor">
           <div class="filter-list">
             <span class="filter-list-title">专业选择</span>
@@ -182,22 +185,41 @@
         </el-tab-pane>
       </el-tabs>
     </div>
+    <!-- 冲刺、稳妥、保底以及右边的侧边栏 -->
+    <!-- VIP：心仪的院校和喜欢的专业 -->
     <div class="schoollist" v-if="vip == 1">
       <el-row>
+        <!-- schoolList.vue 心仪的院校 majorList.vue 喜欢的专业-->
         <el-col :span="19">
           <school-list :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-if="majorflag"></school-list>
           <MajorList :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-else></MajorList>
         </el-col>
+        <!-- 已填入意向侧边栏 -->
         <el-col :span="5">
           <div class="auto_fixed" :class="auto_fixed">
             <div class="fudongBox">
-              <div class="head"><span>已填入意向</span><span class="subhead">(至少填报10个意向)</span></div>
+              <!-- <div class="head"><span>已填入意向</span><span class="subhead">(至少填报10个意向)</span></div> -->
+              <div class="head"><span>已填入意向</span></div>
               <div class="content">
                 <div class="noformdata" v-if="volForm.length === 0">
 <!--                <div class="noformdata" v-if="showvolformdata">-->
                   <img src="../../assets/noData.png" alt="暂无数据">
                   <span>查看左侧院校和专业选择<br/>加入意向</span>
                 </div>
+                 <!-- <div class="formdata" v-if="zhiyuanform.length > 0">
+                  <div v-for="(item,index) in zhiyuanform" :key="index" class="list">
+                    <div id="code">
+                      <div class="num"><span>{{ index + 1 }}</span></div>
+                    </div>
+                    <div id="name">
+                      <span class="school">{{ item.schoolName }}</span><br/>
+                      <span class="major">{{ item.majorName }}</span>
+                    </div>
+                    <div class="deleteZhiyuan">
+                      <i class="iconfont icon-shanchu1" @click="handleDeleteInfo(index)"></i>
+                    </div>
+                  </div>
+                </div> -->
                 <div class="formdata" v-if="volForm.length > 0">
 <!--                <div class="formdata" v-if="!showvolformdata">-->
                   <div v-for="(item,index) in volForm" :key="index" class="list">
@@ -224,6 +246,7 @@
         </el-col>
       </el-row>
     </div>
+    <!-- 非VIP心仪的院校 -->
     <div class="schoollist" v-else>
      <novipschool :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-if="majorflag" ></novipschool>
       <novipmajor :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-else></novipmajor>
@@ -247,6 +270,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import SchoolList from '../schoolRecommand/schoolList'
 import MajorList from '../schoolRecommand/majorList'
 import novipschool from "./novipschool";
@@ -263,9 +287,10 @@ import {
   getAllFollowMajor, findMajorFollowOrNot,
   findSchoolFollowOrNot,
   getAllMajorType,
-  getUserInfo
-} from '@/api/index'
-
+  getUserInfo,
+} from '@/api/index';
+import { getAllWishByListId2,getAllHandleWishId } from "@/api/WishList";
+import { changeWishListPC } from "../../api/WishList";
 export default {
   name: 'selectType',
   components: {SchoolList, MajorList,novipschool,novipmajor},
@@ -277,6 +302,7 @@ export default {
       checkmajorList: [],
       followCollege: [],
       followMajor: [],
+      zhiyuanFormatList:[],
       checkAll: false,
       checkmajorAll: false,
       isIndeterminate: true,
@@ -314,7 +340,9 @@ export default {
       schooladvice: [],
       majoradvice: [],
       majorflag: '',
-      turnname: ''
+      turnname: '',
+      shuzuId:[],
+      listId:0
     }
   },
   created() {
@@ -328,7 +356,6 @@ export default {
         } else {
           this.majorflag = false
         }
-
         return this.$route.params.tab || 'favoriteSchool'
       },
       set () {
@@ -337,7 +364,6 @@ export default {
   },
 
   mounted () {
-
     this.init()
     this.getInfo()
     this.$nextTick(function () {
@@ -349,7 +375,6 @@ export default {
     this.getZhiyuanTableEdit()
   },
   methods: {
-
     init () {
       getAllFollowSchool({
         phoneNum: this.phoneNum
@@ -361,12 +386,44 @@ export default {
       }).then(res => {
         this.followMajor = res.data  || []
       })
+      let params={
+        phoneNum:localStorage.getItem("phone")
+      }
+      getAllHandleWishId(params).then((res) => {
+        this.listId=res.data;
+        let params={
+          listId:this.listId,
+        }
+        getAllWishByListId2(params).then((res) => {
+          if (res.msg === "成功") {
+            this.volForm = res.data.wishes;
+            console.log('this.volForm', this.volForm)
+          }
+        });
+      })
+      // getWishListByphoneNum(localStorage.getItem("phone")).then((res) => {
+      //   console.log("res数据", res.data);
+      //   this.shuzuId= res.data
+      //   console.log('iddddddddddddddd',this.shuzuId[0].id);
+      //   this.listId=this.shuzuId[0].id
+      //   getWishListById(this.shuzuId[0].id).then((res) => {
+      //     if (res.msg === "成功") {
+      //       // wish存放的就是表单数据
+      //       this.zhiyuanform = res.data.wishes;
+      //       for (let i = 0; i < this.zhiyuanform.length; ++i) {
+      //         this.zhiyuanform[i].risk = this.zhiyuanform[i].chances;
+      //         this.zhiyuanform[i].selectionRequirement = this.zhiyuanform[
+      //           i
+      //         ].selectSubject;
+      //       }
+      //     }
+      //   });
+      // });
     },
     getInfo(){
       getUserInfo().then(res => {
         this.userInfo = res.data
         this.vip = this.userInfo.vip
-        // this.vip = 1
         console.log('1111',this.userInfo)
       })
     },
@@ -560,19 +617,77 @@ export default {
       // this.volForm = []
       // this.$forceUpdate()
     },
+    // 下一步按钮，转向新的界面
+    // clickToZhiyuanBiao () { 
+    //   console.log('aaaaaaaaaaaaaaaa',parseInt(this.listId))
+    //   console.log('ccccccccccccccc',this.volForm)
+    //   let params={
+    //     listId:this.listId,
+    //     wishList:this.volForm
+    //   };
+    //   changeWishListPC(params).then((res)=>{
+    //     console.log('PPPPPPPPPPPPPPPPPPPP',res)
+    //   })
+
+    //   var url = "https://www.zytb.top/NEMT/gk/userPC/changeWishListPC";
+    //   axios.post(url,this.listId,JSON.stringify(this.volForm), {
+    //     headers: {
+    //       "Content-Type": "application/json;charset=UTF-8",
+    //       token: localStorage.getItem("token"),
+    //     },
+    //   }).then((res)=>{
+
+    //   })
+
+    //   this.$router.push('/zhiyuanBiao')
+    //   this.$router.push({
+    //       name: 'zhiyuanBiao',
+    //       params: {
+    //         zhiyuanTable: this.volForm
+    //       }
+    //     })
+    //   if (this.volForm.length > 10) {
+    //     this.$router.push({
+    //       name: 'zhiyuanBiao',
+    //       params: {
+    //         zhiyuanTable: this.volForm
+    //       }
+    //     })
+    //   } else {
+    //     this.$alert('<span style="font-size: .2rem">志愿表数据不能少于10条</span>', '', {
+    //       dangerouslyUseHTMLString: true
+    //     })
+    //   }
+    // },
     clickToZhiyuanBiao () { // 下一步按钮，转向新的界面
-      if (this.volForm.length > 10) {
-        this.$router.push({
-          name: 'zhiyuanBiao',
-          params: {
-            zhiyuanTable: this.volForm
-          }
-        })
-      } else {
-        this.$alert('<span style="font-size: .2rem">志愿表数据不能少于10条</span>', '', {
-          dangerouslyUseHTMLString: true
-        })
+      for (let i = 0; i < this.volForm.length; i++) {
+        const map = {};
+        map.chance = this.volForm[i].risk || this.volForm[i].chances;
+        map.id = 0;
+        map.listId = 0;
+        map.rank = i;
+        map.wishId = this.volForm[i].id;
+        map.wishNum = i;
+        this.zhiyuanFormatList.push(map);
       }
+      var url = "https://www.zytb.top/NEMT/gk/userPC/changeWishListPC";
+      console.log('volFormvolFormvolForm',this.zhiyuanFormatList);
+      console.log('zhiyuanFormatListzhiyuanFormatListzhiyuanFormatList',this.zhiyuanFormatList)
+      axios({
+        method: 'post',
+        url:url,
+        params:{
+        listId:this.listId,
+        },
+        data:JSON.stringify(this.zhiyuanFormatList),
+        headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        token: localStorage.getItem("token"),
+        },
+      }).then((res)=>{
+        this.$router.push('/zhiyuanBiao')
+        console.log('fdsfdfdfafdfdsadffgfdgvfgfdg',res)
+      })
     },
     // 测试
     querySearch (queryString, cb) {
@@ -863,9 +978,9 @@ li{
   line-height: .8rem;
   text-align: center;
 }
-.box .fudongBox .subhead{
+/* .box .fudongBox .subhead{
   font-size: .2rem;
-}
+} */
 
 .box .fudongBox .content {
   white-space: pre-wrap;

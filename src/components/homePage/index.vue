@@ -77,6 +77,7 @@
             <div class="tuijianButton">
               <div class="tuijianbtn">
                 <el-button type="primary" style="width: 4rem" @click="gotoAllschool"  round>智能推荐</el-button>
+                <span>*如需使用一键填报功能请扫码登录微信小程序或下载手机APP</span>
               </div>
             </div>
           </div>
@@ -1278,6 +1279,14 @@ input {
   margin-top: 30px;
   position: absolute;
   top: 10%;
+}
+.tuijianButton .tuijianbtn span{
+  /* position: absolute; */
+  display: block;
+  margin-top: .15rem;
+  text-align: center;
+  color: #ff9912;
+
 }
 /deep/ .eldialog-parent .el-dialog__header {
   padding: 0;

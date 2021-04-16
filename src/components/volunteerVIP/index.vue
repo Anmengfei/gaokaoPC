@@ -122,7 +122,7 @@ export default {
     },
   },
   mounted() {
-    // this.getInfo();
+    this.getInfo();
   },
   methods: {
     handleClick1() {
@@ -149,6 +149,7 @@ export default {
     getInfo() {
       getUserInfo().then((res) => {
         this.vip = res.data.vip;
+        // console.log("DDDDDDDDDDDDDDD",res)
       });
     },
   },
