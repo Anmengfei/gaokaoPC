@@ -113,8 +113,9 @@ import Footer from "@/components/common/footer1";
 import { getToken } from "@/utils/auth.js";
 import { addWishListPC } from "../../api/WishList";
 import { changeWishListPC } from "../../api/WishList";
+import { updateWishListPC } from "../../api/WishList";
 import header1 from "../common/header1";
-import { getWishListByphoneNum,getAllWishByListId2,getAllHandleWishId } from "@/api/WishList";
+import { getAllWishByListId2,getAllHandleWishId } from "@/api/index";
 export default {
   name: "zhiyuanBiao",
   components: { TopHeader, HomeHeader, Footer },

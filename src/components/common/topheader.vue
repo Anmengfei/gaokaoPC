@@ -13,46 +13,42 @@
               placement="top-start"
               width="160"
               trigger="hover"
-              class="shouji"
             >
               <div class="bg-logo">
                 <img class="bg-QQ" src="../../assets/QQ.png" alt="" />
                 <div>QQ扫一扫，惊喜更多</div>
               </div>
-              <a class="a-erweima" href="" slot="reference">高考志愿填报QQ群</a>
+              <a class="a-erweima"  slot="reference">高考志愿填报QQ群</a>
             </el-popover>
             <el-popover
               placement="top-start"
               width="160"
               trigger="hover"
-              class="shouji"
             >
               <div class="bg-logo">
                 <img class="bg-QQ" src="../../assets/QQ.png" alt="" />
                 <div>下载智禾·考哪儿APP</div>
               </div>
-              <a class="a-erweima" href="" slot="reference">手机APP</a>
+              <a class="a-erweima" slot="reference">手机APP</a>
             </el-popover>
             <el-popover
               placement="top-start"
               width="160"
               trigger="hover"
-              class="shouji"
             >
               <div class="bg-logo">
                 <img class="bg-QQ" src="../../assets/erweima.jpg" alt="" />
-                <div>微信扫一扫，惊喜更多</div>
+                <div>微信扫一扫,惊喜更多</div>
               </div>
-              <a class="a-erweima" href="" slot="reference">微信公众号</a>
+              <a class="a-erweima" slot="reference">微信公众号</a>
             </el-popover>
             <a
               class="a-erweima"
               slot="reference"
               @click="VIPClick()"
-              v-if="vip == 0"
-              >志愿VIP卡激活</a
-            >
-            <a class="a-erweima" slot="reference" v-else>志愿VIP卡已激活</a>
+              v-show="vip == 0"
+              >志愿VIP卡激活</a>
+            <a style="color:#e5623f;" slot="reference" v-show="vip == 1">志愿VIP卡已激活</a>
           </div>
         </el-col>
       </el-row>
@@ -63,11 +59,9 @@
           <div class="logo">
             <img src="../../assets/logo.png" class="img-logo" />
             <img src="../../assets/logo-word.png" class="img-logo-word" />
-
-            <!--            <div class="plateName">智禾考哪儿</div>-->
           </div>
         </el-col>
-        <el-col class="elco" :span="8">
+        <el-col  :span="8">
           <el-col :span="12">
             <el-autocomplete
               style="width: 320px"
@@ -89,14 +83,12 @@
             </el-autocomplete>
           </el-col>
         </el-col>
-        <el-col class="elco1" :span="10">
+        <el-col :span="10">
           <div class="desc">
             <span class="top-hotline">全国服务热线:</span>
             <span class="hotline">400-168-6292</span>
             <span class="tishiOne">祝广大考生金榜提名</span>
-            <span class="tishiTwo" v-if="vip == 0" @click="gotoVIP"
-              >开通VIP</span
-            >
+            <span class="tishiTwo" v-if="vip == 0" @click="VIPClick">开通VIP</span>
             <span class="tishiTwo" v-else>VIP会员</span>
           </div>
         </el-col>
@@ -131,36 +123,29 @@ export default {
       });
     },
     VIPClick() {
-      // const { href } = this.$router.resolve({
-      //   name: "volunteerVIP",
-      // });
-      // window.open(href, "_blank");
-      this.$router.push("/volunteerVIP");
-    },
-    gotoVIP() {
       this.$router.push("/volunteerVIP");
     },
     getInfo() {
       getUserInfo().then((res) => {
         this.userInfo = res.data;
         this.vip = this.userInfo.vip;
-        console.log("1111", this.userInfo);
+        // console.log("1111", this.userInfo);
       });
     },
     querySearch(queryString, cb) {
       // 搜索框
-      console.log("ceshi", queryString, cb);
+      // console.log("ceshi", queryString, cb);
       getsearchSchool({
         schoolName: queryString,
       }).then((res) => {
-        console.log("mohu查询", res.data);
+        // console.log("mohu查询", res.data);
         this.schooladvice = res.data;
         cb(this.schooladvice);
       });
     },
     handleSelect(item) {
-      console.log("这是item");
-      console.log(item);
+      // console.log("这是item");
+      // console.log(item);
       this.$router.push({
         path: "/SchoolInfo",
         query: {
@@ -175,26 +160,18 @@ export default {
 <style scoped>
 .app-header {
   width: 100%;
-  /* font-size: 100%; */
 }
-
 a {
   text-decoration: none;
   cursor: pointer;
 }
-
 .firstRow {
   width: 100%;
-  /*height: 0.5rem;*/
-  /* background-color: pink; */
   font-size: 0.17rem;
-  /*line-height: 0.5rem;*/
 }
 
 .bg-logo {
   width: 100%;
-  /* height: 100%; */
-  /* background-color: pink; */
   text-align: center;
   font-weight: 700;
 }
@@ -206,15 +183,11 @@ a {
 }
 
 .bg-left {
-  /* background: #d3dce6; */
-  /*height: 0.5rem;*/
   padding-left: 1rem;
   background-color: hsla(0, 0%, 61%, 0.3);
 }
 
 .bg-right {
-  /* background: #e5e9f2; */
-  /*height: 0.5rem;*/
   background-color: hsla(0, 0%, 61%, 0.3);
 }
 
@@ -306,5 +279,8 @@ a {
   border: 1px solid red;
   background-color: red;
   color: white;
+}
+.a-erweima-active {
+  color:#e5623f;
 }
 </style>

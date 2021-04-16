@@ -325,26 +325,26 @@ export default {
       //必须这样
       let _this = this;
       getFollowingList().then(function (response) {
-        console.log(response.data);
+        // console.log(response.data);
         _this.zixunList = response.data;
-        console.log(_this.zixunList);
+        // console.log(_this.zixunList);
         // 使用push不用等号
         for (var i = 0; i < 3; i++) {
           _this.threeList.push(_this.zixunList[i]);
         }
         // this.$set(this.threeList, _this.threeList);
-        console.log(_this.threeList);
+        // console.log(_this.threeList);
       });
       getAllIsLearning().then(function (response) {
-        console.log(response.data);
+        // console.log(response.data);
         _this.videoList = response.data;
-        console.log(_this.videoList);
+        // console.log(_this.videoList);
         // 使用push不用等号
         for (var i = 0; i < 3; i++) {
           _this.threeVideoList.push(_this.videoList[i]);
         }
         // this.$set(this.threeList, _this.threeList);
-        console.log(_this.threeVideoList);
+        // console.log(_this.threeVideoList);
       });
       getUserInfo().then((res) => {
         this.userInfo = res.data;
@@ -354,17 +354,6 @@ export default {
         this.userInfo.history == 1 ? this.subject.push("历史") : "";
         this.userInfo.physics == 1 ? this.subject.push("物理") : "";
         this.userInfo.politics == 1 ? this.subject.push("政治") : "";
-        // this.userInfo = res.data;
-        // // if(this.userInfo.)
-        //
-        // this.userInfo.biology == 1 ? this.subject.push("生物") : "";
-        // this.userInfo.chemistry == 1 ? this.subject.push("化学") : "";
-        // this.userInfo.geography == 1 ? this.subject.push("地理") : "";
-        // this.userInfo.history == 1 ? this.subject.push("历史") : "";
-        // this.userInfo.physics == 1 ? this.subject.push("物理") : "";
-        // this.userInfo.politics == 1 ? this.subject.push("政治") : "";
-        //
-        // console.log("1111", this.subject);
       });
       this.getInfo();
     },
@@ -381,7 +370,7 @@ export default {
       }
     },
     modifyScore() {
-      console.log("123");
+      // console.log("123");
       this.scoreDialog = true;
     },
     showVideo(item, index) {
@@ -478,8 +467,6 @@ export default {
       }).then((res) => {
         console.log(res);
         this.recommandschoolList = res.data.splice(0, 6);
-        console.log("这是院校推荐");
-        console.log(this.recommandschoolList);
       });
     },
     login() {

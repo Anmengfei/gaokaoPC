@@ -23,6 +23,7 @@
     "js-md5": "^0.7.3",
     "lib-flexible": "^0.3.2",
     "px2rem-loader": "^0.1.9",
+    "qs": "^6.10.1",
     "v-distpicker": "^1.2.3",
     "videojs-contrib-hls": "^5.15.0",
     "videojs-flash": "^2.2.1",

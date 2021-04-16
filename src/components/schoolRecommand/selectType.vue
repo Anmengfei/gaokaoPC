@@ -289,7 +289,8 @@ import {
   getAllMajorType,
   getUserInfo,
 } from '@/api/index';
-import { getAllWishByListId2,getAllHandleWishId } from "@/api/WishList";
+// import { getAllWishByListId2,getAllHandleWishId } from "@/api/WishList";
+import { getAllWishByListId2,getAllHandleWishId } from "@/api/index";
 import { changeWishListPC } from "../../api/WishList";
 export default {
   name: 'selectType',
@@ -390,7 +391,9 @@ export default {
         phoneNum:localStorage.getItem("phone")
       }
       getAllHandleWishId(params).then((res) => {
+        console.log('又出现了很多的问题又出现了很多的问题',res)
         this.listId=res.data;
+        console.log('又出现了很多的问题',this.listId)
         let params={
           listId:this.listId,
         }
@@ -401,24 +404,6 @@ export default {
           }
         });
       })
-      // getWishListByphoneNum(localStorage.getItem("phone")).then((res) => {
-      //   console.log("res数据", res.data);
-      //   this.shuzuId= res.data
-      //   console.log('iddddddddddddddd',this.shuzuId[0].id);
-      //   this.listId=this.shuzuId[0].id
-      //   getWishListById(this.shuzuId[0].id).then((res) => {
-      //     if (res.msg === "成功") {
-      //       // wish存放的就是表单数据
-      //       this.zhiyuanform = res.data.wishes;
-      //       for (let i = 0; i < this.zhiyuanform.length; ++i) {
-      //         this.zhiyuanform[i].risk = this.zhiyuanform[i].chances;
-      //         this.zhiyuanform[i].selectionRequirement = this.zhiyuanform[
-      //           i
-      //         ].selectSubject;
-      //       }
-      //     }
-      //   });
-      // });
     },
     getInfo(){
       getUserInfo().then(res => {
@@ -594,9 +579,7 @@ export default {
     },
     getAddFormInfo (message) {
       // 父子组件传值，父组件接收信息函数
-      console.log('父子组件传值', message)
       this.volForm.push(message)
-      console.log('高考志愿表', this.volForm)
     },
     clearFormData () { // 清空志愿表单
       this.$confirm('此操作将全部清空已填入意向且无法恢复, 是否继续?', '警告', {
@@ -686,7 +669,6 @@ export default {
         },
       }).then((res)=>{
         this.$router.push('/zhiyuanBiao')
-        console.log('fdsfdfdfafdfdsadffgfdgvfgfdg',res)
       })
     },
     // 测试

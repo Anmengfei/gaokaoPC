@@ -14,7 +14,6 @@ service.interceptors.request.use(config => {
     if (localStorage.getItem('token')) {
         config.headers['token'] = getToken()
     }
-    // config.headers['token'] = 'c2f1b64592704537b7756c3d351f84f4'
     if (config.method === 'POST' || config.method === 'post') {
         config.data = qs.stringify(config.data)
     }

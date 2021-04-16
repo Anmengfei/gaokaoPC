@@ -178,6 +178,7 @@ export default {
       this.$message({ type: "success", message: "支付成功" });
       getUserInfo().then((res) => {
         this.$store.dispatch("getVip", res.data.vip);
+        this.$store.dispatch("resUserInfo", res.data);
         localStorage.setItem('state', JSON.stringify(this.$store.state))
       });
       // alert("支付成功！欢迎下次光临");

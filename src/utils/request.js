@@ -12,7 +12,7 @@ service.interceptors.request.use(config => {
   // if (config.method === 'POST' || config.method === 'post') {
   //   config.data = qs.stringify(config.data)
   // }
-  config['headers']['Content-Type'] = 'application/x-www-form-urlencoded'
+  config['headers']['Content-Type'] = 'application/json;charset=UTF-8'
   console.log()
   if (localStorage.getItem('token')) {
     config.headers['token'] = getToken()

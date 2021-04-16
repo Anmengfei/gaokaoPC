@@ -63,7 +63,8 @@ import VolunteerTable from "@/components/zhiyuanForm/zhiyuanLeft";
 import TopHeader from "@/components/common/topheader";
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
-import { getWishListByphoneNum, getAllHandleWishId } from "@/api/WishList";
+import { getWishListByphoneNum } from "@/api/WishList";
+import { getAllHandleWishId } from "@/api/index";
 // import { getWishListById } from "@/api/WishList";
 export default {
   name: "zhiyuanTable",
@@ -91,15 +92,13 @@ export default {
     },
     getWishTable(phoneNum) {
       getWishListByphoneNum(phoneNum).then((res) => {
-        console.log('res',res)
-        if (res.msg === "成功") {
-          for (let i = 0; i < res.data.length; ++i) {
-            res.data[i].userInformation = res.data[i].userInformation.split(
+        if (res.data.msg === "成功") {
+          for (let i = 0; i < res.data.data.length; ++i) {
+            res.data.data[i].userInformation = res.data.data[i].userInformation.split(
               "|"
             );
           }
-          this.willTable = res.data;
-          // console.log('willTable',this.willTable)
+          this.willTable = res.data.data;
         }
       });
     },

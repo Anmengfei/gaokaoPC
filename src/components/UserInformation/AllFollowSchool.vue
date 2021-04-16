@@ -102,21 +102,21 @@ export default {
       getUserInfo(localStorage.getItem("token")).then((res) => {
         this.userInfoList = res.data;
         this.phoneNum = this.userInfoList.phoneNum;
-        console.log("这是我的手机号", this.phoneNum);
+        // console.log("这是我的手机号", this.phoneNum);
         let params = {
           phoneNum: this.userInfoList.phoneNum,
         };
         getAllFollowSchool(params).then((res) => {
           this.AllFollowSchoolList = res.data;
-          console.log("这是关注院校aaaaaaaaa");
-          console.log(this.AllFollowSchoolList);
+          // console.log("这是关注院校aaaaaaaaa");
+          // console.log(this.AllFollowSchoolList);
           // console.log(this.followName);
         });
       });
     },
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage;
-      console.log(this.currentPage); //点击第几页
+      // console.log(this.currentPage); //点击第几页
     },
     deleteClick(index) {
       let params = {
@@ -124,8 +124,8 @@ export default {
         schoolName: this.AllFollowSchoolList[index].followName,
       };
       unfollowSchool(params).then((res) => {
-        console.log(res);
-        console.log("删除成功");
+        // console.log(res);
+        // console.log("删除成功");
         this.AllFollowSchoolList.splice(index, 1);
       });
     },
