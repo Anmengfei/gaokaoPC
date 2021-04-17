@@ -76,7 +76,8 @@
             </div>
             <div class="tuijianButton">
               <div class="tuijianbtn">
-                <el-button type="primary" style="width: 4rem" @click="gotoAllschool"  round>智能推荐</el-button>
+                <el-button type="primary" style="width: 4rem" @click="gotoAllschool"  round>智能填报</el-button>
+                <span style="font-size: 10px;color: red">* 一键填报请下载手机APP或者关注微信公众号使用</span>
               </div>
             </div>
           </div>
@@ -271,7 +272,6 @@ export default {
       searchValue: "",
       schna: [
         "https://www.zytb.top/NEMT/gk/static/pc_img/lunbo01.png",
-        "https://www.zytb.top/NEMT/gk/static/pc_img/lunbo02.png",
         "https://www.zytb.top/NEMT/gk/static/pc_img/lunbo03.png",
       ],
     };
