@@ -92,12 +92,15 @@ export default {
   methods: {
     initData() {
       getUserInfo(localStorage.getItem("token")).then((res) => {
+        console.log('用户信息')
+         console.log(res)
         this.userInfoList = res.data;
         var params = {
           phoneNum: this.userInfoList.phoneNum,
         };
         addPayOrder(params).then((res) => {
           this.code = res.code;
+          console.log('AAAAAAA',res)
           if (res.code == 517) {
             this.show_pay_order = true;
           }
@@ -105,27 +108,32 @@ export default {
       });
     },
     gotoPay() {
-      if (this.code === 0) {
-        this.$router.push(
-          "/PayCenter"
-          //   {
-          //   path: "/PayCenter",
-          //   query: {
-          //     orderId: res.data.orderId,
-          //   },
-          // }
-        );
-      } else if (this.code === 517) {
-        this.$router.push(
-          "/myOrder"
-          //   {
-          //   path: "/myOrder",
-          //   query: {
-          //     orderId: res.data,
-          //   },
-          // }
-        );
+      if(this.code=517){
+        this.$router.push("/myOrder")
+      }else{
+         this.$router.push("/PayCenter")
       }
+      // if (this.code === 0) {
+      //   this.$router.push(
+      //     "/PayCenter"
+      //     //   {
+      //     //   path: "/PayCenter",
+      //     //   query: {
+      //     //     orderId: res.data.orderId,
+      //     //   },
+      //     // }
+      //   );
+      // } else if (this.code === 517) {
+      //   this.$router.push(
+      //     "/myOrder"
+      //     //   {
+      //     //   path: "/myOrder",
+      //     //   query: {
+      //     //     orderId: res.data,
+      //     //   },
+      //     // }
+      //   );
+      // }
     },
     gotoOrderCenter() {
       this.$router.push("/myOrder");

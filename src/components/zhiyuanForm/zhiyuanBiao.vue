@@ -18,7 +18,7 @@
               </i>
               <i
                 class="iconfont icon-baocun"
-                @click="gotoSave(zhiyuanTableList)"
+                @click="gotoSave()"
                 title="保存"
               >
                 <span>保存</span></i
@@ -111,58 +111,74 @@ import TopHeader from "@/components/common/topheader";
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
 import { getToken } from "@/utils/auth.js";
+import { addWishListPC } from "../../api/WishList";
+import { changeWishListPC } from "../../api/WishList";
 import { updateWishListPC } from "../../api/WishList";
 import header1 from "../common/header1";
+import { getAllWishByListId2,getAllHandleWishId } from "@/api/index";
 export default {
   name: "zhiyuanBiao",
   components: { TopHeader, HomeHeader, Footer },
   mounted() {
-    this.getAllData();
+    this.initData();
+    // this.getAllData();
     this.setTableColor();
   },
   data() {
     return {
       zhiyuanTableList: [],
       zhiyuanFormatList: [], // 保存传给接口的数据，调整数据格式
+      shuzuId:[],
+      listId:0,
     };
   },
   methods: {
-    getAllData() {
-      console.log("router信息", this.$route.params.zhiyuanTable);
-      this.zhiyuanTableList = this.$route.params.zhiyuanTable;
-      window.sessionStorage.setItem(
-        "zhiyuanbiaodan",
-        JSON.stringify(this.zhiyuanTableList)
-      );
-      console.log(
-        "本地存储内容",
-        JSON.parse(sessionStorage.getItem("zhiyuanbiaodan"))
-      );
-      for (let i = 0; i < this.zhiyuanTableList.length; ++i) {
-        this.zhiyuanTableList[i].xuhao = i + 1;
+    initData(){
+      let params={
+        phoneNum:localStorage.getItem("phone")
       }
-      console.log("志愿表单取得数据", this.zhiyuanTableList);
+      getAllHandleWishId(params).then((res) => {
+        this.listId=res.data;
+        console.log('这是数据成功了ma',this.listId)
+        let params={
+          listId:this.listId,
+        }
+        getAllWishByListId2(params).then((res) => {
+          console.log('heheheheheheheheehh',res)
+          if (res.msg === "成功") {
+            this.zhiyuanTableList = res.data.wishes;
+          }
+        });
+      })
+
+      // getWishListByphoneNum(localStorage.getItem("phone")).then((res) => {
+      //   console.log("res数据", res.data);
+      //   this.shuzuId= res.data
+      //   console.log('iddddddddddddddd',this.shuzuId[0].id);
+      //   this.listId=this.shuzuId[0].id
+      //   });
     },
+    // getAllData() {
+    //   console.log("router信息", this.$route.params.zhiyuanTable);
+    //   this.zhiyuanTableList = this.$route.params.zhiyuanTable;
+    //   window.sessionStorage.setItem(
+    //     "zhiyuanbiaodan",
+    //     JSON.stringify(this.zhiyuanTableList)
+    //   );
+    //   console.log(
+    //     "本地存储内容",
+    //     JSON.parse(sessionStorage.getItem("zhiyuanbiaodan"))
+    //   );
+    //   for (let i = 0; i < this.zhiyuanTableList.length; ++i) {
+    //     this.zhiyuanTableList[i].xuhao = i + 1;
+    //   }
+    //   console.log("志愿表单取得数据", this.zhiyuanTableList);
+    // },
     indexMethod(index) {
       return index + 1;
     },
     gotoEdit() {
-      // 修改按钮，跳转回上一个界面
-      window.sessionStorage.setItem(
-        "zhiyuanbiaodan",
-        JSON.stringify(this.zhiyuanTableList)
-      );
-      console.log(
-        "本地存储内容",
-        JSON.parse(sessionStorage.getItem("zhiyuanbiaodan"))
-      );
-      this.$router.push({
-        name: "SchoolRecommand",
-        params: {
-          zhiyuanTable: this.zhiyuanTableList,
-          tab: "favoriteSchool",
-        },
-      });
+      this.$router.push('/SchoolRecommand')
     },
     goUp(index) {
       // 上移
@@ -185,6 +201,7 @@ export default {
       that.zhiyuanTableList.splice(index + 1, 1);
       that.zhiyuanTableList.splice(index, 0, downDate);
     },
+    
     handleDelete(index) {
       // 删除
       // 设置类似于console类型的功能
@@ -208,50 +225,38 @@ export default {
           });
         });
     },
-    gotoSave(zhiyuanTableList) {
-      // 保存数据
-      console.log("存储数据中。。。", zhiyuanTableList);
-      if (zhiyuanTableList !== undefined) {
-        for (let i = 0; i < zhiyuanTableList.length; i++) {
+
+    gotoSave(){
+        if (this.zhiyuanTableList !== undefined) {
+        for (let i = 0; i < this.zhiyuanTableList.length; i++) {
           const map = {};
-          map.chance = zhiyuanTableList[i].risk;
+          map.chance = this.zhiyuanTableList[i].risk;
           map.id = 0;
           map.listId = 0;
           map.rank = i;
-          map.wishId = zhiyuanTableList[i].id;
+          map.wishId = this.zhiyuanTableList[i].id;
           map.wishNum = i;
           this.zhiyuanFormatList.push(map);
         }
         console.log("格式化规整数据", this.zhiyuanFormatList);
-        updateWishListPC({listId:66},this.zhiyuanFormatList).then((res) => {
-            console.log("成功了", res.data);
-            if (res.data.msg === "成功") {
-              sessionStorage.removeItem("zhiyuanbiaodan");
-              console.log(
-                "sessionStorage内容清理",
-                sessionStorage.getItem("zhiyuanbiaodan")
-              );
-              this.$router.push({
-                name: "addSucceed",
-              });
-            }
-          });
-      } else {
-        this.$confirm(
-          "志愿表中缺少数据无法提交，即将跳转院校选择界面",
-          "警告",
-          {
-            confirmButtonText: "跳转至院校优先",
-            type: "warning",
-          }
-        ).then(() => {
-          this.$router.push({
-            name: "SchoolRecommand",
-            params: { tab: "favoriteSchool" },
-          });
-        });
       }
+      var url = "https://www.zytb.top/NEMT/gk/userPC/changeWishListPC";
+      axios({
+        method: 'post',
+        url:url,
+        params:{
+        listId:this.listId,
+        },
+        data:JSON.stringify(this.zhiyuanFormatList),
+        headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        token: localStorage.getItem("token"),
+        },
+      }).then((res)=>{
+        this.$router.push('/zhiyuanTable')
+      })
     },
+
     setTableColor() {
       // 设置表格标题背景颜色
       var table = this.$refs.tables;

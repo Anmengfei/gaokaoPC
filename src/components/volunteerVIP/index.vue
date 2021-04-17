@@ -149,6 +149,7 @@ export default {
     getInfo() {
       getUserInfo().then((res) => {
         this.vip = res.data.vip;
+        // console.log("DDDDDDDDDDDDDDD",res)
       });
     },
   },

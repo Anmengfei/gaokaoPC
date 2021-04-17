@@ -10,7 +10,7 @@ export function getAllSchool (req) {
 
 export function getAllMajor (req) {
   return request({
-    url: 'extendApp/getMajorFirst',
+    url: 'extendApp/getMajorFirst2',
     method: 'get',
     params: req
   })

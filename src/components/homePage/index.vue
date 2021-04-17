@@ -1266,6 +1266,14 @@ input {
   position: absolute;
   top: 10%;
 }
+.tuijianButton .tuijianbtn span{
+  /* position: absolute; */
+  display: block;
+  margin-top: .15rem;
+  text-align: center;
+  color: #ff9912;
+
+}
 /deep/ .eldialog-parent .el-dialog__header {
   padding: 0;
 }
