@@ -210,7 +210,6 @@ export default {
           size: 10,
         }).then((res) => {
           if (res.status === 200) {
-            console.log("收到数据啊啊啊啊啊", this.volform);
             this.schoolList = res.data.data;
             // for (let i = 0; i < this.schoolList.length; ++i) { // 为每一条数据的专业信息添加一条标志位flag=-1
             //   for (let j = 0; j < this.schoolList[i].majors.length; ++j) {
@@ -231,7 +230,6 @@ export default {
                 }
               }
             }
-            console.log("this.schoolList数据", this.schoolList);
           } else {
             this.$message.error("无法取得数据");
             // console.log('无法取得数据')
@@ -266,9 +264,7 @@ export default {
         false,
       ];
       let page = val;
-      console.log(`当前页:`, page--);
       this.pageRecord = page;
-      console.log("this.pageRecord的数据是不是当前页-1?", this.pageRecord);
       this.getAllSchoolData(page--);
     },
     addForm(index, item1, index1) {

@@ -168,8 +168,6 @@ export default {
     },
     volform: {
       handler(newValue, oldvalue) {
-        console.log("数据改变", newValue, oldvalue);
-        console.log("this.pageInfo.pagenum的值", this.pageInfo.pagenum);
         // 1.向志愿表单添加数据（新数据长度>旧数据长度）--不执行操作  2.从志愿表单删除或清空数据（新数据长度<=旧数据长度）--执行操作
         if (newValue.length <= oldvalue.length) {
           // 将已经加入志愿表单的学校的按钮状态置为灰色
@@ -201,7 +199,6 @@ export default {
           size: 3,
         }).then((res) => {
           if (res.status === 200) {
-            console.log("收到数据啊啊啊啊啊", this.volform);
             this.schoolList = res.data.data;
             // for (let i = 0; i < this.schoolList.length; ++i) { // 为每一条数据的专业信息添加一条标志位flag=-1
             //   for (let j = 0; j < this.schoolList[i].majors.length; ++j) {
@@ -222,8 +219,6 @@ export default {
                 }
               }
             }
-
-            console.log("this.schoolList数据", this.schoolList);
           } else {
             this.$message.error("无法取得数据");
             // console.log('无法取得数据')
@@ -258,9 +253,7 @@ export default {
         false,
       ];
       let page = val;
-      console.log(`当前页:`, page--);
       this.pageRecord = page;
-      console.log("this.pageRecord的数据是不是当前页-1?", this.pageRecord);
       this.getAllSchoolData(page--);
     },
     addForm(index, item1, index1) {

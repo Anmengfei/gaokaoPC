@@ -202,26 +202,10 @@
               <div class="head"><span>已填入意向</span></div>
               <div class="content">
                 <div class="noformdata" v-if="volForm.length === 0">
-<!--                <div class="noformdata" v-if="showvolformdata">-->
                   <img src="../../assets/noData.png" alt="暂无数据">
                   <span>查看左侧院校和专业选择<br/>加入意向</span>
                 </div>
-                 <!-- <div class="formdata" v-if="zhiyuanform.length > 0">
-                  <div v-for="(item,index) in zhiyuanform" :key="index" class="list">
-                    <div id="code">
-                      <div class="num"><span>{{ index + 1 }}</span></div>
-                    </div>
-                    <div id="name">
-                      <span class="school">{{ item.schoolName }}</span><br/>
-                      <span class="major">{{ item.majorName }}</span>
-                    </div>
-                    <div class="deleteZhiyuan">
-                      <i class="iconfont icon-shanchu1" @click="handleDeleteInfo(index)"></i>
-                    </div>
-                  </div>
-                </div> -->
                 <div class="formdata" v-if="volForm.length > 0">
-<!--                <div class="formdata" v-if="!showvolformdata">-->
                   <div v-for="(item,index) in volForm" :key="index" class="list">
                     <div id="code">
                       <div class="num"><span>{{ index + 1 }}</span></div>
@@ -238,7 +222,16 @@
               </div>
               <div class="foot">
                 <span class="clear" @click="clearFormData">清空</span>
-                <button class="nextbtn" @click="clickToZhiyuanBiao">下一步</button>
+                <el-button class="nextbtn" type="text" @click="clickToZhiyuanBiao">下一步</el-button>
+                <div class="ChoiceIntention">
+                  <el-dialog
+                    :visible.sync="dialogVisible2"
+                    width="20%"
+                    :modal="false">
+                    <i class="el-icon-warning"></i>
+                    <span style="color:rgb(0, 0, 0);font-size:.28rem">请选择意向志愿</span>
+                </el-dialog>
+                </div>
               </div>
             </div>
           </div>
@@ -248,8 +241,72 @@
     </div>
     <!-- 非VIP心仪的院校 -->
     <div class="schoollist" v-else>
-     <novipschool :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-if="majorflag" ></novipschool>
-      <novipmajor :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-else></novipmajor>
+      <el-row>
+        <!-- schoolList.vue 心仪的院校 majorList.vue 喜欢的专业-->
+        <el-col :span="19">
+          <novipschool :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-if="majorflag" ></novipschool>
+          <novipmajor :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-else></novipmajor>
+        </el-col>
+        <!-- 已填入意向侧边栏 -->
+        <el-col :span="5">
+          <div class="auto_fixed" :class="auto_fixed">
+            <div class="fudongBox">
+              <!-- <div class="head"><span>已填入意向</span><span class="subhead">(至少填报10个意向)</span></div> -->
+              <div class="head"><span>已填入意向</span></div>
+              <div class="content">
+                <div class="noformdata" v-if="volForm.length === 0">
+                  <img src="../../assets/noData.png" alt="暂无数据">
+                  <span>查看左侧院校和专业选择<br/>加入意向</span>
+                </div>
+                <div class="formdata" v-if="volForm.length > 0">
+                  <div v-for="(item,index) in volForm" :key="index" class="list">
+                    <div id="code">
+                      <div class="num"><span>{{ index + 1 }}</span></div>
+                    </div>
+                    <div id="name">
+                      <span class="school">{{ item.schoolName }}</span><br/>
+                      <span class="major">{{ item.majorName }}</span>
+                    </div>
+                    <div class="deleteZhiyuan">
+                      <i class="iconfont icon-shanchu1" @click="handleDeleteInfo(index)"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="foot">
+                <span class="clear" @click="clearFormData">清空</span>
+                <!-- <button class="nextbtn" @click="clickToZhiyuanBiao">下一步</button> -->
+                <!-- <el-button class="nextbtn" type="text" @click="open">下一步</el-button> -->
+                <el-button class="nextbtn" type="text" @click="nextstepClick">下一步</el-button>
+                <el-dialog
+                  v-show="!isShow"
+                  :visible.sync="dialogVisible1"
+                  width="30%"
+                  :modal="false">
+                    <i class="el-icon-warning"></i>
+                    <span style="color:rgb(0, 0, 0);font-size:.28rem">VIP专属功能,开通后立即使用</span>
+                    <span style="display:block" slot="footer" class="dialog-footer">
+                      <el-button @click="dialogVisible1 = false">取 消</el-button>
+                      <el-button type="primary" @click="openedClick()">立即开通</el-button>
+                    </span>
+                </el-dialog>
+                <div class="ChoiceIntention">
+                  <el-dialog
+                    v-show="isShow"
+                    :visible.sync="dialogVisible2"
+                    width="20%"
+                    :modal="false">
+                    <i class="el-icon-warning"></i>
+                    <span style="color:rgb(0, 0, 0);font-size:.28rem">请选择意向志愿</span>
+                  </el-dialog>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="auto_fixed_fake" :style="{display: auto_fixed.fixed ? 'block':'none'}"></div>
+        </el-col>
+      </el-row>
+      
       <div>
         <div class="permission-tip-wrapper-toC">
              <p class="text-center">查看完整推荐院校</p>
@@ -343,7 +400,10 @@ export default {
       majorflag: '',
       turnname: '',
       shuzuId:[],
-      listId:0
+      listId:0,
+      dialogVisible1: false,
+      dialogVisible2: false,
+      isShow:false
     }
   },
   created() {
@@ -375,6 +435,7 @@ export default {
     this.getMajortypelist()
     this.getZhiyuanTableEdit()
   },
+
   methods: {
     init () {
       getAllFollowSchool({
@@ -391,16 +452,13 @@ export default {
         phoneNum:localStorage.getItem("phone")
       }
       getAllHandleWishId(params).then((res) => {
-        console.log('又出现了很多的问题又出现了很多的问题',res)
         this.listId=res.data;
-        console.log('又出现了很多的问题',this.listId)
         let params={
           listId:this.listId,
         }
         getAllWishByListId2(params).then((res) => {
           if (res.msg === "成功") {
             this.volForm = res.data.wishes;
-            console.log('this.volForm', this.volForm)
           }
         });
       })
@@ -409,7 +467,6 @@ export default {
       getUserInfo().then(res => {
         this.userInfo = res.data
         this.vip = this.userInfo.vip
-        console.log('1111',this.userInfo)
       })
     },
     onScroll () {
@@ -440,7 +497,6 @@ export default {
       }
     },
     closemyselect (parent, name) {
-      // console.log('guanbiqian', parent, name)
       for (let i = 0; i < parent.length; i++) {
         if (parent[i] == name) {
           parent.splice(i, 1)
@@ -453,7 +509,6 @@ export default {
           case this.collegeselete.typeSelect:this.typeactive = ''; break
         }
       }
-      // console.log('after', parent, name)
     },
     selecttag (item) {
       this.active = item
@@ -514,14 +569,7 @@ export default {
         this.collegeselete.sortSelect.push(item)
       }
     },
-    // selectsorttag (item) {
-    //   this.sortactive = item
-    //   if(item == ''){
-    //     this.collegeselete.sortSelect =[]
-    //   }else if(!this.collegeselete.sortSelect.includes(item)){
-    //     this.collegeselete.sortSelect.push(item)
-    //   }
-    // },
+
     selectmajortag (item) {
       this.majoractive = item
       if (item == '') {
@@ -643,47 +691,46 @@ export default {
     //   }
     // },
     clickToZhiyuanBiao () { // 下一步按钮，转向新的界面
-      for (let i = 0; i < this.volForm.length; i++) {
-        const map = {};
-        map.chance = this.volForm[i].risk || this.volForm[i].chances;
-        map.id = 0;
-        map.listId = 0;
-        map.rank = i;
-        map.wishId = this.volForm[i].id;
-        map.wishNum = i;
-        this.zhiyuanFormatList.push(map);
-      }
-      var url = "https://www.zytb.top/NEMT/gk/userPC/changeWishListPC";
-      console.log('volFormvolFormvolForm',this.zhiyuanFormatList);
-      console.log('zhiyuanFormatListzhiyuanFormatListzhiyuanFormatList',this.zhiyuanFormatList)
-      axios({
-        method: 'post',
-        url:url,
-        params:{
-        listId:this.listId,
-        },
-        data:JSON.stringify(this.zhiyuanFormatList),
-        headers: {
-        "Content-Type": "application/json;charset=UTF-8",
-        token: localStorage.getItem("token"),
-        },
-      }).then((res)=>{
-        this.$router.push('/zhiyuanBiao')
-      })
+      if(this.volForm.length==0){
+        this.dialogVisible2 = true;
+      }else{
+        for (let i = 0; i < this.volForm.length; i++) {
+          const map = {};
+          map.chance = this.volForm[i].risk || this.volForm[i].chances;
+          map.id = 0;
+          map.listId = 0;
+          map.rank = i;
+          map.wishId = this.volForm[i].id;
+          map.wishNum = i;
+          this.zhiyuanFormatList.push(map);
+        }
+        var url = "https://www.zytb.top/NEMT/gk/userPC/changeWishListPC";
+        axios({
+          method: 'post',
+          url:url,
+          params:{
+          listId:this.listId,
+          },
+          data:JSON.stringify(this.zhiyuanFormatList),
+          headers: {
+          "Content-Type": "application/json;charset=UTF-8",
+          token: localStorage.getItem("token"),
+          },
+        }).then((res)=>{
+          this.$router.push('/zhiyuanBiao')
+        })
+    }
     },
     // 测试
     querySearch (queryString, cb) {
-      console.log('ceshi', queryString, cb)
       getsearchSchool({
         schoolName: queryString
       }).then(res => {
-        console.log('mohu查询', res.data)
         this.schooladvice = res.data
         cb(this.schooladvice)
       })
     },
     querymajorSearch (queryString, cb) {
-      console.log('ceshi', queryString, cb)
       getsearchMajor({
         majorName: queryString
       }).then(res => {
@@ -692,7 +739,6 @@ export default {
       })
     },
     handleMajorSelect (item) {
-      console.log(item)
       followMajor({
         majorName: item.name,
         phoneNum: this.phoneNum
@@ -710,7 +756,6 @@ export default {
     //   this.isIndeterminate = false
     // },
     handleSelect (item) {
-      console.log(item)
       followSchool({
         phoneNum: this.phoneNum,
         schoolName: item.schoolName
@@ -774,12 +819,55 @@ export default {
     },
     gotoVIP(){
       this.$router.push('/volunteerVIP')
+    },
+    openedClick(){
+      this.$router.push('/volunteerVIP')
+    },
+    nextstepClick(){
+      if(this.volForm.length==0){
+        this.dialogVisible2 = true;
+        this.isShow=true
+      }else{
+        this.dialogVisible1 = true;
+        this.isShow=false
+
+      }
     }
   }
 }
 </script>
 
 <style scoped>
+/deep/ .el-dialog__body {
+  text-align: center;
+  font-size: .25rem;
+ 
+}
+/deep/ .el-button{
+  border-radius: .1rem;
+
+}
+/deep/ .el-dialog__footer{
+   text-align: center;
+   padding: .1rem .2rem .56rem;
+}
+/deep/ .el-dialog {
+  border-radius: 0.12rem;
+
+}
+/deep/ .el-dialog__body {
+    text-align: center;
+    font-size: 0.3rem;
+}
+
+/deep/ .el-dialog__body {
+    /* color: #606266; */
+    color: rgb(255, 56, 55);
+}
+.ChoiceIntention /deep/ .el-dialog__header{
+  padding: 0rem 0rem 0rem;
+
+}
 li{
   list-style: none;
 }
@@ -1051,6 +1139,9 @@ li{
   margin-top: .1rem;
 }
 
+.el-button {
+  font-size: .20rem;
+}
 .box .fudongBox .nextbtn {
   background: #FF961F;
   color: #fff;

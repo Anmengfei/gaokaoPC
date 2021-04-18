@@ -181,12 +181,6 @@ export default {
     },
     volform: {
       handler(newValue, oldvalue) {
-        console.log("majorList数据改变", newValue, oldvalue);
-        console.log(
-          "this.pageInfo.pagenum的值",
-          this.pageInfo.pagenum,
-          this.riskFlag
-        );
         // 1.向志愿表单添加数据（新数据长度>旧数据长度）--不执行操作  2.从志愿表单删除或清空数据（新数据长度<=旧数据长度）--执行操作
         if (newValue.length <= oldvalue.length) {
           // 将已经加入志愿表单的学校的按钮状态置为灰色
@@ -197,7 +191,6 @@ export default {
   },
   methods: {
     btnShow(id, item) {
-      console.log("专业列表", item);
       item.flag = id;
       this.$emit("addform", item);
       // this.$forceUpdate()
@@ -205,20 +198,17 @@ export default {
     getAllMajorData(pagenum, riskflag) {
       getUserInfo(localStorage.getItem("token")).then((res) => {
         this.userInfoList = res.data;
-        // console.log("这是测试的是userInfo的列表");
-        // console.log(this.userInfoList);
         getAllMajor({
           feature: this.selected.levelSelect,
           page: pagenum,
           examProvince: this.userInfoList.examProvince,
           risk: riskflag,
+          rank:this.userInfoList.rank,
           score: this.userInfoList.score,
-          size: 5,
+          size: 10,
         }).then((res) => {
           if (res.status === 200) {
-            this.majorList = res.data.data;
-            console.log("这是专业列表，今天突然出错了");
-            console.log(this.majorList);
+            this.majorList = res.data.data.splice(0,3);
             // 将已经加入志愿表单的学校的按钮状态置为灰色
             for (let i = 0; i < this.majorList.length; ++i) {
               for (let j = 0; j < this.volform.length; ++j) {
@@ -230,7 +220,6 @@ export default {
                 }
               }
             }
-            console.log("this.majorList数据", this.majorList);
           } else {
             this.$message.error("无法取得数据");
             // console.log('无法取得数据')
@@ -265,9 +254,7 @@ export default {
         false,
       ];
       let page = val;
-      console.log(`当前页:`, page--);
       this.pageRecord = page;
-      console.log("this.pageRecord的数据是不是当前页-1?", this.pageRecord);
       this.getAllMajorData(page--, this.riskFlag);
     },
     addForm(index, item1, index1) {
@@ -278,9 +265,7 @@ export default {
     },
     getFlag(tab) {
       // “冲”“稳”“保”
-      console.log("“冲”“稳”“保”", tab.name);
       this.riskFlag = tab.name;
-      console.log("55555555555555555", this.riskFlag);
       this.pagenum = 0;
       this.getAllMajorData(this.pagenum, this.riskFlag);
       this.$forceUpdate();

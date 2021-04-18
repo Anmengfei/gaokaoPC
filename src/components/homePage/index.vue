@@ -74,12 +74,12 @@
                 </div>
               </div>
             </div>
-            <div class="tuijianButton">
-              <div class="tuijianbtn">
-                <el-button type="primary" style="width: 4rem" @click="gotoAllschool"  round>智能推荐</el-button>
-                <span>*如需使用一键填报功能请扫码登录微信小程序或下载手机APP</span>
-              </div>
-            </div>
+          </div>
+        </div>
+        <div class="tuijianButton">
+          <div class="tuijianbtn">
+            <el-button type="primary" style="width: 4rem" @click="gotoAllschool"  round>智能推荐</el-button>
+            <span>*如需使用一键填报功能请扫码登录微信小程序或下载手机APP</span>
           </div>
         </div>
       </div>
@@ -427,7 +427,6 @@ export default {
     //   window.open(href, "_blank");
     // },
     selectSchoolItem(index, item) {
-      console.log("item", item);
       // console.log("index", index);
       // this.$router.push("/SchoolInfo");
       // const { href } = this.$router.resolve({
@@ -465,7 +464,6 @@ export default {
         page: 1,
         size: 6,
       }).then((res) => {
-        console.log(res);
         this.recommandschoolList = res.data.splice(0, 6);
       });
     },
@@ -557,37 +555,34 @@ li a {
 /*第四行  高考志愿百科*/
 .fourRow {
   width: 75%;
-  /* height: 4rem; */
   margin: 0 auto;
-  /* background-color: pink; */
   position: relative;
 }
 
 .zhiyuan {
   z-index: 2;
   width: 5rem;
-  height: 3.5rem;
+  height: 3.3rem;
   position: absolute;
   top: 7%;
   right: 4%;
+  border-radius: .1rem;
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .zhiyuan .content {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   margin: 0 auto;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  padding: 5px 30px 5px 30px;
+  padding: .05rem .30rem .05rem .30rem;
 }
 
 .content .header {
-  font-size: 24px;
-  /* margin-top: 20px; */
+  font-size: .24rem;
   font-weight: bold;
   color: rgba(0, 0, 0, 0.8);
   text-align: center;
-  margin-top: 20px;
+  margin-top: .2rem;
 }
 
 .denglu-label {
@@ -1223,6 +1218,7 @@ li a {
 .wap .content .titlehover :hover {
   color: #e5623f;
 }
+
 .wap .news {
   font-size: 14px;
   color: rgb(124, 124, 124);
@@ -1236,43 +1232,38 @@ li a {
 
 .eldialog-parent /deep/ .el-dialog {
   border-radius: 20px;
-  /* position: absolute; */
-  /* 控制位置 */
-  /* inset: 20% auto auto 50%; */
   border: 1px solid rgb(204, 204, 204);
   outline: none;
   padding-left: 0.9%;
-  /* padding-bottom: 30px; */
-  /* margin-right: -50%; */
-  /* transform: translate(-50%, -50%); */
   min-width: 500px;
-  /* height: 65%; */
 }
+
 .gaokaotianbao {
   margin-bottom: 25px;
 }
+
 input {
   text-decoration: none;
   border: 0;
   outline: 0;
-  /*line-height: 40px;*/
-  /*font-size: 40px;*/
 }
+
 .tuijianButton {
-  margin-top: 30px;
-  position: relative;
+  margin-top: .15rem;
+  padding-bottom: .2rem;
+  text-align: center;
 }
+
 .tuijianButton .tuijianbtn {
-  margin-top: 30px;
-  position: absolute;
-  top: 10%;
+
 }
+
 .tuijianButton .tuijianbtn span{
-  /* position: absolute; */
   display: block;
   margin-top: .15rem;
   text-align: center;
   color: #ff9912;
+  font-size: .12rem;
 
 }
 /deep/ .eldialog-parent .el-dialog__header {

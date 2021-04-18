@@ -15,12 +15,16 @@
       </div>
 
       <el-button
+        v-show="!vipbtn"
         type="danger"
         class="VIPbtn"
         @click="VIPClick()"
-        :disabled="vipbtn"
         v-text="vipword"
       ></el-button>
+      <div v-show="vipbtn" class="VIPbtn">
+        <span class="VIP">VIP会员</span>&nbsp;&nbsp;
+        <span class="date">{{endtime}}</span>
+      </div>
       <div class="user-count">
         <el-row>
           <el-col :span="8">
@@ -76,6 +80,8 @@ export default {
       MajorLength: 0,
       SchoolLength: 0,
       vipword: "开通vip",
+      endTime:[],
+      endtime:[]
     };
   },
   mounted() {
@@ -89,18 +95,30 @@ export default {
           this.vipbtn = false;
         } else {
           this.vipbtn = true;
-          this.vipword = "已开通VIP";
+          // this.endTime=this.userInfoList.endTime.split("")
+          this.endTime=this.userInfoList.endTime.replace(/\"/g, "")
+          this.endtime=this.endTime.slice(0,11)
+          // this.vipword = "已开通VIP";
         }
         let params = {
           phoneNum: parseInt(this.userInfoList.phoneNum),
         };
         getAllFollowMajor(params).then((res) => {
-          this.AllFollowMajorList = res.data;
-          this.MajorLength = this.AllFollowMajorList.length;
+          if(res.data==="null"){
+            this.AllFollowMajorList=[];
+            this.MajorLength = this.AllFollowMajorList.length;
+          }else{
+            this.MajorLength = this.AllFollowMajorList.length;
+          }
+          
         });
         getAllFollowSchool(params).then((res) => {
-          this.AllFollowSchoolList = res.data;
-          this.SchoolLength = this.AllFollowSchoolList.length;
+           if(res.data==="null"){
+            this.AllFollowSchoolList=[];
+            this.SchoolLength= this.AllFollowSchoolList.length;
+          }else{
+            this.SchoolLength= this.AllFollowSchoolList.length;
+          }
         });
       });
     },
@@ -158,13 +176,9 @@ a:hover {
 }
 
 .box-left {
-  /* width: 3.5rem; */
   width: 25%;
-  /* height: 1000px; */
-  /* background-color: aqua; */
-  height: 610px;
+  height: 6.1rem;
   margin-bottom: 50px;
-  /* background-color: pink; */
 }
 
 .box-right {
@@ -249,6 +263,18 @@ a:hover {
 .VIPbtn {
   margin-top: 0.15rem;
   margin-left: 1.35rem;
+}
+
+.VIPbtn .VIP{
+  font-size:.18rem;
+  color: darkgoldenrod;
+  font-weight: 700;
+}
+
+.VIPbtn .date{
+  font-size:.16rem;
+  color: darkgoldenrod;
+
 }
 
 .zhiyuanpng {

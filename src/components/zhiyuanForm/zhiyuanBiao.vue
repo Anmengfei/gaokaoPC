@@ -67,7 +67,7 @@
                   <i
                     class="iconfont icon-top-btn-fill"
                     v-bind:class="{
-                      iconfontSize: index == zhiyuanTableList.length - 1,
+                    iconfontSize: index == zhiyuanTableList.length - 1,
                     }"
                     @click="goUp(index)"
                     v-show="!(index == 0)"
@@ -84,10 +84,7 @@
                 <div class="Btn2">
                   <i
                     class="iconfont icon-shanchu1"
-                    v-bind:class="{
-                      iconShanchu:
-                        index == 0 || index == zhiyuanTableList.length - 1,
-                    }"
+                    v-bind:class="{ iconShanchu: index == 0 || index == zhiyuanTableList.length - 1,iconShanchu2:zhiyuanTableList.length==1}"
                     @click="handleDelete(index)"
                   ></i>
                 </div>
@@ -100,7 +97,9 @@
         <img src="@/assets/empty.png" alt="" />
       </div>
     </div>
-    <Footer></Footer>
+    <div class="footer">
+      <Footer></Footer>
+    </div>
   </div>
 </template>
 
@@ -139,12 +138,10 @@ export default {
       }
       getAllHandleWishId(params).then((res) => {
         this.listId=res.data;
-        console.log('这是数据成功了ma',this.listId)
         let params={
           listId:this.listId,
         }
         getAllWishByListId2(params).then((res) => {
-          console.log('heheheheheheheheehh',res)
           if (res.msg === "成功") {
             this.zhiyuanTableList = res.data.wishes;
           }
@@ -182,12 +179,10 @@ export default {
     },
     goUp(index) {
       // 上移
-      console.log("index的信息", index);
       var that = this;
       if (index > 0) {
         // 获取当前点击的上一条数据
         const upDate = that.zhiyuanTableList[index - 1];
-        console.log(upDate);
         // 移除上一条数据
         that.zhiyuanTableList.splice(index - 1, 1);
         // 把上一条数据插入当前点击的位置
@@ -227,10 +222,11 @@ export default {
     },
 
     gotoSave(){
+        // 格式化规整数据
         if (this.zhiyuanTableList !== undefined) {
         for (let i = 0; i < this.zhiyuanTableList.length; i++) {
           const map = {};
-          map.chance = this.zhiyuanTableList[i].risk;
+          map.chance = this.zhiyuanTableList[i].risk || this.zhiyuanTableList[i].chances ;
           map.id = 0;
           map.listId = 0;
           map.rank = i;
@@ -238,7 +234,6 @@ export default {
           map.wishNum = i;
           this.zhiyuanFormatList.push(map);
         }
-        console.log("格式化规整数据", this.zhiyuanFormatList);
       }
       var url = "https://www.zytb.top/NEMT/gk/userPC/changeWishListPC";
       axios({
@@ -260,9 +255,7 @@ export default {
     setTableColor() {
       // 设置表格标题背景颜色
       var table = this.$refs.tables;
-      console.log("table", table);
       var tr = this.$refs.tr1;
-      console.log("tr", tr);
       tr.style.backgroundColor = "#f1f3f4";
     },
     exportExcle() {
@@ -309,9 +302,9 @@ export default {
 /deep/ .el-table .cell {
   overflow: unset;
 }
-/* .container {
-  width: 100%;
-} */
+.footer{
+  margin-top: 2.5rem;
+}
 .content .table_head {
   width: 78%;
   margin: 0 auto;
@@ -380,6 +373,12 @@ export default {
   position: absolute;
   top: -0.13rem;
   left: 0.18rem;
+}
+.iconShanchu2 {
+  /* color: #00aff0; */
+  position: absolute;
+  top: -.3rem;
+  left: -.14rem;
 }
 table {
   margin: 0.4rem auto;

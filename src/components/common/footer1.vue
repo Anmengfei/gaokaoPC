@@ -15,16 +15,9 @@
         <dd class="team" @click="handleClick()">联系我们 : 400-168-6292</dd>
       </dl>
       <dl>
-        97
-        <dt>2020微信群</dt>
-      </dl>
-      <dl>
         <dt>合作伙伴</dt>
         <dd class="team" @click="handleClick()">合作机构</dd>
         <dd class="team" @click="handleClick()">合作导师</dd>
-      </dl>
-      <dl>
-        <dt>关注微信公众号</dt>
       </dl>
       <dl>
         <dt>商务合作</dt>
