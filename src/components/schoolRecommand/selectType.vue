@@ -368,7 +368,7 @@ export default {
       majorname: '',
       collegename: '',
       auto_fixed: {
-      fixed: false
+        fixed: false
       },
       collegeselete: {
         provinceSelect: [],

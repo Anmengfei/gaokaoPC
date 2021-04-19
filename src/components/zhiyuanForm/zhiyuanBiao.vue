@@ -1,5 +1,6 @@
 <template>
   <div class="app_container">
+    <div>
       <top-header></top-header>
       <HomeHeader></HomeHeader>
       <div class="content">
@@ -95,7 +96,8 @@
           <img src="@/assets/empty.png" alt="" />
         </div>
       </div>
-      <Footer class="footer"></Footer>
+    </div>
+    <Footer class="footer"></Footer>
   </div>
 </template>
 
@@ -313,6 +315,7 @@ export default {
 
 .footer {
   /* height: 50px; */
+
 }
 
 /deep/ .el-table .cell {
@@ -322,7 +325,8 @@ export default {
 .content{
   /* margin-top: -100px; */
   /* margin-bottom: -100px; */
-  /* box-sizing: border-box; */
+  /* min-height: 100%;
+  box-sizing: border-box; */
 }
 
 
