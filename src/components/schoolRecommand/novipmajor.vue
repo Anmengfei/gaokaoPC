@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-tabs type="border-card" v-model="selectedtag">
+    <el-tabs type="border-card" v-model="selectedtag" @tab-click="getFlag">
       <el-tab-pane label="冲刺" name="冲">
         <div class="container">
           <ul>

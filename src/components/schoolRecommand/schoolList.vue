@@ -81,12 +81,12 @@
                         </div>
 
                         <div class="desc">
-                          <span>2020年招生人数{{ item1.enrollNum }}</span>
+                          <!-- <span>2020年招生人数{{ item1.enrollNum }}</span> -->
                           <span
                             >选考科目：{{ item1.selectionRequirement }}</span
                           >
-                          <span>2020年最低分:暂无数据</span>
-                          <span>2020年最低位次：暂无数据</span>
+                          <!-- <span>2020年最低分:暂无数据</span>
+                          <span>2020年最低位次：暂无数据</span> -->
                         </div>
                       </div>
                     </el-col>
@@ -212,6 +212,7 @@ export default {
         }).then((res) => {
           if (res.status === 200) {
             this.schoolList = res.data.data;
+            console.log('this.schoolList',this.schoolList)
             // for (let i = 0; i < this.schoolList.length; ++i) { // 为每一条数据的专业信息添加一条标志位flag=-1
             //   for (let j = 0; j < this.schoolList[i].majors.length; ++j) {
             //     this.schoolList[i].majors[j].flag = -1
