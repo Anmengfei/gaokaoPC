@@ -1,44 +1,22 @@
 import request from '@/utils/request'
-import { getToken } from '@/utils/auth.js'
 
 // 保存志愿表单，这个接口不用了
-export function addWishListPC (req) { 
+export function addWishListPC (req) {
   return request({
     url: '/userPC/addWishListPC',
     method: 'post',
     data: req
   })
 }
-//修改志愿表单
-// export function changeWishListPC (data) { 
-
 export function updateWishListPC (params,data) { // 保存志愿表单
   return request({
     url: '/userPC/changeWishListPC',
     method: 'post',
     params:params,
     data
-    // headers: {
-    //   "Content-Type": "application/json;charset=UTF-8"
-    // },
   })
 }
-// export function getAllWishListID (data) { // 获取用户已经关注的所有志愿的id
-//   return request({
-//     url: 'wishApp/getAllWishId?phoneNum=' + data,
-//     method: 'get'
-//
-//   })
-// }
-//
-// export function getAllWishList (data) { // 获取用户志愿表单中的所有志愿
-//   return request({
-//     url: '/userPC/changeWishListPC',
-//     method: 'post',
-//     data
-//   })
-// }
-export function changeWishListPC (params,data) { 
+export function changeWishListPC (params,data) {
   return request({
     url: '/userPC/changeWishListPC',
     method: 'post',
@@ -46,9 +24,8 @@ export function changeWishListPC (params,data) {
     data:data,
     // params:params,
     headers: {
-            "Content-Type": "application/json;charset=UTF-8",
-
-           },
+      "Content-Type": "application/json;charset=UTF-8",
+    },
   })
 }
 export function getWishListByphoneNum (data) { // 通过手机号获取志愿表单
@@ -59,7 +36,7 @@ export function getWishListByphoneNum (data) { // 通过手机号获取志愿表
 }
 
 //获取用户志愿表单中的所有志愿，这个接口不用了
-export function getWishListById (data) { 
+export function getWishListById (data) {
   return request({
     url: 'wishApp/getAllWishByListId?listId=' + data,
     method: 'get'

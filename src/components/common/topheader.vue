@@ -113,15 +113,18 @@ export default {
     };
   },
   mounted() {
-    this.getProvincesinit();
-    this.getInfo();
+    // this.getProvincesinit();
+    if(localStorage.getItem("token") != null){
+      this.getInfo();
+    }
+
   },
   methods: {
-    getProvincesinit() {
-      getAllprovinces().then((res) => {
-        this.provincesList = res.data;
-      });
-    },
+    // getProvincesinit() {
+    //   getAllprovinces().then((res) => {
+    //     this.provincesList = res.data;
+    //   });
+    // },
     VIPClick() {
       this.$router.push("/volunteerVIP");
     },
@@ -129,7 +132,7 @@ export default {
       getUserInfo().then((res) => {
         this.userInfo = res.data;
         this.vip = this.userInfo.vip;
-        // console.log("1111", this.userInfo);
+        console.log("1111", this.userInfo);
       });
     },
     querySearch(queryString, cb) {

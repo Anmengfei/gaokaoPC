@@ -208,6 +208,7 @@ export default {
           size: 10,
         }).then((res) => {
           if (res.status === 200) {
+            console.log('专业返回',res)
             this.majorList = res.data.data.splice(0,3);
             // 将已经加入志愿表单的学校的按钮状态置为灰色
             for (let i = 0; i < this.majorList.length; ++i) {

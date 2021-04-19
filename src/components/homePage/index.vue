@@ -77,7 +77,8 @@
             <div class="tuijianButton">
               <div class="tuijianbtn">
                 <el-button type="primary" style="width: 4rem" @click="gotoAllschool"  round>智能填报</el-button>
-                <span style="font-size: 10px;color: red">* 一键填报请下载手机APP或者关注微信公众号使用</span>
+                <span style="font-size: 10px;color: red">* 一键填报请下载智禾考哪儿手机APP</span>
+                <span style="font-size: 10px;color: red">或者关注金榜填报通微信公众号使用</span>
               </div>
             </div>
           </div>
@@ -276,13 +277,17 @@ export default {
       ],
     };
   },
-  beforeCreate() {
-    document.querySelector("body").setAttribute("style", "background:#f3f5f7;");
-  },
+  // beforeCreate() {
+  //   document.querySelector("body").setAttribute("style", "background:#f3f5f7;");
+  // },
 
   created() {
     if (localStorage.getItem("token") != null && !this.flag) {
       this.flag_state = true;
+      getUserInfo().then((res) => {
+       this.userInfo = res.data;
+       this.$store.dispatch("resUserInfo", res.data);
+      });
     } else {
       this.flag_state = false;
     }
@@ -300,12 +305,17 @@ export default {
     },
   },
   mounted() {
-    this.userInfo.biology == 1 ? this.subject.push("生物") : "";
-    this.userInfo.chemistry == 1 ? this.subject.push("化学") : "";
-    this.userInfo.geography == 1 ? this.subject.push("地理") : "";
-    this.userInfo.history == 1 ? this.subject.push("历史") : "";
-    this.userInfo.physics == 1 ? this.subject.push("物理") : "";
-    this.userInfo.politics == 1 ? this.subject.push("政治") : "";
+    if(localStorage.getItem("token") != null){
+      this.userInfo.biology == 1 ? this.subject.push("生物") : "";
+      this.userInfo.chemistry == 1 ? this.subject.push("化学") : "";
+      this.userInfo.geography == 1 ? this.subject.push("地理") : "";
+      this.userInfo.history == 1 ? this.subject.push("历史") : "";
+      this.userInfo.physics == 1 ? this.subject.push("物理") : "";
+      this.userInfo.politics == 1 ? this.subject.push("政治") : "";
+      this.getuserInfo()
+    }
+
+
     this.initData();
     window.addEventListener("scroll", this.watchScroll);
     this.setBannerH();
@@ -345,16 +355,7 @@ export default {
         // this.$set(this.threeList, _this.threeList);
         // console.log(_this.threeVideoList);
       });
-      getUserInfo().then((res) => {
-        this.userInfo = res.data;
-        this.userInfo.biology == 1 ? this.subject.push("生物") : "";
-        this.userInfo.chemistry == 1 ? this.subject.push("化学") : "";
-        this.userInfo.geography == 1 ? this.subject.push("地理") : "";
-        this.userInfo.history == 1 ? this.subject.push("历史") : "";
-        this.userInfo.physics == 1 ? this.subject.push("物理") : "";
-        this.userInfo.politics == 1 ? this.subject.push("政治") : "";
-      });
-      this.getInfo();
+
     },
 
     itemClick() {},
@@ -367,6 +368,17 @@ export default {
       } else {
         this.msgWarning("请先登录！");
       }
+    },
+    getuserInfo(){
+      getUserInfo().then((res) => {
+        this.userInfo = res.data;
+        this.userInfo.biology == 1 ? this.subject.push("生物") : "";
+        this.userInfo.chemistry == 1 ? this.subject.push("化学") : "";
+        this.userInfo.geography == 1 ? this.subject.push("地理") : "";
+        this.userInfo.history == 1 ? this.subject.push("历史") : "";
+        this.userInfo.physics == 1 ? this.subject.push("物理") : "";
+        this.userInfo.politics == 1 ? this.subject.push("政治") : "";
+      });
     },
     modifyScore() {
       // console.log("123");
@@ -1249,7 +1261,7 @@ input {
 
 .tuijianButton {
   margin-top: .15rem;
-  padding-bottom: .2rem;
+  /*padding-bottom: .2rem;*/
   text-align: center;
 }
 
@@ -1259,7 +1271,7 @@ input {
 
 .tuijianButton .tuijianbtn span{
   display: block;
-  margin-top: .15rem;
+  margin-top: .01rem;
   text-align: center;
   color: #ff9912;
   font-size: .12rem;

@@ -205,6 +205,7 @@ export default {
           schoolTypes: this.selected.typeSelect,
           feature: this.selected.levelSelect,
           page: pagenum,
+          rank:this.userInfoList.rank,
           examProvince: this.userInfoList.examProvince,
           score: this.userInfoList.score,
           size: 10,

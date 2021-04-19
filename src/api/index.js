@@ -138,7 +138,6 @@ export function getArticleById(data) {
         params: data
     })
 }
-// 获取大家都在学
 // 获取大家都在学的视频列表
 export function getAllIsLearning(data) {
     return request({
@@ -230,12 +229,12 @@ export function getSchoolDetails(data) {
 }
 
 // 获取用户志愿表单中的所有志愿
-export function getAllWishByListId2 (data) { 
+export function getAllWishByListId2 (data) {
     return request({
       url: '/wishApp/getAllWishByListId2',
       method: 'get',
       params: data
-  
+
     })
   }
   //获取手动表单的id
@@ -246,4 +245,4 @@ export function getAllWishByListId2 (data) {
         params: data
     })
   }
-  
+

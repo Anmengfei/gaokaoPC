@@ -216,7 +216,7 @@ import md5 from "js-md5";
 import { withVerifyCodelogin, userLogout } from "@/api/login";
 import { getUserInfo } from "@/api/index";
 import UserInfo from "@/components/login/userInfo";
-
+import {mapState} from "vuex"
 export default {
   name: "header1",
   components: { UserInfo },
@@ -335,8 +335,13 @@ export default {
     userInfo() {
       return this.$store.state.userinfo;
     },
-    showlogin() {
-      return this.$store.state.showlogin;
+    showlogin:{
+      get(){
+        return this.$store.state.showlogin;
+      },
+      set(val){
+        this.$store.dispatch("getShowLogin", val);
+      }
     },
     phone() {
       return localStorage.getItem("phone");
@@ -357,7 +362,7 @@ export default {
   mounted() {},
   methods: {
     closeDialog() {
-      this.$store.dispatch("getShowLogin", false);
+      this.showlogin = false
     },
     logout(command) {
       if (command == "logout") {
@@ -485,15 +490,16 @@ export default {
             message: "登录成功",
             type: "success",
           });
-          // console.log("登录测试", res);
           localStorage.setItem("token", res.data.token);
           localStorage.setItem("phone", res.data.userInfo.phoneNum);
           this.$store.dispatch("getShowLogin", false);
           getUserInfo().then((res) => {
             this.$store.dispatch("resUserInfo", res.data);
             console.log("用户信息", this.userInfo);
+
             this.$store.dispatch("getPhone", this.userInfo.phoneNum);
             this.$store.dispatch("getVip", this.userInfo.vip);
+            localStorage.setItem('state', JSON.stringify(this.$store.state))
           });
           if (res.data.userInfo.checked == 0) {
             this.$store.dispatch("showuserInfo", true);
@@ -502,10 +508,6 @@ export default {
             this.reload();
           }
         } else if (res.code == 1) {
-          // this.$notify.error({
-          //   title: '验证码输入错误或已失效',
-          //   message: '请重新获取验证码'
-          // });
           this.$message.error("验证码输入错误或已失效，请重新获取");
         }
       });

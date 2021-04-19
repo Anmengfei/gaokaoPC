@@ -19,14 +19,14 @@ export default {
     }
   },
   mounted () {
-    window.addEventListener('unload', this.saveState)
+    // window.addEventListener('unload', this.saveState)
     this.$router.afterEach((to, from, next) => {
       window.scrollTo(0, 0)
     })
   },
   methods: {
     saveState() {
-      localStorage.setItem('state', JSON.stringify(this.$store.state))
+      // localStorage.setItem('state', JSON.stringify(this.$store.state))
     },
     reload () {
       this.isRouterAlive = false // 先关闭，
@@ -39,6 +39,9 @@ export default {
 </script>
 
 <style>
+body{
+  background-color: #f3f5f7;
+}
 #app {
   width: 100%;
   height: 100%;

@@ -46,7 +46,7 @@
                 </div>
                 <div class="remark-item" style="width: 2.5rem">
                   <span style="color: #ccc; font-size: 0.15rem">使用日期:</span>
-                  <span class="value">有效期至2021-08-31</span>
+                  <span class="value">有效期至2021-09-01</span>
                 </div>
               </div>
             </div>
@@ -56,7 +56,7 @@
       <div class="pay_action">
         <span class="pay_text1"> 商品总金额： ¥ 298</span>
         <span class="pay_text2"> 应付： </span>
-        <span class="pay_text3"> ¥ 288 </span>
+        <span class="pay_text3"> ¥ 298 </span>
         <!-- <el-button type="warning" round>警告按钮</el-button> -->
         <span class="submit-btn" @click="gotoPay">提交订单</span>
       </div>

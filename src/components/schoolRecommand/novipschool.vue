@@ -193,6 +193,7 @@ export default {
           provinces: this.selected.provinceSelect,
           schoolTypes: this.selected.typeSelect,
           feature: this.selected.levelSelect,
+          rank:this.userInfoList.rank,
           page: pagenum,
           examProvince: this.userInfoList.examProvince,
           score: this.userInfoList.score,

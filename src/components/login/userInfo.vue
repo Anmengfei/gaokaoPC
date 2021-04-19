@@ -2,16 +2,6 @@
   <div class="score">
     <div>
       <el-form ref="form" :model="form" class="form-style" :rules="rules" :inline-message="true">
-<!--        <el-row :gutter="10">-->
-<!--            <el-form-item prop="userNickName">-->
-<!--              <label slot="label">姓&emsp;&emsp;名:</label>-->
-<!--              <el-input-->
-<!--                style="width:195px"-->
-<!--                placeholder="请填写姓名"-->
-<!--                v-model="form.userNickName"-->
-<!--              />-->
-<!--            </el-form-item>-->
-<!--        </el-row>-->
         <el-row>
           <el-col :span="24">
             <el-form-item
@@ -30,26 +20,13 @@
           </el-col>
         </el-row>
         <el-row>
-
             <el-form-item
-              label="高考省份:"
-              prop="examProvince"
+              label="高考地区:"
+              prop="address"
             >
-              <el-select
-                placeholder="请选择高考省份"
-                v-model="form.examProvince"
-                style="width: 195px"
-                @change="handClick()"
-                :disabled="placeholder1"
-              >
-                <el-option
-                  v-for="item in provinceList"
-                  :key="item"
-                  :label="item"
-                  :value="item"
-                >
-                </el-option>
-              </el-select>
+              <div>
+                <cascader-area v-model="form.address" placeholder="请选择省/市/区" style="width: 195px" />
+              </div>
               <p class="provinceTs">高考地区一经确认不可修改</p>
             </el-form-item>
         </el-row>
@@ -87,7 +64,7 @@
           label="选择科目:"
           prop="checkSubjectList"
         >
-          <div v-if="form.examProvince == '河北' || form.examProvince == '辽宁' || form.examProvince == '江苏' || form.examProvince == '福建' || form.examProvince == '湖北' || form.examProvince == '湖南' || form.examProvince == '广东' || form.examProvince == '重庆' ">
+          <div v-if="address[0] == '河北省'">
             <el-checkbox-group
               size="mini"
               :max="1"
@@ -151,12 +128,16 @@
 </template>
 
 <script>
-import { getAllprovinces } from "@/api/index";
+import { getAllprovinces ,getUserInfo } from "@/api/index";
 import { completeInformation } from "@/api/login";
+import CascaderArea from '@/components/CascaderArea/index'
 
 export default {
 
   inject:['reload'],
+  components:{
+    CascaderArea
+  },
   data() {
     return {
       pickerOptions:{
@@ -169,8 +150,11 @@ export default {
       btnUser: true,
       placeholder1: false,
       form: {
+        address:[],
         examYear: "2021",
         examProvince: "",
+        examCity:"",
+        examCounty:"",
         rank: "",
         score: "",
         biology:'0',
@@ -182,12 +166,13 @@ export default {
         checkSubjectList:[],
         checkSubjectList2:[]
       },
+      address:[],
       rules: {
         examYear:[
           { required: true, message: "请选择高考年份", trigger: "change" },
         ],
-        examProvince: [
-          { required: true, message: '请选择高考省份', trigger: "change" }
+        address: [
+          { required: true, message: '请选择高考地区', trigger: "change" }
         ],
         checkSubjectList: [
           { required: true, message: "请选择科目", trigger: "change" },
@@ -224,15 +209,21 @@ export default {
       });
     },
     submitForm(formName) {
-
        var submit = this.form.checkSubjectList.concat(this.form.checkSubjectList2)
+
+
       console.log('学科',this.form)
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.form.examProvince = this.form.address[0];
+          this.form.examCity = this.form.address[1];
+          this.form.examCounty = this.form.address[2];
           completeInformation({
             biology: submit.includes('生物')?1:0,
             chemistry:submit.includes('化学')?1:0,
             examProvince:this.form.examProvince,
+            examCity:this.form.examCity,
+            examCounty:this.form.examCounty,
             examYear:this.form.examYear,
             geography:submit.includes('地理')?1:0,
             history:submit.includes('历史')?1:0,
@@ -244,9 +235,16 @@ export default {
           }).then( res => {
             if(res.code == 0){
               this.msgSuccess('提交成功')
+              getUserInfo().then((res) => {
+                this.$store.dispatch("resUserInfo", res.data);
+                console.log("用户信息33333", this.userInfo);
+                this.$store.dispatch("getPhone", this.userInfo.phoneNum);
+                this.$store.dispatch("getVip", this.userInfo.vip);
+                localStorage.setItem('state', JSON.stringify(this.$store.state))
+              });
               this.$store.dispatch('showuserInfo', false)
               this.$router.push("/");
-              this.reload()
+              this.reload();
             }
             console.log('提交用户',res)
           })
@@ -258,6 +256,7 @@ export default {
       });
     },
     resetForm(formName) {
+      console.log('4444',this.address)
       this.$refs[formName].resetFields();
     },
     selectSubject(val) {

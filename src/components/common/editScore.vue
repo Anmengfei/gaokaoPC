@@ -38,7 +38,7 @@
           label="选择科目:"
           prop="checkSubjectList"
         >
-          <div v-if="form.examProvince == '河北' || form.examProvince == '辽宁' || form.examProvince == '江苏' || form.examProvince == '福建' || form.examProvince == '湖北' || form.examProvince == '湖南' || form.examProvince == '广东' || form.examProvince == '重庆' ">
+          <div v-if="form.examProvince == '河北省'">
             <el-checkbox-group
               size="mini"
               :max="1"
@@ -53,7 +53,7 @@
             </el-checkbox-group>
             <el-form-item
               class="form-item-style"
-              prop="checkSubjectList"
+              prop="checkSubjectList2"
             >
               <label slot="label">&nbsp;&emsp;&emsp;&emsp;&emsp;</label>
               <el-checkbox-group
@@ -88,28 +88,7 @@
             </el-checkbox-group>
             <span class="hint" v-if="isShow">高考选科3+3模式，需要选择三门学科</span>
           </div>
-
-
         </el-form-item>
-<!--        <el-form-item-->
-<!--          class="form-item-style"-->
-<!--          label="选择科目:"-->
-<!--          prop="checkSubjectList"-->
-<!--        >-->
-<!--          <el-checkbox-group-->
-<!--            size="mini"-->
-<!--            :max="3"-->
-<!--            v-model="form.checkSubjectList"-->
-<!--            @change="selectSubject"-->
-<!--          >-->
-<!--            <el-checkbox-button-->
-<!--              v-for="item in subjects"-->
-<!--              :label="item"-->
-<!--              :key="item"-->
-<!--            >{{ item }}</el-checkbox-button>-->
-<!--          </el-checkbox-group>-->
-<!--          <span class="hint" v-if="isShow">需要选择三门学科</span>-->
-<!--        </el-form-item>-->
         <el-form-item>
           <el-row>
             <div class="infoPro">
@@ -144,6 +123,8 @@ export default {
       form: {
         examYear: "",
         examProvince: "",
+        examCounty:"",
+        examCity:"",
         rank: "",
         score: "",
         biology:'0',
@@ -194,7 +175,9 @@ export default {
         this.form.phoneNum = res.data.phoneNum
         this.form.examYear = res.data.examYear
         this.form.examProvince = res.data.examProvince
-        if(this.form.examProvince == '河北' || this.form.examProvince == '辽宁' || this.form.examProvince == '江苏' || this.form.examProvince == '福建' || this.form.examProvince == '湖北' || this.form.examProvince == '湖南' || this.form.examProvince == '广东' || this.form.examProvince == '重庆'){
+        this.form.examCounty = res.data.examCounty
+        this.form.examCity = res.data.examCity
+        if(this.form.examProvince == '河北省'){
           res.data.biology == 1?this.form.checkSubjectList2.push('生物'):'';
           res.data.chemistry == 1?this.form.checkSubjectList2.push('化学'):'';
           res.data.geography == 1?this.form.checkSubjectList2.push('地理'):'';
@@ -221,6 +204,8 @@ export default {
             biology: submit.includes('生物')?1:0,
             chemistry:submit.includes('化学')?1:0,
             examProvince:this.form.examProvince,
+            examCity:this.form.examCity,
+            examCounty:this.form.examCounty,
             examYear:this.form.examYear,
             geography:submit.includes('地理')?1:0,
             history:submit.includes('历史')?1:0,
@@ -230,14 +215,21 @@ export default {
             rank:this.form.rank,
             score:this.form.score,
           }).then( res => {
+            // this.form.checkSubjectList.splice(0,3)
+            // this.form.checkSubjectList2.splice(0,2)
+            // console.log('删除后',this.form.checkSubjectList2,this.form.checkSubjectList)
             if(res.code == 0){
               getUserInfo().then((res) => {
-                this.$store.dispatch("resUserInfo", res.data);
-                localStorage.setItem('state', JSON.stringify(this.$store.state))
+                this.$store.dispatch("resUserInfo", res.data).then(() => {
+                  this.msgSuccess('提交修改成功')
+                  this.$router.push("/");
+                  this.reload()
+                })
               });
-              this.msgSuccess('提交修改成功')
-              this.$router.push("/");
-              this.reload()
+              // this.msgSuccess('提交修改成功')
+              // this.$router.push("/");
+              // this.reload()
+              // console.log('选科',this.form)
             }else {
               this.msgError('提交修改失败，请补充全信息')
             }
@@ -260,6 +252,16 @@ export default {
       }else {
         this.isShow = false
       }
+    },
+    selectSubject1(val) {
+      console.log(val)
+      this.form.checkSubjectList.splice(0,val.length,...val)
+      console.log('eee',this.form.checkSubjectList)
+    },
+    selectSubject2(val) {
+      this.form.checkSubjectList2.splice(0,val.length,...val)
+      console.log('eee',this.form.checkSubjectList2)
+      // this.form.checkSubjectList2 = val
     },
     handClick() {
       // this.placeholder1 = true;

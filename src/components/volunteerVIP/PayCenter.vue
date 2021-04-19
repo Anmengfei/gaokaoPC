@@ -27,23 +27,21 @@
           <div class="card-info">
             <div class="card-remark">
               <div class="remark-item" style="width: 285px">
-                <span>适用考生</span>
-                <span>普通类文理科考生(不含艺术体育类)</span>
+                <span>适用考生:</span>
+                <span class="value">普通类文理科考生(不含艺术体育类)</span>
               </div>
               <div class="remark-item" style="width: auto">
-                <span>适用批次</span>
-                <span>普通类非提前批</span>
+                <span>适用批次:</span>
+                <span class="value">普通类非提前批</span>
               </div>
               <div style="height: 8px"></div>
               <div class="remark-item" style="width: 285px">
                 <span>适用范围:</span>
-                <span class="value"
-                  >仅限本人在高考省份使用(西藏、港澳台暂不使用)</span
-                >
+                <span class="value">仅限本人在高考省份使用</span>
               </div>
               <div class="remark-item" style="width: auto">
-                <span>使用日期</span>
-                <span class="value">有效期至2021-8-31</span>
+                <span>使用日期:</span>
+                <span class="value">有效期至2021-09-01</span>
               </div>
             </div>
           </div>
@@ -60,18 +58,18 @@
               alt=""
             />&nbsp;&nbsp;<span>微信支付</span></el-radio
           >
-          <el-radio v-model="radio" label="2" border>
-            <img
-              class="wechatImg"
-              src="../../assets/支付宝图标.png"
-              alt=""
-            />&nbsp;&nbsp;<span>支付宝</span>
-          </el-radio>
+<!--          <el-radio v-model="radio" label="2" border>-->
+<!--            <img-->
+<!--              class="wechatImg"-->
+<!--              src="../../assets/支付宝图标.png"-->
+<!--              alt=""-->
+<!--            />&nbsp;&nbsp;<span>支付宝</span>-->
+<!--          </el-radio>-->
         </div>
         <div class="bottom-panel">
           <div class="info-panel">
             <div class="price">
-              <span class="item"> 商品原价: ￥298 </span>
+              <span class="item"> 商品原价: ￥498 </span>
               <span class="item">
                 实付金额:
                 <span class="enum">￥</span>
@@ -197,16 +195,14 @@ export default {
   background-color: #f3f5f7;
 }
 .cart-head {
-  height: 260px;
+  height: 200px;
   background-color: #e3e6e9;
   background-image: url("../../assets/cart-header-bg.jpg");
   position: relative;
 }
 .cart-header-warp {
-  /*width: 1200px;*/
-  /*height: 220px;*/
   position: absolute;
-  top: 50%;
+  top: 30%;
   left: 300px;
   transform: translateY(-50%);
 }
@@ -224,11 +220,8 @@ export default {
   margin: 0 auto;
   border-radius: 0.1rem;
   background-color: #fff;
-  padding-top: 0.6rem;
-  margin-top: 0.3rem;
-  border-radius: 0.2rem;
-  -webkit-box-shadow: 0 0.05rem 0.1rem 0 rgb(0 0 0 / 10%);
-  box-shadow: 0 0.05rem 0.1rem 0 rgb(0 0 0 / 10%);
+  padding-top: 0.4rem;
+  /*margin-top: 0.3rem;*/
 }
 .cart-header {
   width: 12rem;
@@ -278,6 +271,7 @@ export default {
 .card-info .card-remark .remark-item {
   display: inline-block;
   vertical-align: top;
+  margin-top: 10px;
 }
 .card-remark .remark-item .value {
   color: rgba(0, 0, 0, 0.8);
