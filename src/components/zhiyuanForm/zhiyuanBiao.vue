@@ -1,105 +1,103 @@
 <template>
   <div class="app_container">
-    <top-header></top-header>
-    <HomeHeader></HomeHeader>
-    <div class="content">
-      <div class="table_head">
-        <el-row>
-          <el-col :span="17">
-            <div class="title">
-              <span style="font-size: 0.24rem; display: block">志 愿 表 1</span>
-              <span>我的成绩：1段 613分</span><span>物理,化学,生物</span>
-            </div>
-          </el-col>
-          <el-col :span="7">
-            <div class="operation">
-              <i class="iconfont icon-15" @click="gotoEdit" title="修改">
-                <span>修改</span>
-              </i>
-              <i
-                class="iconfont icon-baocun"
-                @click="gotoSave()"
-                title="保存"
-              >
-                <span>保存</span></i
-              >
-              <!--          <button @click="gotoSave(zhiyuanTableList)">保存</button>-->
-              <i class="iconfont icon-daochu" title="导出" @click="exportExcle">
-                <span>导出</span></i
-              >
-            </div>
-          </el-col>
-        </el-row>
-      </div>
-      <div class="tablecontent">
-        <table class="bordered" ref="tables">
-          <thead>
-            <tr ref="tr1">
-              <th>序号</th>
-              <th>录取指标</th>
-              <th>学校名称</th>
-              <th>专业名称</th>
-              <th>选课要求</th>
-              <th>2020年招生计划</th>
-              <th>2021年招生计划</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tr v-for="(item, index) in zhiyuanTableList" :key="index">
-            <td>{{ index + 1 }}</td>
-            <td>{{ item.risk }}</td>
-            <td>
-              {{ item.schoolName }}<br /><span
-                >(代码：{{ item.schoolCode }})</span
-              >
-            </td>
-            <td>
-              {{ item.majorName }}<br /><span
-                >(代码：{{ item.majorCode }})</span
-              >
-            </td>
-            <td>{{ item.selectionRequirement }}</td>
-            <td>{{ item.enrollNum }}</td>
-            <td>暂无数据</td>
-            <td>
-              <div class="Btn">
-                <div class="Btn1">
-                  <i
-                    class="iconfont icon-top-btn-fill"
-                    v-bind:class="{
-                    iconfontSize: index == zhiyuanTableList.length - 1,
-                    }"
-                    @click="goUp(index)"
-                    v-show="!(index == 0)"
-                  ></i>
-                  <!-- v-show="!(index == 0)" -->
-                  <i
-                    class="iconfont icon-bottom-btn-fill"
-                    v-bind:class="{ iconfontSize: index == 0 }"
-                    @click="goDown(index)"
-                    v-show="!(index == zhiyuanTableList.length - 1)"
-                  ></i>
-                  <!-- v-show="!(index == zhiyuanTableList.length - 1)" -->
-                </div>
-                <div class="Btn2">
-                  <i
-                    class="iconfont icon-shanchu1"
-                    v-bind:class="{ iconShanchu: index == 0 || index == zhiyuanTableList.length - 1,iconShanchu2:zhiyuanTableList.length==1}"
-                    @click="handleDelete(index)"
-                  ></i>
-                </div>
+    <div>
+      <top-header></top-header>
+      <HomeHeader></HomeHeader>
+      <div class="content">
+        <div class="table_head">
+          <span class="volunteerTable">智 能 填 报 志 愿 表</span>
+          <el-row>
+            <el-col :span="17">
+              <div class="title">
+                <span>我的成绩：1段 613分</span><span>物理,化学,生物</span>
               </div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="emptyPart" v-show="zhiyuanTableList == 0">
-        <img src="@/assets/empty.png" alt="" />
+            </el-col>
+            <el-col :span="7">
+              <div class="operation">
+                <i class="iconfont icon-15" @click="gotoEdit" title="修改">
+                  <span>修改</span>
+                </i>
+                <i
+                  class="iconfont icon-baocun"
+                  @click="gotoSave()"
+                  title="保存"
+                >
+                  <span>保存</span></i
+                >
+                <i class="iconfont icon-daochu" title="导出" @click="exportExcle">
+                  <span>导出</span></i
+                >
+              </div>
+            </el-col>
+          </el-row>
+        </div>
+        <div class="tablecontent">
+          <table class="bordered" ref="tables">
+            <thead>
+              <tr ref="tr1">
+                <th>序号</th>
+                <th>录取指标</th>
+                <th>学校名称</th>
+                <th>专业名称</th>
+                <th>选科要求</th>
+                <th>2020年招生计划</th>
+                <th>2021年招生计划</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tr v-for="(item, index) in zhiyuanTableList" :key="index">
+              <td>{{ index + 1 }}</td>
+              <td>{{ item.chances }}</td>
+              <td>
+                {{ item.schoolName }}<br /><span
+                  >{{ schoolCode(index) }}</span
+                >
+              </td>
+              <td>
+                {{ item.majorName }}<br />
+                <!-- <span>(代码：{{ item.majorCode }})</span> -->
+              </td>
+              <td>{{ selectSubject(index) }}</td>
+              <td>{{ item.enrollNum }}</td>
+              <td>暂无数据</td>
+              <td>
+                <div class="Btn">
+                  <div class="Btn1">
+                    <i
+                      class="iconfont icon-top-btn-fill"
+                      v-bind:class="{
+                      iconfontSize: index == zhiyuanTableList.length - 1,
+                      }"
+                      @click="goUp(index)"
+                      v-show="!(index == 0)"
+                    ></i>
+                    <!-- v-show="!(index == 0)" -->
+                    <i
+                      class="iconfont icon-bottom-btn-fill"
+                      v-bind:class="{ iconfontSize: index == 0 }"
+                      @click="goDown(index)"
+                      v-show="!(index == zhiyuanTableList.length - 1)"
+                    ></i>
+                    <!-- v-show="!(index == zhiyuanTableList.length - 1)" -->
+                  </div>
+                  <div class="Btn2">
+                    <i
+                      class="iconfont icon-shanchu1"
+                      v-bind:class="{ iconShanchu: index == 0 || index == zhiyuanTableList.length - 1,iconShanchu2:zhiyuanTableList.length==1}"
+                      @click="handleDelete(index)"
+                    ></i>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="emptyPart" v-show="zhiyuanTableList == 0">
+          <img src="@/assets/empty.png" alt="" />
+        </div>
       </div>
     </div>
-    <div class="footer">
-      <Footer></Footer>
-    </div>
+    <Footer class="footer"></Footer>
   </div>
 </template>
 
@@ -144,6 +142,7 @@ export default {
         getAllWishByListId2(params).then((res) => {
           if (res.msg === "成功") {
             this.zhiyuanTableList = res.data.wishes;
+            console.log('zhiyuanTableList',this.zhiyuanTableList)
           }
         });
       })
@@ -294,43 +293,80 @@ export default {
     formatJson(filterVal, jsonData) {
       return jsonData.map((v) => filterVal.map((j) => v[j]));
     },
+    schoolCode(index){
+      if(this.zhiyuanTableList[index].SchoolCode==='暂无'){
+        return ''
+      }else{
+        return this.zhiyuanTableList[index].SchoolCode
+      }
+    },
+    selectSubject(index){
+      if(this.zhiyuanTableList[index].selectSubject===null){
+        return '无选科要求'
+      }else{
+        return this.zhiyuanTableList[index].selectSubject
+      }
+    }
   },
 };
 </script>
 
 <style scoped>
+
+.footer {
+  /* height: 50px; */
+
+}
+
 /deep/ .el-table .cell {
   overflow: unset;
 }
-.footer{
-  margin-top: 2.5rem;
+
+.content{
+  /* margin-top: -100px; */
+  /* margin-bottom: -100px; */
+  /* min-height: 100%;
+  box-sizing: border-box; */
 }
+
+
 .content .table_head {
   width: 78%;
   margin: 0 auto;
   margin-top: 0.3rem;
   /* background-color: rgb(68, 68, 67); */
 }
-.content .table_head .title {
+
+.content .table_head .volunteerTable {
   /* background-color: blue; */
+  display: block;
+  margin-top: .4rem;
+  margin-bottom: .2rem;
+  font-size: 0.44rem;
+  text-align: center;
+
+}
+
+.content .table_head .title{
+  /* background-color: pink; */
 }
 
 .content .table_head .operation {
-  height: 0.584rem;
-  /* background-color: pink; */
-  padding-top: 0.2rem;
-  padding-left: 0.8rem;
+  /* background-color: yellow; */
+  /* padding-top: 0.2rem; */
+  /* padding-left: 1.8rem; */
+  float: right;
 }
 
-.icon-15 {
+.operation .icon-15 {
   color: #e9302d;
 }
 
-.icon-baocun {
+.operation .icon-baocun {
   color: #ff9a02;
 }
 
-.icon-daochu {
+.operation .icon-daochu {
   color: #0c3;
 }
 
@@ -338,24 +374,36 @@ export default {
   width: 95%;
   text-align: center;
   margin: 0 auto;
+  margin-top:-.3rem;
   overflow: unset !important;
   /* background-color: pink; */
 }
-.iconfont {
-  font-size: 0.3rem;
+
+.operation .iconfont {
+  font-size: 0.2rem;
   margin-right: 0.2rem;
   cursor: pointer;
 }
 
-.icon-top-btn-fill {
+.Btn1 .iconfont {
+  font-size: 0.2rem;
+  margin-right: 0.2rem;
+  cursor: pointer;
+}
+
+.Btn1 .icon-top-btn-fill {
   display: block;
   color: #00aff0;
 }
 
-.icon-top-btn-fill1 {
+.Btn1 .icon-top-btn-fill1 {
   /* margin-top: 20px; */
 }
-.icon-bottom-btn-fill {
+.Btn2 /deep/ .iconfont {
+   font-size: .25rem;
+}
+
+.Btn1 /deep/ .icon-bottom-btn-fill {
   display: block;
   color: #00aff0;
 }
@@ -371,13 +419,13 @@ export default {
 .iconShanchu {
   /* color: #00aff0; */
   position: absolute;
-  top: -0.13rem;
-  left: 0.18rem;
+  top: -0.07rem;
+  left: 0.1rem;
 }
 .iconShanchu2 {
   /* color: #00aff0; */
   position: absolute;
-  top: -.3rem;
+  top: -.23rem;
   left: -.14rem;
 }
 table {
@@ -385,7 +433,7 @@ table {
   width: 15rem;
   border-spacing: 0;
   overflow: hidden;
-  font-size: 0.15rem;
+  font-size: 0.18rem;
 }
 .emptyPart {
   width: 100%;
@@ -423,7 +471,8 @@ table {
 .Btn2 {
   position: relative;
   flex: 1;
-  margin-top: 0.2rem;
+  margin-top: 0.09rem;
+  cursor: pointer;
   /* background-color: pink; */
 }
 </style>
