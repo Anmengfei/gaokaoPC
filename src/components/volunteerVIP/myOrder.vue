@@ -32,10 +32,10 @@
       </div>
       <div class="detail-box">
         <div class="detail-box-content">
-          <img src="/static/img/vip.c657b9e.jpg" alt="" />
-          <span class="pay_text1"> 商品总金额： ¥ 298</span>
+          <img src="../../assets/vip1.png" alt="" />
+          <span class="pay_text1"> 商品总金额： ¥ {{youhuimoney}}</span>
           <span class="pay_text2"> 应付： </span>
-          <span class="pay_text3"> ¥ 298 </span>
+          <span class="pay_text3"> ¥ {{youhuimoney}} </span>
           <el-button class="payBtn" type="danger" round @click="gotoPay()"
             >立即支付</el-button
           >
@@ -55,13 +55,15 @@
 import TopHeader from "@/components/common/topheader";
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
-import { getUserInfo, delPayOrder, addPayOrder } from "@/api/index.js";
+import { getUserInfo, delPayOrder, addPayOrder,getyouhuimoney,getyuanmoney } from "@/api/index.js";
 export default {
   components: { TopHeader, HomeHeader, Footer },
   data() {
     return {
       isShow: "true",
       orderId: "",
+      yuanmongey:'498',
+      youhuimoney:'298',
       show_cancel_order: false,
       userInfoList: [],
       orderList: [],
@@ -71,8 +73,17 @@ export default {
   watch: {},
   mounted() {
     this.initData();
+    this.getmoney()
   },
   methods: {
+    getmoney(){
+      getyouhuimoney().then(res => {
+        this.youhuimoney = res.data
+      })
+      getyuanmoney().then(res => {
+        this.yuanmongey = res.data
+      })
+    },
     initData() {
       getUserInfo(localStorage.getItem("token")).then((res) => {
         this.userInfoList = res.data;

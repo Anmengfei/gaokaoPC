@@ -282,7 +282,7 @@ export default {
   // },
 
   created() {
-    if (localStorage.getItem("token") != null && !this.flag) {
+    if (localStorage.getItem("token") != null) {
       this.flag_state = true;
       getUserInfo().then((res) => {
        this.userInfo = res.data;
@@ -1283,4 +1283,9 @@ input {
 /deep/ .eldialog-parent .el-dialog__body {
   padding: 0;
 }
+.footer {
+  height: 270px;
+  margin-top:-20px;
+}
+
 </style>

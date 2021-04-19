@@ -210,8 +210,6 @@ export default {
     },
     submitForm(formName) {
        var submit = this.form.checkSubjectList.concat(this.form.checkSubjectList2)
-
-
       console.log('学科',this.form)
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -236,13 +234,13 @@ export default {
             if(res.code == 0){
               this.msgSuccess('提交成功')
               getUserInfo().then((res) => {
-                this.$store.dispatch("resUserInfo", res.data);
-                console.log("用户信息33333", this.userInfo);
-                this.$store.dispatch("getPhone", this.userInfo.phoneNum);
-                this.$store.dispatch("getVip", this.userInfo.vip);
-                localStorage.setItem('state', JSON.stringify(this.$store.state))
+                this.$store.dispatch("resUserInfo", res.data).then(() => {
+                  this.$store.dispatch("getPhone", res.data.phoneNum);
+                  this.$store.dispatch("getVip", res.data.phoneNum);
+                  localStorage.setItem('state', JSON.stringify(this.$store.state))
+                  this.$store.dispatch('showuserInfo', false)
+                })
               });
-              this.$store.dispatch('showuserInfo', false)
               this.$router.push("/");
               this.reload();
             }

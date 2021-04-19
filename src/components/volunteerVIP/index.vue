@@ -6,7 +6,7 @@
       <div class="vip-background">
         <div class="vip-content">
           <span class="vipcard" v-show="isShow1">
-            <img alt="mask" class="card-icon" src="../../assets/vip1.jpg" />
+            <img alt="mask" class="card-icon" src="../../assets/vip1.png" />
           </span>
           <span class="vipcard" v-show="!isShow1">
             <img alt="mask" class="card-icon" src="../../assets/vip2.jpg" />
@@ -18,9 +18,9 @@
                   志愿卡VIP
                   <div class="price">
                     ￥
-                    <span class="fee">298</span>
+                    <span class="fee">{{youhuimoney}}</span>
                     <div class="price-info">
-                      <div class="origin">原价:￥498</div>
+                      <div class="origin">原价:￥{{yuanmongey}}</div>
                     </div>
                   </div></el-col
                 >
@@ -105,13 +105,15 @@
 import TopHeader from "@/components/common/topheader";
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
-import { getUserInfo } from "@/api/index";
+import { getUserInfo,getyouhuimoney,getyuanmoney } from "@/api/index";
 export default {
   loginStatus: true,
   components: { TopHeader, HomeHeader, Footer },
   data() {
     return {
       isShow1: true,
+      yuanmongey:'498',
+      youhuimoney:'298',
       vip: this.$store.state.vip,
     };
   },
@@ -122,8 +124,17 @@ export default {
   },
   mounted() {
     this.getInfo();
+    this.getmoney();
   },
   methods: {
+    getmoney(){
+      getyouhuimoney().then(res => {
+         this.youhuimoney = res.data
+      })
+      getyuanmoney().then(res => {
+        this.yuanmongey = res.data
+      })
+    },
     handleClick1() {
       this.isShow1 = !this.isShow1;
     },
@@ -159,7 +170,10 @@ export default {
 .app_container {
   background-color: #f3f5f7;
 }
-
+.VIP {
+  height: 600px;
+  background-color: #1a1816;
+}
 .vip-background {
   width: 100%;
   height: 500px;

@@ -314,10 +314,10 @@
             <el-button type="danger" class="action" @click="gotoVIP"> 开通VIP &emsp;查看全部</el-button>
           </div>
           <div class="flex center qrcode">
-            <img src="../../assets/QQ.png" alt="" width="80px" height="80px">
+            <img src="../../assets/手机APP.png" alt="" width="80px" height="80px">
             <div>
               <p>扫码下载 考哪儿APP</p>
-              <p>实时资讯 互动答疑</p>
+              <p>实时资讯 一键填报</p>
             </div>
           </div>
         </div>

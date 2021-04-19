@@ -246,3 +246,19 @@ export function getAllWishByListId2 (data) {
     })
   }
 
+//获取原价
+export function getyuanmoney(data) {
+  return request({
+    url: '/Money/getOriginalMoney',
+    method: 'get',
+    params: data
+  })
+}
+//获取优惠价格
+export function getyouhuimoney(data) {
+  return request({
+    url: '/Money/getFavorableMoney',
+    method: 'get',
+    params: data
+  })
+}

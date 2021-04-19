@@ -54,7 +54,8 @@ export default {
 <style scoped>
 .eightRow {
   float: left;
-  height: 100%;
+  /*height: 100%;*/
+  height: 270px;
   width: 100%;
   background-color: #333333;
   /*margin-top: 0.5rem;*/

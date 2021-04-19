@@ -6,7 +6,7 @@
       @close="closeClick()"
     >
       <div>
-        <h1>微信支付 ¥ 298</h1>
+        <h1>微信支付 ¥ {{youhuimoney}}</h1>
         <img :src="Paycode" />
         <p>使用微信扫描二维码付款</p>
       </div>
@@ -22,7 +22,7 @@
       <div class="cart-header">
         <span>订单编码：{{ orderId }}</span>
         <div class="card-box">
-          <img class="card-icon" src="/static/img/vip.c657b9e.jpg" alt="" />
+          <img class="card-icon" src="../../assets/vip1.png" alt="" />
           <span class="card-title">考哪儿 会员卡</span>
           <div class="card-info">
             <div class="card-remark">
@@ -69,11 +69,11 @@
         <div class="bottom-panel">
           <div class="info-panel">
             <div class="price">
-              <span class="item"> 商品原价: ￥498 </span>
+              <span class="item"> 商品原价: ￥{{yuanmongey}} </span>
               <span class="item">
                 实付金额:
                 <span class="enum">￥</span>
-                <span class="fee">298</span>
+                <span class="fee">{{youhuimoney}}</span>
               </span>
             </div>
             <div class="protocol">
@@ -102,7 +102,7 @@
 import TopHeader from "@/components/common/topheader";
 import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
-import { getUserInfo, addPayOrder, orderPayState } from "@/api/index.js";
+import { getUserInfo, addPayOrder, orderPayState,getyouhuimoney,getyuanmoney } from "@/api/index.js";
 export default {
   components: { TopHeader, HomeHeader, Footer },
   data() {
@@ -114,13 +114,24 @@ export default {
       maver: "",
       orderId: "",
       checkCode: "",
+      yuanmongey:'498',
+      youhuimoney:'298',
     };
   },
   mounted() {
     // this.orderId = this.$route.query.orderId;
     this.initData();
+    this.getmoney()
   },
   methods: {
+    getmoney(){
+      getyouhuimoney().then(res => {
+        this.youhuimoney = res.data
+      })
+      getyuanmoney().then(res => {
+        this.yuanmongey = res.data
+      })
+    },
     initData() {
       getUserInfo(localStorage.getItem("token")).then((res) => {
         this.userInfoList = res.data;
