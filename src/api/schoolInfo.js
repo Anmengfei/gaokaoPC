@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getAllSchool (req) {
   return request({
-    url: 'extendApp/getSchoolFirst',
+    url: 'extendApp/getSchoolFirst2',
     method: 'get',
     params: req
   })

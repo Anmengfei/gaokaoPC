@@ -4,11 +4,13 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  state:localStorage.getItem('state') ? JSON.parse(localStorage.getItem('state')):  {
+  state:
+    // localStorage.getItem('state') ? JSON.parse(localStorage.getItem('state')):
+      {
     loginflag:'',
     showlogin: false,
     phoneNum:'',
-    vip:'',
+    vip:'0',
     showUserInfo:false,
     userinfo:{},
     obj: {}

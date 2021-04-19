@@ -278,35 +278,35 @@
                 <!-- <button class="nextbtn" @click="clickToZhiyuanBiao">下一步</button> -->
                 <!-- <el-button class="nextbtn" type="text" @click="open">下一步</el-button> -->
                 <el-button class="nextbtn" type="text" @click="nextstepClick">下一步</el-button>
-                <el-dialog
-                  v-show="!isShow"
-                  :visible.sync="dialogVisible1"
-                  width="30%"
-                  :modal="false">
-                    <i class="el-icon-warning"></i>
-                    <span style="color:rgb(0, 0, 0);font-size:.28rem">VIP专属功能,开通后立即使用</span>
-                    <span style="display:block" slot="footer" class="dialog-footer">
-                      <el-button @click="dialogVisible1 = false">取 消</el-button>
-                      <el-button type="primary" @click="openedClick()">立即开通</el-button>
-                    </span>
-                </el-dialog>
-                <div class="ChoiceIntention">
-                  <el-dialog
-                    v-show="isShow"
-                    :visible.sync="dialogVisible2"
-                    width="20%"
-                    :modal="false">
-                    <i class="el-icon-warning"></i>
-                    <span style="color:rgb(0, 0, 0);font-size:.28rem">请选择意向志愿</span>
-                  </el-dialog>
-                </div>
+<!--                <el-dialog-->
+<!--                  v-show="!isShow"-->
+<!--                  :visible.sync="dialogVisible1"-->
+<!--                  width="30%"-->
+<!--                  :modal="false">-->
+<!--                    <i class="el-icon-warning"></i>-->
+<!--                    <span style="color:rgb(0, 0, 0);font-size:.28rem">VIP专属功能,开通后立即使用</span>-->
+<!--                    <span style="display:block" slot="footer" class="dialog-footer">-->
+<!--                      <el-button @click="dialogVisible1 = false">取 消</el-button>-->
+<!--                      <el-button type="primary" @click="openedClick()">立即开通</el-button>-->
+<!--                    </span>-->
+<!--                </el-dialog>-->
+<!--                <div class="ChoiceIntention">-->
+<!--                  <el-dialog-->
+<!--                    v-show="isShow"-->
+<!--                    :visible.sync="dialogVisible2"-->
+<!--                    width="20%"-->
+<!--                    :modal="false">-->
+<!--                    <i class="el-icon-warning"></i>-->
+<!--                    <span style="color:rgb(0, 0, 0);font-size:.28rem">请选择意向志愿</span>-->
+<!--                  </el-dialog>-->
+<!--                </div>-->
               </div>
             </div>
           </div>
           <div class="auto_fixed_fake" :style="{display: auto_fixed.fixed ? 'block':'none'}"></div>
         </el-col>
       </el-row>
-      
+
       <div>
         <div class="permission-tip-wrapper-toC">
              <p class="text-center">查看完整推荐院校</p>
@@ -649,7 +649,7 @@ export default {
       // this.$forceUpdate()
     },
     // 下一步按钮，转向新的界面
-    // clickToZhiyuanBiao () { 
+    // clickToZhiyuanBiao () {
     //   console.log('aaaaaaaaaaaaaaaa',parseInt(this.listId))
     //   console.log('ccccccccccccccc',this.volForm)
     //   let params={
@@ -841,7 +841,7 @@ export default {
 /deep/ .el-dialog__body {
   text-align: center;
   font-size: .25rem;
- 
+
 }
 /deep/ .el-button{
   border-radius: .1rem;

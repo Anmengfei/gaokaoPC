@@ -35,7 +35,7 @@
           <img src="/static/img/vip.c657b9e.jpg" alt="" />
           <span class="pay_text1"> 商品总金额： ¥ 298</span>
           <span class="pay_text2"> 应付： </span>
-          <span class="pay_text3"> ¥ 288 </span>
+          <span class="pay_text3"> ¥ 298 </span>
           <el-button class="payBtn" type="danger" round @click="gotoPay()"
             >立即支付</el-button
           >
