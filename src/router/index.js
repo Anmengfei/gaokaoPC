@@ -53,11 +53,7 @@ export default new Router({
         name: 'zhiyuanBiao',
         component: resolve => require(['@/components/zhiyuanForm/zhiyuanBiao'], resolve)
     },
-    {
-        path: '/zhiyuanTable',
-        name: 'zhiyuanTable',
-        component: resolve => require(['@/components/zhiyuanForm/zhiyuanTable'], resolve)
-    },
+
     {
         path: '/addSucceed',
         name: 'addSucceed',
@@ -69,16 +65,6 @@ export default new Router({
         component: resolve => require(['@/components/volunteerVIP/index'], resolve)
     },
     {
-        path: '/UpdatePassword',
-        name: 'UpdatePassword',
-        component: resolve => require(['@/components/UserInformation/updatePassword'], resolve)
-    },
-    {
-        path: '/touxiang',
-        name: 'touxiang',
-        component: resolve => require(['@/components/UserInformation/touxiang'], resolve)
-    },
-    {
         path: '/onetoone',
         name: 'OnetoOne',
         component: resolve => require(['@/components/oneToone/index'], resolve)
@@ -88,15 +74,33 @@ export default new Router({
         name: 'myOrder',
         component: resolve => require(['@/components/volunteerVIP/myOrder'], resolve)
     },
+    // {
+    //     path: '/AllFollowMajor',
+    //     name: 'AllFollowMajor',
+    //     component: resolve => require(['@/components/UserInformation/AllFollowMajor'], resolve)
+    // },
+    // {
+    //     path: '/AllFollowSchool',
+    //     name: 'AllFollowSchool',
+    //     component: resolve => require(['@/components/UserInformation/AllFollowSchool'], resolve)
+    // },
+    // {
+    //     path: '/zhiyuanTable',
+    //     name: 'zhiyuanTable',
+    //     component: resolve => require(['@/components/zhiyuanForm/zhiyuanTable'], resolve)
+    // },
+    // {
+    //     path: '/UpdatePassword',
+    //     name: 'UpdatePassword',
+    //     component: resolve => require(['@/components/UserInformation/updatePassword'], resolve)
+    // },
+    // {
+    //     path: '/touxiang',
+    //     name: 'touxiang',
+    //     component: resolve => require(['@/components/UserInformation/touxiang'], resolve)
+    // },
+
     {
-        path: '/AllFollowMajor',
-        name: 'AllFollowMajor',
-        component: resolve => require(['@/components/UserInformation/AllFollowMajor'], resolve)
-    }, {
-        path: '/AllFollowSchool',
-        name: 'AllFollowSchool',
-        component: resolve => require(['@/components/UserInformation/AllFollowSchool'], resolve)
-    }, {
         path: '/PayCenter',
         name: 'PayCenter',
         component: resolve => require(['@/components/volunteerVIP/PayCenter'], resolve)
@@ -104,6 +108,11 @@ export default new Router({
         path: '/OrderCenter',
         name: 'OrderCenter',
         component: resolve => require(['@/components/volunteerVIP/OrderCenter'], resolve)
+    }, {
+        path: '/zhiyuan',
+        name: 'zhiyuan',
+        component: resolve => require(['@/components/zhiyuanForm/zhiyuan'], resolve)
     }
+    
     ]
 })

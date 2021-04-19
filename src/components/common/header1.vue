@@ -606,7 +606,8 @@ export default {
           },
         });
       } else {
-        this.$router.push("/zhiyuanTable");
+         this.$router.push("/zhiyuan");
+        // this.$router.push("/zhiyuanTable");
         // this.$router.push("/zhiyuanLeft");
       }
     },
@@ -635,7 +636,8 @@ export default {
       // this.$router.push("/Recruit");
       // this.$router.push("/guanzhu");
       // this.$router.push("/article");
-      this.$router.push("/zhiyuanTable");
+      // this.$router.push("/zhiyuanTable");
+      // this.$router.push("/zhiyuan");
     },
     gotoOneToOne() {
       // if (!this.loginflag) {
@@ -649,7 +651,6 @@ export default {
       //   });
       // } else {
       this.$router.push("/onetoone");
-      // this.$router.push("/myOrder");
       // }
     },
     gotoStudy() {

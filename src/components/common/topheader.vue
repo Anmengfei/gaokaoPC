@@ -15,7 +15,7 @@
               trigger="hover"
             >
               <div class="bg-logo">
-                <img class="bg-QQ" src="../../assets/QQ.png" alt="" />
+                <img class="bg1-QQ" src="../../assets/QQ.png" alt="" />
                 <div>QQ扫一扫，惊喜更多</div>
               </div>
               <a class="a-erweima"  slot="reference">高考志愿填报QQ群</a>
@@ -26,7 +26,7 @@
               trigger="hover"
             >
               <div class="bg-logo">
-                <img class="bg-QQ" src="../../assets/QQ.png" alt="" />
+                <img class="bg2-QQ" src="../../assets/手机APP.png" alt="" />
                 <div>下载智禾·考哪儿APP</div>
               </div>
               <a class="a-erweima" slot="reference">手机APP</a>
@@ -180,6 +180,20 @@ a {
   width: 100%;
   height: 50%;
   margin-bottom: 0.06rem;
+}
+
+.bg1-QQ {
+  width: 82%;
+  height: 50%;
+  margin-top: .1rem;
+  margin-bottom: 0.06rem;
+}
+
+.bg2-QQ{
+  width: 100%;
+  height: 50%;
+  margin-bottom: 0.06rem;
+
 }
 
 .bg-left {

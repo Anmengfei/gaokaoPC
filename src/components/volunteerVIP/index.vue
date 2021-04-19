@@ -93,9 +93,9 @@
         </div>
       </div>
     </div>
-    <div class="bottom-btn">
+    <!-- <div class="bottom-btn">
       <button class="bottom-strongbtn">开通VIP</button>
-    </div>
+    </div> -->
     <Footer></Footer>
   </div>
 </template>
