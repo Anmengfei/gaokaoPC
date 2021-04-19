@@ -280,10 +280,10 @@ export default {
           phoneNum: parseInt(this.userInfoList.phoneNum),
         };
         getAllFollowMajor(params).then((res) => {
-          this.AllFollowMajorList=res.data
-          if(res.data==="null"){
+          this.AllFollowMajorList=res.data;
+          if(res.data === null){
             this.AllFollowMajorList=[];
-            this.MajorLength = this.AllFollowMajorList.length;
+            this.MajorLength = 0;
           }else{
             this.MajorLength = this.AllFollowMajorList.length;
           }
@@ -291,9 +291,9 @@ export default {
         });
         getAllFollowSchool(params).then((res) => {
           this.AllFollowSchoolList=res.data
-          if(res.data==="null"){
+          if(res.data === null){
             this.AllFollowSchoolList=[];
-            this.SchoolLength= this.AllFollowSchoolList.length;
+            this.SchoolLength=0;
           }else{
             this.SchoolLength= this.AllFollowSchoolList.length;
           }
@@ -348,7 +348,10 @@ export default {
         console.log("删除成功");
         this.AllFollowMajorList.splice(index, 1);
       });
-    },  
+    }, 
+    VIPClick(){
+      this.$router.push('/volunteerVIP')
+    } 
   },
 };
 </script>
@@ -359,7 +362,7 @@ export default {
     height: 9rem;
     width: 14.5rem;
     margin: 0 auto;
-    margin-top: .5rem;
+    margin-top: .8rem;
 }
 
 .volunteer{

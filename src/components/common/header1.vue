@@ -381,7 +381,7 @@ export default {
           }
         });
       } else if (command == "info") {
-        this.$router.push("/zhiyuanTable");
+        this.$router.push("/zhiyuan");
       }
     },
     handleCommand(command) {

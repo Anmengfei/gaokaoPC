@@ -22,7 +22,7 @@
       <div class="cart-header">
         <span>订单编码：{{ orderId }}</span>
         <div class="card-box">
-          <img class="card-icon" src="/static/img/vip.c657b9e.jpg" alt="" />
+          <img class="card-icon" src="../../assets/vip1.png" alt="" />
           <span class="card-title">考哪儿 会员卡</span>
           <div class="card-info">
             <div class="card-remark">

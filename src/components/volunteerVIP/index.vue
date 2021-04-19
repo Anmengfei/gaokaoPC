@@ -6,7 +6,7 @@
       <div class="vip-background">
         <div class="vip-content">
           <span class="vipcard" v-show="isShow1">
-            <img alt="mask" class="card-icon" src="../../assets/vip1.jpg" />
+            <img alt="mask" class="card-icon" src="../../assets/vip1.png" />
           </span>
           <span class="vipcard" v-show="!isShow1">
             <img alt="mask" class="card-icon" src="../../assets/vip2.jpg" />

@@ -32,7 +32,7 @@
       </div>
       <div class="detail-box">
         <div class="detail-box-content">
-          <img src="/static/img/vip.c657b9e.jpg" alt="" />
+          <img src="../../assets/vip1.png" alt="" />
           <span class="pay_text1"> 商品总金额： ¥ 298</span>
           <span class="pay_text2"> 应付： </span>
           <span class="pay_text3"> ¥ 298 </span>

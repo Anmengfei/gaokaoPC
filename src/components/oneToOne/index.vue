@@ -4,8 +4,9 @@
     <HomeHeader ></HomeHeader>
     <div class="expertsBox">
       <el-image
-        :src="require('@/assets/1v1.png')"
-        @click="goto1v1"/>
+        :src="require('@/assets/1v1.png')"/>
+      <!-- <img src="../../assets/1v1.png" alt=""> -->
+      <!-- <div class="img"></div> -->
       <div class="titleBox">
         <div>
           <span style="font-size:.3rem;color:rgba(40, 94, 165);font-weight:550">志愿填报</span>
@@ -61,9 +62,9 @@ export default {
     return {};
   },
   methods: {
-    goto1v1(){
-      this.msgWarning('功能暂未开通')
-    }
+    // goto1v1(){
+    //   this.msgWarning('功能暂未开通')
+    // }
   },
 };
 </script>
@@ -78,6 +79,12 @@ export default {
   position: relative;
   text-align: center;
 }
+
+/* .img{
+  background-image: url("../../assets/1v1.png");
+  background-repeat: no-repeat;
+  background-position: center top;
+} */
 .titleBox{
   position: absolute;
   width: 4rem;

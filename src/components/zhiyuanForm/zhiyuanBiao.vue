@@ -249,7 +249,7 @@ export default {
         token: localStorage.getItem("token"),
         },
       }).then((res)=>{
-        this.$router.push('/zhiyuanTable')
+        this.$router.push('/zhiyuan')
       })
     },
 

@@ -23,7 +23,7 @@
       </div>
       <div class="detail-box">
         <div class="detail-box-content">
-          <img src="/static/img/vip.c657b9e.jpg" alt="" />
+          <img src="../../assets/vip1.png" alt="" />
           <div class="paymoney">
             <div class="card-info">
               <div class="vip-type">
