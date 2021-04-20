@@ -214,17 +214,20 @@ export default {
       getUserInfo(localStorage.getItem("token")).then((res) => {
         this.userInfoList = res.data;
         getAllMajor({
-          feature: this.selected.levelSelect,
+          // feature: this.selected.levelSelect,
           page: pagenum,
           examProvince: this.userInfoList.examProvince,
           risk: riskflag,
           rank:this.userInfoList.rank,
           score: this.userInfoList.score,
-          size: 10,
+          // size: 10,
         }).then((res) => {
           if (res.status === 200) {
             // console.log('收到数据啊啊啊啊啊', this.volform)
-            this.majorList = res.data.data;
+            // this.majorList = res.data.data;
+            console.log('res',res.data.data.total)
+            this.pageInfo.pagetotal=res.data.data.total;
+            this.majorList = res.data.data.list;
             // 将已经加入志愿表单的学校的按钮状态置为灰色
             for (let i = 0; i < this.majorList.length; ++i) {
               for (let j = 0; j < this.volform.length; ++j) {
@@ -248,7 +251,8 @@ export default {
       // 分页器执行函数
       let page = val;
       this.pageRecord = page;
-      this.getAllMajorData(page--, this.riskFlag);
+      let pagenum=val-1;
+      this.getAllMajorData(pagenum, this.riskFlag);
     },
     addForm(index, item1, index1) {
       // 加入志愿表单函数

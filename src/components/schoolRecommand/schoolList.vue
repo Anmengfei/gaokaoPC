@@ -139,6 +139,7 @@ export default {
   props: ["selected", "volform"],
   mounted() {
     this.getAllSchoolData(this.pageInfo.pagenum);
+    // this.initData()
   },
   data() {
     return {
@@ -160,7 +161,7 @@ export default {
       pageInfo: {
         pagenum: 0, // 当前页数
         pagesize: 10, // 每页条数
-        pagetotal: 100, // 总条目数
+        pagetotal: 0, // 总条目数
       },
       pageRecord: 0, // 用于记录每次点击的页号
       selectnecess: {},
@@ -201,18 +202,19 @@ export default {
       getUserInfo(localStorage.getItem("token")).then((res) => {
         this.userInfoList = res.data;
         getAllSchool({
-          provinces: this.selected.provinceSelect,
-          schoolTypes: this.selected.typeSelect,
-          feature: this.selected.levelSelect,
+          // provinces: this.selected.provinceSelect,
+          // schoolTypes: this.selected.typeSelect,
+          // feature: this.selected.levelSelect,
           page: pagenum,
           rank:this.userInfoList.rank,
           examProvince: this.userInfoList.examProvince,
           score: this.userInfoList.score,
-          size: 10,
+          // size: 10,
         }).then((res) => {
           if (res.status === 200) {
-            this.schoolList = res.data.data;
-            console.log('this.schoolList',this.schoolList)
+            // this.schoolList = res.data;
+            this.pageInfo.pagetotal=res.data.data.total
+            this.schoolList = res.data.data.list;
             // for (let i = 0; i < this.schoolList.length; ++i) { // 为每一条数据的专业信息添加一条标志位flag=-1
             //   for (let j = 0; j < this.schoolList[i].majors.length; ++j) {
             //     this.schoolList[i].majors[j].flag = -1
@@ -239,7 +241,22 @@ export default {
         });
       });
     },
+    // initData(){
+    //   console.log('你是一个邵碧')
+    //   getUserInfo(localStorage.getItem("token")).then((res) => {
+    //     this.userInfoList = res.data;
+    //     getAllSchool({
+    //       page: 0,
+    //       rank:this.userInfoList.rank,
+    //       examProvince: this.userInfoList.examProvince,
+    //       score: this.userInfoList.score,
+    //     }).then((res=>{
+    //       console.lig('res',res)
+    //     }))
+    //   })
+    // },
     handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
       // 分页器执行函数
       this.btnFlag = [
         true,
@@ -267,7 +284,10 @@ export default {
       ];
       let page = val;
       this.pageRecord = page;
-      this.getAllSchoolData(page--);
+      let pagenum=val-1;
+      console.log(val,'val')
+      console.log(pagenum,'pagenum')
+      this.getAllSchoolData(pagenum);
     },
     addForm(index, item1, index1) {
       // 加入志愿表单函数

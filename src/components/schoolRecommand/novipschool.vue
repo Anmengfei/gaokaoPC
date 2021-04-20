@@ -200,7 +200,7 @@ export default {
           size: 3,
         }).then((res) => {
           if (res.status === 200) {
-            this.schoolList = res.data.data;
+             this.schoolList = res.data.data.list;
             // for (let i = 0; i < this.schoolList.length; ++i) { // 为每一条数据的专业信息添加一条标志位flag=-1
             //   for (let j = 0; j < this.schoolList[i].majors.length; ++j) {
             //     this.schoolList[i].majors[j].flag = -1
@@ -255,7 +255,8 @@ export default {
       ];
       let page = val;
       this.pageRecord = page;
-      this.getAllSchoolData(page--);
+      let pagenum = val-1;
+      this.getAllSchoolData(pagenum);
     },
     addForm(index, item1, index1) {
       // 加入志愿表单函数
