@@ -70,7 +70,7 @@
                 <span style="color: #ccc; font-size: 10px">使用日期:</span>
                 <span class="value">有效期至2021-09-01</span>
               </div>
-              <div class="remark-item" style="line-height: 12px">
+              <div class="remark-item" style="width: 250px">
                 <span style="color: #ccc; font-size: 10px">咨询热线:</span>
                 <span class="value" style="font-size: 12px; margin-right: 0px"
                   >400-168-6292</span

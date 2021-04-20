@@ -53,11 +53,12 @@
               >
                 <template slot-scope="{ item }">
                   <el-row>
-                    <el-col :span="22">
+                    <el-col :span="20" class="colleges">
                       <span>{{ item.schoolName }}</span>
                     </el-col>
-                    <el-col :span="2" style="float: right"  >
-                      <el-button class="text-right" type="text">关注</el-button>
+                    <el-col :span="4" style="float: right"  class="text-right" >
+                      <el-button type="text">
+                        <img src="../../assets/guanzhu.png" style="margin-top:-.02rem" alt="">&nbsp;关注</el-button>
                     </el-col>
                   </el-row>
                 </template>
@@ -70,8 +71,8 @@
                 :hide-on-click=false
               >
                 <span>用户关注({{ followCollege.length }}) <i class="el-icon-arrow-down el-icon--right"></i></span>
-                <el-dropdown-menu slot="dropdown" class="dropdown" v-if="followCollege.length">
-                  <el-checkbox-group v-model="checkList" v-for="item in followCollege" :key="item.id"  @change="handleCheckedfollowChange">
+                <el-dropdown-menu slot="dropdown" class="dropdown" v-if="followCollege.length"> 
+                  <el-checkbox-group  v-model="checkList" v-for="item in followCollege" :key="item.id"  @change="handleCheckedfollowChange" >
                     <el-dropdown-item>
                       <el-checkbox :label="item.followName">{{ item.followName }}</el-checkbox>
                     </el-dropdown-item>
@@ -135,11 +136,13 @@
               >
                 <template slot-scope="{ item }">
                   <el-row>
-                    <el-col :span="22">
+                    <el-col :span="20" class="colleges">
                       <span>{{ item.name }}</span>
                     </el-col>
-                    <el-col :span="2" style="float: right">
-                      <el-button class="text-right" type="text">关注</el-button>
+                    <el-col :span="4" style="float: right" class="text-right">
+                      <el-button type="text">
+                        <img src="../../assets/guanzhu.png" style="margin-top:-.02rem" alt="">&nbsp;关注
+                      </el-button>
                     </el-col>
                   </el-row>
                 </template>
@@ -971,10 +974,10 @@ li{
 }
 
 .dropdown {
-  height: 216px;
+  height: 2.16rem;
+  width: 2.5rem;
   overflow: auto;
   overflow-x: hidden;
-  width: 216px;
   transform-origin: center top;
   z-index: 2134;
   padding: 10px 0;
@@ -985,14 +988,28 @@ li{
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 
-.tzy-dropdown-action {
-  padding: 10px 10px 0 0;
-  float: right;
+/deep/ .el-checkbox__label{
+  width: 2.16rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  top: .05rem;
+ 
 }
 
-.text-right {
-  /*float: right;*/
+.tzy-dropdown-action {
+  padding: 10px 10px 0 0;
   text-align: center;
+  /* float: right; */
+}
+
+.text-right /deep/ .el-button{
+  font-size: .1rem;
+}
+
+.colleges{
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .myFilterRecordBlockRow {

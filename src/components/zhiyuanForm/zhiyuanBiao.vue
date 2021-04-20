@@ -10,7 +10,8 @@
             <el-row>
               <el-col :span="17">
                 <div class="title">
-                  <span>我的成绩：1段 613分</span><span>物理,化学,生物</span>
+                  <span>&nbsp;&nbsp;我的成绩:&nbsp;&nbsp;{{userInfoList.score}}分&nbsp;&nbsp;</span>
+                  <span v-for="(major,index) in majorList" :key="index">{{major}}&nbsp;&nbsp;</span>
                 </div>
               </el-col>
               <el-col :span="7">
@@ -60,7 +61,7 @@
                 </td>
                 <td>{{ selectSubject(index) }}</td>
                 <td>{{ item.enrollNum }}</td>
-                <td>暂无数据</td>
+                <td>{{ item.enrollNum21}}</td>
                 <td>
                   <div class="Btn">
                     <div class="Btn1">
@@ -114,6 +115,7 @@ import { addWishListPC } from "../../api/WishList";
 import { changeWishListPC } from "../../api/WishList";
 import { updateWishListPC } from "../../api/WishList";
 import header1 from "../common/header1";
+import { getUserInfo } from "@/api/index.js";
 import { getAllWishByListId2,getAllHandleWishId } from "@/api/index";
 export default {
   name: "zhiyuanBiao",
@@ -128,11 +130,47 @@ export default {
       zhiyuanTableList: [],
       zhiyuanFormatList: [], // 保存传给接口的数据，调整数据格式
       shuzuId:[],
+      userInfoList:[],
+      majorList:[],
       listId:0,
+      physics:0,
+      biology:0,
+      chemistry:0,
+      history:0,
+      politics:0,
+      geography:0
     };
   },
   methods: {
     initData(){
+      getUserInfo(localStorage.getItem("token")).then((res) => {
+        this.userInfoList = res.data;
+        if(this.userInfoList.physics===1){
+          this.physics="物理",
+          this.majorList.push(this.physics)
+        } 
+        if(this.userInfoList.chemistry===1){
+          this.chemistry="化学",
+          this.majorList.push(this.chemistry)
+        } 
+        if(this.userInfoList.biology===1){
+          this.biology="生物",
+          this.majorList.push(this.biology)
+        }
+        if(this.userInfoList.history===1){
+          this.history="历史",
+          this.majorList.push(this.history)
+        }
+        if(this.userInfoList.politics===1){
+          this.politics="政治",
+          this.majorList.push(this.politics)
+        }
+        if(this.userInfoList.geography===1){
+          this.geography="地理",
+          this.majorList.push(this.geography)
+        }
+
+      })
       let params={
         phoneNum:localStorage.getItem("phone")
       }
@@ -143,8 +181,11 @@ export default {
         }
         getAllWishByListId2(params).then((res) => {
           if (res.msg === "成功") {
-            this.zhiyuanTableList = res.data.wishes;
-            console.log('zhiyuanTableList',this.zhiyuanTableList)
+            this.zhiyuanTableList = res.data.wishes; 
+            for(let i=0;i<this.zhiyuanTableList.length;i++){
+              this.zhiyuanTableList[i].xuhao=i;
+              this.zhiyuanTableList[i].enrollNum21='暂无数据'
+            }
           }
         });
       })
@@ -268,24 +309,27 @@ export default {
           "录取指标",
           "学校名称",
           "专业名称",
-          "选课要求",
+          "选科要求",
           "2020年招生计划",
           "2021年招生计划",
         ];
         const filterVal = [
           "xuhao",
-          "risk",
+          "chances",
           "schoolName",
           "majorName",
-          "selectionRequirement",
+          "selectSubject",
           "enrollNum",
+          "enrollNum21"
         ];
         const list = this.zhiyuanTableList;
+
+
         const data = this.formatJson(filterVal, list);
         excel.export_json_to_excel({
           header: tHeader, // 必填   导出数据的表头
           data, // 必填   导出具体数据
-          filename: "志愿表1", // 非必填   导出文件名
+          filename: "智能填报志愿表", // 非必填   导出文件名
           autoWidth: true, // 非必填   单元格是否自动适应宽度
           bookType: "xlsx", // 非必填   导出文件类型
         });
@@ -360,6 +404,8 @@ export default {
 
 .content .table_head .title{
   /* background-color: pink; */
+  font-size: .19rem;
+  font-weight: 600;
 }
 
 .content .table_head .operation {

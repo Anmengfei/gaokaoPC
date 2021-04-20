@@ -5,8 +5,8 @@
       class="dialogPay"
       @close="closeClick()"
     >
-      <div>
-        <h1>微信支付 ¥ {{youhuimoney}}</h1>
+      <div class="weChatPay">
+        <span style="font-size:.25rem;font-weight:600">微信支付&nbsp;&nbsp;<span style="color:rgb(255, 150, 31)">¥ {{youhuimoney}}</span></span>
         <img :src="Paycode" />
         <p>使用微信扫描二维码付款</p>
       </div>
@@ -306,10 +306,17 @@ export default {
   border-radius: 0.03rem;
   background-color: #e5623f !important;
 }
+
+.weChatPay{
+  text-align: center;
+  
+}
+
 .wechatImg {
   height: 0.4rem;
   width: 0.4rem;
 }
+
 .payMethods {
   padding-bottom: 0.2rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);

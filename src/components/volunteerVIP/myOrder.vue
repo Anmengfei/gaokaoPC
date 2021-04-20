@@ -111,12 +111,14 @@ export default {
         outTradeNo: this.orderId,
       };
       delPayOrder(params).then((res) => {
-        console.log("张伟测试删除数据功能");
-        console.log(res);
         this.show_cancel_order = false;
         document.body.style.overflow = "";
-        this.$notify({
-          title: "订单删除成功",
+        // this.$notify({
+        //   title: "订单删除成功",
+        // });
+        this.$message({
+          message: '订单删除成功',
+          type: 'success'
         });
         this.$router.push("/volunteerVIP");
       });

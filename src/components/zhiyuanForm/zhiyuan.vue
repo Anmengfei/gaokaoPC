@@ -359,10 +359,11 @@ export default {
 
 .Tab{
     position: relative;
-    height: 9rem;
+    height: 7.5rem;
     width: 14.5rem;
     margin: 0 auto;
     margin-top: .8rem;
+    /* background-color: pink; */
 }
 
 .volunteer{
@@ -537,6 +538,7 @@ export default {
   /* margin-top: 0.05rem; */
   width: 1.3rem;
   height: 1.3rem;
+  border-radius: 1rem;
 }
 
 .schoolitemBox .desc {

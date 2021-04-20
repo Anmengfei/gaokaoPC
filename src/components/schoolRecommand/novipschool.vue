@@ -81,12 +81,12 @@
                         </div>
 
                         <div class="desc">
-                          <span>2020年招生人数{{ item1.enrollNum }}</span>
+                          <!-- <span>2020年招生人数{{ item1.enrollNum }}</span> -->
                           <span
                             >选考科目：{{ item1.selectionRequirement }}</span
                           >
-                          <span>2020年最低分****</span>
-                          <span>2020年最低位次####</span>
+                          <!-- <span>2020年最低分****</span> -->
+                          <!-- <span>2020年最低位次####</span> -->
                         </div>
                       </div>
                     </el-col>
