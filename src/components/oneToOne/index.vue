@@ -6,7 +6,7 @@
       <el-image
         style="width:100%"
         :src="require('@/assets/1v1.png')"
-        :fit='contain'/>
+        />
       <!-- <img src="../../assets/1v1.png" alt=""> -->
       <!-- <div class="img"></div> -->
       <!-- #E5623F -->
@@ -33,7 +33,7 @@
           <span style="font-size:.2rem;color:#E5623F;font-weight:550">河北、山东</span>
           <span style="font-size:.2rem;color:rgba(40, 94, 165);font-weight:550">新高考考生</span>
         </div>
-        
+
         <div>
           <span style="font-size:.2rem;color:rgba(40, 94, 165);font-weight:550">适合批次:</span>
           <span style="font-size:.2rem;color:#E5623F;font-weight:550">本科普通批、艺术批</span>
@@ -48,7 +48,7 @@
         </div>
       </div>
     </div>
-    
+
 
     <Footer></Footer>
   </div>
