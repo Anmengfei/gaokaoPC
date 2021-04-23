@@ -102,6 +102,7 @@
                 </template>
               </el-input>
               <div class="login-button-style" @click="nextButton">立即登录</div>
+              <p style="font-size: 10px;color: red;margin-top: 10px">* 点击立即登录即同意考哪儿<el-button type="text" @click="gotoTerms"> 服务条款</el-button> </p>
             </div>
             <div v-if="tagsShow2 === '2'">
               <el-form
@@ -361,6 +362,12 @@ export default {
   },
   mounted() {},
   methods: {
+    gotoTerms() {
+      const { href } = this.$router.resolve({
+        name: "PrivacyPolicy",
+      });
+      window.open(href, "_blank");
+    },
     closeDialog() {
       this.showlogin = false
     },

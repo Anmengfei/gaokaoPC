@@ -42,13 +42,14 @@
               </div>
               <a class="a-erweima" slot="reference">微信公众号</a>
             </el-popover>
+
+            <a style="color:#e5623f;cursor:default" slot="reference" v-if="vip == 1">志愿VIP卡已激活</a>
             <a
               class="a-erweima"
               slot="reference"
               @click="VIPClick()"
-              v-show="vip == 0"
-              >志愿VIP卡激活</a>
-            <a style="color:#e5623f;cursor:default" slot="reference" v-show="vip == 1">志愿VIP卡已激活</a>
+              v-else
+            >志愿VIP卡激活</a>
           </div>
         </el-col>
       </el-row>
@@ -88,8 +89,10 @@
             <span class="top-hotline">全国服务热线:</span>
             <span class="hotline">400-168-6292</span>
             <span class="tishiOne">祝广大考生金榜提名</span>
-            <span class="tishiTwo" v-if="vip == 0" @click="VIPClick">开通VIP</span>
-            <span class="tishiTwo" style="cursor:default" v-else>VIP会员</span>
+<!--            <span class="tishiTwo" v-if="vip == 0" @click="VIPClick">开通VIP</span>-->
+            <span class="tishiTwo" style="cursor:default" v-if="vip == 1">VIP会员</span>
+            <span class="tishiTwo" @click="VIPClick" v-else>开通VIP</span>
+
           </div>
         </el-col>
       </el-row>

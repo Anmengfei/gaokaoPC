@@ -1,12 +1,12 @@
 <template>
   <div class="app_container">
     <top-header></top-header>
-    <HomeHeader ></HomeHeader>
+    <HomeHeader></HomeHeader>
     <div class="expertsBox">
       <el-image
         style="width:100%"
         :src="require('@/assets/1v1.png')"
-        />
+      />
       <!-- <img src="../../assets/1v1.png" alt=""> -->
       <!-- <div class="img"></div> -->
       <!-- #E5623F -->
@@ -60,14 +60,11 @@ import HomeHeader from "@/components/common/header1";
 import Footer from "@/components/common/footer1";
 export default {
   loginStatus: true,
-  components: { TopHeader, HomeHeader, Footer},
+  components: {TopHeader, HomeHeader, Footer},
   data() {
     return {};
   },
   methods: {
-    // goto1v1(){
-    //   this.msgWarning('功能暂未开通')
-    // }
   },
 };
 </script>
@@ -75,10 +72,10 @@ export default {
 <style scoped>
 
 .app_container {
-  background-color:  rgba(255, 255, 255);
+  background-color: rgba(255, 255, 255);
 }
 
-.expertsBox{
+.expertsBox {
   /* position: relative; */
   text-align: center;
 }
@@ -88,11 +85,11 @@ export default {
   background-repeat: no-repeat;
   background-position: center top;
 } */
-.titleBox{
+.titleBox {
   position: relative;
   width: 100%;
   height: 2.3rem;
-  background-color:  rgba(255, 255, 255);
+  background-color: rgba(255, 255, 255);
   /* background-color:rgb(40, 94, 165); */
   top: -0.1rem;
   /* margin-bottom:20px; */

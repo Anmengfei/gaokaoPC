@@ -26,23 +26,24 @@
                 >
                 <el-col :span="8">
                   <span class="vipbtn">
-                    <button
-                      type="button"
-                      class="strong-btn"
-                      style="width: 180px"
-                      @click="applyVIP"
-                      v-if="vip == 0"
-                    >
-                      开通VIP
-                    </button>
+
                     <el-button
                       type="warning"
                       class="strong-btn"
-                      v-else
+                      v-if="vip == 1"
                       disabled
                       plain
                       >已开通VIP</el-button
                     >
+                    <button
+                      type="button"
+                      class="strong-btn"
+                      v-else
+                      style="width: 180px"
+                      @click="applyVIP"
+                    >
+                      开通VIP
+                    </button>
                   </span>
                 </el-col>
               </el-row>

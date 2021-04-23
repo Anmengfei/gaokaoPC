@@ -10,7 +10,7 @@ const store = new Vuex.Store({
     loginflag:'',
     showlogin: false,
     phoneNum:'',
-    vip:'0',
+    vip:'',
     showUserInfo:false,
     userinfo:{},
     obj: {}

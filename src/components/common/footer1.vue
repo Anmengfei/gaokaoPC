@@ -10,8 +10,8 @@
         <dt>关于我们</dt>
         <dd class="team" @click="handleClick()">智禾考哪儿简介</dd>
         <dd class="team" @click="handleClick()">团队介绍</dd>
-        <dd class="team" @click="handleClick()">隐私政策</dd>
-        <dd class="team" @click="handleClick()">用户协议</dd>
+        <dd class="team" @click="gotoPolicy">隐私政策</dd>
+        <dd class="team" @click="gotoTerms">服务条款</dd>
 <!--        <dd class="team" @click="handleClick()">联系我们 : 400-168-6292</dd>-->
       </dl>
 <!--      <dl>-->
@@ -44,6 +44,18 @@ export default {
     handleClick() {
       const { href } = this.$router.resolve({
         name: "appCon",
+      });
+      window.open(href, "_blank");
+    },
+    gotoTerms() {
+      const { href } = this.$router.resolve({
+        name: "TermsService",
+      });
+      window.open(href, "_blank");
+    },
+    gotoPolicy() {
+      const { href } = this.$router.resolve({
+        name: "PrivacyPolicy",
       });
       window.open(href, "_blank");
     },

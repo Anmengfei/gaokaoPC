@@ -236,7 +236,7 @@ export default {
               getUserInfo().then((res) => {
                 this.$store.dispatch("resUserInfo", res.data).then(() => {
                   this.$store.dispatch("getPhone", res.data.phoneNum);
-                  this.$store.dispatch("getVip", res.data.phoneNum);
+                  this.$store.dispatch("getVip", res.data.vip);
                   localStorage.setItem('state', JSON.stringify(this.$store.state))
                   this.$store.dispatch('showuserInfo', false)
                 })

@@ -112,7 +112,16 @@ export default new Router({
         path: '/zhiyuan',
         name: 'zhiyuan',
         component: resolve => require(['@/components/zhiyuanForm/zhiyuan'], resolve)
-    }
-    
+    },
+      {
+        path: '/termsService',
+        name: 'TermsService',
+        component: resolve => require(['@/components/APP/termsService'], resolve)
+      },
+      {
+        path: '/privacyPolicy',
+        name: 'PrivacyPolicy',
+        component: resolve => require(['@/components/APP/privacyPolicy'], resolve)
+      },
     ]
 })
