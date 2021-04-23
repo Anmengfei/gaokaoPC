@@ -5,7 +5,9 @@ import { getToken } from './auth.js'
 // 创建axios实例
 const service = axios.create({
     // baseURL: 'https://www.zytb.top/NEMT/gk/'
-    baseURL: '/api/'
+    baseURL: process.env.NODE_ENV === 'production'
+      ? 'https://www.zytb.top/NEMT/gk/'
+      : '/api/'
 })
 // request拦截器
 service.interceptors.request.use(config => {
