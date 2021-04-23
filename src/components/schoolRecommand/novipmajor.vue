@@ -205,6 +205,7 @@ export default {
           risk: riskflag,
           rank:this.userInfoList.rank,
           score: this.userInfoList.score,
+          token: localStorage.getItem("token")
           // size: 10,
         }).then((res) => {
           if (res.status === 200) {

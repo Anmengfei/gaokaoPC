@@ -201,6 +201,7 @@ export default {
     getAllSchoolData(pagenum) {
       getUserInfo(localStorage.getItem("token")).then((res) => {
         this.userInfoList = res.data;
+
         getAllSchool({
           // provinces: this.selected.provinceSelect,
           // schoolTypes: this.selected.typeSelect,
@@ -209,6 +210,7 @@ export default {
           rank:this.userInfoList.rank,
           examProvince: this.userInfoList.examProvince,
           score: this.userInfoList.score,
+          token: localStorage.getItem("token")
           // size: 10,
         }).then((res) => {
           if (res.status === 200) {
