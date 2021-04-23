@@ -198,6 +198,7 @@ export default {
           examProvince: this.userInfoList.examProvince,
           score: this.userInfoList.score,
           size: 3,
+          token: localStorage.getItem("token")
         }).then((res) => {
           if (res.status === 200) {
              this.schoolList = res.data.data.list;
