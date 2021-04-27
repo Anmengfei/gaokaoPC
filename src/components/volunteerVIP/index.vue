@@ -103,68 +103,68 @@
 </template>
 
 <script>
-import TopHeader from "@/components/common/topheader";
-import HomeHeader from "@/components/common/header1";
-import Footer from "@/components/common/footer1";
-import { getUserInfo,getyouhuimoney,getyuanmoney } from "@/api/index";
+import TopHeader from '@/components/common/topheader'
+import HomeHeader from '@/components/common/header1'
+import Footer from '@/components/common/footer1'
+import { getUserInfo, getyouhuimoney, getyuanmoney } from '@/api/index'
 export default {
   loginStatus: true,
   components: { TopHeader, HomeHeader, Footer },
-  data() {
+  data () {
     return {
       isShow1: true,
-      yuanmongey:'498',
-      youhuimoney:'298',
-      vip: this.$store.state.vip,
-    };
+      yuanmongey: '498',
+      youhuimoney: '298',
+      vip: this.$store.state.vip
+    }
   },
   watch: {
-    '$route'(to, from) {
+    '$route' (to, from) {
       this.getInfo()
-    },
+    }
   },
-  mounted() {
-    this.getInfo();
-    this.getmoney();
+  mounted () {
+    this.getInfo()
+    this.getmoney()
   },
   methods: {
-    getmoney(){
+    getmoney () {
       getyouhuimoney().then(res => {
-         this.youhuimoney = res.data
+        this.youhuimoney = res.data
       })
       getyuanmoney().then(res => {
         this.yuanmongey = res.data
       })
     },
-    handleClick1() {
-      this.isShow1 = !this.isShow1;
+    handleClick1 () {
+      this.isShow1 = !this.isShow1
     },
-    applyVIP() {
+    applyVIP () {
       // this.msgWarning('功能暂未开通')
-      if (localStorage.getItem("token") != null) {
-        this.$router.push("/OrderCenter");
-      }else {
+      if (localStorage.getItem('token') != null) {
+        this.$router.push('/OrderCenter')
+      } else {
         this.$message({
-          message: "登陆后，即可开通VIP!",
-          type: "warning",
+          message: '登陆后，即可开通VIP!',
+          type: 'warning',
           duration: 600,
           onClose: () => {
-            this.$store.dispatch("getShowLogin", true);
-          },
-        });
+            this.$store.dispatch('getShowLogin', true)
+          }
+        })
       }
 
       // this.$router.push("/PayCenter");
     },
-    getInfo() {
-      if (localStorage.getItem("token") != null) {
+    getInfo () {
+      if (localStorage.getItem('token') != null) {
         getUserInfo().then((res) => {
-          this.vip = res.data.vip;
-        });
+          this.vip = res.data.vip
+        })
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -173,12 +173,12 @@ export default {
 }
 .VIP {
   height: 600px;
-  background-color: #1a1816;
+  /*background-color: #1a1816;*/
 }
 .vip-background {
   width: 100%;
-  height: 500px;
-  background: url("../../assets/VIPheader.png") center center no-repeat;
+  height: 600px;
+  background: url("../../assets/bg.png") center center no-repeat;
 }
 .vip-content {
   position: relative;
@@ -281,4 +281,3 @@ export default {
   color: rgba(0, 0, 0, 0.8);
 }
 </style>
-
