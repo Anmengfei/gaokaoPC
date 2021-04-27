@@ -232,7 +232,7 @@ import EditScore from "@/components/common/editScore";
 import { getUserInfo } from "@/api/index";
 import {
   getAllIsLearning,
-  getHomeschool,
+  getFitSchool,
   getFollowingList,
 } from "@/api/index.js";
 
@@ -323,7 +323,6 @@ export default {
     //   this.getuserInfo()
     // }
 
-
     this.initData();
     window.addEventListener("scroll", this.watchScroll);
     this.setBannerH();
@@ -339,11 +338,14 @@ export default {
 
   methods: {
     initData() {
-      //必须这样
       let _this = this;
-      getFollowingList().then(function (response) {
+      getFollowingList({
+        examProvince:this.userInfo.examProvince
+      }
+      ).then(function (response) {
         // console.log(response.data);
         _this.zixunList = response.data;
+        console.log('新接口测试一下文章',_this.zixunList)
         // console.log(_this.zixunList);
         // 使用push不用等号
         for (var i = 0; i < 3; i++) {
@@ -380,6 +382,7 @@ export default {
     getuserInfo(){
       getUserInfo().then((res) => {
         this.userInfo = res.data;
+        console.log('获取学校的各种信息',this.userInfo)
         this.userInfo.biology == 1 ? this.subject.push("生物") : "";
         this.userInfo.chemistry == 1 ? this.subject.push("化学") : "";
         this.userInfo.geography == 1 ? this.subject.push("地理") : "";
@@ -421,9 +424,9 @@ export default {
     openMore() {
       const { href } = this.$router.resolve({
         name: "Guanzhu",
-        // query: {
-        //   article: item.id,
-        // },
+        query: {
+          examProvince: this.userInfo.examProvince,
+        },
       });
       window.open(href, "_blank");
     },
@@ -479,11 +482,11 @@ export default {
     },
 
     getInfo() {
-      getHomeschool({
-        page: 1,
-        size: 6,
+      getFitSchool({
+        type: 0,
+        user: this.userInfo.phoneNum,
       }).then((res) => {
-        this.recommandschoolList = res.data.splice(0, 6);
+        this.recommandschoolList = res.data;
       });
     },
     login() {

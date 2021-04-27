@@ -4,7 +4,7 @@
     <div class="mt20 thirdRow">
       <HomeHeader :flagInfo="loginStatus"></HomeHeader>
     </div>
-    <div class="sixRow">
+    <div class="sixRow" :style="{ minHeight: minHeight + 'px'}">
       <ul class="article-list">
         <li
           class="article-item"
@@ -81,6 +81,7 @@ export default {
         "https://www.zhongkeruitong.top/CCZX_image/banner5.png",
         "https://www.zhongkeruitong.top/CCZX_image/photo2.jpg",
       ],
+      minHeight:0
     };
   },
   created() {
@@ -100,7 +101,12 @@ export default {
     },
   },
   mounted() {
-    this.initData();
+    this.minHeight=document.documentElement.clientHeight-200
+    // 监听浏览器窗口变化
+    window.onresize=function(){
+      this.minHeight=document.documentElement.clientHeight-200
+    }
+    this.initData(this.$route.query.examProvince);
     window.addEventListener("scroll", this.watchScroll);
     this.setBannerH();
     window.addEventListener(
@@ -113,11 +119,14 @@ export default {
     this.getInfo();
   },
   methods: {
-    initData() {
+    initData(examProvince) {
       //必须这样
       let _this = this;
-      getFollowingList().then(function (response) {
-        console.log(response.data);
+      getFollowingList({
+        examProvince:examProvince
+
+      }).then(function (response) {
+        console.log('获取到了数据',response.data);
         _this.zixunList = response.data;
         console.log(_this.zixunList);
       });
@@ -214,14 +223,17 @@ export default {
   width: 100%;
   /* height: 100%; */
 }
+
 li {
   list-style: none;
 }
+
 .sixRow {
   width: 1400px;
   margin: 0 auto;
   margin-top: 50px;
 }
+
 .article-item {
   float: left;
   width: 700px;
@@ -229,25 +241,31 @@ li {
   /* background-color: #00a4ff; */
   border-bottom: 1px solid #dbdbdb;
 }
+
 .article-item :hover {
   cursor: pointer;
 }
+
 .el-row {
   margin-bottom: 20px;
 }
+
 .el-col {
   border-radius: 4px;
 }
+
 .bg-purple {
   /* background: #d3dce6; */
   text-align: center;
   line-height: 190px;
 }
+
 .bg-purple-light {
   /* background: #e5e9f2; */
   padding-left: 20px;
   padding-top: 40px;
 }
+
 .grid-content {
   min-height: 190px;
 }
@@ -257,6 +275,7 @@ li {
   height: 1.4rem;
   border-radius: 0.1rem;
 }
+
 .image3d :hover {
   box-shadow: rgb(0 0 0 / 8%) 0px 3px 8px 0px;
   transform: translate3d(0px, -8px, 0px);
@@ -268,12 +287,18 @@ li {
   font-weight: 700;
   margin-bottom: 60px;
 }
+
 .articleTitle :hover {
   color: #e5623f;
 }
+
 .articleDate {
   color: rgb(124, 124, 124);
   font-size: 0.1rem;
   font-weight: 700;
+}
+
+.footer{
+  /* margin-top: 7rem; */
 }
 </style>

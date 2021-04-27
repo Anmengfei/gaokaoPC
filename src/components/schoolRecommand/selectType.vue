@@ -39,7 +39,7 @@
           <!--              <span class="tag" v-for="item in collegeSortType" :key="item" :class="{active :collegeselete.sortSelect.includes(item)}" @click="selectsorttag(item)">{{item}}</span>-->
           <!--            </div>-->
           <!--          </div>-->
-          <div class="customer-college">
+          <!-- <div class="customer-college">
             <span class="customer-college-title">自主院校：</span>
             <div class="customer-college-input">
               <el-autocomplete
@@ -89,7 +89,7 @@
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
-          </div>
+          </div> -->
           <div class="myFilterRecordBlockRow">
             <div class="customer-selected-tags">
               <span class="title" style="line-height: 24px;">您已选择：</span>
@@ -122,7 +122,7 @@
                     @click="selectmajorsecondtag(type.name)">{{ type.name }}</span>
             </div>
           </div>
-          <div class="customer-college">
+          <!-- <div class="customer-college">
             <span class="customer-college-title">我的关注：</span>
             <div class="customer-college-input">
               <el-autocomplete
@@ -173,7 +173,7 @@
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
-          </div>
+          </div> -->
           <div class="myFilterRecordBlockRow">
             <div class="customer-selected-tags">
               <span class="title" style="line-height: 24px;">您已选择：</span>
@@ -888,9 +888,16 @@ li{
   margin-top: .2rem;
 }
 
-.el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
+.el-tabs--border-card > .el-tabs__header .el-tabs__item .is-active {
   /*color: #f95e5a;*/
   color: #e5623f;
+
+ 
+}
+
+/deep/ .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active {
+    background-color: #e5623f;
+    color: #fff;
 }
 
 .filter-list {
@@ -1095,8 +1102,11 @@ li{
   flex-direction: row;
   flex-wrap: wrap; /*换行，第一行在下方。*/
   word-break: break-word;
-  height: .8rem;
-  margin-bottom: .3rem;
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+  /* height: .9rem; */
+  /* margin-bottom: .3rem; */
+  /* background-color: pink; */
   border-bottom: 1px dashed rgb(228, 228, 228);
 }
 

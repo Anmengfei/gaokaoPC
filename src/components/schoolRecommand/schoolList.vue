@@ -216,6 +216,7 @@ export default {
           if (res.status === 200) {
 
             // this.schoolList = res.data;
+            console.log('获取学校的总数量',res)
             this.pageInfo.pagetotal=res.data.data.total
             this.schoolList = res.data.data.list;
             // for (let i = 0; i < this.schoolList.length; ++i) { // 为每一条数据的专业信息添加一条标志位flag=-1

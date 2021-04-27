@@ -2,7 +2,7 @@
   <div class="app_container">
     <top-header></top-header>
     <HomeHeader class="homeheader"></HomeHeader>
-    <div class="Tab">
+    <div class="Tab" :style="{ minHeight: minHeight + 'px'}">
         <div class="top-box">
           <img src="../../assets/head.jpg" class="zhiyuanpng" />
           <div class="yeardiv">
@@ -59,7 +59,10 @@
                       :header-cell-style="{ background: '#F5F7FA', color: '#606266' }"
                     >
                       <el-table-column label="志愿表" align="center">
-                        <template slot-scope="scope">{{ scope.$index + 1 }}</template>
+                        <template slot-scope="scope">
+                          <span style="font-size:.12rem ; color:#409eff" v-if="willTable[scope.$index].id==407">{{ '一键填报表' }}</span>
+                          <span style="font-size:.12rem ; color:#409eff" v-else>{{ '智能填报表' }}</span>
+                        </template>
                       </el-table-column>
                       <el-table-column
                         prop="userInformation[2]"
@@ -88,15 +91,15 @@
                       <el-table-column prop="address" label="操作" align="center">
                         <template slot-scope="scope">
                           <!-- <span id="chakan" @click="gotoZhiyuanbiao(scope.row.id)">查看</span> -->
-                          <span id="chakan" @click="gotoZhiyuanbiao()">查看</span>
+                          <span id="chakan" @click="gotoZhiyuanbiao(willTable[scope.$index].id)">查看</span>
                         </template>
                       </el-table-column>
                     </el-table>
                   </div>
-                  <div class="moniBtn">
+                  <!-- <div class="moniBtn">
                     <el-button type="danger" @click="gotoSchoolRecommand"
                       >模拟填报</el-button>
-                  </div>
+                  </div> -->
                 </div>
             </el-tab-pane>
             <el-tab-pane label="收藏院校">
@@ -250,9 +253,17 @@ export default {
         pageMajorsize: 5,
         currentPage: 1,
         phoneNum: "",
+        minHeight:0,
+        id:0
     };
   },
   mounted() {
+    // 动态设置内容高度，让footer始终居于底部
+    this.minHeight=document.documentElement.clientHeight-150
+    // 监听浏览器窗口变化
+    window.onresize=function(){
+      this.minHeight=document.documentElement.clientHeight-150
+    }
     this.initData();
     this.phoneNum = localStorage.getItem("phone");
     this.getWishTable(this.phoneNum);
@@ -291,6 +302,7 @@ export default {
         });
         getAllFollowSchool(params).then((res) => {
           this.AllFollowSchoolList=res.data
+          // console.log('查看一下获取学校的数量',this.AllFollowSchoolList)
           if(res.data === null){
             this.AllFollowSchoolList=[];
             this.SchoolLength=0;
@@ -309,18 +321,40 @@ export default {
             );
           }
           this.willTable = res.data.data;
+          if(this.willTable[0].id<this.willTable[1].id){
+            a=this.willTable[0];
+            this.willTable[0]=this.willTable[1];
+            this.willTable[1]=a
+          }
         }
       });
     },
-    gotoSchoolRecommand() {
-      // 模拟填报按钮跳转至院校优先
-      this.$router.push({
-        name: "SchoolRecommand",
-        params: { tab: "favoriteSchool" },
-      });
-    },
-    gotoZhiyuanbiao(){
-      this.$router.push('/zhiyuanBiao')
+     // 模拟填报按钮跳转至院校优先
+    // gotoSchoolRecommand() {
+    //   this.$router.push({
+    //     name: "SchoolRecommand",
+    //     params: { tab: "favoriteSchool" },
+    //   });
+    // },
+    gotoZhiyuanbiao(id){
+      console.log('id',id)
+      // this.$router.push('/zhiyuanBiao')
+      if(id===243){
+        // this.$router.push('/zhiyuanBiao')
+        this.$router.push({
+          path: "/zhiyuanBiao",
+          query: {
+            listId: 243,
+          },
+        });
+      }else{
+        this.$router.push({
+          path: "/zhiyuanBiao",
+          query: {
+            listId: 407,
+          },
+        });
+      }
     },
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage;
@@ -505,10 +539,10 @@ export default {
   padding-left: 0.3rem;
 }
 
-.volunteer .moniBtn {
+/* .volunteer .moniBtn {
   margin-top: 0.5rem;
   margin-left: 45%;
-}
+} */
 
 #chakan {
   display: inline-block;
