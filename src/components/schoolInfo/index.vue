@@ -76,8 +76,8 @@ export default {
         schoolName: this.$route.query.SchoolName,
       };
       getSchoolDetails(params).then(function (response) {
-        // console.log("获取到的学校详情：");
-        // console.log(response.data);
+        console.log("获取到的学校详情：");
+        console.log(response.data);
         _this.schoolDetails = response.data;
         _this.schoolTags = _this.schoolDetails.schoolDetail.tags;
         // console.log("这是修改好的");

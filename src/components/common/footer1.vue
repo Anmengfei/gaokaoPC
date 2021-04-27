@@ -4,12 +4,12 @@
       <dl>
         <dt>常见问题</dt>
         <!-- <dd class="team" @click="handleClick()">产品白皮书</dd> -->
-        <dd class="team" @click="handleClick()">产品说明书</dd>
+        <dd class="team" @click="handleClick('top')">产品说明书</dd>
       </dl>
       <dl>
         <dt>关于我们</dt>
-        <dd class="team" @click="handleClick()">智禾考哪儿简介</dd>
-        <dd class="team" @click="handleClick()">团队介绍</dd>
+        <dd class="team" @click="handleClick('top')">智禾考哪儿简介</dd>
+        <dd class="team" @click="handleClick('jieshao')">团队介绍</dd>
         <dd class="team" @click="gotoPolicy">隐私政策</dd>
         <dd class="team" @click="gotoTerms">服务条款</dd>
 <!--        <dd class="team" @click="handleClick()">联系我们 : 400-168-6292</dd>-->
@@ -20,8 +20,8 @@
 <!--      </dl>-->
       <dl>
         <dt>合作伙伴</dt>
-        <dd class="team" @click="handleClick()">合作机构</dd>
-        <dd class="team" @click="handleClick()">合作导师</dd>
+        <dd class="team" @click="handleClick('cooperation')">合作机构</dd>
+        <dd class="team" @click="handleClick('cooperation')">合作导师</dd>
       </dl>
 <!--      <dl>-->
 <!--        <dt>关注微信公众号</dt>-->
@@ -41,10 +41,11 @@
 export default {
   name: "footer1",
   methods: {
-    handleClick() {
+    handleClick(id) {
       const { href } = this.$router.resolve({
         name: "appCon",
       });
+      localStorage.setItem('id',id);
       window.open(href, "_blank");
     },
     gotoTerms() {

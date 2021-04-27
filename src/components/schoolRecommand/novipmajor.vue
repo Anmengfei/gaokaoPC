@@ -147,70 +147,70 @@
   </div>
 </template>
 <script>
-import { getAllMajor } from "../../api/schoolInfo";
-import { getUserInfo } from "../../api/index";
+import { getAllMajor } from '../../api/schoolInfo'
+import { getUserInfo } from '../../api/index'
 export default {
-  name: "majorList",
-  props: ["selected", "volform"],
-  mounted() {
-    this.getAllMajorData(this.pageInfo.pagenum, this.riskFlag);
+  name: 'majorList',
+  props: ['selected', 'volform'],
+  mounted () {
+    this.getAllMajorData(this.pageInfo.pagenum, this.riskFlag)
   },
-  data() {
+  data () {
     return {
-      selectedtag: "冲",
+      selectedtag: '冲',
       majorList: [], // 保存专业信息
       pageInfo: {
         pagenum: 0, // 当前页数
         pagesize: 10, // 每页条数
-        pagetotal: 100, // 总条目数
+        pagetotal: 100 // 总条目数
       },
       pageRecord: 0, // 用于记录每次点击的页号
-      addWillFlagofSchool: "",
+      addWillFlagofSchool: '',
       addWillFlag: -1, // 判断加入志愿按钮是否变灰
-      riskFlag: "冲", // 点击tag,拿取“冲，稳，保”数据
-      userInfoList: [],
-    };
+      riskFlag: '冲', // 点击tag,拿取“冲，稳，保”数据
+      userInfoList: []
+    }
   },
   watch: {
     selected: {
-      handler() {
-        this.getAllMajorData(this.pageInfo.pagenum, this.riskFlag);
+      handler () {
+        this.getAllMajorData(this.pageInfo.pagenum, this.riskFlag)
       },
       immediate: true,
-      deep: true,
+      deep: true
     },
     volform: {
-      handler(newValue, oldvalue) {
+      handler (newValue, oldvalue) {
         // 1.向志愿表单添加数据（新数据长度>旧数据长度）--不执行操作  2.从志愿表单删除或清空数据（新数据长度<=旧数据长度）--执行操作
         if (newValue.length <= oldvalue.length) {
           // 将已经加入志愿表单的学校的按钮状态置为灰色
-          this.getAllMajorData(this.pageRecord, this.riskFlag);
+          this.getAllMajorData(this.pageRecord, this.riskFlag)
         }
-      },
-    },
+      }
+    }
   },
   methods: {
-    btnShow(id, item) {
-      item.flag = id;
-      this.$emit("addform", item);
+    btnShow (id, item) {
+      item.flag = id
+      this.$emit('addform', item)
       // this.$forceUpdate()
     },
-    getAllMajorData(pagenum, riskflag) {
-      getUserInfo(localStorage.getItem("token")).then((res) => {
-        this.userInfoList = res.data;
+    getAllMajorData (pagenum, riskflag) {
+      getUserInfo(localStorage.getItem('token')).then((res) => {
+        this.userInfoList = res.data
         getAllMajor({
           // feature: this.selected.levelSelect,
           page: pagenum,
           examProvince: this.userInfoList.examProvince,
           risk: riskflag,
-          rank:this.userInfoList.rank,
+          rank: this.userInfoList.rank,
           score: this.userInfoList.score,
-          token: localStorage.getItem("token")
-          // size: 10,
+          token: localStorage.getItem('token'),
+          size: 5
         }).then((res) => {
           if (res.status === 200) {
-            this.pageInfo.pagetotal=res.data.data.total;
-            this.majorList = res.data.data.list.splice(0,3);
+            this.pageInfo.pagetotal = res.data.data.total
+            this.majorList = res.data.data.list.splice(0, 3)
             // 将已经加入志愿表单的学校的按钮状态置为灰色
             for (let i = 0; i < this.majorList.length; ++i) {
               for (let j = 0; j < this.volform.length; ++j) {
@@ -218,18 +218,18 @@ export default {
                   this.volform[j].id === this.majorList[i].id &&
                   this.volform[j].schoolName === this.majorList[i].schoolName
                 ) {
-                  this.majorList[i].flag = i;
+                  this.majorList[i].flag = i
                 }
               }
             }
           } else {
-            this.$message.error("无法取得数据");
+            this.$message.error('无法取得数据')
             // console.log('无法取得数据')
           }
-        });
-      });
+        })
+      })
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       // 分页器执行函数
       this.btnFlag = [
         true,
@@ -241,8 +241,8 @@ export default {
         true,
         true,
         true,
-        true,
-      ];
+        true
+      ]
       this.majorShow = [
         false,
         false,
@@ -253,28 +253,28 @@ export default {
         false,
         false,
         false,
-        false,
-      ];
-      let page = val;
-      this.pageRecord = page;
-      let pagenum=val-1;
-      this.getAllMajorData(pagenum, this.riskFlag);
+        false
+      ]
+      let page = val
+      this.pageRecord = page
+      let pagenum = val - 1
+      this.getAllMajorData(pagenum, this.riskFlag)
     },
-    addForm(index, item1, index1) {
+    addForm (index, item1, index1) {
       // 加入志愿表单函数
-      this.$emit("addform", item1);
-      item1.flag = index + "" + index1;
+      this.$emit('addform', item1)
+      item1.flag = index + '' + index1
       // this.$forceUpdate() // 数据更新之后，强制试图更新
     },
-    getFlag(tab) {
+    getFlag (tab) {
       // “冲”“稳”“保”
-      this.riskFlag = tab.name;
-      this.pagenum = 0;
-      this.getAllMajorData(this.pagenum, this.riskFlag);
-      this.$forceUpdate();
-    },
-  },
-};
+      this.riskFlag = tab.name
+      this.pagenum = 0
+      this.getAllMajorData(this.pagenum, this.riskFlag)
+      this.$forceUpdate()
+    }
+  }
+}
 </script>
 
 <style scoped>
