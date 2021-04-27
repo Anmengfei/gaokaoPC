@@ -6,7 +6,7 @@
       <img src="https://www.zytb.top/NEMT/gk/static/pc_img/lunbo03.png" alt="" />
     </div>
     <div class="section">
-      <div>
+      <div id="top">
         <h1 class="text-center">应用简介</h1>
         <p>
           该应用面向高考考生，利用大量高校数据，采用不断迭代学习的人工智能神经网络训练算法模型，专注河北、山东两省为辅，致力于为新高考考生提供严谨准确的志愿填报方案。
@@ -47,10 +47,10 @@
           服务访问模式
         </h2>
         <p>
-          APP端:基于移动端，支持安卓系统和苹果系统，避免着急找微信小程序应用时找不到的痛点<br />
+          APP端： 基于移动端，支持安卓系统和苹果系统，避免着急找微信小程序应用时找不到的痛点。<br />
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;微信端：
-          支持微信公众号，随用随查，不占手机存储空间 <br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PC端：支持微信登录和手机号登陆，数据和app端同步，大屏操作更方便，查看数据更直观
+          支持微信公众号，随用随查，不占手机存储空间。 <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PC端：支持微信登录和手机号登陆，数据和app端同步，大屏操作更方便，查看数据更直观。
         </p>
         <p class="pic">
           <img class="ph2" src="../../assets/图片4.png" />
@@ -81,14 +81,14 @@
         </h2>
         <p>
           使用数据采集解析平台，自动爬取、清洗与解析最新数据，保证数据实时性与准确性。大屏页面，实时监测数据采集与解析状态。快捷创建采集任务，不错过任何有价值信息。
-          复杂数据可手动进行字段匹配
+          复杂数据可手动进行字段匹配。
         </p>
         <p class="pic">
           <img class="ph1" src="../../assets/图片1.png" />
         </p>
       </div>
-      <div>
-        <h1 class="text-center">团队优势</h1>
+      <div id="jieshao">
+        <h1 class="text-center" >团队优势</h1>
         <h2>
           <span class="num">1&nbsp;</span>
           资源优势
@@ -111,7 +111,7 @@
           用户可在查询志愿时选择一些附加条件，例如意向的城市、地区、喜欢的专业，系统通过分析用户的意向条件，实现个性化推荐，提高用户在选择志愿时的效率。
         </p>
       </div>
-      <div>
+      <div id="cooperation">
         <h1 class="text-center">商务合作</h1>
         <h2>
           <span class="num">1&nbsp;</span>
@@ -139,7 +139,7 @@
           已开展的合作
         </h2>
         <p>
-          河北人才 山东人工智能协会 济南图书馆 泰安科技馆 北京市中关村中学
+          河北人才 / 山东人工智能协会  /济南图书馆  /泰安科技馆  /北京市中关村中学 /
           中科院沈阳计算所教育中心
         </p>
         <p class="pic1">
@@ -168,6 +168,31 @@ export default {
     return {
     };
   },
+  created() {
+    this.$nextTick(() => {this.getlocal()})
+  },
+  // computed:{
+  //   divId(){
+  //     return this.$route.params.Id
+  //   }
+  // },
+  mounted() {
+    // this.$nextTick(function (){
+    //   window.addEventListener('sroll',this.hanleScroll)
+    // })
+  },
+  methods:{
+    getlocal(){
+      let select = localStorage.getItem('id')
+      let elm = document.getElementById(select);
+      if(select){
+        elm.scrollIntoView(true)
+      }
+    }
+  },
+  destroyed() {
+    localStorage.setItem('id','')
+  }
 };
 </script>
 

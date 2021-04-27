@@ -57,7 +57,7 @@
     <div class="secondRow">
       <el-row class="logo-search">
         <el-col :span="6">
-          <div class="logo">
+          <div class="logo" @click="gotoHome">
             <img src="../../assets/logo.png" class="img-logo" />
             <img src="../../assets/logo-word.png" class="img-logo-word" />
           </div>
@@ -123,6 +123,9 @@ export default {
 
   },
   methods: {
+    gotoHome(){
+      this.$router.push("/");
+    },
     // getProvincesinit() {
     //   getAllprovinces().then((res) => {
     //     this.provincesList = res.data;

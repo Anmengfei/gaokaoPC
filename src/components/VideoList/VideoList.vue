@@ -37,7 +37,7 @@
       <video
         :src="videoUrl"
         controls="controls"
-        style="width: 100%;  height: 100%"
+        style="width: 100%; height: 100%"
       ></video>
     </el-dialog>
     <div class="footer">
@@ -47,120 +47,120 @@
 </template>
 
 <script>
-import TopHeader from "@/components/common/topheader";
-import HomeHeader from "@/components/common/header1";
-import Footer from "@/components/common/footer1";
-import EditScore from "@/components/common/editScore";
+import TopHeader from '@/components/common/topheader'
+import HomeHeader from '@/components/common/header1'
+import Footer from '@/components/common/footer1'
+import EditScore from '@/components/common/editScore'
 // {}只引入这个方法
-import { getAllIsLearning } from "@/api/index.js";
+import { getAllIsLearning } from '@/api/index.js'
 // import $ from 'jquery'
 export default {
-  name: "VideoList",
+  name: 'VideoList',
   components: { TopHeader, HomeHeader, Footer, EditScore },
-  data() {
+  data () {
     return {
-      videoUrl: "",
+      videoUrl: '',
       scoreDialog: false,
       recommandList: [],
       zixunList: [],
       form: {
-        name: "",
+        name: ''
       },
       dialogVisible: false,
       loginStatus: false,
-      value1: "5",
+      value1: '5',
       navBarFixed: false,
-      bannerH: "",
+      bannerH: '',
       page: 1,
       size: 100,
       list: [],
       infoState: false,
-      flag_class: "未登录",
+      flag_class: '未登录',
       flag_state: true,
 
-      selectProvince: "",
-      provincesList: ["北京", "上海", "广州", "深圳"],
-      searchValue: "",
-      schna: [],
-    };
+      selectProvince: '',
+      provincesList: ['北京', '上海', '广州', '深圳'],
+      searchValue: '',
+      schna: []
+    }
   },
-  created() {
-    if (localStorage.getItem("flag_class") === null) {
-      this.flag_state = true;
+  created () {
+    if (localStorage.getItem('flag_class') === null) {
+      this.flag_state = true
     } else {
-      this.flag_state = false;
+      this.flag_state = false
     }
   },
   computed: {
-    username() {
-      if (localStorage.getItem("name") === null) {
-        return "ceshi";
+    username () {
+      if (localStorage.getItem('name') === null) {
+        return 'ceshi'
       } else {
-        return localStorage.getItem("name");
+        return localStorage.getItem('name')
       }
-    },
+    }
   },
-  mounted() {
-    this.initData();
-    window.addEventListener("scroll", this.watchScroll);
-    this.setBannerH();
+  mounted () {
+    this.initData()
+    window.addEventListener('scroll', this.watchScroll)
+    this.setBannerH()
     window.addEventListener(
-      "resize",
+      'resize',
       () => {
-        this.setBannerH();
+        this.setBannerH()
       },
       false
-    );
+    )
   },
   methods: {
-    showVideo(item, index) {
-      this.videoUrl = item.address;
-      this.dialogVisible = true;
+    showVideo (item, index) {
+      this.videoUrl = item.address
+      this.dialogVisible = true
     },
 
-    initData() {
-      //必须这样
-      let _this = this;
+    initData () {
+      // 必须这样
+      let _this = this
       getAllIsLearning().then(function (response) {
-        console.log(response.data);
-        _this.zixunList = response.data;
-        console.log(_this.zixunList);
-      });
+        console.log(response.data)
+        _this.zixunList = response.data
+        console.log(_this.zixunList)
+      })
     },
     // 关闭视频
-    handleClose(done) {
-      this.videoUrl = "";
-      this.dialogVisible = false;
+    handleClose (done) {
+      this.videoUrl = ''
+      this.dialogVisible = false
     },
-    modifyScore() {
-      console.log("123");
-      this.scoreDialog = true;
+    modifyScore () {
+      console.log('123')
+      this.scoreDialog = true
     },
-    login() {
+    login () {
       // alert(1)
     },
-    selectSchoolItem(item, index) {
-      console.log("item", item);
-      console.log("index", index);
-      this.$router.push("/SchoolInfo");
+    selectSchoolItem (item, index) {
+      console.log('item', item)
+      console.log('index', index)
+      this.$router.push('/SchoolInfo')
     },
-    regist() {},
-    setBannerH() {
-      this.bannerH = document.body.clientWidth / 4;
+    regist () {},
+    setBannerH () {
+      this.bannerH = document.body.clientWidth / 4
     },
-    watchScroll() {
+    watchScroll () {
       var scrollTop =
         window.pageYOffset ||
         document.documentElement.scrollTop ||
-        document.body.scrollTop;
+        document.body.scrollTop
       if (scrollTop > 49) {
-        this.navBarFixed = true;
+        this.navBarFixed = true
       } else {
-        this.navBarFixed = false;
+        this.navBarFixed = false
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>

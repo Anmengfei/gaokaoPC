@@ -203,9 +203,9 @@ export default {
         this.userInfoList = res.data;
 
         getAllSchool({
-          // provinces: this.selected.provinceSelect,
-          // schoolTypes: this.selected.typeSelect,
-          // feature: this.selected.levelSelect,
+          provinces: this.selected.provinceSelect,
+          schoolTypes: this.selected.typeSelect,
+          feature: this.selected.levelSelect,
           page: pagenum,
           rank:this.userInfoList.rank,
           examProvince: this.userInfoList.examProvince,
@@ -214,6 +214,7 @@ export default {
           // size: 10,
         }).then((res) => {
           if (res.status === 200) {
+
             // this.schoolList = res.data;
             this.pageInfo.pagetotal=res.data.data.total
             this.schoolList = res.data.data.list;

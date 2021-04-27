@@ -17,7 +17,7 @@
       <div class="zhiyuan" v-if="flag_state == false">
         <div class="content">
           <div class="header">模拟高考志愿填报</div>
-          <el-tag class="denglu-label" type="warning">
+          <el-tag class="denglu-label" type="danger">
             登录后，推荐适合你的院校
           </el-tag>
           <div class="form-item">
@@ -610,6 +610,7 @@ li a {
   width: 100%;
   height: 35px;
   text-align: center;
+  font-size: 16px;
 }
 
 .form-style {
