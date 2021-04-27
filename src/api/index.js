@@ -155,7 +155,7 @@ export function getAllschoolFirst(data) {
     })
 }
 // 获取首页院校推荐
-export function getHomeschool(data) {
+export function getFitSchool(data) {
     return request({
         url: '/HomePage/getFitSchool',
         method: 'get',

@@ -153,7 +153,7 @@ export default {
   content: "";
 }
 .bodyContent .schoolProfile {
-  padding-top: 30px;
+  padding-top: .3rem;
   font-size: 21px;
 }
 .imgcolor {
@@ -171,22 +171,22 @@ export default {
   border-radius: 50%;
 }
 .childContent .name {
-  margin-bottom: 30px;
+  margin-bottom: .30rem;
   font-weight: bold;
   font-size: 36px;
-  line-height: 47px;
+  line-height: .37rem;
 }
 .childContent .name span {
-  padding-left: 20px;
+  padding-left: .20rem;
   font-size: 14px;
 }
 .childContent .tags .tag {
   display: inline-block;
-  height: 45px;
+  height: .45rem;
   margin-right: 10px;
   padding: 0 16px;
   font-size: 20px;
-  line-height: 45px;
+  line-height: .45rem;
   background: #eee;
   border-radius: 15px;
   color: #ff9912;

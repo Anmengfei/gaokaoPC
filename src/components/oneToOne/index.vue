@@ -2,7 +2,7 @@
   <div class="app_container">
     <top-header></top-header>
     <HomeHeader></HomeHeader>
-    <div class="expertsBox">
+    <div class="expertsBox" :style="{ minHeight: minHeight + 'px'}">
       <el-image
         style="width:100%"
         :src="require('@/assets/1v1.png')"
@@ -48,8 +48,6 @@
         </div>
       </div>
     </div>
-
-
     <Footer></Footer>
   </div>
 </template>
@@ -62,7 +60,19 @@ export default {
   loginStatus: true,
   components: {TopHeader, HomeHeader, Footer},
   data() {
-    return {};
+    return {
+      minHeight:0
+
+    };
+  },
+  mounted(){
+    console.log('html高度是',document.documentElement.clientHeight)
+    // 动态设置内容高度，让footer始终居于底部
+    this.minHeight=document.documentElement.clientHeight-50
+    // 监听浏览器窗口变化
+    window.onresize=function(){
+      this.minHeight=document.documentElement.clientHeight-50
+    }
   },
   methods: {
   },

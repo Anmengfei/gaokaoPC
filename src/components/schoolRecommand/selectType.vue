@@ -39,7 +39,7 @@
           <!--              <span class="tag" v-for="item in collegeSortType" :key="item" :class="{active :collegeselete.sortSelect.includes(item)}" @click="selectsorttag(item)">{{item}}</span>-->
           <!--            </div>-->
           <!--          </div>-->
-          <div class="customer-college">
+          <!-- <div class="customer-college">
             <span class="customer-college-title">自主院校：</span>
             <div class="customer-college-input">
               <el-autocomplete
@@ -89,7 +89,7 @@
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
-          </div>
+          </div> -->
           <div class="myFilterRecordBlockRow">
             <div class="customer-selected-tags">
               <span class="title" style="line-height: 24px;">您已选择：</span>
@@ -122,7 +122,7 @@
                     @click="selectmajorsecondtag(type.name)">{{ type.name }}</span>
             </div>
           </div>
-          <div class="customer-college">
+          <!-- <div class="customer-college">
             <span class="customer-college-title">我的关注：</span>
             <div class="customer-college-input">
               <el-autocomplete
@@ -173,7 +173,7 @@
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
-          </div>
+          </div> -->
           <div class="myFilterRecordBlockRow">
             <div class="customer-selected-tags">
               <span class="title" style="line-height: 24px;">您已选择：</span>

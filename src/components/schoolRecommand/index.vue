@@ -1,8 +1,12 @@
 <template>
   <div class="app_container">
-    <top-header></top-header>
-    <HomeHeader ></HomeHeader>
-    <select-type></select-type>
+    <div class="header">
+        <top-header></top-header>
+        <HomeHeader ></HomeHeader>
+    </div>
+    <div class="content" :style="{ minHeight: minHeight + 'px'}">
+        <select-type></select-type>
+    </div>
     <Footer></Footer>
   </div>
 </template>
@@ -18,9 +22,22 @@ export default {
   loginStatus: true,
   components: { TopHeader, HomeHeader, Footer, CjList, SelectType },
   data() {
-    return {};
+    return {
+      minHeight:0
+    };
   },
-  methods: {},
+  mounted(){
+    console.log('html高度是',document.documentElement.clientHeight)
+    // 动态设置内容高度，让footer始终居于底部
+    this.minHeight=document.documentElement.clientHeight-50
+    // 监听浏览器窗口变化
+    window.onresize=function(){
+      this.minHeight=document.documentElement.clientHeight-50
+    }
+  },
+  methods: {
+
+  },
 };
 </script>
 
@@ -30,11 +47,16 @@ a {
 }
 .app_container {
   /*background-color: white;*/
+  display:flex;
+  flex-direction:column;
+  min-height: 100%;
   background-color: #f3f5f7;
 }
+
 .mt20 {
   margin-top: 20px;
 }
+
 .thirdRow {
   /*background-color: #f95e5a;*/
   background-color: #e5623f;

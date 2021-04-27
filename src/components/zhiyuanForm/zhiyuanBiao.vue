@@ -16,15 +16,24 @@
               </el-col>
               <el-col :span="7">
                 <div class="operation">
-                  <i class="iconfont icon-15" @click="gotoEdit" title="修改">
+                  <i v-show='ModifyShow' class="iconfont icon-15" @click="gotoEdit" title="修改">
                     <span>修改</span>
                   </i>
                   <i
+                    v-show='ModifyShow'
                     class="iconfont icon-baocun"
                     @click="gotoSave()"
                     title="保存"
                   >
                     <span>保存</span></i
+                  >
+                  <i
+                    v-show='!ModifyShow'
+                    class="iconfont icon-15"
+                    @click="gotoback()"
+                    title="返回"
+                  >
+                    <span>返回</span></i
                   >
                   <i class="iconfont icon-daochu" title="导出" @click="exportExcle">
                     <span>导出</span></i
@@ -44,7 +53,7 @@
                   <th>选科要求</th>
                   <th>2020年招生计划</th>
                   <th>2021年招生计划</th>
-                  <th>操作</th>
+                  <th v-show='ModifyShow'>操作</th>
                 </tr>
               </thead>
               <tr v-for="(item, index) in zhiyuanTableList" :key="index">
@@ -62,7 +71,7 @@
                 <td>{{ selectSubject(index) }}</td>
                 <td>{{ item.enrollNum }}</td>
                 <td>{{ item.enrollNum21}}</td>
-                <td>
+                <td v-show='ModifyShow'>
                   <div class="Btn">
                     <div class="Btn1">
                       <i
@@ -85,7 +94,7 @@
                     <div class="Btn2">
                       <i
                         class="iconfont icon-shanchu1"
-                        v-bind:class="{ iconShanchu: index == 0 || index == zhiyuanTableList.length - 1,iconShanchu2:zhiyuanTableList.length==1}"
+                        v-bind:class="{ iconShanchu: index == 0 || index == zhiyuanTableList.length - 1,iconShanchu2:zhiyuanTableList.length==1,iconShanchu3:zhiyuanTableList.length === 2}"
                         @click="handleDelete(index)"
                       ></i>
                     </div>
@@ -121,7 +130,8 @@ export default {
   name: "zhiyuanBiao",
   components: { TopHeader, HomeHeader, Footer },
   mounted() {
-    this.initData();
+    // console.log('this.$route.query.voluntary',this.$route.query.voluntary)
+    this.initData(this.$route.query.listId);
     // this.getAllData();
     this.setTableColor();
   },
@@ -138,11 +148,13 @@ export default {
       chemistry:0,
       history:0,
       politics:0,
-      geography:0
+      geography:0,
+      ModifyShow:true
     };
   },
   methods: {
-    initData(){
+    initData(listId){
+      console.log('lisyifififfi',listId)
       getUserInfo(localStorage.getItem("token")).then((res) => {
         this.userInfoList = res.data;
         if(this.userInfoList.physics===1){
@@ -171,24 +183,43 @@ export default {
         }
 
       })
-      let params={
-        phoneNum:localStorage.getItem("phone")
-      }
-      getAllHandleWishId(params).then((res) => {
-        this.listId=res.data;
-        let params={
-          listId:this.listId,
-        }
-        getAllWishByListId2(params).then((res) => {
+
+      if(listId===407){
+        this.ModifyShow=false;
+        getAllWishByListId2({
+          listId:listId,
+        }).then((res) => {
           if (res.msg === "成功") {
-            this.zhiyuanTableList = res.data.wishes; 
+            this.zhiyuanTableList = res.data.wishes;
+            console.log('获取的数据是',res) 
             for(let i=0;i<this.zhiyuanTableList.length;i++){
               this.zhiyuanTableList[i].xuhao=i;
               this.zhiyuanTableList[i].enrollNum21='暂无数据'
             }
           }
         });
-      })
+      }else{
+        let params={
+          phoneNum:localStorage.getItem("phone")
+        }
+        getAllHandleWishId(params).then((res) => {
+          this.listId=res.data;
+          let params={
+            listId:this.listId,
+          }
+          getAllWishByListId2(params).then((res) => {
+            if (res.msg === "成功") {
+              this.zhiyuanTableList = res.data.wishes;
+              console.log('获取的数据是',res) 
+              for(let i=0;i<this.zhiyuanTableList.length;i++){
+                this.zhiyuanTableList[i].xuhao=i;
+                this.zhiyuanTableList[i].enrollNum21='暂无数据'
+              }
+            }
+          });
+        })
+      }
+     
 
       // getWishListByphoneNum(localStorage.getItem("phone")).then((res) => {
       //   console.log("res数据", res.data);
@@ -292,6 +323,10 @@ export default {
       }).then((res)=>{
         this.$router.push('/zhiyuan')
       })
+    },
+
+    gotoback(){
+      this.$router.push('/zhiyuan')
     },
 
     setTableColor() {
@@ -470,21 +505,30 @@ export default {
   margin-top: 0.06rem;
 }
 
-.icon-shanchu1 {
-  /* color: #e9302d; */
-  color: hsla(0, 0%, 61%, 0.856);
-}
 .iconShanchu {
   /* color: #00aff0; */
   position: absolute;
   top: -0.15rem;
-  left: 0.14rem;
+  left: 0.15rem;
 }
+
+.icon-shanchu1 {
+  /* color: #e9302d; */
+  color: hsla(0, 0%, 61%, 0.856);
+
+}
+
 .iconShanchu2 {
   /* color: #00aff0; */
   position: absolute;
-  top: -.33rem;
+  top: -.35rem;
   left: -.14rem;
+}
+
+.iconShanchu3 {
+  position: absolute;
+  top: -.15rem;
+  left: .01rem;
 }
 table {
   margin: 0.4rem auto;

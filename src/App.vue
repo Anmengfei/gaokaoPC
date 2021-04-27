@@ -54,7 +54,7 @@ html,body {
     width:100%;
     height: 100%;
   }
- select {
+select {
   font-size: 16px;
   height: 40px;
   padding: 5px;
