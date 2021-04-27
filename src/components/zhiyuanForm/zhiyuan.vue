@@ -93,10 +93,10 @@
                       </el-table-column>
                     </el-table>
                   </div>
-                  <div class="moniBtn">
+                  <!-- <div class="moniBtn">
                     <el-button type="danger" @click="gotoSchoolRecommand"
                       >模拟填报</el-button>
-                  </div>
+                  </div> -->
                 </div>
             </el-tab-pane>
             <el-tab-pane label="收藏院校">
@@ -291,6 +291,7 @@ export default {
         });
         getAllFollowSchool(params).then((res) => {
           this.AllFollowSchoolList=res.data
+          console.log('查看一下获取学校的数量',this.AllFollowSchoolList)
           if(res.data === null){
             this.AllFollowSchoolList=[];
             this.SchoolLength=0;
@@ -312,13 +313,13 @@ export default {
         }
       });
     },
-    gotoSchoolRecommand() {
-      // 模拟填报按钮跳转至院校优先
-      this.$router.push({
-        name: "SchoolRecommand",
-        params: { tab: "favoriteSchool" },
-      });
-    },
+     // 模拟填报按钮跳转至院校优先
+    // gotoSchoolRecommand() {
+    //   this.$router.push({
+    //     name: "SchoolRecommand",
+    //     params: { tab: "favoriteSchool" },
+    //   });
+    // },
     gotoZhiyuanbiao(){
       this.$router.push('/zhiyuanBiao')
     },
@@ -505,10 +506,10 @@ export default {
   padding-left: 0.3rem;
 }
 
-.volunteer .moniBtn {
+/* .volunteer .moniBtn {
   margin-top: 0.5rem;
   margin-left: 45%;
-}
+} */
 
 #chakan {
   display: inline-block;

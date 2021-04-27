@@ -888,9 +888,16 @@ li{
   margin-top: .2rem;
 }
 
-.el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
+.el-tabs--border-card > .el-tabs__header .el-tabs__item .is-active {
   /*color: #f95e5a;*/
   color: #e5623f;
+
+ 
+}
+
+/deep/ .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active {
+    background-color: #e5623f;
+    color: #fff;
 }
 
 .filter-list {
@@ -1095,8 +1102,11 @@ li{
   flex-direction: row;
   flex-wrap: wrap; /*换行，第一行在下方。*/
   word-break: break-word;
-  height: .8rem;
-  margin-bottom: .3rem;
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+  /* height: .9rem; */
+  /* margin-bottom: .3rem; */
+  /* background-color: pink; */
   border-bottom: 1px dashed rgb(228, 228, 228);
 }
 

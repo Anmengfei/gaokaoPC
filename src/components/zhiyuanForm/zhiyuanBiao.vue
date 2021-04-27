@@ -443,7 +443,7 @@ export default {
 }
 
 .Btn1 .iconfont {
-  font-size: 0.2rem;
+  font-size: 0.35rem;
   margin-right: 0.2rem;
   cursor: pointer;
 }
@@ -457,13 +457,14 @@ export default {
   /* margin-top: 20px; */
 }
 .Btn2 /deep/ .iconfont {
-   font-size: .25rem;
+   font-size: .35rem;
 }
 
 .Btn1 /deep/ .icon-bottom-btn-fill {
   display: block;
   color: #00aff0;
 }
+
 .iconfontSize {
   color: #00aff0;
   margin-top: 0.06rem;
@@ -476,13 +477,13 @@ export default {
 .iconShanchu {
   /* color: #00aff0; */
   position: absolute;
-  top: -0.07rem;
-  left: 0.1rem;
+  top: -0.15rem;
+  left: 0.14rem;
 }
 .iconShanchu2 {
   /* color: #00aff0; */
   position: absolute;
-  top: -.23rem;
+  top: -.33rem;
   left: -.14rem;
 }
 table {
@@ -528,7 +529,7 @@ table {
 .Btn2 {
   position: relative;
   flex: 1;
-  margin-top: 0.09rem;
+  margin-top: .22rem;
   cursor: pointer;
   /* background-color: pink; */
 }
