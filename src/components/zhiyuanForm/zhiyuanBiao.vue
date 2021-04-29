@@ -131,7 +131,7 @@ export default {
   components: { TopHeader, HomeHeader, Footer },
   mounted() {
     // console.log('this.$route.query.voluntary',this.$route.query.voluntary)
-    this.initData(this.$route.query.listId);
+    this.initData(this.$route.query.wishNum,this.$route.query.listId);
     // this.getAllData();
     this.setTableColor();
   },
@@ -153,8 +153,7 @@ export default {
     };
   },
   methods: {
-    initData(listId){
-      console.log('lisyifififfi',listId)
+    initData(wishNum,listId){
       getUserInfo(localStorage.getItem("token")).then((res) => {
         this.userInfoList = res.data;
         if(this.userInfoList.physics===1){
@@ -183,8 +182,7 @@ export default {
         }
 
       })
-
-      if(listId===407){
+      if(wishNum==2){
         this.ModifyShow=false;
         getAllWishByListId2({
           listId:listId,

@@ -272,10 +272,11 @@ export default {
       provincesList: ['北京', '上海', '广州', '深圳'],
       searchValue: '',
       schna: [
-        'https://www.zytb.top/NEMT/gk/static/pc_img/lunbo01.png',
-        'https://www.zytb.top/NEMT/gk/static/pc_img/lunbo03.png'
-      ]
-    }
+        "https://www.zytb.top/NEMT/gk/static/pc_img/lunbo01.png",
+        "https://www.zytb.top/NEMT/gk/static/pc_img/lunbo03.png",
+      ],
+      phoneNum:''
+    };
   },
   // beforeCreate() {
   //   document.querySelector("body").setAttribute("style", "background:#f3f5f7;");

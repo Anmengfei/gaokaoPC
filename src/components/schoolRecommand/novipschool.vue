@@ -202,6 +202,7 @@ export default {
         }).then((res) => {
           if (res.status === 200) {
              this.schoolList = res.data.data.list;
+             console.log('kdsldfjna',this.schoolList)
             // for (let i = 0; i < this.schoolList.length; ++i) { // 为每一条数据的专业信息添加一条标志位flag=-1
             //   for (let j = 0; j < this.schoolList[i].majors.length; ++j) {
             //     this.schoolList[i].majors[j].flag = -1

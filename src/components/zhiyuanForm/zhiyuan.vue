@@ -60,7 +60,7 @@
                     >
                       <el-table-column label="志愿表" align="center">
                         <template slot-scope="scope">
-                          <span style="font-size:.12rem ; color:#409eff" v-if="willTable[scope.$index].id==407">{{ '一键填报表' }}</span>
+                          <span style="font-size:.12rem ; color:#409eff" v-if="willTable[scope.$index].wishNum==2">{{ '一键填报表' }}</span>
                           <span style="font-size:.12rem ; color:#409eff" v-else>{{ '智能填报表' }}</span>
                         </template>
                       </el-table-column>
@@ -91,7 +91,7 @@
                       <el-table-column prop="address" label="操作" align="center">
                         <template slot-scope="scope">
                           <!-- <span id="chakan" @click="gotoZhiyuanbiao(scope.row.id)">查看</span> -->
-                          <span id="chakan" @click="gotoZhiyuanbiao(willTable[scope.$index].id)">查看</span>
+                          <span id="chakan" @click="gotoZhiyuanbiao(willTable[scope.$index].wishNum)">查看</span>
                         </template>
                       </el-table-column>
                     </el-table>
@@ -227,7 +227,7 @@ import { getUserInfo } from "@/api/index.js";
 import { getAllFollowMajor } from "@/api/index.js";
 import { getAllFollowSchool } from "@/api/index.js";
 import { getWishListByphoneNum } from "@/api/WishList";
-import { getAllHandleWishId } from "@/api/index";
+// import { getAllHandleWishId } from "@/api/index";
 import { unfollowSchool } from "@/api/index.js";
 import { unfollowMajor } from "@/api/index.js";
 export default {
@@ -254,7 +254,6 @@ export default {
         currentPage: 1,
         phoneNum: "",
         minHeight:0,
-        id:0
     };
   },
   mounted() {
@@ -270,12 +269,12 @@ export default {
   },
   methods: {
     initData() {
-      let params={
-          phoneNum:localStorage.getItem("phone")
-      }
-      getAllHandleWishId(params).then((res) => {
-          this.listId=res.data;
-      }),
+      // let params={
+      //     phoneNum:localStorage.getItem("phone")
+      // }
+      // getAllHandleWishId(params).then((res) => {
+      //     this.listId=res.data;
+      // }),
       getUserInfo(localStorage.getItem("token")).then((res) => {
         this.userInfoList = res.data;
         if (this.userInfoList.vip == 0) {
@@ -321,8 +320,8 @@ export default {
             );
           }
           this.willTable = res.data.data;
-          if(this.willTable[0].id<this.willTable[1].id){
-            a=this.willTable[0];
+          if(this.willTable[0].wishNum<this.willTable[1].wishNum){
+            let a=this.willTable[0];
             this.willTable[0]=this.willTable[1];
             this.willTable[1]=a
           }
@@ -336,22 +335,24 @@ export default {
     //     params: { tab: "favoriteSchool" },
     //   });
     // },
-    gotoZhiyuanbiao(id){
-      console.log('id',id)
+    gotoZhiyuanbiao(wishNum){
+      // console.log('id',id)
       // this.$router.push('/zhiyuanBiao')
-      if(id===243){
+      if(wishNum===2){
         // this.$router.push('/zhiyuanBiao')
         this.$router.push({
           path: "/zhiyuanBiao",
           query: {
-            listId: 243,
+            wishNum: 2,
+            listId:this.willTable[0].id
           },
         });
       }else{
         this.$router.push({
           path: "/zhiyuanBiao",
           query: {
-            listId: 407,
+            wishNum: 1,
+            listId:this.willTable[1].id
           },
         });
       }
