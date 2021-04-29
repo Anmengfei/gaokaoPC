@@ -9,7 +9,8 @@
           <el-row>
             <el-col :span="2">
               <div class="icon">
-                <img class="schoologo" :src="item.logoPath" />
+                <img v-if="!(item.logoPath==null)" class="schoologo" :src="item.logoPath" />
+                <img v-else class="schoologo1" src="../../assets/学校.png">
               </div>
             </el-col>
             <el-col :span="18">
@@ -330,6 +331,12 @@ export default {
   margin-left: 1%;
 }
 .schoologo {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+.schoologo1 {
   width: 1rem;
   height: 1rem;
   border-radius: 0.5rem;

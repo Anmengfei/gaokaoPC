@@ -6,7 +6,8 @@
         <HomeHeader></HomeHeader>
         <div class="content">
           <div class="table_head">
-            <span class="volunteerTable">智 能 填 报 志 愿 表</span>
+            <span v-if='ModifyShow' class="volunteerTable">智 能 填 报 志 愿 表</span>
+            <span v-else class="volunteerTable">一 键 填 报 志 愿 表</span>
             <el-row>
               <el-col :span="17">
                 <div class="title">

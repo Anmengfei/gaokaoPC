@@ -368,7 +368,13 @@ export default {
         }
         // this.$set(this.threeList, _this.threeList);
         // console.log(_this.threeVideoList);
-      })
+      });
+      getFitSchool({
+          type: 0,
+          user: localStorage.getItem("phone"),
+        }).then((res) => {
+          this.recommandschoolList = res.data;
+        });
     },
 
     itemClick () {},
