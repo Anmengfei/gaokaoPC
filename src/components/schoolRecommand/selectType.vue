@@ -71,7 +71,7 @@
                 :hide-on-click=false
               >
                 <span>用户关注({{ followCollege.length }}) <i class="el-icon-arrow-down el-icon--right"></i></span>
-                <el-dropdown-menu slot="dropdown" class="dropdown" v-if="followCollege.length"> 
+                <el-dropdown-menu slot="dropdown" class="dropdown" v-if="followCollege.length">
                   <el-checkbox-group  v-model="checkList" v-for="item in followCollege" :key="item.id"  @change="handleCheckedfollowChange" >
                     <el-dropdown-item>
                       <el-checkbox :label="item.followName">{{ item.followName }}</el-checkbox>
@@ -98,6 +98,138 @@
                   {{ item }}
                   <i class="el-icon-close" style="margin-left:5px" @click="closemyselect(select,item)"></i>
               </span>
+              </div>
+            </div>
+          </div>
+          <div class="schoollist" v-if="vip == 1">
+            <el-row>
+              <!-- schoolList.vue 心仪的院校 majorList.vue 喜欢的专业-->
+              <el-col :span="19">
+                <school-list :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" ></school-list>
+              </el-col>
+              <!-- 已填入意向侧边栏 -->
+              <el-col :span="5">
+                <div class="auto_fixed" :class="auto_fixed">
+                  <div class="fudongBox">
+                    <!-- <div class="head"><span>已填入意向</span><span class="subhead">(至少填报10个意向)</span></div> -->
+                    <div class="head"><span>已填入意向</span></div>
+                    <div class="content">
+                      <div class="noformdata" v-if="volForm.length === 0">
+                        <img src="../../assets/noData.png" alt="暂无数据">
+                        <span>查看左侧院校和专业选择<br/>加入意向</span>
+                      </div>
+                      <div class="formdata" v-if="volForm.length > 0">
+                        <div v-for="(item,index) in volForm" :key="index" class="list">
+                          <div id="code">
+                            <div class="num"><span>{{ index + 1 }}</span></div>
+                          </div>
+                          <div id="name">
+                            <span class="school">{{ item.schoolName }}</span><br/>
+                            <span class="major">{{ item.majorName }}</span>
+                          </div>
+                          <div class="deleteZhiyuan">
+                            <i class="iconfont icon-shanchu1" @click="handleDeleteInfo(index)"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="foot">
+                      <span class="clear" @click="clearFormData">清空</span>
+                      <el-button class="nextbtn" type="text" @click="clickToZhiyuanBiao">下一步</el-button>
+                      <div class="ChoiceIntention">
+                        <el-dialog
+                          :visible.sync="dialogVisible3"
+                          width="20%"
+                          :modal="false">
+                          <i class="el-icon-warning"></i>
+                          <span style="color:rgb(0, 0, 0);font-size:.28rem">请选择意向志愿</span>
+                        </el-dialog>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="auto_fixed_fake" :style="{display: auto_fixed.fixed ? 'block':'none'}"></div>
+              </el-col>
+            </el-row>
+          </div>
+          <div class="schoollist" v-else>
+            <el-row>
+              <!-- schoolList.vue 心仪的院校 majorList.vue 喜欢的专业-->
+              <el-col :span="19">
+                <novipschool :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo"></novipschool>
+<!--                <novipmajor :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-else></novipmajor>-->
+              </el-col>
+              <!-- 已填入意向侧边栏 -->
+              <el-col :span="5">
+                <div class="auto_fixed" :class="auto_fixed">
+                  <div class="fudongBox">
+                    <!-- <div class="head"><span>已填入意向</span><span class="subhead">(至少填报10个意向)</span></div> -->
+                    <div class="head"><span>已填入意向</span></div>
+                    <div class="content">
+                      <div class="noformdata" v-if="volForm.length === 0">
+                        <img src="../../assets/noData.png" alt="暂无数据">
+                        <span>查看左侧院校和专业选择<br/>加入意向</span>
+                      </div>
+                      <div class="formdata" v-if="volForm.length > 0">
+                        <div v-for="(item,index) in volForm" :key="index" class="list">
+                          <div id="code">
+                            <div class="num"><span>{{ index + 1 }}</span></div>
+                          </div>
+                          <div id="name">
+                            <span class="school">{{ item.schoolName }}</span><br/>
+                            <span class="major">{{ item.majorName }}</span>
+                          </div>
+                          <div class="deleteZhiyuan">
+                            <i class="iconfont icon-shanchu1" @click="handleDeleteInfo(index)"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="foot">
+                      <span class="clear" @click="clearFormData">清空</span>
+                      <!-- <button class="nextbtn" @click="clickToZhiyuanBiao">下一步</button> -->
+                      <!-- <el-button class="nextbtn" type="text" @click="open">下一步</el-button> -->
+                      <el-button class="nextbtn" type="text" @click="nextstepClick">下一步</el-button>
+                      <el-dialog
+                        :visible.sync="dialogVisible1"
+                        width="30%"
+                        :modal="false">
+                        <i class="el-icon-warning"></i>
+                        <span style="color:rgb(0, 0, 0);font-size:.28rem">VIP专属功能,开通后立即使用</span>
+                        <span style="display:block" slot="footer" class="dialog-footer">
+                      <el-button @click="dialogVisible1 = false">取 消</el-button>
+                      <el-button type="primary" @click="openedClick()">立即开通</el-button>
+                    </span>
+                      </el-dialog>
+                      <div class="ChoiceIntention">
+                        <el-dialog
+                          :visible.sync="dialogVisible2"
+                          width="20%"
+                          :modal="false">
+                          <i class="el-icon-warning"></i>
+                          <span style="color:rgb(0, 0, 0);font-size:.28rem">请选择意向志愿</span>
+                        </el-dialog>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="auto_fixed_fake" :style="{display: auto_fixed.fixed ? 'block':'none'}"></div>
+              </el-col>
+            </el-row>
+
+            <div>
+              <div class="permission-tip-wrapper-toC">
+                <p class="text-center">查看完整推荐院校</p>
+                <div class="flex center">
+                  <el-button type="danger" class="action" @click="gotoVIP"> 开通VIP &emsp;查看全部</el-button>
+                </div>
+                <div class="flex center qrcode">
+                  <img src="../../assets/手机APP.png" alt="" width="80px" height="80px">
+                  <div>
+                    <p>扫码下载 考哪儿APP</p>
+                    <p>实时资讯 一键填报</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -185,154 +317,287 @@
               </div>
             </div>
           </div>
+          <div class="schoollist" v-if="vip == 1">
+            <el-row>
+              <!-- schoolList.vue 心仪的院校 majorList.vue 喜欢的专业-->
+              <el-col :span="19">
+<!--                <school-list :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-if="selectTabs == 'favoriteSchool'"></school-list>-->
+                <MajorList :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" ></MajorList>
+              </el-col>
+              <!-- 已填入意向侧边栏 -->
+              <el-col :span="5">
+                <div class="auto_fixed" :class="auto_fixed">
+                  <div class="fudongBox">
+                    <!-- <div class="head"><span>已填入意向</span><span class="subhead">(至少填报10个意向)</span></div> -->
+                    <div class="head"><span>已填入意向</span></div>
+                    <div class="content">
+                      <div class="noformdata" v-if="volForm.length === 0">
+                        <img src="../../assets/noData.png" alt="暂无数据">
+                        <span>查看左侧院校和专业选择<br/>加入意向</span>
+                      </div>
+                      <div class="formdata" v-if="volForm.length > 0">
+                        <div v-for="(item,index) in volForm" :key="index" class="list">
+                          <div id="code">
+                            <div class="num"><span>{{ index + 1 }}</span></div>
+                          </div>
+                          <div id="name">
+                            <span class="school">{{ item.schoolName }}</span><br/>
+                            <span class="major">{{ item.majorName }}</span>
+                          </div>
+                          <div class="deleteZhiyuan">
+                            <i class="iconfont icon-shanchu1" @click="handleDeleteInfo(index)"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="foot">
+                      <span class="clear" @click="clearFormData">清空</span>
+                      <el-button class="nextbtn" type="text" @click="clickToZhiyuanBiao">下一步</el-button>
+                      <div class="ChoiceIntention">
+                        <el-dialog
+                          :visible.sync="dialogVisible3"
+                          width="20%"
+                          :modal="false">
+                          <i class="el-icon-warning"></i>
+                          <span style="color:rgb(0, 0, 0);font-size:.28rem">请选择意向志愿</span>
+                        </el-dialog>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="auto_fixed_fake" :style="{display: auto_fixed.fixed ? 'block':'none'}"></div>
+              </el-col>
+            </el-row>
+          </div>
+          <div class="schoollist" v-else>
+            <el-row>
+              <!-- schoolList.vue 心仪的院校 majorList.vue 喜欢的专业-->
+              <el-col :span="19">
+<!--                <novipschool :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-if="selectTabs == 'favoriteSchool'" ></novipschool>-->
+                <novipmajor :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo"></novipmajor>
+              </el-col>
+              <!-- 已填入意向侧边栏 -->
+              <el-col :span="5">
+                <div class="auto_fixed" :class="auto_fixed">
+                  <div class="fudongBox">
+                    <!-- <div class="head"><span>已填入意向</span><span class="subhead">(至少填报10个意向)</span></div> -->
+                    <div class="head"><span>已填入意向</span></div>
+                    <div class="content">
+                      <div class="noformdata" v-if="volForm.length === 0">
+                        <img src="../../assets/noData.png" alt="暂无数据">
+                        <span>查看左侧院校和专业选择<br/>加入意向</span>
+                      </div>
+                      <div class="formdata" v-if="volForm.length > 0">
+                        <div v-for="(item,index) in volForm" :key="index" class="list">
+                          <div id="code">
+                            <div class="num"><span>{{ index + 1 }}</span></div>
+                          </div>
+                          <div id="name">
+                            <span class="school">{{ item.schoolName }}</span><br/>
+                            <span class="major">{{ item.majorName }}</span>
+                          </div>
+                          <div class="deleteZhiyuan">
+                            <i class="iconfont icon-shanchu1" @click="handleDeleteInfo(index)"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="foot">
+                      <span class="clear" @click="clearFormData">清空</span>
+                      <!-- <button class="nextbtn" @click="clickToZhiyuanBiao">下一步</button> -->
+                      <!-- <el-button class="nextbtn" type="text" @click="open">下一步</el-button> -->
+                      <el-button class="nextbtn" type="text" @click="nextstepClick">下一步</el-button>
+                      <el-dialog
+                        :visible.sync="dialogVisible1"
+                        width="30%"
+                        :modal="false">
+                        <i class="el-icon-warning"></i>
+                        <span style="color:rgb(0, 0, 0);font-size:.28rem">VIP专属功能,开通后立即使用</span>
+                        <span style="display:block" slot="footer" class="dialog-footer">
+                      <el-button @click="dialogVisible1 = false">取 消</el-button>
+                      <el-button type="primary" @click="openedClick()">立即开通</el-button>
+                    </span>
+                      </el-dialog>
+                      <div class="ChoiceIntention">
+                        <el-dialog
+                          :visible.sync="dialogVisible2"
+                          width="20%"
+                          :modal="false">
+                          <i class="el-icon-warning"></i>
+                          <span style="color:rgb(0, 0, 0);font-size:.28rem">请选择意向志愿</span>
+                        </el-dialog>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="auto_fixed_fake" :style="{display: auto_fixed.fixed ? 'block':'none'}"></div>
+              </el-col>
+            </el-row>
+
+            <div>
+              <div class="permission-tip-wrapper-toC">
+                <p class="text-center">查看完整推荐院校</p>
+                <div class="flex center">
+                  <el-button type="danger" class="action" @click="gotoVIP"> 开通VIP &emsp;查看全部</el-button>
+                </div>
+                <div class="flex center qrcode">
+                  <img src="../../assets/手机APP.png" alt="" width="80px" height="80px">
+                  <div>
+                    <p>扫码下载 考哪儿APP</p>
+                    <p>实时资讯 一键填报</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </el-tab-pane>
       </el-tabs>
     </div>
     <!-- 冲刺、稳妥、保底以及右边的侧边栏 -->
     <!-- VIP：心仪的院校和喜欢的专业 -->
-    <div class="schoollist" v-if="vip == 1">
-      <el-row>
-        <!-- schoolList.vue 心仪的院校 majorList.vue 喜欢的专业-->
-        <el-col :span="19">
-          <school-list :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-if="majorflag"></school-list>
-          <MajorList :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-else></MajorList>
-        </el-col>
-        <!-- 已填入意向侧边栏 -->
-        <el-col :span="5">
-          <div class="auto_fixed" :class="auto_fixed">
-            <div class="fudongBox">
-              <!-- <div class="head"><span>已填入意向</span><span class="subhead">(至少填报10个意向)</span></div> -->
-              <div class="head"><span>已填入意向</span></div>
-              <div class="content">
-                <div class="noformdata" v-if="volForm.length === 0">
-                  <img src="../../assets/noData.png" alt="暂无数据">
-                  <span>查看左侧院校和专业选择<br/>加入意向</span>
-                </div>
-                <div class="formdata" v-if="volForm.length > 0">
-                  <div v-for="(item,index) in volForm" :key="index" class="list">
-                    <div id="code">
-                      <div class="num"><span>{{ index + 1 }}</span></div>
-                    </div>
-                    <div id="name">
-                      <span class="school">{{ item.schoolName }}</span><br/>
-                      <span class="major">{{ item.majorName }}</span>
-                    </div>
-                    <div class="deleteZhiyuan">
-                      <i class="iconfont icon-shanchu1" @click="handleDeleteInfo(index)"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="foot">
-                <span class="clear" @click="clearFormData">清空</span>
-                <el-button class="nextbtn" type="text" @click="clickToZhiyuanBiao">下一步</el-button>
-                <div class="ChoiceIntention">
-                  <el-dialog
-                    :visible.sync="dialogVisible3"
-                    width="20%"
-                    :modal="false">
-                    <i class="el-icon-warning"></i>
-                    <span style="color:rgb(0, 0, 0);font-size:.28rem">请选择意向志愿</span>
-                  </el-dialog>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="auto_fixed_fake" :style="{display: auto_fixed.fixed ? 'block':'none'}"></div>
-        </el-col>
-      </el-row>
-    </div>
+<!--    <div class="schoollist" v-if="vip == 1">-->
+<!--      <el-row>-->
+<!--        &lt;!&ndash; schoolList.vue 心仪的院校 majorList.vue 喜欢的专业&ndash;&gt;-->
+<!--        <el-col :span="19">-->
+<!--          <school-list :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-if="selectTabs == 'favoriteSchool'"></school-list>-->
+<!--          <MajorList :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-else></MajorList>-->
+<!--        </el-col>-->
+<!--        &lt;!&ndash; 已填入意向侧边栏 &ndash;&gt;-->
+<!--        <el-col :span="5">-->
+<!--          <div class="auto_fixed" :class="auto_fixed">-->
+<!--            <div class="fudongBox">-->
+<!--              &lt;!&ndash; <div class="head"><span>已填入意向</span><span class="subhead">(至少填报10个意向)</span></div> &ndash;&gt;-->
+<!--              <div class="head"><span>已填入意向</span></div>-->
+<!--              <div class="content">-->
+<!--                <div class="noformdata" v-if="volForm.length === 0">-->
+<!--                  <img src="../../assets/noData.png" alt="暂无数据">-->
+<!--                  <span>查看左侧院校和专业选择<br/>加入意向</span>-->
+<!--                </div>-->
+<!--                <div class="formdata" v-if="volForm.length > 0">-->
+<!--                  <div v-for="(item,index) in volForm" :key="index" class="list">-->
+<!--                    <div id="code">-->
+<!--                      <div class="num"><span>{{ index + 1 }}</span></div>-->
+<!--                    </div>-->
+<!--                    <div id="name">-->
+<!--                      <span class="school">{{ item.schoolName }}</span><br/>-->
+<!--                      <span class="major">{{ item.majorName }}</span>-->
+<!--                    </div>-->
+<!--                    <div class="deleteZhiyuan">-->
+<!--                      <i class="iconfont icon-shanchu1" @click="handleDeleteInfo(index)"></i>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="foot">-->
+<!--                <span class="clear" @click="clearFormData">清空</span>-->
+<!--                <el-button class="nextbtn" type="text" @click="clickToZhiyuanBiao">下一步</el-button>-->
+<!--                <div class="ChoiceIntention">-->
+<!--                  <el-dialog-->
+<!--                    :visible.sync="dialogVisible3"-->
+<!--                    width="20%"-->
+<!--                    :modal="false">-->
+<!--                    <i class="el-icon-warning"></i>-->
+<!--                    <span style="color:rgb(0, 0, 0);font-size:.28rem">请选择意向志愿</span>-->
+<!--                  </el-dialog>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="auto_fixed_fake" :style="{display: auto_fixed.fixed ? 'block':'none'}"></div>-->
+<!--        </el-col>-->
+<!--      </el-row>-->
+<!--    </div>-->
     <!-- 非VIP心仪的院校 -->
-    <div class="schoollist" v-else>
-      <el-row>
-        <!-- schoolList.vue 心仪的院校 majorList.vue 喜欢的专业-->
-        <el-col :span="19">
-          <novipschool :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-if="majorflag" ></novipschool>
-          <novipmajor :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-else></novipmajor>
-        </el-col>
-        <!-- 已填入意向侧边栏 -->
-        <el-col :span="5">
-          <div class="auto_fixed" :class="auto_fixed">
-            <div class="fudongBox">
-              <!-- <div class="head"><span>已填入意向</span><span class="subhead">(至少填报10个意向)</span></div> -->
-              <div class="head"><span>已填入意向</span></div>
-              <div class="content">
-                <div class="noformdata" v-if="volForm.length === 0">
-                  <img src="../../assets/noData.png" alt="暂无数据">
-                  <span>查看左侧院校和专业选择<br/>加入意向</span>
-                </div>
-                <div class="formdata" v-if="volForm.length > 0">
-                  <div v-for="(item,index) in volForm" :key="index" class="list">
-                    <div id="code">
-                      <div class="num"><span>{{ index + 1 }}</span></div>
-                    </div>
-                    <div id="name">
-                      <span class="school">{{ item.schoolName }}</span><br/>
-                      <span class="major">{{ item.majorName }}</span>
-                    </div>
-                    <div class="deleteZhiyuan">
-                      <i class="iconfont icon-shanchu1" @click="handleDeleteInfo(index)"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="foot">
-                <span class="clear" @click="clearFormData">清空</span>
-                <!-- <button class="nextbtn" @click="clickToZhiyuanBiao">下一步</button> -->
-                <!-- <el-button class="nextbtn" type="text" @click="open">下一步</el-button> -->
-                <el-button class="nextbtn" type="text" @click="nextstepClick">下一步</el-button>
-                <el-dialog
-                  :visible.sync="dialogVisible1"
-                  width="30%"
-                  :modal="false">
-                    <i class="el-icon-warning"></i>
-                    <span style="color:rgb(0, 0, 0);font-size:.28rem">VIP专属功能,开通后立即使用</span>
-                    <span style="display:block" slot="footer" class="dialog-footer">
-                      <el-button @click="dialogVisible1 = false">取 消</el-button>
-                      <el-button type="primary" @click="openedClick()">立即开通</el-button>
-                    </span>
-                </el-dialog>
-                <div class="ChoiceIntention">
-                  <el-dialog
-                    :visible.sync="dialogVisible2"
-                    width="20%"
-                    :modal="false">
-                    <i class="el-icon-warning"></i>
-                    <span style="color:rgb(0, 0, 0);font-size:.28rem">请选择意向志愿</span>
-                  </el-dialog>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="auto_fixed_fake" :style="{display: auto_fixed.fixed ? 'block':'none'}"></div>
-        </el-col>
-      </el-row>
+<!--    <div class="schoollist" v-else>-->
+<!--      <el-row>-->
+<!--        &lt;!&ndash; schoolList.vue 心仪的院校 majorList.vue 喜欢的专业&ndash;&gt;-->
+<!--        <el-col :span="19">-->
+<!--          <novipschool :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-if="selectTabs == 'favoriteSchool'" ></novipschool>-->
+<!--          <novipmajor :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-else></novipmajor>-->
+<!--        </el-col>-->
+<!--        &lt;!&ndash; 已填入意向侧边栏 &ndash;&gt;-->
+<!--        <el-col :span="5">-->
+<!--          <div class="auto_fixed" :class="auto_fixed">-->
+<!--            <div class="fudongBox">-->
+<!--              &lt;!&ndash; <div class="head"><span>已填入意向</span><span class="subhead">(至少填报10个意向)</span></div> &ndash;&gt;-->
+<!--              <div class="head"><span>已填入意向</span></div>-->
+<!--              <div class="content">-->
+<!--                <div class="noformdata" v-if="volForm.length === 0">-->
+<!--                  <img src="../../assets/noData.png" alt="暂无数据">-->
+<!--                  <span>查看左侧院校和专业选择<br/>加入意向</span>-->
+<!--                </div>-->
+<!--                <div class="formdata" v-if="volForm.length > 0">-->
+<!--                  <div v-for="(item,index) in volForm" :key="index" class="list">-->
+<!--                    <div id="code">-->
+<!--                      <div class="num"><span>{{ index + 1 }}</span></div>-->
+<!--                    </div>-->
+<!--                    <div id="name">-->
+<!--                      <span class="school">{{ item.schoolName }}</span><br/>-->
+<!--                      <span class="major">{{ item.majorName }}</span>-->
+<!--                    </div>-->
+<!--                    <div class="deleteZhiyuan">-->
+<!--                      <i class="iconfont icon-shanchu1" @click="handleDeleteInfo(index)"></i>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="foot">-->
+<!--                <span class="clear" @click="clearFormData">清空</span>-->
+<!--                &lt;!&ndash; <button class="nextbtn" @click="clickToZhiyuanBiao">下一步</button> &ndash;&gt;-->
+<!--                &lt;!&ndash; <el-button class="nextbtn" type="text" @click="open">下一步</el-button> &ndash;&gt;-->
+<!--                <el-button class="nextbtn" type="text" @click="nextstepClick">下一步</el-button>-->
+<!--                <el-dialog-->
+<!--                  :visible.sync="dialogVisible1"-->
+<!--                  width="30%"-->
+<!--                  :modal="false">-->
+<!--                    <i class="el-icon-warning"></i>-->
+<!--                    <span style="color:rgb(0, 0, 0);font-size:.28rem">VIP专属功能,开通后立即使用</span>-->
+<!--                    <span style="display:block" slot="footer" class="dialog-footer">-->
+<!--                      <el-button @click="dialogVisible1 = false">取 消</el-button>-->
+<!--                      <el-button type="primary" @click="openedClick()">立即开通</el-button>-->
+<!--                    </span>-->
+<!--                </el-dialog>-->
+<!--                <div class="ChoiceIntention">-->
+<!--                  <el-dialog-->
+<!--                    :visible.sync="dialogVisible2"-->
+<!--                    width="20%"-->
+<!--                    :modal="false">-->
+<!--                    <i class="el-icon-warning"></i>-->
+<!--                    <span style="color:rgb(0, 0, 0);font-size:.28rem">请选择意向志愿</span>-->
+<!--                  </el-dialog>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="auto_fixed_fake" :style="{display: auto_fixed.fixed ? 'block':'none'}"></div>-->
+<!--        </el-col>-->
+<!--      </el-row>-->
 
-      <div>
-        <div class="permission-tip-wrapper-toC">
-             <p class="text-center">查看完整推荐院校</p>
-          <div class="flex center">
-            <el-button type="danger" class="action" @click="gotoVIP"> 开通VIP &emsp;查看全部</el-button>
-          </div>
-          <div class="flex center qrcode">
-            <img src="../../assets/手机APP.png" alt="" width="80px" height="80px">
-            <div>
-              <p>扫码下载 考哪儿APP</p>
-              <p>实时资讯 一键填报</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+<!--      <div>-->
+<!--        <div class="permission-tip-wrapper-toC">-->
+<!--             <p class="text-center">查看完整推荐院校</p>-->
+<!--          <div class="flex center">-->
+<!--            <el-button type="danger" class="action" @click="gotoVIP"> 开通VIP &emsp;查看全部</el-button>-->
+<!--          </div>-->
+<!--          <div class="flex center qrcode">-->
+<!--            <img src="../../assets/手机APP.png" alt="" width="80px" height="80px">-->
+<!--            <div>-->
+<!--              <p>扫码下载 考哪儿APP</p>-->
+<!--              <p>实时资讯 一键填报</p>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios'
 import SchoolList from '../schoolRecommand/schoolList'
 import MajorList from '../schoolRecommand/majorList'
-import novipschool from "./novipschool";
-import novipmajor from "./novipmajor";
+import novipschool from './novipschool'
+import novipmajor from './novipmajor'
 import {
   getAllLevel,
   getAllCollegeType,
@@ -345,23 +610,23 @@ import {
   getAllFollowMajor, findMajorFollowOrNot,
   findSchoolFollowOrNot,
   getAllMajorType,
-  getUserInfo,
-} from '@/api/index';
+  getUserInfo
+} from '@/api/index'
 // import { getAllWishByListId2,getAllHandleWishId } from "@/api/WishList";
-import { getAllWishByListId2,getAllHandleWishId } from "@/api/index";
-import { changeWishListPC } from "../../api/WishList";
+import { getAllWishByListId2, getAllHandleWishId } from '@/api/index'
+import { changeWishListPC } from '../../api/WishList'
 export default {
   name: 'selectType',
-  components: {SchoolList, MajorList,novipschool,novipmajor},
+  components: {SchoolList, MajorList, novipschool, novipmajor},
   data () {
     return {
-      userInfo:{},
-      vip:this.$store.state.vip,
+      userInfo: {},
+      vip: this.$store.state.vip,
       checkList: [],
       checkmajorList: [],
       followCollege: [],
       followMajor: [],
-      zhiyuanFormatList:[],
+      zhiyuanFormatList: [],
       checkAll: false,
       checkmajorAll: false,
       isIndeterminate: true,
@@ -400,15 +665,15 @@ export default {
       majoradvice: [],
       majorflag: '',
       turnname: '',
-      shuzuId:[],
-      listId:0,
+      shuzuId: [],
+      listId: 0,
       dialogVisible1: false,
       dialogVisible2: false,
-      dialogVisible3:false
+      dialogVisible3: false
     }
   },
-  created() {
-    this.phoneNum = localStorage.getItem("phone")
+  created () {
+    this.phoneNum = localStorage.getItem('phone')
   },
   computed: {
     selectTabs: {
@@ -447,27 +712,28 @@ export default {
       getAllFollowMajor({
         phoneNum: this.phoneNum
       }).then(res => {
-        this.followMajor = res.data  || []
+        this.followMajor = res.data || []
       })
-      let params={
-        phoneNum:localStorage.getItem("phone")
+      let params = {
+        phoneNum: localStorage.getItem('phone')
       }
       getAllHandleWishId(params).then((res) => {
-        this.listId=res.data;
-        let params={
-          listId:this.listId,
+        this.listId = res.data
+        let params = {
+          listId: this.listId
         }
         getAllWishByListId2(params).then((res) => {
-          if (res.msg === "成功") {
-            this.volForm = res.data.wishes;
+          if (res.msg === '成功') {
+            this.volForm = res.data.wishes
           }
-        });
+        })
       })
     },
-    getInfo(){
+    getInfo () {
       getUserInfo().then(res => {
         this.userInfo = res.data
         this.vip = this.userInfo.vip
+        this.$store.dispatch('getVip', this.userInfo.vip)
       })
     },
     onScroll () {
@@ -614,17 +880,20 @@ export default {
     },
     getMajortypelist () {
       getAllMajorType().then(res => {
-        this.majorType = res.data  || []
+        this.majorType = res.data || []
       })
     },
     handleClick (tab, event) {
-      this.turnname = tab.name
-      if (this.turnname == 'favoriteSchool') {
-        this.majorflag = true
-      } else {
-        this.majorflag = false
-      }
-      this.$forceUpdate()
+      // console.log('tab', tab)
+      //
+      // this.selectTabs = tab.name
+      // console.log('tab', this.selectTabs)
+      // if (this.turnname == 'favoriteSchool') {
+      //   this.majorflag = true
+      // } else {
+      //   this.majorflag = false
+      // }
+      // this.$forceUpdate()
     },
     getAddFormInfo (message) {
       // 父子组件传值，父组件接收信息函数
@@ -692,35 +961,35 @@ export default {
     //   }
     // },
     clickToZhiyuanBiao () { // 下一步按钮，转向新的界面
-      if(this.volForm.length==0){
-        this.dialogVisible3 = true;
-      }else{
+      if (this.volForm.length == 0) {
+        this.dialogVisible3 = true
+      } else {
         for (let i = 0; i < this.volForm.length; i++) {
-          const map = {};
-          map.chance = this.volForm[i].risk || this.volForm[i].chances;
-          map.id = 0;
-          map.listId = 0;
-          map.rank = i;
-          map.wishId = this.volForm[i].id;
-          map.wishNum = i;
-          this.zhiyuanFormatList.push(map);
+          const map = {}
+          map.chance = this.volForm[i].risk || this.volForm[i].chances
+          map.id = 0
+          map.listId = 0
+          map.rank = i
+          map.wishId = this.volForm[i].id
+          map.wishNum = i
+          this.zhiyuanFormatList.push(map)
         }
-        var url = "https://www.zytb.top/NEMT/gk/userPC/changeWishListPC";
+        var url = 'https://www.zytb.top/NEMT/gk/userPC/changeWishListPC'
         axios({
           method: 'post',
-          url:url,
-          params:{
-          listId:this.listId,
+          url: url,
+          params: {
+            listId: this.listId
           },
-          data:JSON.stringify(this.zhiyuanFormatList),
+          data: JSON.stringify(this.zhiyuanFormatList),
           headers: {
-          "Content-Type": "application/json;charset=UTF-8",
-          token: localStorage.getItem("token"),
-          },
-        }).then((res)=>{
+            'Content-Type': 'application/json;charset=UTF-8',
+            token: localStorage.getItem('token')
+          }
+        }).then((res) => {
           this.$router.push('/zhiyuanBiao')
         })
-    }
+      }
     },
     // 测试
     querySearch (queryString, cb) {
@@ -735,7 +1004,7 @@ export default {
       getsearchMajor({
         majorName: queryString
       }).then(res => {
-        this.majoradvice = res.data  || []
+        this.majoradvice = res.data || []
         cb(this.majoradvice)
       })
     },
@@ -768,7 +1037,6 @@ export default {
           this.msgWarning('用户已关注')
         }
       })
-
     },
     handleCheckAllChange (val) {
       this.checkedCities = val ? cityOptions : []
@@ -818,20 +1086,19 @@ export default {
       // this.$forceUpdate()
       // }
     },
-    gotoVIP(){
+    gotoVIP () {
       this.$router.push('/volunteerVIP')
     },
-    openedClick(){
+    openedClick () {
       this.$router.push('/volunteerVIP')
     },
-    nextstepClick(){
-      if(this.volForm.length==0){
-        this.dialogVisible1 = false;
-        this.dialogVisible2 = true;
-      }else{
-        this.dialogVisible1 = true;
-        this.dialogVisible2 = false;
-
+    nextstepClick () {
+      if (this.volForm.length == 0) {
+        this.dialogVisible1 = false
+        this.dialogVisible2 = true
+      } else {
+        this.dialogVisible1 = true
+        this.dialogVisible2 = false
       }
     }
   }
@@ -892,7 +1159,6 @@ li{
   /*color: #f95e5a;*/
   color: #e5623f;
 
- 
 }
 
 /deep/ .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active {
@@ -1001,7 +1267,7 @@ li{
   text-overflow: ellipsis;
   position: relative;
   top: .05rem;
- 
+
 }
 
 .tzy-dropdown-action {
