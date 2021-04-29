@@ -664,7 +664,7 @@ export default {
       schooladvice: [],
       majoradvice: [],
       majorflag: '',
-      schoolflag:'',
+      schoolflag: '',
       turnname: '',
       shuzuId: [],
       listId: 0,
@@ -679,9 +679,9 @@ export default {
   computed: {
     selectTabs: {
       get () {
-        if (this.$route.params.tab == 'favoriteSchool' || this.$route.params.tab==undefined) {
+        if (this.$route.params.tab == 'favoriteSchool' || this.$route.params.tab == undefined) {
           this.majorflag = true
-        } else if(this.$route.params.tab=='favoriteMajor'){
+        } else if (this.$route.params.tab == 'favoriteMajor') {
           this.majorflag = false
         }
         return this.$route.params.tab || 'favoriteSchool'
