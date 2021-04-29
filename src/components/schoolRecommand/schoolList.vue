@@ -6,7 +6,8 @@
           <el-row>
             <el-col :span="2">
               <div class="icon">
-                <img class="schoologo" :src="item.logoPath" />
+                <img v-if="!(item.logoPath==null)" class="schoologo" :src="item.logoPath" />
+                <img v-else class="schoologo1" src="../../assets/学校.png">
               </div>
             </el-col>
             <el-col :span="18">
@@ -214,8 +215,6 @@ export default {
           // size: 10,
         }).then((res) => {
           if (res.status === 200) {
-
-            // this.schoolList = res.data;
             console.log('获取学校的总数量',res)
             this.pageInfo.pagetotal=res.data.data.total
             this.schoolList = res.data.data.list;
@@ -325,6 +324,12 @@ export default {
   margin-left: 1%;
 }
 .schoologo {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+.schoologo1 {
   width: 1rem;
   height: 1rem;
   border-radius: 0.5rem;

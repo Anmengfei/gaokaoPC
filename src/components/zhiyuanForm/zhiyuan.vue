@@ -91,7 +91,7 @@
                       <el-table-column prop="address" label="操作" align="center">
                         <template slot-scope="scope">
                           <!-- <span id="chakan" @click="gotoZhiyuanbiao(scope.row.id)">查看</span> -->
-                          <span id="chakan" @click="gotoZhiyuanbiao(willTable[scope.$index].wishNum)">查看</span>
+                          <span id="chakan" @click="gotoZhiyuanbiao(willTable.length,willTable[scope.$index].wishNum)">查看</span>
                         </template>
                       </el-table-column>
                     </el-table>
@@ -269,12 +269,6 @@ export default {
   },
   methods: {
     initData() {
-      // let params={
-      //     phoneNum:localStorage.getItem("phone")
-      // }
-      // getAllHandleWishId(params).then((res) => {
-      //     this.listId=res.data;
-      // }),
       getUserInfo(localStorage.getItem("token")).then((res) => {
         this.userInfoList = res.data;
         if (this.userInfoList.vip == 0) {
@@ -320,46 +314,50 @@ export default {
             );
           }
           this.willTable = res.data.data;
-          if(this.willTable[0].wishNum<this.willTable[1].wishNum){
-            let a=this.willTable[0];
-            this.willTable[0]=this.willTable[1];
-            this.willTable[1]=a
+          if(this.willTable.length==2){
+            if(this.willTable[0].wishNum<this.willTable[1].wishNum){
+              let a=this.willTable[0];
+              this.willTable[0]=this.willTable[1];
+              this.willTable[1]=a
+            }
+          }else{
+            this.willTable = res.data.data;
           }
         }
       });
     },
-     // 模拟填报按钮跳转至院校优先
-    // gotoSchoolRecommand() {
-    //   this.$router.push({
-    //     name: "SchoolRecommand",
-    //     params: { tab: "favoriteSchool" },
-    //   });
-    // },
-    gotoZhiyuanbiao(wishNum){
-      // console.log('id',id)
-      // this.$router.push('/zhiyuanBiao')
-      if(wishNum===2){
-        // this.$router.push('/zhiyuanBiao')
-        this.$router.push({
-          path: "/zhiyuanBiao",
-          query: {
-            wishNum: 2,
-            listId:this.willTable[0].id
-          },
-        });
+    gotoZhiyuanbiao(length,wishNum){
+      if(length==2){
+        if(wishNum===2){
+          this.$router.push({
+            path: "/zhiyuanBiao",
+            query: {
+              wishNum: 2,
+              listId:this.willTable[0].id
+            },
+          });
+        }else{
+          this.$router.push({
+            path: "/zhiyuanBiao",
+            query: {
+              wishNum: 1,
+              listId:this.willTable[1].id
+            },
+          });
+        }
       }else{
         this.$router.push({
-          path: "/zhiyuanBiao",
-          query: {
-            wishNum: 1,
-            listId:this.willTable[1].id
-          },
-        });
+            path: "/zhiyuanBiao",
+            query: {
+              wishNum: 1,
+              listId:this.willTable[0].id
+            },
+          });
       }
+  
     },
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage;
-      // console.log(this.currentPage); //点击第几页
     },
     deleteSchoolClick(index) {
       let params = {

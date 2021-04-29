@@ -348,16 +348,12 @@ export default {
         // this.$set(this.threeList, _this.threeList);
         // console.log(_this.threeVideoList);
       });
-      getUserInfo().then((res)=>{
-        _this.phoneNum=res.data.phoneNum
-        getFitSchool({
+      getFitSchool({
           type: 0,
-          user: _this.phoneNum,
+          user: localStorage.getItem("phone"),
         }).then((res) => {
           this.recommandschoolList = res.data;
         });
-      })
-      
     },
     itemClick() {},
     gotoAllschool() {
