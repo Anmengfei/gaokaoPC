@@ -83,7 +83,8 @@
           </div>
           <div class="payClass">
             <el-button
-              type="primary"
+              type="warning"
+              :disabled="isShow"
               style="width: 1.2rem; height: 0.5rem"
               @click="pay_submit()"
               >立即支付</el-button
@@ -116,6 +117,7 @@ export default {
       checkCode: "",
       yuanmongey:'498',
       youhuimoney:'298',
+      isShow:true
     };
   },
   mounted() {
@@ -142,6 +144,8 @@ export default {
           this.code = res.code;
           if (res.code == 517) {
             this.orderId = res.data;
+            this.isShow=false
+
           } else if (res.code == 0) {
             this.orderId = res.data.outTradeNo;
           }
@@ -359,11 +363,11 @@ export default {
   color: rgb(0, 175, 240);
   cursor: pointer;
 }
-.el-button--primary {
+/* .el-button--primary {
   color: rgb(255, 255, 255);
   background-color: rgb(255, 150, 31);
   border-color: rgb(255, 150, 31);
-}
+} */
 .payClass {
   float: left;
   margin-top: 0.1rem;

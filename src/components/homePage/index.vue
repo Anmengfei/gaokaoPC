@@ -275,6 +275,7 @@ export default {
         "https://www.zytb.top/NEMT/gk/static/pc_img/lunbo01.png",
         "https://www.zytb.top/NEMT/gk/static/pc_img/lunbo03.png",
       ],
+      phoneNum:''
     };
   },
   // beforeCreate() {
@@ -313,16 +314,6 @@ export default {
     },
   },
   mounted() {
-    // if(localStorage.getItem("token") != null){
-    //   this.userInfo.biology == 1 ? this.subject.push("生物") : "";
-    //   this.userInfo.chemistry == 1 ? this.subject.push("化学") : "";
-    //   this.userInfo.geography == 1 ? this.subject.push("地理") : "";
-    //   this.userInfo.history == 1 ? this.subject.push("历史") : "";
-    //   this.userInfo.physics == 1 ? this.subject.push("物理") : "";
-    //   this.userInfo.politics == 1 ? this.subject.push("政治") : "";
-    //   this.getuserInfo()
-    // }
-
     this.initData();
     window.addEventListener("scroll", this.watchScroll);
     this.setBannerH();
@@ -333,7 +324,6 @@ export default {
       },
       false
     );
-    this.getInfo();
   },
 
   methods: {
@@ -341,18 +331,11 @@ export default {
       let _this = this;
       getFollowingList({
         examProvince:this.userInfo.examProvince
-      }
-      ).then(function (response) {
-        // console.log(response.data);
+      }).then(function (response) {
         _this.zixunList = response.data;
-        console.log('新接口测试一下文章',_this.zixunList)
-        // console.log(_this.zixunList);
-        // 使用push不用等号
         for (var i = 0; i < 3; i++) {
           _this.threeList.push(_this.zixunList[i]);
         }
-        // this.$set(this.threeList, _this.threeList);
-        // console.log(_this.threeList);
       });
       getAllIsLearning().then(function (response) {
         // console.log(response.data);
@@ -365,9 +348,17 @@ export default {
         // this.$set(this.threeList, _this.threeList);
         // console.log(_this.threeVideoList);
       });
-
+      getUserInfo().then((res)=>{
+        _this.phoneNum=res.data.phoneNum
+        getFitSchool({
+          type: 0,
+          user: _this.phoneNum,
+        }).then((res) => {
+          this.recommandschoolList = res.data;
+        });
+      })
+      
     },
-
     itemClick() {},
     gotoAllschool() {
       if (localStorage.getItem("token") != null) {
@@ -481,14 +472,7 @@ export default {
       }
     },
 
-    getInfo() {
-      getFitSchool({
-        type: 0,
-        user: this.userInfo.phoneNum,
-      }).then((res) => {
-        this.recommandschoolList = res.data;
-      });
-    },
+
     login() {
       this.$store.dispatch("getShowLogin", true);
     },
