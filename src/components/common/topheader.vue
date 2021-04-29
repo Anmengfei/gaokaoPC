@@ -88,7 +88,7 @@
           <div class="desc">
             <span class="top-hotline">全国服务热线:</span>
             <span class="hotline">400-168-6292</span>
-            <span class="tishiOne">祝广大考生金榜提名</span>
+            <span class="tishiOne">祝广大考生金榜题名</span>
 <!--            <span class="tishiTwo" v-if="vip == 0" @click="VIPClick">开通VIP</span>-->
             <span class="tishiTwo" style="cursor:default" v-if="vip == 1">VIP会员</span>
             <span class="tishiTwo" @click="VIPClick" v-else>开通VIP</span>
@@ -101,69 +101,68 @@
 </template>
 
 <script>
-import { getAllprovinces, getUserInfo, getsearchSchool } from "@/api/index";
+import { getUserInfo, getsearchSchool } from '@/api/index'
 export default {
-  name: "top-header",
-  data() {
+  name: 'top-header',
+  data () {
     return {
-      selectProvince: "",
-      searchValue: "",
+      selectProvince: '',
+      searchValue: '',
       userInfo: {},
       vip: this.$store.state.vip,
       provincesList: [],
-      collegename: "",
-      schooladvice: [],
-    };
-  },
-  mounted() {
-    // this.getProvincesinit();
-    if(localStorage.getItem("token") != null){
-      this.getInfo();
+      collegename: '',
+      schooladvice: []
     }
-
+  },
+  mounted () {
+    // this.getProvincesinit();
+    if (localStorage.getItem('token') != null) {
+      this.getInfo()
+    }
   },
   methods: {
-    gotoHome(){
-      this.$router.push("/");
+    gotoHome () {
+      this.$router.push('/')
     },
     // getProvincesinit() {
     //   getAllprovinces().then((res) => {
     //     this.provincesList = res.data;
     //   });
     // },
-    VIPClick() {
-      this.$router.push("/volunteerVIP");
+    VIPClick () {
+      this.$router.push('/volunteerVIP')
     },
-    getInfo() {
+    getInfo () {
       getUserInfo().then((res) => {
-        this.userInfo = res.data;
-        this.vip = this.userInfo.vip;
-        console.log("1111", this.userInfo);
-      });
+        this.userInfo = res.data
+        this.vip = this.userInfo.vip
+        console.log('1111', this.userInfo)
+      })
     },
-    querySearch(queryString, cb) {
+    querySearch (queryString, cb) {
       // 搜索框
       // console.log("ceshi", queryString, cb);
       getsearchSchool({
-        schoolName: queryString,
+        schoolName: queryString
       }).then((res) => {
         // console.log("mohu查询", res.data);
-        this.schooladvice = res.data;
-        cb(this.schooladvice);
-      });
+        this.schooladvice = res.data
+        cb(this.schooladvice)
+      })
     },
-    handleSelect(item) {
+    handleSelect (item) {
       // console.log("这是item");
       // console.log(item);
       this.$router.push({
-        path: "/SchoolInfo",
+        path: '/SchoolInfo',
         query: {
-          SchoolName: item.schoolName,
-        },
-      });
-    },
-  },
-};
+          SchoolName: item.schoolName
+        }
+      })
+    }
+  }
+}
 </script>
 
 <style scoped>

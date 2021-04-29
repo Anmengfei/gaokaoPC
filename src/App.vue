@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { getUserInfo } from '@/api/index'
 export default {
   name: 'App',
   provide () { // 父组件中通过provide来提供变量，在子组件中通过inject来注入变量。
@@ -25,9 +26,15 @@ export default {
     })
   },
   methods: {
-    saveState() {
-      // localStorage.setItem('state', JSON.stringify(this.$store.state))
-    },
+    // saveState () {
+    //   getUserInfo().then((res) => {
+    //     if (res.data.checked === 1) {
+    //     } else {
+    //       this.$store.dispatch('showuserInfo', true)
+    //     }
+    //   })
+    // localStorage.setItem('state', JSON.stringify(this.$store.state))
+    // },
     reload () {
       this.isRouterAlive = false // 先关闭，
       this.$nextTick(function () {

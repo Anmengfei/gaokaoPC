@@ -333,8 +333,13 @@ export default {
     showUserInfo () {
       return this.$store.state.showUserInfo
     },
-    userInfo () {
-      return this.$store.state.userinfo
+    userInfo: {
+      get () {
+        return this.$store.state.userinfo
+      },
+      set (val) {
+        this.$store.dispatch('getShowLogin', val)
+      }
     },
     showlogin: {
       get () {
@@ -498,19 +503,22 @@ export default {
             type: 'success'
           })
           localStorage.setItem('token', res.data.token)
+          localStorage.setItem('token22', res.data.token)
           localStorage.setItem('phone', res.data.userInfo.phoneNum)
           this.$store.dispatch('getShowLogin', false)
           getUserInfo().then((res) => {
             this.$store.dispatch('resUserInfo', res.data)
-            console.log('用户信息', this.userInfo)
-
-            this.$store.dispatch('getPhone', this.userInfo.phoneNum)
-            this.$store.dispatch('getVip', this.userInfo.vip)
+            console.log('用户信息', res.data)
+            this.$store.dispatch('getPhone', res.data)
+            this.$store.dispatch('getVip', res.data.userInfo.vip)
+            localStorage.setItem('checked', res.data.userInfo.checked)
             localStorage.setItem('state', JSON.stringify(this.$store.state))
           })
           if (res.data.userInfo.checked == 0) {
+            localStorage.removeItem('token')
             this.$store.dispatch('showuserInfo', true)
           } else {
+            localStorage.setItem('userInfo', res.data.userInfo)
             this.$router.push('/')
             this.reload()
           }

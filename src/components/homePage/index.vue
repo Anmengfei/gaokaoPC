@@ -225,26 +225,26 @@
 </template>
 
 <script>
-import TopHeader from "@/components/common/topheader";
-import HomeHeader from "@/components/common/header1";
-import Footer from "@/components/common/footer1";
-import EditScore from "@/components/common/editScore";
-import { getUserInfo } from "@/api/index";
+import TopHeader from '@/components/common/topheader'
+import HomeHeader from '@/components/common/header1'
+import Footer from '@/components/common/footer1'
+import EditScore from '@/components/common/editScore'
+import { getUserInfo } from '@/api/user'
 import {
   getAllIsLearning,
   getFitSchool,
-  getFollowingList,
-} from "@/api/index.js";
+  getFollowingList
+} from '@/api/index.js'
 
 export default {
-  name: "index",
+  name: 'index',
   components: { TopHeader, HomeHeader, Footer, EditScore },
-  data() {
+  data () {
     return {
-      score: "",
-      level: "",
+      score: '',
+      level: '',
       dialogVisible1: false,
-      videoUrl: "",
+      videoUrl: '',
       scoreDialog: false,
       recommandschoolList: [],
       zixunList: [],
@@ -252,25 +252,25 @@ export default {
       videoList: [],
       threeVideoList: [],
       form: {
-        name: "",
+        name: ''
       },
       subject: [],
-      userInfo: this.$store.state.userinfo,
+      userInfo: this.$store.state.userinfo == null ? '' : this.$store.state.userinfo,
       dialogVisible: false,
       loginStatus: false,
-      value1: "5",
+      value1: '5',
       navBarFixed: false,
-      bannerH: "",
+      bannerH: '',
       page: 1,
       size: 100,
       list: [],
       infoState: false,
-      flag_class: "未登录",
-      flag_state: "",
+      flag_class: '未登录',
+      flag_state: '',
 
-      selectProvince: "",
-      provincesList: ["北京", "上海", "广州", "深圳"],
-      searchValue: "",
+      selectProvince: '',
+      provincesList: ['北京', '上海', '广州', '深圳'],
+      searchValue: '',
       schna: [
         "https://www.zytb.top/NEMT/gk/static/pc_img/lunbo01.png",
         "https://www.zytb.top/NEMT/gk/static/pc_img/lunbo03.png",
@@ -282,68 +282,89 @@ export default {
   //   document.querySelector("body").setAttribute("style", "background:#f3f5f7;");
   // },
 
-  created() {
-    if (localStorage.getItem("token") != null) {
-      this.flag_state = true;
+  created () {
+    if (localStorage.getItem('token') != null && localStorage.getItem('token22') != null) {
+      this.flag_state = true
       getUserInfo().then((res) => {
-       this.userInfo = res.data;
-       this.$store.dispatch("resUserInfo", res.data).then(() => {
-         this.userInfo.biology == 1 ? this.subject.push("生物") : "";
-         this.userInfo.chemistry == 1 ? this.subject.push("化学") : "";
-         this.userInfo.geography == 1 ? this.subject.push("地理") : "";
-         this.userInfo.history == 1 ? this.subject.push("历史") : "";
-         this.userInfo.physics == 1 ? this.subject.push("物理") : "";
-         this.userInfo.politics == 1 ? this.subject.push("政治") : "";
-         this.getuserInfo()
-       })
-      });
+        this.userInfo = res.data
+        this.$store.dispatch('resUserInfo', res.data).then(() => {
+          this.userInfo.biology == 1 ? this.subject.push('生物') : ''
+          this.userInfo.chemistry == 1 ? this.subject.push('化学') : ''
+          this.userInfo.geography == 1 ? this.subject.push('地理') : ''
+          this.userInfo.history == 1 ? this.subject.push('历史') : ''
+          this.userInfo.physics == 1 ? this.subject.push('物理') : ''
+          this.userInfo.politics == 1 ? this.subject.push('政治') : ''
+        })
+      })
     } else {
-      this.flag_state = false;
+      this.flag_state = false
     }
   },
   computed: {
-    flag() {
-      return this.$store.state.showUserInfo;
+    flag () {
+      return this.$store.state.showUserInfo
     },
-    username() {
-      if (localStorage.getItem("name") === null) {
-        return "ceshi";
+    username () {
+      if (localStorage.getItem('name') === null) {
+        return 'ceshi'
       } else {
-        return localStorage.getItem("name");
+        return localStorage.getItem('name')
       }
-    },
+    }
   },
-  mounted() {
-    this.initData();
-    window.addEventListener("scroll", this.watchScroll);
-    this.setBannerH();
+  mounted () {
+    // if(localStorage.getItem("token") != null){
+    //   this.userInfo.biology == 1 ? this.subject.push("生物") : "";
+    //   this.userInfo.chemistry == 1 ? this.subject.push("化学") : "";
+    //   this.userInfo.geography == 1 ? this.subject.push("地理") : "";
+    //   this.userInfo.history == 1 ? this.subject.push("历史") : "";
+    //   this.userInfo.physics == 1 ? this.subject.push("物理") : "";
+    //   this.userInfo.politics == 1 ? this.subject.push("政治") : "";
+    //   this.getuserInfo()
+    // }
+    // this.initData()
+    // if (localStorage.getItem('token') != null || localStorage.getItem('token22') != null) {
+    this.initData()
+    window.addEventListener('scroll', this.watchScroll)
+    this.setBannerH()
     window.addEventListener(
-      "resize",
+      'resize',
       () => {
-        this.setBannerH();
+        this.setBannerH()
       },
       false
-    );
+    )
+    this.getInfo()
+    // } else {
+
+    // }
   },
 
   methods: {
-    initData() {
-      let _this = this;
+    initData () {
+      let _this = this
       getFollowingList({
-        examProvince:this.userInfo.examProvince
-      }).then(function (response) {
-        _this.zixunList = response.data;
+        examProvince: this.userInfo.examProvince !== null ? this.userInfo.examProvince : '山东省'
+      }
+      ).then(function (response) {
+        console.log(response.data)
+        _this.zixunList = response.data
+        console.log('新接口测试一下文章', _this.zixunList)
+        // console.log(_this.zixunList);
+        // 使用push不用等号
         for (var i = 0; i < 3; i++) {
-          _this.threeList.push(_this.zixunList[i]);
+          _this.threeList.push(_this.zixunList[i])
         }
-      });
+        // this.$set(this.threeList, _this.threeList);
+        // console.log(_this.threeList);
+      })
       getAllIsLearning().then(function (response) {
         // console.log(response.data);
-        _this.videoList = response.data;
+        _this.videoList = response.data
         // console.log(_this.videoList);
         // 使用push不用等号
         for (var i = 0; i < 3; i++) {
-          _this.threeVideoList.push(_this.videoList[i]);
+          _this.threeVideoList.push(_this.videoList[i])
         }
         // this.$set(this.threeList, _this.threeList);
         // console.log(_this.threeVideoList);
@@ -355,41 +376,42 @@ export default {
           this.recommandschoolList = res.data;
         });
     },
-    itemClick() {},
-    gotoAllschool() {
-      if (localStorage.getItem("token") != null) {
+
+    itemClick () {},
+    gotoAllschool () {
+      if (localStorage.getItem('token') != null) {
         this.$router.push({
-          name: "SchoolRecommand",
-          params: { tab: "favoriteSchool" },
-        });
+          name: 'SchoolRecommand',
+          params: { tab: 'favoriteSchool' }
+        })
       } else {
-        this.msgWarning("请先登录！");
+        this.msgWarning('请先登录！')
       }
     },
-    getuserInfo(){
-      getUserInfo().then((res) => {
-        this.userInfo = res.data;
-        console.log('获取学校的各种信息',this.userInfo)
-        this.userInfo.biology == 1 ? this.subject.push("生物") : "";
-        this.userInfo.chemistry == 1 ? this.subject.push("化学") : "";
-        this.userInfo.geography == 1 ? this.subject.push("地理") : "";
-        this.userInfo.history == 1 ? this.subject.push("历史") : "";
-        this.userInfo.physics == 1 ? this.subject.push("物理") : "";
-        this.userInfo.politics == 1 ? this.subject.push("政治") : "";
-      });
-    },
-    modifyScore() {
+    // getuserInfo () {
+    //   getUserInfo().then((res) => {
+    //     this.userInfo = res.data
+    //     console.log('获取学校的各种信息', this.userInfo)
+    //     this.userInfo.biology == 1 ? this.subject.push('生物') : ''
+    //     this.userInfo.chemistry == 1 ? this.subject.push('化学') : ''
+    //     this.userInfo.geography == 1 ? this.subject.push('地理') : ''
+    //     this.userInfo.history == 1 ? this.subject.push('历史') : ''
+    //     this.userInfo.physics == 1 ? this.subject.push('物理') : ''
+    //     this.userInfo.politics == 1 ? this.subject.push('政治') : ''
+    //   })
+    // },
+    modifyScore () {
       // console.log("123");
-      this.scoreDialog = true;
+      this.scoreDialog = true
     },
-    showVideo(item, index) {
-      this.videoUrl = item.address;
-      this.dialogVisible = true;
+    showVideo (item, index) {
+      this.videoUrl = item.address
+      this.dialogVisible = true
     },
     // 关闭视频
-    handleClose(done) {
-      this.videoUrl = "";
-      this.dialogVisible = false;
+    handleClose (done) {
+      this.videoUrl = ''
+      this.dialogVisible = false
     },
     // handleClose1(done) {
     //   this.$confirm("确认关闭？")
@@ -399,32 +421,32 @@ export default {
     //     .catch((_) => {});
 
     // },
-    selectZixun(item, index) {
+    selectZixun (item, index) {
       const { href } = this.$router.resolve({
-        name: "Article",
+        name: 'Article',
         query: {
-          article: item.id,
-        },
-      });
-      window.open(href, "_blank");
+          article: item.id
+        }
+      })
+      window.open(href, '_blank')
     },
-    openMore() {
+    openMore () {
       const { href } = this.$router.resolve({
-        name: "Guanzhu",
+        name: 'Guanzhu',
         query: {
-          examProvince: this.userInfo.examProvince,
-        },
-      });
-      window.open(href, "_blank");
+          examProvince: this.userInfo.examProvince !== null ? this.userInfo.examProvince : '山东省'
+        }
+      })
+      window.open(href, '_blank')
     },
-    openReport() {
+    openReport () {
       const { href } = this.$router.resolve({
-        name: "VideoList",
+        name: 'VideoList'
         // query: {
         //   article: item.id,
         // },
-      });
-      window.open(href, "_blank");
+      })
+      window.open(href, '_blank')
     },
     // selectZixun(item, index) {
     //   const { href } = this.$router.resolve({
@@ -435,7 +457,7 @@ export default {
     //   });
     //   window.open(href, "_blank");
     // },
-    selectSchoolItem(index, item) {
+    selectSchoolItem (index, item) {
       // console.log("index", index);
       // this.$router.push("/SchoolInfo");
       // const { href } = this.$router.resolve({
@@ -446,45 +468,52 @@ export default {
       // });
       // window.open(href, "_blank");
       this.$router.push({
-        path: "/SchoolInfo",
+        path: '/SchoolInfo',
         query: {
-          SchoolName: item.schoolName,
-        },
-      });
+          SchoolName: item.schoolName
+        }
+      })
     },
-    regist() {},
-    setBannerH() {
-      this.bannerH = document.body.clientWidth / 4;
+    regist () {},
+    setBannerH () {
+      this.bannerH = document.body.clientWidth / 4
     },
-    watchScroll() {
+    watchScroll () {
       var scrollTop =
         window.pageYOffset ||
         document.documentElement.scrollTop ||
-        document.body.scrollTop;
+        document.body.scrollTop
       if (scrollTop > 49) {
-        this.navBarFixed = true;
+        this.navBarFixed = true
       } else {
-        this.navBarFixed = false;
+        this.navBarFixed = false
       }
     },
 
-
-    login() {
-      this.$store.dispatch("getShowLogin", true);
+    getInfo () {
+      getFitSchool({
+        type: 0,
+        user: this.userInfo.phoneNum
+      }).then((res) => {
+        this.recommandschoolList = res.data
+      })
     },
-    openInfo() {
-      this.$confirm("请尽快完善个人资料", "提示信息", {
-        confirmButtonText: "立即前往",
-        type: "warning",
-        center: true,
+    login () {
+      this.$store.dispatch('getShowLogin', true)
+    },
+    openInfo () {
+      this.$confirm('请尽快完善个人资料', '提示信息', {
+        confirmButtonText: '立即前往',
+        type: 'warning',
+        center: true
       })
         .then(() => {
-          this.$router.push("/userSetting/personalInformation");
+          this.$router.push('/userSetting/personalInformation')
         })
-        .catch(() => {});
-    },
-  },
-};
+        .catch(() => {})
+    }
+  }
+}
 </script>
 
 <style scoped>

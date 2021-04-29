@@ -115,7 +115,6 @@
             <span class="hint" v-if="isShow">高考选科3+3模式，需要选择三门学科</span>
           </div>
 
-
         </el-form-item>
         <el-form-item>
           <div style="text-align: center"> <el-button type="primary" @click="submitForm('form')">提交</el-button>
@@ -128,171 +127,174 @@
 </template>
 
 <script>
-import { getAllprovinces ,getUserInfo } from "@/api/index";
-import { completeInformation } from "@/api/login";
+import { getAllprovinces, getUserInfo } from '@/api/index'
+import { completeInformation } from '@/api/user'
 import CascaderArea from '@/components/CascaderArea/index'
 
 export default {
 
-  inject:['reload'],
-  components:{
+  inject: ['reload'],
+  components: {
     CascaderArea
   },
-  data() {
+  data () {
     return {
-      pickerOptions:{
-        disabledDate(time) {
-          return time.getTime() < Date.now()-8.64e7;
-        },
+      pickerOptions: {
+        disabledDate (time) {
+          return time.getTime() < Date.now() - 8.64e7
+        }
       },
       isShow: false,
       isShow1: false,
       btnUser: true,
       placeholder1: false,
       form: {
-        address:[],
-        examYear: "2021",
-        examProvince: "",
-        examCity:"",
-        examCounty:"",
-        rank: "",
-        score: "",
-        biology:'0',
-        chemistry:'0',
-        geography:'0',
-        history:'0',
-        physics:'0',
-        politics:'0',
-        checkSubjectList:[],
-        checkSubjectList2:[]
+        address: [],
+        examYear: '2021',
+        examProvince: '',
+        examCity: '',
+        examCounty: '',
+        rank: '',
+        score: '',
+        biology: '0',
+        chemistry: '0',
+        geography: '0',
+        history: '0',
+        physics: '0',
+        politics: '0',
+        checkSubjectList: [],
+        checkSubjectList2: []
       },
-      address:[],
+      address: [],
       rules: {
-        examYear:[
-          { required: true, message: "请选择高考年份", trigger: "change" },
+        examYear: [
+          { required: true, message: '请选择高考年份', trigger: 'change' }
         ],
         address: [
-          { required: true, message: '请选择高考地区', trigger: "change" }
+          { required: true, message: '请选择高考地区', trigger: 'change' }
         ],
         checkSubjectList: [
-          { required: true, message: "请选择科目", trigger: "change" },
+          { required: true, message: '请选择科目', trigger: 'change' }
         ],
         checkSubjectList2: [
-          { required: true, message: "请选择科目", trigger: "change" },
+          { required: true, message: '请选择科目', trigger: 'change' }
         ],
         rank: [
-          { required: true, message: "请填写总分位次", trigger: "blur" },
+          { required: true, message: '请填写总分位次', trigger: 'blur' }
         ],
-       score: [
-          { required: true, message: "请填写高考总分", trigger: "blur" },
-        ],
+        score: [
+          { required: true, message: '请填写高考总分', trigger: 'blur' }
+        ]
       },
       provinceList: [],
-      subjects: ["物理", "化学", "生物", "政治", "历史", "地理"],
-      subjects1: ["物理",  "历史"],
-      subjects2: [ "化学", "生物", "政治",  "地理"],
-      checkSubjectList: [],
-    };
+      subjects: ['物理', '化学', '生物', '政治', '历史', '地理'],
+      subjects1: ['物理', '历史'],
+      subjects2: [ '化学', '生物', '政治', '地理'],
+      checkSubjectList: []
+    }
   },
-  mounted() {
-    this.getProvincesinit()
+  mounted () {
+    // this.getProvincesinit()
   },
-  computed:{
-    phoneNum() {
-      return localStorage.getItem("phone")
-    },
+  computed: {
+    phoneNum () {
+      return localStorage.getItem('phone')
+    }
   },
   methods: {
-    getProvincesinit() {
-      getAllprovinces().then((res) => {
-        this.provinceList = res.data;
-      });
-    },
-    submitForm(formName) {
-       var submit = this.form.checkSubjectList.concat(this.form.checkSubjectList2)
-      console.log('学科',this.form)
+    // getProvincesinit () {
+    //   getAllprovinces().then((res) => {
+    //     this.provinceList = res.data
+    //   })
+    // },
+    submitForm (formName) {
+      var submit = this.form.checkSubjectList.concat(this.form.checkSubjectList2)
+      console.log('学科', this.form)
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.form.examProvince = this.form.address[0];
-          this.form.examCity = this.form.address[1];
-          this.form.examCounty = this.form.address[2];
+          this.form.examProvince = this.form.address[0]
+          this.form.examCity = this.form.address[1]
+          this.form.examCounty = this.form.address[2]
           completeInformation({
-            biology: submit.includes('生物')?1:0,
-            chemistry:submit.includes('化学')?1:0,
-            examProvince:this.form.examProvince,
-            examCity:this.form.examCity,
-            examCounty:this.form.examCounty,
-            examYear:this.form.examYear,
-            geography:submit.includes('地理')?1:0,
-            history:submit.includes('历史')?1:0,
-            phoneNum:this.phoneNum,
-            physics:submit.includes('物理')?1:0,
-            politics:submit.includes('政治')?1:0,
-            rank:this.form.rank,
-            score:this.form.score,
-          }).then( res => {
-            if(res.code == 0){
+            biology: submit.includes('生物') ? 1 : 0,
+            chemistry: submit.includes('化学') ? 1 : 0,
+            examProvince: this.form.examProvince,
+            examCity: this.form.examCity,
+            examCounty: this.form.examCounty,
+            examYear: this.form.examYear,
+            geography: submit.includes('地理') ? 1 : 0,
+            history: submit.includes('历史') ? 1 : 0,
+            phoneNum: this.phoneNum,
+            physics: submit.includes('物理') ? 1 : 0,
+            politics: submit.includes('政治') ? 1 : 0,
+            rank: this.form.rank,
+            score: this.form.score
+          }).then(res => {
+            if (res.code == 0) {
               this.msgSuccess('提交成功')
+              localStorage.setItem('checked', 1)
+              localStorage.setItem('token', localStorage.getItem('token22'))
               getUserInfo().then((res) => {
-                this.$store.dispatch("resUserInfo", res.data).then(() => {
-                  this.$store.dispatch("getPhone", res.data.phoneNum);
-                  this.$store.dispatch("getVip", res.data.vip);
+                localStorage.setItem('userInfo', res.data)
+                this.$store.dispatch('resUserInfo', res.data).then(() => {
+                  this.$store.dispatch('getPhone', res.data.phoneNum)
+                  this.$store.dispatch('getVip', res.data.vip)
                   localStorage.setItem('state', JSON.stringify(this.$store.state))
                   this.$store.dispatch('showuserInfo', false)
                 })
-              });
-              this.$router.push("/");
-              this.reload();
+              })
+              this.$router.push('/')
+              this.reload()
             }
-            console.log('提交用户',res)
+            console.log('提交用户', res)
           })
         } else {
           this.$store.dispatch('showuserInfo', true)
           this.msgError('信息提交失败，请重新填写')
           // return false;
         }
-      });
+      })
     },
-    resetForm(formName) {
-      console.log('4444',this.address)
-      this.$refs[formName].resetFields();
+    resetForm (formName) {
+      console.log('4444', this.address)
+      this.$refs[formName].resetFields()
     },
-    selectSubject(val) {
+    selectSubject (val) {
       this.form.checkSubjectList = val
-      console.log('val',val)
+      console.log('val', val)
       if (val.length < 3) {
-        this.isShow = true;
-      }else {
+        this.isShow = true
+      } else {
         this.isShow = false
       }
     },
-    selectSubject1(val) {
+    selectSubject1 (val) {
       this.form.checkSubjectList = val
-      console.log('val',val)
+      console.log('val', val)
       if (this.form.checkSubjectList.length < 1) {
-        this.isShow1 = true;
-      }else {
+        this.isShow1 = true
+      } else {
         this.isShow1 = false
       }
     },
-    selectSubject2(val) {
+    selectSubject2 (val) {
       this.form.checkSubjectList2 = val
-      console.log('val',val)
+      console.log('val', val)
       if (this.form.checkSubjectList2.length < 2) {
-        this.isShow1 = true;
-      }else {
+        this.isShow1 = true
+      } else {
         this.isShow1 = false
       }
     },
-    handClick() {
+    handClick () {
       this.form.checkSubjectList = []
       this.form.checkSubjectList2 = []
       // this.placeholder1 = true;
       // console.log(this.placeholder1);
-    },
+    }
 
-  },
-};
+  }
+}
 </script>
 
 <style scoped>
@@ -331,6 +333,5 @@ export default {
 .input-style >>> .el-input__inner {
   border-radius: 10px;
 }
-
 
 </style>

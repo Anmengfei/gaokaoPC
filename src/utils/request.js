@@ -1,6 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
-import {getToken} from "./auth";
+import {getToken} from './auth'
 // 创建axios实例
 const service = axios.create({
   baseURL: 'https://www.zytb.top/NEMT/gk/'

@@ -1,5 +1,8 @@
 <template>
-  <div class="app-container">
+  <div class="app-container"  v-loading="loading"
+       element-loading-text="院校推荐计算中"
+       element-loading-spinner="el-icon-loading"
+       element-loading-background="rgba(229, 98, 63, 0.1)">
     <div class="container">
       <ul>
         <li v-for="(item, index) in schoolList" :key="index">
@@ -133,18 +136,18 @@
 </template>
 
 <script>
-import { getAllSchool } from "../../api/schoolInfo";
-import { getUserInfo } from "../../api/index";
+import { getAllSchool } from '../../api/schoolInfo'
+import { getUserInfo } from '../../api/index'
 export default {
-  name: "schoolList",
-  props: ["selected", "volform"],
-  mounted() {
-    this.getAllSchoolData(this.pageInfo.pagenum);
+  name: 'schoolList',
+  props: ['selected', 'volform'],
+  mounted () {
+    this.getAllSchoolData(this.pageInfo.pagenum)
     // this.initData()
   },
-  data() {
+  data () {
     return {
-      activeName: "first",
+      activeName: 'first',
       btnFlag: [true, true, true, true, true, true, true, true, true, true], // 控制显示“选择意向专业”“收起专业”
       majorShow: [
         false,
@@ -156,68 +159,70 @@ export default {
         false,
         false,
         false,
-        false,
+        false
       ], // 控制显示“学校专业”
       schoolList: [],
       pageInfo: {
         pagenum: 0, // 当前页数
         pagesize: 10, // 每页条数
-        pagetotal: 0, // 总条目数
+        pagetotal: 0 // 总条目数
       },
       pageRecord: 0, // 用于记录每次点击的页号
       selectnecess: {},
       majorlist: [], // 专业列表
-      addWillFlagofSchool: "",
+      addWillFlagofSchool: '',
       addWillFlag: -1, // 判断加入志愿按钮是否变灰
       userInfoList: [],
-    };
+      loading: true
+    }
   },
   watch: {
     selected: {
-      handler() {
-        this.getAllSchoolData(this.pageInfo.pagenum);
+      handler () {
+        this.getAllSchoolData(this.pageInfo.pagenum)
       },
       immediate: true,
-      deep: true,
+      deep: true
     },
     volform: {
-      handler(newValue, oldvalue) {
+      handler (newValue, oldvalue) {
         // console.log("数据改变", newValue, oldvalue);
         // console.log("this.pageInfo.pagenum的值", this.pageInfo.pagenum);
         // 1.向志愿表单添加数据（新数据长度>旧数据长度）--不执行操作  2.从志愿表单删除或清空数据（新数据长度<=旧数据长度）--执行操作
         if (newValue.length <= oldvalue.length) {
           // 将已经加入志愿表单的学校的按钮状态置为灰色
-          this.getAllSchoolData(this.pageRecord);
+          this.getAllSchoolData(this.pageRecord)
         }
-      },
-    },
+      }
+    }
   },
   methods: {
-    btnShow(id, majorls) {
-      this.$set(this.btnFlag, id, !this.btnFlag[id]);
-      this.$set(this.majorShow, id, !this.majorShow[id]);
+    btnShow (id, majorls) {
+      this.$set(this.btnFlag, id, !this.btnFlag[id])
+      this.$set(this.majorShow, id, !this.majorShow[id])
       // console.log('专业列表', majorls)
-      this.majorlist = majorls;
+      this.majorlist = majorls
     },
-    getAllSchoolData(pagenum) {
-      getUserInfo(localStorage.getItem("token")).then((res) => {
-        this.userInfoList = res.data;
+    getAllSchoolData (pagenum) {
+      getUserInfo(localStorage.getItem('token')).then((res) => {
+        this.userInfoList = res.data
 
         getAllSchool({
           provinces: this.selected.provinceSelect,
           schoolTypes: this.selected.typeSelect,
           feature: this.selected.levelSelect,
           page: pagenum,
-          rank:this.userInfoList.rank,
+          rank: this.userInfoList.rank,
           examProvince: this.userInfoList.examProvince,
           score: this.userInfoList.score,
-          token: localStorage.getItem("token")
+          token: localStorage.getItem('token')
           // size: 10,
         }).then((res) => {
           if (res.status === 200) {
-            console.log('获取学校的总数量',res)
-            this.pageInfo.pagetotal=res.data.data.total
-            this.schoolList = res.data.data.list;
+            // this.schoolList = res.data;
+            console.log('获取学校的总数量', res)
+            this.pageInfo.pagetotal = res.data.data.total
+            this.schoolList = res.data.data.list
             // for (let i = 0; i < this.schoolList.length; ++i) { // 为每一条数据的专业信息添加一条标志位flag=-1
             //   for (let j = 0; j < this.schoolList[i].majors.length; ++j) {
             //     this.schoolList[i].majors[j].flag = -1
@@ -232,17 +237,18 @@ export default {
                     this.volform[k].schoolName ===
                       this.schoolList[i].majors[j].schoolName
                   ) {
-                    this.schoolList[i].majors[j].flag = i + "" + j;
+                    this.schoolList[i].majors[j].flag = i + '' + j
                   }
                 }
               }
             }
+            this.loading = false
           } else {
-            this.$message.error("无法取得数据");
+            this.$message.error('无法取得数据')
             // console.log('无法取得数据')
           }
-        });
-      });
+        })
+      })
     },
     // initData(){
     //   console.log('你是一个邵碧')
@@ -258,8 +264,8 @@ export default {
     //     }))
     //   })
     // },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+    handleCurrentChange (val) {
+      console.log(`当前页: ${val}`)
       // 分页器执行函数
       this.btnFlag = [
         true,
@@ -271,8 +277,8 @@ export default {
         true,
         true,
         true,
-        true,
-      ];
+        true
+      ]
       this.majorShow = [
         false,
         false,
@@ -283,28 +289,29 @@ export default {
         false,
         false,
         false,
-        false,
-      ];
-      let page = val;
-      this.pageRecord = page;
-      let pagenum=val-1;
-      console.log(val,'val')
-      console.log(pagenum,'pagenum')
-      this.getAllSchoolData(pagenum);
+        false
+      ]
+      let page = val
+      this.pageRecord = page
+      let pagenum = val - 1
+      console.log(val, 'val')
+      console.log(pagenum, 'pagenum')
+      this.getAllSchoolData(pagenum)
     },
-    addForm(index, item1, index1) {
+    addForm (index, item1, index1) {
       // 加入志愿表单函数
-      this.$emit("addform", item1);
-      item1.flag = index + "" + index1;
+      this.$emit('addform', item1)
+      item1.flag = index + '' + index1
       // this.$forceUpdate() // 数据更新之后，强制试图更新
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>
 .container {
   width: 100%;
+  min-height: 500px;
 }
 .container ul li {
   overflow: auto;
