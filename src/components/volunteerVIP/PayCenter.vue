@@ -100,33 +100,33 @@
 </template>
 
 <script>
-import TopHeader from "@/components/common/topheader";
-import HomeHeader from "@/components/common/header1";
-import Footer from "@/components/common/footer1";
-import { getUserInfo, addPayOrder, orderPayState,getyouhuimoney,getyuanmoney } from "@/api/index.js";
+import TopHeader from '@/components/common/topheader'
+import HomeHeader from '@/components/common/header1'
+import Footer from '@/components/common/footer1'
+import { getUserInfo, addPayOrder, orderPayState, getyouhuimoney, getyuanmoney } from '@/api/index.js'
 export default {
   components: { TopHeader, HomeHeader, Footer },
-  data() {
+  data () {
     return {
-      radio: "1",
+      radio: '1',
       userInfoList: [],
-      Paycode: "",
+      Paycode: '',
       code_show: false,
-      maver: "",
-      orderId: "",
-      checkCode: "",
-      yuanmongey:'498',
-      youhuimoney:'298',
-      isShow:true
-    };
+      maver: '',
+      orderId: '',
+      checkCode: '',
+      yuanmongey: '',
+      youhuimoney: '',
+      isShow: true
+    }
   },
-  mounted() {
+  mounted () {
     // this.orderId = this.$route.query.orderId;
-    this.initData();
+    this.initData()
     this.getmoney()
   },
   methods: {
-    getmoney(){
+    getmoney () {
       getyouhuimoney().then(res => {
         this.youhuimoney = res.data
       })
@@ -134,74 +134,73 @@ export default {
         this.yuanmongey = res.data
       })
     },
-    initData() {
-      getUserInfo(localStorage.getItem("token")).then((res) => {
-        this.userInfoList = res.data;
+    initData () {
+      getUserInfo(localStorage.getItem('token')).then((res) => {
+        this.userInfoList = res.data
         var params = {
-          phoneNum: this.userInfoList.phoneNum,
-        };
+          phoneNum: this.userInfoList.phoneNum
+        }
         addPayOrder(params).then((res) => {
-          this.code = res.code;
+          this.code = res.code
           if (res.code == 517) {
-            this.orderId = res.data;
-            this.isShow=false
-
+            this.orderId = res.data
+            this.isShow = false
           } else if (res.code == 0) {
-            this.orderId = res.data.outTradeNo;
+            this.orderId = res.data.outTradeNo
           }
-        });
-      });
+        })
+      })
     },
-    pay_submit() {
+    pay_submit () {
       // var url = `https://www.zytb.top/NEMT/gk/PCpay/weiXinPay?phoneNum=${this.userInfoList.phoneNum}`;
       // var url = `https://www.zytb.top/NEMT/gk/PCpay/weiXinPay?phoneNum="13465631985"`;
-      var url = `https://www.zytb.top/NEMT/gk/PCpay/weiXinPay?out_trade_no=${this.orderId}`;
-      this.Paycode = url;
-      this.code_show = true;
+      var url = `https://www.zytb.top/NEMT/gk/PCpay/weiXinPay?out_trade_no=${this.orderId}`
+      this.Paycode = url
+      this.code_show = true
       this.maver = setInterval(() => {
-        this.checkPay();
-      }, 1000);
+        this.checkPay()
+      }, 1000)
     },
-    checkPay() {
+    checkPay () {
       // var params = { out_trade_no: this.orderId };
       // orderPayState(params).then((res) => {
       //   console.log("VVV" + res);
       // });
 
-      var url = `https://www.zytb.top/NEMT/gk/PCpay/orderPayState?out_trade_no=${this.orderId}`;
+      var url = `https://www.zytb.top/NEMT/gk/PCpay/orderPayState?out_trade_no=${this.orderId}`
       this.$axios
         .get(url, {
-          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+          headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
         })
         .then((res) => {
-          console.log("AAA" + res.data.code);
+          console.log('AAA' + res.data.code)
           // console.log("BBB" + res.data.msg);
-          this.checkCode = res.data.code;
+          this.checkCode = res.data.code
           // console.log(res.data.msg);
-          console.log("hahahahah+++++" + this.checkCode);
+          console.log('hahahahah+++++' + this.checkCode)
           if (this.checkCode === 1) {
-            this.code_show = false;
-            document.body.style.overflow = "";
-            clearInterval(this.maver);
-            this.PaySuccessPage();
+            this.code_show = false
+            document.body.style.overflow = ''
+            clearInterval(this.maver)
+            this.PaySuccessPage()
           }
-        });
+        })
     },
-    PaySuccessPage() {
-      this.$message({ type: "success", message: "支付成功" });
+    PaySuccessPage () {
+      this.$message({ type: 'success', message: '支付成功' })
       getUserInfo().then((res) => {
-        this.$store.dispatch("getVip", res.data.vip);
-        this.$store.dispatch("resUserInfo", res.data);
+        this.$store.dispatch('getVip', res.data.vip)
+        this.$store.dispatch('resUserInfo', res.data)
         localStorage.setItem('state', JSON.stringify(this.$store.state))
-      });
+      })
       // alert("支付成功！欢迎下次光临");
-      this.$router.push("/volunteerVIP");
+      this.$router.push('/volunteerVIP')
     },
-    closeClick() {
-      clearInterval(this.maver);
-    },
-  },
-};
+    closeClick () {
+      clearInterval(this.maver)
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -313,7 +312,7 @@ export default {
 
 .weChatPay{
   text-align: center;
-  
+
 }
 
 .wechatImg {
@@ -419,4 +418,3 @@ export default {
   text-align: center;
 }
 </style>
-

@@ -720,6 +720,7 @@ export default {
       }
       getAllHandleWishId(params).then((res) => {
         this.listId = res.data
+        console.log('id', this.listId)
         let params = {
           listId: this.listId
         }
@@ -965,6 +966,7 @@ export default {
       if (this.volForm.length == 0) {
         this.dialogVisible3 = true
       } else {
+        console.log('volForm', this.volForm)
         for (let i = 0; i < this.volForm.length; i++) {
           const map = {}
           map.chance = this.volForm[i].risk || this.volForm[i].chances
@@ -975,6 +977,7 @@ export default {
           map.wishNum = i
           this.zhiyuanFormatList.push(map)
         }
+        console.log('this.zhiyuanFormatList', this.zhiyuanFormatList)
         var url = 'https://www.zytb.top/NEMT/gk/userPC/changeWishListPC'
         axios({
           method: 'post',
@@ -988,6 +991,7 @@ export default {
             token: localStorage.getItem('token')
           }
         }).then((res) => {
+          console.log('res', res)
           this.$router.push('/zhiyuanBiao')
         })
       }

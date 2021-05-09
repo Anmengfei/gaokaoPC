@@ -220,173 +220,188 @@
 </template>
 
 <script>
-import TopHeader from "@/components/common/topheader";
-import HomeHeader from "@/components/common/header1";
-import Footer from "@/components/common/footer1";
-import { getUserInfo } from "@/api/index.js";
-import { getAllFollowMajor } from "@/api/index.js";
-import { getAllFollowSchool } from "@/api/index.js";
-import { getWishListByphoneNum } from "@/api/WishList";
+import TopHeader from '@/components/common/topheader'
+import HomeHeader from '@/components/common/header1'
+import Footer from '@/components/common/footer1'
+import { getUserInfo, getAllFollowMajor, getAllFollowSchool, unfollowMajor } from '@/api/index.js'
+
+import { getWishListByphoneNum } from '@/api/WishList'
 // import { getAllHandleWishId } from "@/api/index";
-import { unfollowSchool } from "@/api/index.js";
-import { unfollowMajor } from "@/api/index.js";
+import { unfollowSchool } from '@/api/index.js'
+
 export default {
-  name: "zhiyuan",
+  name: 'zhiyuan',
   components: { TopHeader, HomeHeader, Footer},
-  data() {
+  data () {
     return {
-        tabPosition: 'left',
-        userInfoList: [],
-        AllFollowMajorList: [],
-        AllFollowSchoolList: [],
-        MajorLength: 0,
-        SchoolLength: 0,
-        vipbtn: false,
-        vipword: "开通vip",
-        endTime:[],
-        endtime:[],
-        willTable: [], // 志愿表数据
-        phoneNum: "",
-        volform: [], // 查看按钮取得的数据
-        listId:0,
-        pageSchoolsize: 4,
-        pageMajorsize: 5,
-        currentPage: 1,
-        phoneNum: "",
-        minHeight:0,
-    };
-  },
-  mounted() {
-    // 动态设置内容高度，让footer始终居于底部
-    this.minHeight=document.documentElement.clientHeight-150
-    // 监听浏览器窗口变化
-    window.onresize=function(){
-      this.minHeight=document.documentElement.clientHeight-150
+      tabPosition: 'left',
+      userInfoList: [],
+      AllFollowMajorList: [],
+      AllFollowSchoolList: [],
+      MajorLength: 0,
+      SchoolLength: 0,
+      vipbtn: false,
+      vipword: '开通vip',
+      endTime: [],
+      endtime: [],
+      willTable: [], // 志愿表数据
+      phoneNum: '',
+      volform: [], // 查看按钮取得的数据
+      listId: 0,
+      pageSchoolsize: 4,
+      pageMajorsize: 5,
+      currentPage: 1,
+      phoneNum: '',
+      minHeight: 0
     }
-    this.initData();
-    this.phoneNum = localStorage.getItem("phone");
-    this.getWishTable(this.phoneNum);
+  },
+  mounted () {
+    // 动态设置内容高度，让footer始终居于底部
+    this.minHeight = document.documentElement.clientHeight - 150
+    // 监听浏览器窗口变化
+    window.onresize = function () {
+      this.minHeight = document.documentElement.clientHeight - 150
+    }
+    this.initData()
+    this.phoneNum = localStorage.getItem('phone')
+    this.getWishTable(this.phoneNum)
   },
   methods: {
-    initData() {
-      getUserInfo(localStorage.getItem("token")).then((res) => {
-        this.userInfoList = res.data;
+    initData () {
+      getUserInfo(localStorage.getItem('token')).then((res) => {
+        this.userInfoList = res.data
         if (this.userInfoList.vip == 0) {
-          this.vipbtn = false;
+          this.vipbtn = false
         } else {
-          this.vipbtn = true;
+          this.vipbtn = true
           // this.endTime=this.userInfoList.endTime.split("")
-          this.endTime=this.userInfoList.endTime.replace(/\"/g, "")
-          this.endtime=this.endTime.slice(0,11)
+          this.endTime = this.userInfoList.endTime.replace(/\"/g, '')
+          this.endtime = this.endTime.slice(0, 11)
           // this.vipword = "已开通VIP";
         }
         let params = {
-          phoneNum: parseInt(this.userInfoList.phoneNum),
-        };
+          phoneNum: parseInt(this.userInfoList.phoneNum)
+        }
         getAllFollowMajor(params).then((res) => {
-          this.AllFollowMajorList=res.data;
-          if(res.data === null){
-            this.AllFollowMajorList=[];
-            this.MajorLength = 0;
-          }else{
-            this.MajorLength = this.AllFollowMajorList.length;
+          this.AllFollowMajorList = res.data
+          if (res.data === null) {
+            this.AllFollowMajorList = []
+            this.MajorLength = 0
+          } else {
+            this.MajorLength = this.AllFollowMajorList.length
           }
-          
-        });
+        })
         getAllFollowSchool(params).then((res) => {
-          this.AllFollowSchoolList=res.data
+          this.AllFollowSchoolList = res.data
           // console.log('查看一下获取学校的数量',this.AllFollowSchoolList)
-          if(res.data === null){
-            this.AllFollowSchoolList=[];
-            this.SchoolLength=0;
-          }else{
-            this.SchoolLength= this.AllFollowSchoolList.length;
+          if (res.data === null) {
+            this.AllFollowSchoolList = []
+            this.SchoolLength = 0
+          } else {
+            this.SchoolLength = this.AllFollowSchoolList.length
           }
-        });
-      });
+        })
+      })
     },
-    getWishTable(phoneNum) {
+    getWishTable (phoneNum) {
       getWishListByphoneNum(phoneNum).then((res) => {
-        if (res.data.msg === "成功") {
+        if (res.data.msg === '成功') {
           for (let i = 0; i < res.data.data.length; ++i) {
             res.data.data[i].userInformation = res.data.data[i].userInformation.split(
-              "|"
-            );
+              '|'
+            )
           }
-          this.willTable = res.data.data;
-          if(this.willTable.length==2){
-            if(this.willTable[0].wishNum<this.willTable[1].wishNum){
-              let a=this.willTable[0];
-              this.willTable[0]=this.willTable[1];
-              this.willTable[1]=a
+          this.willTable = res.data.data
+          console.log('this.willTable', this.willTable)
+          if (this.willTable.length === 2) {
+            if (this.willTable[0].wishNum < this.willTable[1].wishNum) {
+              let a = this.willTable[0]
+              this.willTable[0] = this.willTable[1]
+              this.willTable[1] = a
             }
-          }else{
-            this.willTable = res.data.data;
+          } else {
+            this.willTable = res.data.data
           }
         }
-      });
+      })
     },
-    gotoZhiyuanbiao(length,wishNum){
-      if(length==2){
-        if(wishNum===2){
-          this.$router.push({
-            path: "/zhiyuanBiao",
-            query: {
-              wishNum: 2,
-              listId:this.willTable[0].id
-            },
-          });
-        }else{
-          this.$router.push({
-            path: "/zhiyuanBiao",
-            query: {
-              wishNum: 1,
-              listId:this.willTable[1].id
-            },
-          });
-        }
-      }else{
+    gotoZhiyuanbiao (length, wishNum) {
+      if (wishNum == 2) {
         this.$router.push({
-            path: "/zhiyuanBiao",
-            query: {
-              wishNum: 1,
-              listId:this.willTable[0].id
-            },
-          });
+          path: '/zhiyuanBiao',
+          query: {
+            wishNum: 2,
+            listId: this.willTable[1].id
+          }
+        })
+      } else {
+        this.$router.push({
+          path: '/zhiyuanBiao',
+          query: {
+            wishNum: 1,
+            listId: this.willTable[0].id
+          }
+        })
       }
-  
+      // if (length === 2) {
+      //   if (wishNum === 2) {
+      //     this.$router.push({
+      //       path: '/zhiyuanBiao',
+      //       query: {
+      //         wishNum: 2,
+      //         listId: this.willTable[0].id
+      //       }
+      //     })
+      //   } else {
+      //     this.$router.push({
+      //       path: '/zhiyuanBiao',
+      //       query: {
+      //         wishNum: 1,
+      //         listId: this.willTable[1].id
+      //       }
+      //     })
+      //   }
+      // } else {
+      //   this.$router.push({
+      //     path: '/zhiyuanBiao',
+      //     query: {
+      //       wishNum: 1,
+      //       listId: this.willTable[0].id
+      //     }
+      //   })
+      // }
     },
-    handleCurrentChange(currentPage) {
-      this.currentPage = currentPage;
+    handleCurrentChange (currentPage) {
+      this.currentPage = currentPage
     },
-    deleteSchoolClick(index) {
+    deleteSchoolClick (index) {
       let params = {
         phoneNum: this.phoneNum,
-        schoolName: this.AllFollowSchoolList[index].followName,
-      };
+        schoolName: this.AllFollowSchoolList[index].followName
+      }
       unfollowSchool(params).then((res) => {
         // console.log(res);
         // console.log("删除成功");
-        this.AllFollowSchoolList.splice(index, 1);
-      });
+        this.AllFollowSchoolList.splice(index, 1)
+      })
     },
-    deleteMajorClick(index) {
-      console.log("删除成功",index);
+    deleteMajorClick (index) {
+      console.log('删除成功', index)
       let params = {
         majorName: this.AllFollowMajorList[index].followName,
-        phoneNum: this.phoneNum,
-      };
+        phoneNum: this.phoneNum
+      }
       unfollowMajor(params).then((res) => {
         // console.log(res);
-        console.log("删除成功");
-        this.AllFollowMajorList.splice(index, 1);
-      });
-    }, 
-    VIPClick(){
+        console.log('删除成功')
+        this.AllFollowMajorList.splice(index, 1)
+      })
+    },
+    VIPClick () {
       this.$router.push('/volunteerVIP')
-    } 
-  },
-};
+    }
+  }
+}
 </script>
 <style scoped>
 
@@ -634,6 +649,5 @@ export default {
   float: right;
   margin-top: -0.4rem;
 }
-
 
 </style>

@@ -272,11 +272,11 @@ export default {
       provincesList: ['北京', '上海', '广州', '深圳'],
       searchValue: '',
       schna: [
-        "https://www.zytb.top/NEMT/gk/static/pc_img/lunbo01.png",
-        "https://www.zytb.top/NEMT/gk/static/pc_img/lunbo03.png",
+        'https://www.zytb.top/NEMT/gk/static/pc_img/lunbo01.png',
+        'https://www.zytb.top/NEMT/gk/static/pc_img/lunbo03.png'
       ],
-      phoneNum:''
-    };
+      phoneNum: ''
+    }
   },
   // beforeCreate() {
   //   document.querySelector("body").setAttribute("style", "background:#f3f5f7;");
@@ -368,13 +368,16 @@ export default {
         }
         // this.$set(this.threeList, _this.threeList);
         // console.log(_this.threeVideoList);
-      });
+      })
       getFitSchool({
-          type: 0,
-          user: localStorage.getItem("phone"),
-        }).then((res) => {
-          this.recommandschoolList = res.data;
-        });
+        type: 0,
+        user: localStorage.getItem('phone')
+      }).then((res) => {
+        this.recommandschoolList = res.data
+        if (this.recommandschoolList.logo == null) {
+          this.recommandschoolList.logo = '@/assets/college.png'
+        }
+      })
     },
 
     itemClick () {},

@@ -9,7 +9,7 @@
           <el-row>
             <el-col :span="2">
               <div class="icon">
-                <img v-if="!(item.logoPath==null)" class="schoologo" :src="item.logoPath" />
+                <img v-if="!(item.logoPath==null || item.logoPath == '')" class="schoologo" :src="item.logoPath" />
                 <img v-else class="schoologo1" src="../../assets/学校.png">
               </div>
             </el-col>
@@ -81,7 +81,7 @@
                             >{{ item1.risk }}</span
                           >
                           <span class="name">{{ item1.majorName }}</span>
-                          <span class="evaluation">{{ item1.evaluation }}</span>
+<!--                          <span class="evaluation">{{ item1.evaluation }}</span>-->
                         </div>
 
                         <div class="desc">
@@ -296,6 +296,7 @@ export default {
       let pagenum = val - 1
       console.log(val, 'val')
       console.log(pagenum, 'pagenum')
+      this.loading = true
       this.getAllSchoolData(pagenum)
     },
     addForm (index, item1, index1) {

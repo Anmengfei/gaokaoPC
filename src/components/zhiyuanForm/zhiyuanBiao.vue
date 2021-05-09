@@ -115,110 +115,107 @@
 </template>
 
 <script>
-import axios from "axios";
-import qs from "qs";
-import TopHeader from "@/components/common/topheader";
-import HomeHeader from "@/components/common/header1";
-import Footer from "@/components/common/footer1";
-import { getToken } from "@/utils/auth.js";
-import { addWishListPC } from "../../api/WishList";
-import { changeWishListPC } from "../../api/WishList";
-import { updateWishListPC } from "../../api/WishList";
-import header1 from "../common/header1";
-import { getUserInfo } from "@/api/index.js";
-import { getAllWishByListId2,getAllHandleWishId } from "@/api/index";
+import axios from 'axios'
+import qs from 'qs'
+import TopHeader from '@/components/common/topheader'
+import HomeHeader from '@/components/common/header1'
+import Footer from '@/components/common/footer1'
+import { getToken } from '@/utils/auth.js'
+import { addWishListPC, changeWishListPC, updateWishListPC } from '../../api/WishList'
+
+import header1 from '../common/header1'
+import { getUserInfo } from '@/api/index.js'
+import { getAllWishByListId2, getAllHandleWishId } from '@/api/index'
 export default {
-  name: "zhiyuanBiao",
+  name: 'zhiyuanBiao',
   components: { TopHeader, HomeHeader, Footer },
-  mounted() {
+  mounted () {
     // console.log('this.$route.query.voluntary',this.$route.query.voluntary)
-    this.initData(this.$route.query.wishNum,this.$route.query.listId);
+    this.initData(this.$route.query.wishNum, this.$route.query.listId)
     // this.getAllData();
-    this.setTableColor();
+    this.setTableColor()
   },
-  data() {
+  data () {
     return {
       zhiyuanTableList: [],
       zhiyuanFormatList: [], // 保存传给接口的数据，调整数据格式
-      shuzuId:[],
-      userInfoList:[],
-      majorList:[],
-      listId:0,
-      physics:0,
-      biology:0,
-      chemistry:0,
-      history:0,
-      politics:0,
-      geography:0,
-      ModifyShow:true
-    };
+      shuzuId: [],
+      userInfoList: [],
+      majorList: [],
+      listId: 0,
+      physics: 0,
+      biology: 0,
+      chemistry: 0,
+      history: 0,
+      politics: 0,
+      geography: 0,
+      ModifyShow: true
+    }
   },
   methods: {
-    initData(wishNum,listId){
-      getUserInfo(localStorage.getItem("token")).then((res) => {
-        this.userInfoList = res.data;
-        if(this.userInfoList.physics===1){
-          this.physics="物理",
+    initData (wishNum, listId) {
+      getUserInfo(localStorage.getItem('token')).then((res) => {
+        this.userInfoList = res.data
+        if (this.userInfoList.physics === 1) {
+          this.physics = '物理',
           this.majorList.push(this.physics)
-        } 
-        if(this.userInfoList.chemistry===1){
-          this.chemistry="化学",
+        }
+        if (this.userInfoList.chemistry === 1) {
+          this.chemistry = '化学',
           this.majorList.push(this.chemistry)
-        } 
-        if(this.userInfoList.biology===1){
-          this.biology="生物",
+        }
+        if (this.userInfoList.biology === 1) {
+          this.biology = '生物',
           this.majorList.push(this.biology)
         }
-        if(this.userInfoList.history===1){
-          this.history="历史",
+        if (this.userInfoList.history === 1) {
+          this.history = '历史',
           this.majorList.push(this.history)
         }
-        if(this.userInfoList.politics===1){
-          this.politics="政治",
+        if (this.userInfoList.politics === 1) {
+          this.politics = '政治',
           this.majorList.push(this.politics)
         }
-        if(this.userInfoList.geography===1){
-          this.geography="地理",
+        if (this.userInfoList.geography === 1) {
+          this.geography = '地理',
           this.majorList.push(this.geography)
         }
-
       })
-      if(wishNum==2){
-        this.ModifyShow=false;
+      if (wishNum == 2) {
+        this.ModifyShow = false
         getAllWishByListId2({
-          listId:listId,
+          listId: listId
         }).then((res) => {
-          if (res.msg === "成功") {
-            this.zhiyuanTableList = res.data.wishes;
-            console.log('获取的数据是',res) 
-            for(let i=0;i<this.zhiyuanTableList.length;i++){
-              this.zhiyuanTableList[i].xuhao=i;
-              this.zhiyuanTableList[i].enrollNum21='暂无数据'
+          if (res.msg === '成功') {
+            this.zhiyuanTableList = res.data.wishes
+            console.log('获取的数据是', res)
+            for (let i = 0; i < this.zhiyuanTableList.length; i++) {
+              this.zhiyuanTableList[i].xuhao = i
+              this.zhiyuanTableList[i].enrollNum21 = '暂无数据'
             }
           }
-        });
-      }else{
-        let params={
-          phoneNum:localStorage.getItem("phone")
+        })
+      } else {
+        let params = {
+          phoneNum: localStorage.getItem('phone')
         }
         getAllHandleWishId(params).then((res) => {
-          this.listId=res.data;
-          let params={
-            listId:this.listId,
+          this.listId = res.data
+          let params = {
+            listId: this.listId
           }
           getAllWishByListId2(params).then((res) => {
-            if (res.msg === "成功") {
-              this.zhiyuanTableList = res.data.wishes;
-              console.log('获取的数据是',res) 
-              for(let i=0;i<this.zhiyuanTableList.length;i++){
-                this.zhiyuanTableList[i].xuhao=i;
-                this.zhiyuanTableList[i].enrollNum21='暂无数据'
+            if (res.msg === '成功') {
+              this.zhiyuanTableList = res.data.wishes
+              console.log('获取的数据是', res)
+              for (let i = 0; i < this.zhiyuanTableList.length; i++) {
+                this.zhiyuanTableList[i].xuhao = i
+                this.zhiyuanTableList[i].enrollNum21 = '暂无数据'
               }
             }
-          });
+          })
         })
       }
-     
 
       // getWishListByphoneNum(localStorage.getItem("phone")).then((res) => {
       //   console.log("res数据", res.data);
@@ -243,152 +240,151 @@ export default {
     //   }
     //   console.log("志愿表单取得数据", this.zhiyuanTableList);
     // },
-    indexMethod(index) {
-      return index + 1;
+    indexMethod (index) {
+      return index + 1
     },
-    gotoEdit() {
+    gotoEdit () {
       this.$router.push('/SchoolRecommand')
     },
-    goUp(index) {
+    goUp (index) {
       // 上移
-      var that = this;
+      var that = this
       if (index > 0) {
         // 获取当前点击的上一条数据
-        const upDate = that.zhiyuanTableList[index - 1];
+        const upDate = that.zhiyuanTableList[index - 1]
         // 移除上一条数据
-        that.zhiyuanTableList.splice(index - 1, 1);
+        that.zhiyuanTableList.splice(index - 1, 1)
         // 把上一条数据插入当前点击的位置
-        that.zhiyuanTableList.splice(index, 0, upDate);
+        that.zhiyuanTableList.splice(index, 0, upDate)
       }
     },
-    goDown(index) {
+    goDown (index) {
       // 下移
-      var that = this;
-      const downDate = that.zhiyuanTableList[index + 1];
-      that.zhiyuanTableList.splice(index + 1, 1);
-      that.zhiyuanTableList.splice(index, 0, downDate);
+      var that = this
+      const downDate = that.zhiyuanTableList[index + 1]
+      that.zhiyuanTableList.splice(index + 1, 1)
+      that.zhiyuanTableList.splice(index, 0, downDate)
     },
-    
-    handleDelete(index) {
+
+    handleDelete (index) {
       // 删除
       // 设置类似于console类型的功能
-      this.$confirm("从志愿表单删除该数据, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
+      this.$confirm('从志愿表单删除该数据, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
         .then(() => {
           // 移除对应索引位置的数据，可以对row进行设置向后台请求删除数据
-          this.zhiyuanTableList.splice(index, 1);
+          this.zhiyuanTableList.splice(index, 1)
           this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
+            type: 'success',
+            message: '删除成功!'
+          })
         })
         .catch(() => {
           this.$message({
-            type: "info",
-            message: "已取消删除",
-          });
-        });
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
     },
 
-    gotoSave(){
-        // 格式化规整数据
-        if (this.zhiyuanTableList !== undefined) {
+    gotoSave () {
+      // 格式化规整数据
+      if (this.zhiyuanTableList !== undefined) {
         for (let i = 0; i < this.zhiyuanTableList.length; i++) {
-          const map = {};
-          map.chance = this.zhiyuanTableList[i].risk || this.zhiyuanTableList[i].chances ;
-          map.id = 0;
-          map.listId = 0;
-          map.rank = i;
-          map.wishId = this.zhiyuanTableList[i].id;
-          map.wishNum = i;
-          this.zhiyuanFormatList.push(map);
+          const map = {}
+          map.chance = this.zhiyuanTableList[i].risk || this.zhiyuanTableList[i].chances
+          map.id = 0
+          map.listId = 0
+          map.rank = i
+          map.wishId = this.zhiyuanTableList[i].id
+          map.wishNum = i
+          this.zhiyuanFormatList.push(map)
         }
       }
-      var url = "https://www.zytb.top/NEMT/gk/userPC/changeWishListPC";
+      var url = 'https://www.zytb.top/NEMT/gk/userPC/changeWishListPC'
       axios({
         method: 'post',
-        url:url,
-        params:{
-        listId:this.listId,
+        url: url,
+        params: {
+          listId: this.listId
         },
-        data:JSON.stringify(this.zhiyuanFormatList),
+        data: JSON.stringify(this.zhiyuanFormatList),
         headers: {
-        "Content-Type": "application/json;charset=UTF-8",
-        token: localStorage.getItem("token"),
-        },
-      }).then((res)=>{
+          'Content-Type': 'application/json;charset=UTF-8',
+          token: localStorage.getItem('token')
+        }
+      }).then((res) => {
         this.$router.push('/zhiyuan')
       })
     },
 
-    gotoback(){
+    gotoback () {
       this.$router.push('/zhiyuan')
     },
 
-    setTableColor() {
+    setTableColor () {
       // 设置表格标题背景颜色
-      var table = this.$refs.tables;
-      var tr = this.$refs.tr1;
-      tr.style.backgroundColor = "#f1f3f4";
+      var table = this.$refs.tables
+      var tr = this.$refs.tr1
+      tr.style.backgroundColor = '#f1f3f4'
     },
-    exportExcle() {
+    exportExcle () {
       // 导出table为excle
-      this.downloadLoading = true;
-      import("@/utils/Export2Excel").then((excel) => {
+      this.downloadLoading = true
+      import('@/utils/Export2Excel').then((excel) => {
         const tHeader = [
-          "序号",
-          "录取指标",
-          "学校名称",
-          "专业名称",
-          "选科要求",
-          "2020年招生计划",
-          "2021年招生计划",
-        ];
+          '序号',
+          '录取指标',
+          '学校名称',
+          '专业名称',
+          '选科要求',
+          '2020年招生计划',
+          '2021年招生计划'
+        ]
         const filterVal = [
-          "xuhao",
-          "chances",
-          "schoolName",
-          "majorName",
-          "selectSubject",
-          "enrollNum",
-          "enrollNum21"
-        ];
-        const list = this.zhiyuanTableList;
+          'xuhao',
+          'chances',
+          'schoolName',
+          'majorName',
+          'selectSubject',
+          'enrollNum',
+          'enrollNum21'
+        ]
+        const list = this.zhiyuanTableList
 
-
-        const data = this.formatJson(filterVal, list);
+        const data = this.formatJson(filterVal, list)
         excel.export_json_to_excel({
           header: tHeader, // 必填   导出数据的表头
           data, // 必填   导出具体数据
-          filename: "智能填报志愿表", // 非必填   导出文件名
+          filename: '智能填报志愿表', // 非必填   导出文件名
           autoWidth: true, // 非必填   单元格是否自动适应宽度
-          bookType: "xlsx", // 非必填   导出文件类型
-        });
-        this.downloadLoading = false;
-      });
+          bookType: 'xlsx' // 非必填   导出文件类型
+        })
+        this.downloadLoading = false
+      })
     },
-    formatJson(filterVal, jsonData) {
-      return jsonData.map((v) => filterVal.map((j) => v[j]));
+    formatJson (filterVal, jsonData) {
+      return jsonData.map((v) => filterVal.map((j) => v[j]))
     },
-    schoolCode(index){
-      if(this.zhiyuanTableList[index].SchoolCode==='暂无'){
+    schoolCode (index) {
+      if (this.zhiyuanTableList[index].SchoolCode === '暂无') {
         return ''
-      }else{
+      } else {
         return this.zhiyuanTableList[index].SchoolCode
       }
     },
-    selectSubject(index){
-      if(this.zhiyuanTableList[index].selectSubject===null){
+    selectSubject (index) {
+      if (this.zhiyuanTableList[index].selectSubject === null) {
         return '无选科要求'
-      }else{
+      } else {
         return this.zhiyuanTableList[index].selectSubject
       }
     }
-  },
-};
+  }
+}
 </script>
 
 <style scoped>
@@ -417,7 +413,6 @@ export default {
   /* margin-top: -100px; */
   /* margin-bottom: -100px; */
 }
-
 
 .content .table_head {
   width: 78%;
