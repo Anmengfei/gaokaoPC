@@ -31,6 +31,34 @@
             </el-form-item>
         </el-row>
         <el-row :gutter="10">
+          <el-form-item
+            label="所在高中:"
+            prop="schoolName"
+          >
+            <el-input
+              type="text"
+              placeholder="请填写所在高中"
+              v-model="form.schoolName"
+              style="width: 200px"
+            ></el-input>
+            <!-- <span class="hint" v-if="type !='view'">限制长度，3个字符</span> -->
+          </el-form-item>
+        </el-row>
+        <el-row :gutter="10">
+          <el-form-item
+            label="所在班级:"
+            prop="className"
+          >
+            <el-input
+              type="text"
+              placeholder="请填写所在班级"
+              v-model="form.className"
+              style="width: 200px"
+            ></el-input>
+            <!-- <span class="hint" v-if="type !='view'">限制长度，3个字符</span> -->
+          </el-form-item>
+        </el-row>
+        <el-row :gutter="10">
             <el-form-item
               label="高考总分:"
               prop="score"
@@ -157,6 +185,8 @@ export default {
         rank: '',
         score: '',
         biology: '0',
+        schoolName: '',
+        className: '',
         chemistry: '0',
         geography: '0',
         history: '0',
@@ -184,6 +214,12 @@ export default {
         ],
         score: [
           { required: true, message: '请填写高考总分', trigger: 'blur' }
+        ],
+        className: [
+          { required: true, message: '请填写所在班级', trigger: 'blur' }
+        ],
+        schoolName: [
+          { required: true, message: '请填写所在高中', trigger: 'blur' }
         ]
       },
       provinceList: [],
@@ -220,6 +256,8 @@ export default {
             chemistry: submit.includes('化学') ? 1 : 0,
             examProvince: this.form.examProvince,
             examCity: this.form.examCity,
+            className: this.form.className,
+            schoolName: this.form.schoolName,
             examCounty: this.form.examCounty,
             examYear: this.form.examYear,
             geography: submit.includes('地理') ? 1 : 0,
