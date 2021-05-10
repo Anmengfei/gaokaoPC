@@ -292,6 +292,7 @@ export default {
 
     gotoSave () {
       // 格式化规整数据
+      console.log('111', this.zhiyuanTableList)
       if (this.zhiyuanTableList !== undefined) {
         for (let i = 0; i < this.zhiyuanTableList.length; i++) {
           const map = {}
@@ -299,11 +300,12 @@ export default {
           map.id = 0
           map.listId = 0
           map.rank = i
-          map.wishId = this.zhiyuanTableList[i].id
+          map.wishId = this.zhiyuanTableList[i].wishId
           map.wishNum = i
           this.zhiyuanFormatList.push(map)
         }
       }
+      console.log('！！！！', this.zhiyuanFormatList)
       var url = 'https://www.zytb.top/NEMT/gk/userPC/changeWishListPC'
       axios({
         method: 'post',

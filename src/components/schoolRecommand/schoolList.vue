@@ -204,13 +204,13 @@ export default {
       this.majorlist = majorls
     },
     getAllSchoolData (pagenum) {
+      console.log('this.selected.provinceSelect', JSON.stringify(this.selected.provinceSelect))
       getUserInfo(localStorage.getItem('token')).then((res) => {
         this.userInfoList = res.data
-
         getAllSchool({
-          provinces: this.selected.provinceSelect,
-          schoolTypes: this.selected.typeSelect,
-          feature: this.selected.levelSelect,
+          provinces: JSON.stringify(this.selected.provinceSelect),
+          schoolTypes: JSON.stringify(this.selected.typeSelect),
+          feature: JSON.stringify(this.selected.levelSelect),
           page: pagenum,
           rank: this.userInfoList.rank,
           examProvince: this.userInfoList.examProvince,
@@ -233,7 +233,7 @@ export default {
               for (let j = 0; j < this.schoolList[i].majors.length; ++j) {
                 for (let k = 0; k < this.volform.length; ++k) {
                   if (
-                    this.volform[k].id === this.schoolList[i].majors[j].id &&
+                    this.volform[k].wishId === this.schoolList[i].majors[j].wishId &&
                     this.volform[k].schoolName ===
                       this.schoolList[i].majors[j].schoolName
                   ) {

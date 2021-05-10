@@ -200,7 +200,10 @@ export default {
       deep: true
     },
     volform: {
+
       handler (newValue, oldvalue) {
+        this.getAllMajorData(this.pageRecord, this.riskFlag)
+
         // 1.向志愿表单添加数据（新数据长度>旧数据长度）--不执行操作  2.从志愿表单删除或清空数据（新数据长度<=旧数据长度）--执行操作
         if (newValue.length <= oldvalue.length) {
           // 将已经加入志愿表单的学校的按钮状态置为灰色
@@ -229,19 +232,19 @@ export default {
           size: 10
         }).then((res) => {
           if (res.status === 200) {
-            // console.log('收到数据啊啊啊啊啊', this.volform)
+            console.log('收到数据啊啊啊啊啊', this.volform)
             // this.majorList = res.data.data;
-            console.log('res', res.data.data.total)
+            console.log('res', res.data)
             this.pageInfo.pagetotal = res.data.data.total
             this.majorList = res.data.data.list
             // 将已经加入志愿表单的学校的按钮状态置为灰色
             for (let i = 0; i < this.majorList.length; ++i) {
               for (let j = 0; j < this.volform.length; ++j) {
                 if (
-                  this.volform[j].id === this.majorList[i].id &&
-                  this.volform[j].schoolName === this.majorList[i].schoolName &&
-                  this.volform[j].risk === this.majorList[i].risk
+                  this.volform[j].wishId === this.majorList[i].id &&
+                  this.volform[j].schoolName === this.majorList[i].schoolName
                 ) {
+                  console.log('11111111')
                   this.majorList[i].flag = i
                 }
               }

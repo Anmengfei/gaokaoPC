@@ -661,6 +661,7 @@ export default {
       loginStatus: true,
       isVip: false,
       volForm: [], // 高考志愿表单
+      volForm2: [], // 高考志愿表单
       schooladvice: [],
       majoradvice: [],
       majorflag: '',
@@ -726,7 +727,9 @@ export default {
         }
         getAllWishByListId2(params).then((res) => {
           if (res.msg === '成功') {
+            console.log('cuowu', res)
             this.volForm = res.data.wishes
+            // console.log(this.volForm)
           }
         })
       })
@@ -899,7 +902,10 @@ export default {
     },
     getAddFormInfo (message) {
       // 父子组件传值，父组件接收信息函数
-      this.volForm.push(message)
+      // console.log(typeof message)
+      // let newdata = JSON.parse(JSON.stringify(message).replace(/id/g, 'wishId'))
+      // console.log('messagee,', message)
+      this.volForm.push((message))
     },
     clearFormData () { // 清空志愿表单
       this.$confirm('此操作将全部清空已填入意向且无法恢复, 是否继续?', '警告', {
@@ -966,6 +972,9 @@ export default {
       if (this.volForm.length == 0) {
         this.dialogVisible3 = true
       } else {
+        for (let i = 0; i < this.volForm.length; i++) {
+          this.volForm[i] = JSON.parse(JSON.stringify(this.volForm[i]).replace(/id/g, 'wishId'))
+        }
         console.log('volForm', this.volForm)
         for (let i = 0; i < this.volForm.length; i++) {
           const map = {}
@@ -973,7 +982,7 @@ export default {
           map.id = 0
           map.listId = 0
           map.rank = i
-          map.wishId = this.volForm[i].id
+          map.wishId = this.volForm[i].wishId
           map.wishNum = i
           this.zhiyuanFormatList.push(map)
         }

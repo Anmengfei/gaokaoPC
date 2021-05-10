@@ -216,7 +216,7 @@ export default {
             for (let i = 0; i < this.majorList.length; ++i) {
               for (let j = 0; j < this.volform.length; ++j) {
                 if (
-                  this.volform[j].id === this.majorList[i].id &&
+                  this.volform[j].wishId === this.majorList[i].id &&
                   this.volform[j].schoolName === this.majorList[i].schoolName
                 ) {
                   this.majorList[i].flag = i

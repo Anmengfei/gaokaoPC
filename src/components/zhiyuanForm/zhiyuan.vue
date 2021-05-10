@@ -251,7 +251,6 @@ export default {
       pageSchoolsize: 4,
       pageMajorsize: 5,
       currentPage: 1,
-      phoneNum: '',
       minHeight: 0
     }
   },

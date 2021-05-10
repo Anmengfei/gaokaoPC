@@ -192,9 +192,9 @@ export default {
         // console.log("这是测试的是userInfo的列表");
         // console.log(this.userInfoList);
         getAllSchool({
-          provinces: this.selected.provinceSelect,
-          schoolTypes: this.selected.typeSelect,
-          feature: this.selected.levelSelect,
+          provinces: JSON.stringify(this.selected.provinceSelect),
+          schoolTypes: JSON.stringify(this.selected.typeSelect),
+          feature: JSON.stringify(this.selected.levelSelect),
           rank: this.userInfoList.rank,
           page: pagenum,
           examProvince: this.userInfoList.examProvince,
@@ -214,7 +214,7 @@ export default {
               for (let j = 0; j < this.schoolList[i].majors.length; ++j) {
                 for (let k = 0; k < this.volform.length; ++k) {
                   if (
-                    this.volform[k].id === this.schoolList[i].majors[j].id &&
+                    this.volform[k].wishId === this.schoolList[i].majors[j].id &&
                     this.volform[k].schoolName ===
                       this.schoolList[i].majors[j].schoolName
                   ) {
