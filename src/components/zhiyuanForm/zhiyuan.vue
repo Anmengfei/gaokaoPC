@@ -227,7 +227,7 @@ import { getUserInfo } from "@/api/index.js";
 import { getAllFollowMajor } from "@/api/index.js";
 import { getAllFollowSchool } from "@/api/index.js";
 import { getWishListByphoneNum } from "@/api/WishList";
-// import { getAllHandleWishId } from "@/api/index";
+import { getAllHandleWishId } from "@/api/index";
 import { unfollowSchool } from "@/api/index.js";
 import { unfollowMajor } from "@/api/index.js";
 export default {

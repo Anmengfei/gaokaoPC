@@ -322,7 +322,7 @@
               <!-- schoolList.vue 心仪的院校 majorList.vue 喜欢的专业-->
               <el-col :span="19">
 <!--                <school-list :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-if="selectTabs == 'favoriteSchool'"></school-list>-->
-                <MajorList :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" ></MajorList>
+                <MajorList :selected="collegeselete" :volform="volForm" :majorselect="majorselect" @addform="getAddFormInfo" ></MajorList>
               </el-col>
               <!-- 已填入意向侧边栏 -->
               <el-col :span="5">
@@ -374,7 +374,7 @@
               <!-- schoolList.vue 心仪的院校 majorList.vue 喜欢的专业-->
               <el-col :span="19">
 <!--                <novipschool :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-if="selectTabs == 'favoriteSchool'" ></novipschool>-->
-                <novipmajor :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo"></novipmajor>
+                <novipmajor :selected="collegeselete" :volform="volForm" :majorselect="majorselect" @addform="getAddFormInfo"></novipmajor>
               </el-col>
               <!-- 已填入意向侧边栏 -->
               <el-col :span="5">
@@ -630,7 +630,6 @@ export default {
       checkAll: false,
       checkmajorAll: false,
       isIndeterminate: true,
-      // phoneNum: '18551452231',
       majorname: '',
       collegename: '',
       auto_fixed: {
@@ -785,6 +784,7 @@ export default {
       } else if (!this.collegeselete.provinceSelect.includes(item)) {
         this.collegeselete.provinceSelect.push(item)
       } else {
+        // 控制省份的删除
         for (let i = 0; i < this.collegeselete.provinceSelect.length; i++) {
           if (this.collegeselete.provinceSelect[i] == item) {
             this.collegeselete.provinceSelect.splice(i, 1)
@@ -869,6 +869,7 @@ export default {
     getProvincesinit () {
       getAllprovinces().then(res => {
         this.provincesList = res.data || []
+        console.log('this.procinceList',this.provincesList)
       })
     },
     getcollegeType () {
@@ -921,12 +922,15 @@ export default {
         this.dialogVisible3 = true
       } else {
         for (let i = 0; i < this.volForm.length; i++) {
+        this.volForm[i] = JSON.parse(JSON.stringify(this.volForm[i]).replace(/id/g, 'wishId'))
+        }
+        for (let i = 0; i < this.volForm.length; i++) {
           const map = {}
           map.chance = this.volForm[i].risk || this.volForm[i].chances
           map.id = 0
-          map.listId = this.volForm[i].listId
+          map.listId = 0
           map.rank = i
-          map.wishId = this.volForm[i].id
+          map.wishId = this.volForm[i].wishId
           map.wishNum = i
           this.zhiyuanFormatList.push(map)
         }
@@ -1164,9 +1168,11 @@ li{
   -webkit-box-sizing: border-box;
   border-radius: 4px;
   cursor: pointer;
+  /* background-color: pink; */
 }
 
-.filter-list .filter-list-tags .tag.active, .filter-list .filter-list-tags .tag:hover {
+.filter-list .filter-list-tags .tag.active, 
+.filter-list .filter-list-tags .tag:hover {
   color: #e9302d;
 }
 

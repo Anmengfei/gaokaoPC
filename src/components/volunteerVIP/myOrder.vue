@@ -52,31 +52,31 @@
 </template>
 
 <script>
-import TopHeader from "@/components/common/topheader";
-import HomeHeader from "@/components/common/header1";
-import Footer from "@/components/common/footer1";
-import { getUserInfo, delPayOrder, addPayOrder,getyouhuimoney,getyuanmoney } from "@/api/index.js";
+import TopHeader from '@/components/common/topheader'
+import HomeHeader from '@/components/common/header1'
+import Footer from '@/components/common/footer1'
+import { getUserInfo, delPayOrder, addPayOrder, getyouhuimoney, getyuanmoney } from '@/api/index.js'
 export default {
   components: { TopHeader, HomeHeader, Footer },
-  data() {
+  data () {
     return {
-      isShow: "true",
-      orderId: "",
-      yuanmongey:'',
-      youhuimoney:'',
+      isShow: 'true',
+      orderId: '',
+      yuanmongey: '',
+      youhuimoney: '',
       show_cancel_order: false,
       userInfoList: [],
-      orderList: [],
-    };
+      orderList: []
+    }
   },
   computed: {},
   watch: {},
-  mounted() {
-    this.initData();
+  mounted () {
+    this.initData()
     this.getmoney()
   },
   methods: {
-    getmoney(){
+    getmoney () {
       getyouhuimoney().then(res => {
         this.youhuimoney = res.data
       })
@@ -84,52 +84,52 @@ export default {
         this.yuanmongey = res.data
       })
     },
-    initData() {
-      getUserInfo(localStorage.getItem("token")).then((res) => {
-        this.userInfoList = res.data;
+    initData () {
+      getUserInfo(localStorage.getItem('token')).then((res) => {
+        this.userInfoList = res.data
         var params = {
-          phoneNum: this.userInfoList.phoneNum,
-        };
+          phoneNum: this.userInfoList.phoneNum
+        }
         addPayOrder(params).then((res) => {
-          this.code = res.code;
+          this.code = res.code
           if (res.code == 517) {
-            this.orderId = res.data;
+            this.orderId = res.data
           } else if (res.code == 0) {
-            this.orderId = res.data.outTradeNo;
+            this.orderId = res.data.outTradeNo
           }
-        });
-      });
+        })
+      })
     },
-    gotoPay() {
-      this.$router.push("/PayCenter");
+    gotoPay () {
+      this.$router.push('/PayCenter')
     },
-    cancel_order() {
-      this.show_cancel_order = true;
+    cancel_order () {
+      this.show_cancel_order = true
     },
-    cancel_submit() {
+    cancel_submit () {
       var params = {
-        outTradeNo: this.orderId,
-      };
+        outTradeNo: this.orderId
+      }
       delPayOrder(params).then((res) => {
-        this.show_cancel_order = false;
-        document.body.style.overflow = "";
+        this.show_cancel_order = false
+        document.body.style.overflow = ''
         // this.$notify({
         //   title: "订单删除成功",
         // });
         this.$message({
           message: '订单删除成功',
           type: 'success'
-        });
-        this.$router.push("/volunteerVIP");
-      });
+        })
+        this.$router.push('/volunteerVIP')
+      })
     },
-    close_cancel() {
-      this.show_cancel_order = false;
-      document.body.style.overflow = "";
-    },
+    close_cancel () {
+      this.show_cancel_order = false
+      document.body.style.overflow = ''
+    }
   },
-  created() {},
-};
+  created () {}
+}
 </script>
 <style scoped>
 .app_container {

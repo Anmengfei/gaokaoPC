@@ -9,7 +9,7 @@
           <el-row>
             <el-col :span="2">
               <div class="icon">
-                <img v-if="!(item.logoPath==null)" class="schoologo" :src="item.logoPath" />
+                <img v-if="!(item.logoPath==null || item.logoPath == '')" class="schoologo" :src="item.logoPath" />
                 <img v-else class="schoologo1" src="../../assets/学校.png">
               </div>
             </el-col>
@@ -81,7 +81,7 @@
                             >{{ item1.risk }}</span
                           >
                           <span class="name">{{ item1.majorName }}</span>
-                          <span class="evaluation">{{ item1.evaluation }}</span>
+<!--                          <span class="evaluation">{{ item1.evaluation }}</span>-->
                         </div>
 
                         <div class="desc">
@@ -204,13 +204,15 @@ export default {
       this.majorlist = majorls
     },
     getAllSchoolData (pagenum) {
+      console.log('请收到SchoolData的信息',this.selected)
+      console.log('this.selected.provinceSelect', JSON.stringify(this.selected.provinceSelect))
       getUserInfo(localStorage.getItem('token')).then((res) => {
         this.userInfoList = res.data
-
         getAllSchool({
-          provinces: this.selected.provinceSelect,
-          schoolTypes: this.selected.typeSelect,
-          feature: this.selected.levelSelect,
+          provinces: JSON.stringify(this.selected.provinceSelect),
+          // provinces: this.selected.provinceSelect,
+          schoolTypes: JSON.stringify(this.selected.typeSelect),
+          feature: JSON.stringify(this.selected.levelSelect),
           page: pagenum,
           rank: this.userInfoList.rank,
           examProvince: this.userInfoList.examProvince,
@@ -233,7 +235,7 @@ export default {
               for (let j = 0; j < this.schoolList[i].majors.length; ++j) {
                 for (let k = 0; k < this.volform.length; ++k) {
                   if (
-                    this.volform[k].id === this.schoolList[i].majors[j].id &&
+                    this.volform[k].wishId === this.schoolList[i].majors[j].wishId &&
                     this.volform[k].schoolName ===
                       this.schoolList[i].majors[j].schoolName
                   ) {
@@ -296,6 +298,7 @@ export default {
       let pagenum = val - 1
       console.log(val, 'val')
       console.log(pagenum, 'pagenum')
+      this.loading = true
       this.getAllSchoolData(pagenum)
     },
     addForm (index, item1, index1) {

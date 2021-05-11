@@ -68,32 +68,32 @@
 </template>
 
 <script>
-import TopHeader from "@/components/common/topheader";
-import HomeHeader from "@/components/common/header1";
-import Footer from "@/components/common/footer1";
-import { addPayOrder, getUserInfo,getyouhuimoney,getyuanmoney } from "@/api/index.js";
+import TopHeader from '@/components/common/topheader'
+import HomeHeader from '@/components/common/header1'
+import Footer from '@/components/common/footer1'
+import { addPayOrder, getUserInfo, getyouhuimoney, getyuanmoney } from '@/api/index.js'
 export default {
   components: { TopHeader, HomeHeader, Footer },
-  data() {
+  data () {
     return {
       userInfoList: [],
       show_pay_order: false,
       code: 0,
-      yuanmongey:'',
-      youhuimoney:'',
-    };
+      yuanmongey: '',
+      youhuimoney: ''
+    }
   },
-  mounted() {
+  mounted () {
     // getUserInfo(localStorage.getItem("token")).then((res) => {
     //   this.userInfoList = res.data;
     //   console.log("获取用户信息状态");
     //   console.log(this.userInfoList);
     // });
-    this.initData();
+    this.initData()
     this.getmoney()
   },
   methods: {
-    getmoney(){
+    getmoney () {
       getyouhuimoney().then(res => {
         this.youhuimoney = res.data
       })
@@ -101,28 +101,28 @@ export default {
         this.yuanmongey = res.data
       })
     },
-    initData() {
-      getUserInfo(localStorage.getItem("token")).then((res) => {
+    initData () {
+      getUserInfo(localStorage.getItem('token')).then((res) => {
         console.log('用户信息')
-         console.log(res)
-        this.userInfoList = res.data;
+        console.log(res)
+        this.userInfoList = res.data
         var params = {
-          phoneNum: this.userInfoList.phoneNum,
-        };
+          phoneNum: this.userInfoList.phoneNum
+        }
         addPayOrder(params).then((res) => {
-          this.code = res.code;
-          console.log('AAAAAAA',res)
+          this.code = res.code
+          console.log('AAAAAAA', res)
           if (res.code == 517) {
-            this.show_pay_order = true;
+            this.show_pay_order = true
           }
-        });
-      });
+        })
+      })
     },
-    gotoPay() {
-      if(this.code=517){
-        this.$router.push("/myOrder")
-      }else{
-         this.$router.push("/PayCenter")
+    gotoPay () {
+      if (this.code = 517) {
+        this.$router.push('/myOrder')
+      } else {
+        this.$router.push('/PayCenter')
       }
       // if (this.code === 0) {
       //   this.$router.push(
@@ -146,11 +146,11 @@ export default {
       //   );
       // }
     },
-    gotoOrderCenter() {
-      this.$router.push("/myOrder");
-    },
-  },
-};
+    gotoOrderCenter () {
+      this.$router.push('/myOrder')
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -366,4 +366,3 @@ export default {
 .card-info {
 }
 </style>
-

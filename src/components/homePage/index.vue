@@ -271,12 +271,11 @@ export default {
       provincesList: ['北京', '上海', '广州', '深圳'],
       searchValue: '',
       schna: [
-        "https://www.zytb.top/NEMT/gk/static/pc_img/lunbo01.png",
-        "https://www.zytb.top/NEMT/gk/static/pc_img/lunbo03.png",
+        'https://www.zytb.top/NEMT/gk/static/pc_img/lunbo01.png',
+        'https://www.zytb.top/NEMT/gk/static/pc_img/lunbo03.png'
       ],
-      phoneNum:'',
-      examProvince:''
-    };
+      phoneNum: ''
+    }
   },
   // beforeCreate() {
   //   document.querySelector("body").setAttribute("style", "background:#f3f5f7;");
@@ -317,19 +316,7 @@ export default {
       this.examProvince=res.data.examProvince
       this.getarticle(this.examProvince)
     })
-    //  this.userInfo = res.data
-    // if(localStorage.getItem("token") != null){
-    //   this.userInfo.biology == 1 ? this.subject.push("生物") : "";
-    //   this.userInfo.chemistry == 1 ? this.subject.push("化学") : "";
-    //   this.userInfo.geography == 1 ? this.subject.push("地理") : "";
-    //   this.userInfo.history == 1 ? this.subject.push("历史") : "";
-    //   this.userInfo.physics == 1 ? this.subject.push("物理") : "";
-    //   this.userInfo.politics == 1 ? this.subject.push("政治") : "";
-    //   this.getuserInfo()
-    // }
     // this.initData()
-    // if (localStorage.getItem('token') != null || localStorage.getItem('token22') != null) {
-    this.initData()
     window.addEventListener('scroll', this.watchScroll)
     this.setBannerH()
     window.addEventListener(
@@ -339,30 +326,31 @@ export default {
       },
       false
     )
-    this.getSchool(localStorage.getItem("phone"))
+    // this.getSchool(localStorage.getItem("phone"))
    
   },
 
   methods: {
-    initData () {
-      let _this = this
-      getAllIsLearning().then(function (response) {
-        _this.videoList = response.data
-        for (var i = 0; i < 3; i++) {
-          _this.threeVideoList.push(_this.videoList[i])
-        }
-      });
-    },
-    getSchool(phone){
-       getFitSchool({
-            type: 0,
-            user: phone,
-          }).then((res) => {
-            this.recommandschoolList = res.data;
-            console.log('this.recommandschoolList',this.recommandschoolList,phone)
-          });
+    // initData () {
+    //   let _this = this
+    //   getAllIsLearning().then(function (response) {
+    //     _this.videoList = response.data
+    //     for (var i = 0; i < 3; i++) {
+    //       _this.threeVideoList.push(_this.videoList[i])
+    //     }
+    //     console.log('查看视频列表的情况',_this.threeVideoList)
+    //   });
+    // },
+    // getSchool(phone){
+    //    getFitSchool({
+    //         type: 0,
+    //         user: phone,
+    //       }).then((res) => {
+    //         this.recommandschoolList = res.data;
+    //         console.log('this.recommandschoolList',this.recommandschoolList,phone)
+    //       });
 
-    },
+    // },
     getarticle(examProvince){
       let _this = this
       getFollowingList({
@@ -375,6 +363,21 @@ export default {
         // 使用push不用等号
         for (var i = 0; i < 3; i++) {
           _this.threeList.push(_this.zixunList[i])
+        }
+      })
+      getAllIsLearning().then(function (response) {
+        _this.videoList = response.data
+        for (var i = 0; i < 3; i++) {
+          _this.threeVideoList.push(_this.videoList[i])
+        }
+      })
+      getFitSchool({
+        type: 0,
+        user: localStorage.getItem('phone')
+      }).then((res) => {
+        this.recommandschoolList = res.data
+        if (this.recommandschoolList.logo == null) {
+          this.recommandschoolList.logo = '@/assets/college.png'
         }
       })
     },

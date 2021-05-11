@@ -8,7 +8,8 @@
               <el-row>
                 <el-col :span="3">
                   <div class="icon">
-                    <img class="schoologo" :src="item.logoPath" />
+                    <img v-if="!(item.logoPath==null || item.logoPath == '')" class="schoologo" :src="item.logoPath" />
+                    <img v-else class="schoologo1" src="../../assets/学校.png">
                   </div>
                 </el-col>
                 <el-col :span="17">
@@ -151,7 +152,7 @@ import { getAllMajor } from '../../api/schoolInfo'
 import { getUserInfo } from '../../api/index'
 export default {
   name: 'majorList',
-  props: ['selected', 'volform'],
+  props: ['selected', 'volform','majorselect'],
   mounted () {
     this.getAllMajorData(this.pageInfo.pagenum, this.riskFlag)
   },
@@ -187,6 +188,13 @@ export default {
           this.getAllMajorData(this.pageRecord, this.riskFlag)
         }
       }
+    },
+    majorselect:{
+      handler () {
+        this.getAllMajorData(this.pagenum, this.riskFlag)
+      },
+      immediate: true,
+      deep: true
     }
   },
   methods: {
@@ -200,6 +208,7 @@ export default {
         this.userInfoList = res.data
         getAllMajor({
           // feature: this.selected.levelSelect,
+          majorTypes: JSON.stringify(this.majorselect),
           page: pagenum,
           examProvince: this.userInfoList.examProvince,
           risk: riskflag,
@@ -215,7 +224,7 @@ export default {
             for (let i = 0; i < this.majorList.length; ++i) {
               for (let j = 0; j < this.volform.length; ++j) {
                 if (
-                  this.volform[j].id === this.majorList[i].id &&
+                  this.volform[j].wishId === this.majorList[i].id &&
                   this.volform[j].schoolName === this.majorList[i].schoolName
                 ) {
                   this.majorList[i].flag = i

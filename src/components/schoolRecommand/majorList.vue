@@ -1,5 +1,8 @@
 <template>
-  <div class="app-container">
+  <div class="app-container" v-loading="loading"
+       element-loading-text="院校推荐计算中"
+       element-loading-spinner="el-icon-loading"
+       element-loading-background="rgba(229, 98, 63, 0.1)">
     <el-tabs type="border-card" v-model="selectedtag" @tab-click="getFlag">
       <el-tab-pane label="冲刺" name="冲">
         <div class="container">
@@ -8,7 +11,8 @@
               <el-row>
                 <el-col :span="3">
                   <div class="icon">
-                    <img class="schoologo" :src="item.logoPath" />
+                    <img v-if="!(item.logoPath==null || item.logoPath == '')" class="schoologo" :src="item.logoPath" />
+                    <img v-else class="schoologo1" src="../../assets/学校.png">
                   </div>
                 </el-col>
                 <el-col :span="17">
@@ -165,7 +169,7 @@ import { getAllMajor } from '@/api/schoolInfo'
 import { getUserInfo } from '../../api/index'
 export default {
   name: 'majorList',
-  props: ['selected', 'volform'],
+  props: ['selected', 'volform','majorselect'],
   mounted () {
     this.getAllMajorData(this.pagenum, this.riskFlag)
   },
@@ -183,25 +187,35 @@ export default {
       addWillFlagofSchool: '',
       addWillFlag: -1, // 判断加入志愿按钮是否变灰
       riskFlag: '冲', // 点击tag,拿取“冲，稳，保”数据
-      userInfoList: []
+      userInfoList: [],
+      loading: true
     }
   },
   watch: {
-    selected: {
-      handler () {
-        this.getAllMajorData(this.pagenum, this.riskFlag)
-      },
-      immediate: true,
-      deep: true
-    },
+    // selected: {
+    //   handler () {
+    //     this.getAllMajorData(this.pagenum, this.riskFlag)
+    //   },
+    //   immediate: true,
+    //   deep: true
+    // },
     volform: {
       handler (newValue, oldvalue) {
+        this.getAllMajorData(this.pageRecord, this.riskFlag)
+
         // 1.向志愿表单添加数据（新数据长度>旧数据长度）--不执行操作  2.从志愿表单删除或清空数据（新数据长度<=旧数据长度）--执行操作
         if (newValue.length <= oldvalue.length) {
           // 将已经加入志愿表单的学校的按钮状态置为灰色
           this.getAllMajorData(this.pageRecord, this.riskFlag)
         }
       }
+    },
+    majorselect:{
+      handler () {
+        this.getAllMajorData(this.pagenum, this.riskFlag)
+      },
+      immediate: true,
+      deep: true
     }
   },
   methods: {
@@ -211,10 +225,12 @@ export default {
       // this.$forceUpdate()
     },
     getAllMajorData (pagenum, riskflag) {
+      console.log('请收到AllMajorData的信息',this.majorselect)
       getUserInfo(localStorage.getItem('token')).then((res) => {
         this.userInfoList = res.data
         getAllMajor({
           // feature: this.selected.levelSelect,
+          majorTypes: JSON.stringify(this.majorselect),
           page: pagenum,
           examProvince: this.userInfoList.examProvince,
           risk: riskflag,
@@ -224,23 +240,24 @@ export default {
           size: 10
         }).then((res) => {
           if (res.status === 200) {
-            // console.log('收到数据啊啊啊啊啊', this.volform)
+            console.log('收到数据啊啊啊啊啊', this.volform)
             // this.majorList = res.data.data;
-            console.log('res', res.data.data.total)
+            console.log('res', res.data)
             this.pageInfo.pagetotal = res.data.data.total
             this.majorList = res.data.data.list
             // 将已经加入志愿表单的学校的按钮状态置为灰色
             for (let i = 0; i < this.majorList.length; ++i) {
               for (let j = 0; j < this.volform.length; ++j) {
                 if (
-                  this.volform[j].id === this.majorList[i].id &&
-                  this.volform[j].schoolName === this.majorList[i].schoolName &&
-                  this.volform[j].risk === this.majorList[i].risk
+                  this.volform[j].wishId === this.majorList[i].id &&
+                  this.volform[j].schoolName === this.majorList[i].schoolName
                 ) {
+                  console.log('11111111')
                   this.majorList[i].flag = i
                 }
               }
             }
+            this.loading = false
           } else {
             this.$message.error('无法取得数据')
             // console.log('无法取得数据')
@@ -253,6 +270,7 @@ export default {
       let page = val
       this.pageRecord = page
       let pagenum = val - 1
+      this.loading = true
       this.getAllMajorData(pagenum, this.riskFlag)
     },
     addForm (index, item1, index1) {
@@ -265,6 +283,7 @@ export default {
       // “冲”“稳”“保”
       this.riskFlag = tab.name
       this.pagenum = 0
+      this.loading = true
       this.getAllMajorData(this.pagenum, this.riskFlag)
       this.$forceUpdate()
     }

@@ -109,167 +109,174 @@
 </template>
 
 <script>
-import {getUserInfo} from "@/api/index"
-import {completeInformation} from "@/api/login"
+import {getUserInfo} from '@/api/index'
+import {completeInformation} from '@/api/login'
 export default {
-  name: "editScore",
-  inject:['reload'],
-  data() {
+  name: 'editScore',
+  inject: ['reload'],
+  data () {
     return {
       isShow: false,
       isShow1: false,
       btnUser: true,
       placeholder1: false,
       form: {
-        examYear: "",
-        examProvince: "",
-        examCounty:"",
-        examCity:"",
-        rank: "",
-        score: "",
-        biology:'0',
-        phoneNum:'',
-        chemistry:'0',
-        geography:'0',
-        history:'0',
-        physics:'0',
-        politics:'0',
-        checkSubjectList:[],
-        checkSubjectList2:[]
+        examYear: '',
+        examProvince: '',
+        examCounty: '',
+        examCity: '',
+        rank: '',
+        score: '',
+        biology: '0',
+        schoolName: '',
+        className: '',
+        phoneNum: '',
+        chemistry: '0',
+        geography: '0',
+        history: '0',
+        physics: '0',
+        politics: '0',
+        checkSubjectList: [],
+        checkSubjectList2: []
       },
       rules: {
-        examYear:[
-          { required: true, message: "请选择高考年份", trigger: "change" },
+        examYear: [
+          { required: true, message: '请选择高考年份', trigger: 'change' }
         ],
         examProvince: [
-          { required: true, message: '请选择高考省份', trigger: "change" }
+          { required: true, message: '请选择高考省份', trigger: 'change' }
         ],
         checkSubjectList: [
-          { required: true, message: "请选择科目", trigger: "change" },
+          { required: true, message: '请选择科目', trigger: 'change' }
         ],
         checkSubjectList2: [
-          { required: true, message: "请选择科目", trigger: "change" },
+          { required: true, message: '请选择科目', trigger: 'change' }
         ],
         rank: [
-          { required: true, message: "请填写高考排名", trigger: "blur" },
+          { required: true, message: '请填写高考排名', trigger: 'blur' }
         ],
         score: [
-          { required: true, message: "请填写高考总分", trigger: "blur" },
-        ],
+          { required: true, message: '请填写高考总分', trigger: 'blur' }
+        ]
+
       },
       provinceList: [],
-      subjects: ["物理", "化学", "生物", "政治", "历史", "地理"],
-      subjects1: ["物理",  "历史"],
-      subjects2: [ "化学", "生物", "政治",  "地理"],
-    };
+      subjects: ['物理', '化学', '生物', '政治', '历史', '地理'],
+      subjects1: ['物理', '历史'],
+      subjects2: [ '化学', '生物', '政治', '地理']
+    }
   },
-  mounted() {
+  mounted () {
     this.init()
   },
   methods: {
-    init(){
+    init () {
       getUserInfo().then(res => {
         // console.log(res)
         this.form.score = res.data.score
         this.form.rank = res.data.rank
         this.form.phoneNum = res.data.phoneNum
         this.form.examYear = res.data.examYear
+        this.form.schoolName = res.data.schoolName
+        this.form.className = res.data.className
         this.form.examProvince = res.data.examProvince
         this.form.examCounty = res.data.examCounty
         this.form.examCity = res.data.examCity
-        if(this.form.examProvince == '河北省'){
-          res.data.biology == 1?this.form.checkSubjectList2.push('生物'):'';
-          res.data.chemistry == 1?this.form.checkSubjectList2.push('化学'):'';
-          res.data.geography == 1?this.form.checkSubjectList2.push('地理'):'';
-          res.data.history == 1?this.form.checkSubjectList.push('历史'):'';
-          res.data.physics == 1?this.form.checkSubjectList.push('物理'):'';
-          res.data.politics == 1?this.form.checkSubjectList2.push('政治'):'';
-        }else {
-          res.data.biology == 1?this.form.checkSubjectList.push('生物'):'';
-          res.data.chemistry == 1?this.form.checkSubjectList.push('化学'):'';
-          res.data.geography == 1?this.form.checkSubjectList.push('地理'):'';
-          res.data.history == 1?this.form.checkSubjectList.push('历史'):'';
-          res.data.physics == 1?this.form.checkSubjectList.push('物理'):'';
-          res.data.politics == 1?this.form.checkSubjectList.push('政治'):'';
+        if (this.form.examProvince == '河北省') {
+          res.data.biology == 1 ? this.form.checkSubjectList2.push('生物') : ''
+          res.data.chemistry == 1 ? this.form.checkSubjectList2.push('化学') : ''
+          res.data.geography == 1 ? this.form.checkSubjectList2.push('地理') : ''
+          res.data.history == 1 ? this.form.checkSubjectList.push('历史') : ''
+          res.data.physics == 1 ? this.form.checkSubjectList.push('物理') : ''
+          res.data.politics == 1 ? this.form.checkSubjectList2.push('政治') : ''
+        } else {
+          res.data.biology == 1 ? this.form.checkSubjectList.push('生物') : ''
+          res.data.chemistry == 1 ? this.form.checkSubjectList.push('化学') : ''
+          res.data.geography == 1 ? this.form.checkSubjectList.push('地理') : ''
+          res.data.history == 1 ? this.form.checkSubjectList.push('历史') : ''
+          res.data.physics == 1 ? this.form.checkSubjectList.push('物理') : ''
+          res.data.politics == 1 ? this.form.checkSubjectList.push('政治') : ''
         }
       })
     },
-    submitForm(formName) {
+    submitForm (formName) {
       // console.log('学科',this.form)
       // console.log('学科',this.form.checkSubjectList)
       var submit = this.form.checkSubjectList.concat(this.form.checkSubjectList2)
       this.$refs[formName].validate((valid) => {
         if (valid) {
           completeInformation({
-            biology: submit.includes('生物')?1:0,
-            chemistry:submit.includes('化学')?1:0,
-            examProvince:this.form.examProvince,
-            examCity:this.form.examCity,
-            examCounty:this.form.examCounty,
-            examYear:this.form.examYear,
-            geography:submit.includes('地理')?1:0,
-            history:submit.includes('历史')?1:0,
-            phoneNum:this.form.phoneNum,
-            physics:submit.includes('物理')?1:0,
-            politics:submit.includes('政治')?1:0,
-            rank:this.form.rank,
-            score:this.form.score,
-          }).then( res => {
+            biology: submit.includes('生物') ? 1 : 0,
+            chemistry: submit.includes('化学') ? 1 : 0,
+            examProvince: this.form.examProvince,
+            examCity: this.form.examCity,
+            examCounty: this.form.examCounty,
+            className: this.form.className,
+            schoolName: this.form.schoolName,
+            examYear: this.form.examYear,
+            geography: submit.includes('地理') ? 1 : 0,
+            history: submit.includes('历史') ? 1 : 0,
+            phoneNum: this.form.phoneNum,
+            physics: submit.includes('物理') ? 1 : 0,
+            politics: submit.includes('政治') ? 1 : 0,
+            rank: this.form.rank,
+            score: this.form.score
+          }).then(res => {
             // this.form.checkSubjectList.splice(0,3)
             // this.form.checkSubjectList2.splice(0,2)
             // console.log('删除后',this.form.checkSubjectList2,this.form.checkSubjectList)
-            if(res.code == 0){
+            if (res.code == 0) {
               getUserInfo().then((res) => {
-                this.$store.dispatch("resUserInfo", res.data).then(() => {
+                this.$store.dispatch('resUserInfo', res.data).then(() => {
                   this.msgSuccess('提交修改成功')
-                  this.$router.push("/");
+                  this.$router.push('/')
                   this.reload()
                 })
-              });
+              })
               // this.msgSuccess('提交修改成功')
               // this.$router.push("/");
               // this.reload()
               // console.log('选科',this.form)
-            }else {
-              this.msgError('提交修改失败，请补充全信息')
+            } else {
+              this.msgError('提交修改失败，一天内仅可更改一次')
             }
             // console.log('提交用户',res)
           })
         } else {
-            this.msgError('提交修改失败')
-          return false;
+          this.msgError('提交修改失败')
+          return false
         }
-      });
+      })
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
     },
-    selectSubject(val) {
+    selectSubject (val) {
       this.form.checkSubjectList = val
       // console.log('val',val)
       if (val.length < 3) {
-        this.isShow = true;
-      }else {
+        this.isShow = true
+      } else {
         this.isShow = false
       }
     },
-    selectSubject1(val) {
+    selectSubject1 (val) {
       console.log(val)
-      this.form.checkSubjectList.splice(0,val.length,...val)
-      console.log('eee',this.form.checkSubjectList)
+      this.form.checkSubjectList.splice(0, val.length, ...val)
+      console.log('eee', this.form.checkSubjectList)
     },
-    selectSubject2(val) {
-      this.form.checkSubjectList2.splice(0,val.length,...val)
-      console.log('eee',this.form.checkSubjectList2)
+    selectSubject2 (val) {
+      this.form.checkSubjectList2.splice(0, val.length, ...val)
+      console.log('eee', this.form.checkSubjectList2)
       // this.form.checkSubjectList2 = val
     },
-    handClick() {
+    handClick () {
       // this.placeholder1 = true;
       // console.log(this.placeholder1);
-    },
+    }
 
-  },
-};
+  }
+}
 </script>
 <style scoped>
 .hint {
