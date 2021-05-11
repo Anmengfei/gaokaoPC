@@ -115,8 +115,8 @@ export default {
       maver: "",
       orderId: "",
       checkCode: "",
-      yuanmongey:'498',
-      youhuimoney:'298',
+      yuanmongey:'',
+      youhuimoney:'',
       isShow:true
     };
   },

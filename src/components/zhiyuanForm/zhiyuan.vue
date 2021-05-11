@@ -60,8 +60,8 @@
                     >
                       <el-table-column label="志愿表" align="center">
                         <template slot-scope="scope">
-                          <span style="font-size:.12rem ; color:#409eff" v-if="willTable[scope.$index].wishNum==2">{{ '一键填报表' }}</span>
-                          <span style="font-size:.12rem ; color:#409eff" v-else>{{ '智能填报表' }}</span>
+                          <span style="font-size:.12rem ; color:#409eff" v-if="willTable[scope.$index].wishNum==1">{{ '智能填报表' }}</span>
+                          <span style="font-size:.12rem ; color:#409eff" v-else>{{ '一键填报表'+(willTable[scope.$index].wishNum-1) }}</span>
                         </template>
                       </el-table-column>
                       <el-table-column
@@ -91,7 +91,7 @@
                       <el-table-column prop="address" label="操作" align="center">
                         <template slot-scope="scope">
                           <!-- <span id="chakan" @click="gotoZhiyuanbiao(scope.row.id)">查看</span> -->
-                          <span id="chakan" @click="gotoZhiyuanbiao(willTable.length,willTable[scope.$index].wishNum)">查看</span>
+                          <span id="chakan" @click="gotoZhiyuanbiao(scope.$index)">查看</span>
                         </template>
                       </el-table-column>
                     </el-table>
@@ -314,48 +314,65 @@ export default {
             );
           }
           this.willTable = res.data.data;
-          if(this.willTable.length==2){
-            if(this.willTable[0].wishNum<this.willTable[1].wishNum){
-              let a=this.willTable[0];
-              this.willTable[0]=this.willTable[1];
-              this.willTable[1]=a
+          // console.log('志愿表查看',this.willTable[1].wishNum)
+          for(let i=0;i<this.willTable.length;i++){
+            for(let j=0;j<this.willTable.length-1;j++){
+              if(this.willTable[j].wishNum>this.willTable[j+1].wishNum){
+                let a=this.willTable[j];
+                this.willTable[j]=this.willTable[j+1];
+                this.willTable[j+1]=a;
+              }
             }
-          }else{
-            this.willTable = res.data.data;
           }
+          console.log('志愿表查看',this.willTable)
+          // if(this.willTable.length==2){
+          //   if(this.willTable[0].wishNum<this.willTable[1].wishNum){
+          //     let a=this.willTable[0];
+          //     this.willTable[0]=this.willTable[1];
+          //     this.willTable[1]=a
+          //   }
+          // }else{
+          //   this.willTable = res.data.data;
+          // }
         }
       });
     },
-    gotoZhiyuanbiao(length,wishNum){
-      if(length==2){
-        if(wishNum===2){
-          this.$router.push({
-            path: "/zhiyuanBiao",
-            query: {
-              wishNum: 2,
-              listId:this.willTable[0].id
-            },
-          });
-        }else{
-          this.$router.push({
-            path: "/zhiyuanBiao",
-            query: {
-              wishNum: 1,
-              listId:this.willTable[1].id
-            },
-          });
-        }
-      }else{
+    gotoZhiyuanbiao(index){
         this.$router.push({
-            path: "/zhiyuanBiao",
-            query: {
-              wishNum: 1,
-              listId:this.willTable[0].id
-            },
-          });
-      }
-  
-    },
+          path:"/zhiyuanBiao",
+          query:{
+            listId:this.willTable[index].id,
+            wishNum:this.willTable[index].wishNum,
+          }
+        })
+      },
+      // if(length==2){
+      //   if(wishNum===2){
+      //     this.$router.push({
+      //       path: "/zhiyuanBiao",
+      //       query: {
+      //         wishNum: 2,
+      //         listId:this.willTable[0].id
+      //       },
+      //     });
+      //   }else{
+      //     this.$router.push({
+      //       path: "/zhiyuanBiao",
+      //       query: {
+      //         wishNum: 1,
+      //         listId:this.willTable[1].id
+      //       },
+      //     });
+      //   }
+      // }else{
+      //   this.$router.push({
+      //       path: "/zhiyuanBiao",
+      //       query: {
+      //         wishNum: 1,
+      //         listId:this.willTable[0].id
+      //       },
+      //     });
+      // }
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage;
     },

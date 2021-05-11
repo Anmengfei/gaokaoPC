@@ -79,8 +79,8 @@ export default {
       userInfoList: [],
       show_pay_order: false,
       code: 0,
-      yuanmongey:'498',
-      youhuimoney:'298',
+      yuanmongey:'',
+      youhuimoney:'',
     };
   },
   mounted() {

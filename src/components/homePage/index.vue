@@ -194,10 +194,9 @@
                   :key="index"
                   @click="showVideo(item, index)"
                 >
-                  <div>
-                    <img :src="item.cover" class="image" />
-                    <img src="../../assets/play_05.png" class="play-btn" />
-                  </div>
+                  <div class="mask"></div>
+                  <img :src="item.cover" class="image" />
+                  <!-- <img src="../../assets/play_05.png" class="play-btn" /> -->
                 </li>
               </ul>
             </div>
@@ -275,13 +274,13 @@ export default {
         "https://www.zytb.top/NEMT/gk/static/pc_img/lunbo01.png",
         "https://www.zytb.top/NEMT/gk/static/pc_img/lunbo03.png",
       ],
-      phoneNum:''
+      phoneNum:'',
+      examProvince:''
     };
   },
   // beforeCreate() {
   //   document.querySelector("body").setAttribute("style", "background:#f3f5f7;");
   // },
-
   created () {
     if (localStorage.getItem('token') != null && localStorage.getItem('token22') != null) {
       this.flag_state = true
@@ -313,6 +312,12 @@ export default {
     }
   },
   mounted () {
+    getUserInfo().then((res) => {
+      console.log('resresres',res.data)
+      this.examProvince=res.data.examProvince
+      this.getarticle(this.examProvince)
+    })
+    //  this.userInfo = res.data
     // if(localStorage.getItem("token") != null){
     //   this.userInfo.biology == 1 ? this.subject.push("生物") : "";
     //   this.userInfo.chemistry == 1 ? this.subject.push("化学") : "";
@@ -334,50 +339,46 @@ export default {
       },
       false
     )
-    this.getInfo()
-    // } else {
-
-    // }
+    this.getSchool(localStorage.getItem("phone"))
+   
   },
 
   methods: {
     initData () {
       let _this = this
+      getAllIsLearning().then(function (response) {
+        _this.videoList = response.data
+        for (var i = 0; i < 3; i++) {
+          _this.threeVideoList.push(_this.videoList[i])
+        }
+      });
+    },
+    getSchool(phone){
+       getFitSchool({
+            type: 0,
+            user: phone,
+          }).then((res) => {
+            this.recommandschoolList = res.data;
+            console.log('this.recommandschoolList',this.recommandschoolList,phone)
+          });
+
+    },
+    getarticle(examProvince){
+      let _this = this
       getFollowingList({
-        examProvince: this.userInfo.examProvince !== null ? this.userInfo.examProvince : '山东省'
+        // examProvince: this.userInfo.examProvince !== null ? this.userInfo.examProvince : '山东省'
+        examProvince: examProvince
       }
       ).then(function (response) {
-        console.log(response.data)
+        // console.log('省份省份省份',this.userInfo)
         _this.zixunList = response.data
-        console.log('新接口测试一下文章', _this.zixunList)
-        // console.log(_this.zixunList);
         // 使用push不用等号
         for (var i = 0; i < 3; i++) {
           _this.threeList.push(_this.zixunList[i])
         }
-        // this.$set(this.threeList, _this.threeList);
-        // console.log(_this.threeList);
       })
-      getAllIsLearning().then(function (response) {
-        // console.log(response.data);
-        _this.videoList = response.data
-        // console.log(_this.videoList);
-        // 使用push不用等号
-        for (var i = 0; i < 3; i++) {
-          _this.threeVideoList.push(_this.videoList[i])
-        }
-        // this.$set(this.threeList, _this.threeList);
-        // console.log(_this.threeVideoList);
-      });
-      getFitSchool({
-          type: 0,
-          user: localStorage.getItem("phone"),
-        }).then((res) => {
-          this.recommandschoolList = res.data;
-        });
     },
-
-    itemClick () {},
+    // itemClick () {},
     gotoAllschool () {
       if (localStorage.getItem('token') != null) {
         this.$router.push({
@@ -401,7 +402,6 @@ export default {
     //   })
     // },
     modifyScore () {
-      // console.log("123");
       this.scoreDialog = true
     },
     showVideo (item, index) {
@@ -490,14 +490,14 @@ export default {
       }
     },
 
-    getInfo () {
-      getFitSchool({
-        type: 0,
-        user: this.userInfo.phoneNum
-      }).then((res) => {
-        this.recommandschoolList = res.data
-      })
-    },
+    // getInfo () {
+    //   getFitSchool({
+    //     type: 0,
+    //     user: this.userInfo.phoneNum
+    //   }).then((res) => {
+    //     this.recommandschoolList = res.data
+    //   })
+    // },
     login () {
       this.$store.dispatch('getShowLogin', true)
     },
@@ -967,7 +967,7 @@ li a {
   margin-top: 3px;
   margin-right: 16px;
   border-radius: 3px;
-  background-color: ##e5623f;
+  background-color: #e5623f;
 }
 
 .sevenRow-header .shuxian-l {
@@ -999,35 +999,43 @@ li a {
 }
 
 .video1-header .list .item {
-  /*height: 250px;*/
-  width: 420px;
-  /* background-color: #f95e5a; */
   position: relative;
   float: left;
   margin-top: 25px;
   margin-left: 25px;
   border-radius: 15px;
+  width: 420px;
+  height: 200px;
   cursor: pointer;
-}
-.video1-header .list li:hover {
-  cursor: pointer;
-  box-shadow: rgb(0 0 0 / 8%) 0px 3px 8px 0px;
-  transform: translate3d(0px, -8px, 0px);
 }
 .video1-header .image {
-  height: 200px;
-  width: 420px;
-  border-radius: 15px;
+  height: 100%;
+  width: 100%;
+  /* border-radius: 15px; */
 }
-
-.play-btn {
+.video1-header .list .item .mask {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .4) url('../../assets/arr.png') no-repeat center;
+}
+.video1-header .list .item:hover .mask{
+  /* cursor: pointer; */
+  /* box-shadow: rgb(0 0 0 / 8%) 0px 3px 8px 0px;
+  transform: translate3d(0px, -8px, 0px); */
+  display: block;
+}
+/* .play-btn {
   position: absolute;
   width: 100px;
   height: 100px;
   z-index: 100;
   top: 25%;
   left: 35%;
-}
+} */
 .video1-box {
   text-align: center;
   color: rgba(0, 0, 0, 0.8);

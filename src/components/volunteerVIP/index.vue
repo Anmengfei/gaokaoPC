@@ -113,8 +113,8 @@ export default {
   data () {
     return {
       isShow1: true,
-      yuanmongey: '498',
-      youhuimoney: '298',
+      yuanmongey: '',
+      youhuimoney: '',
       vip: this.$store.state.vip
     }
   },

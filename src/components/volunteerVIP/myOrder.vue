@@ -62,8 +62,8 @@ export default {
     return {
       isShow: "true",
       orderId: "",
-      yuanmongey:'498',
-      youhuimoney:'298',
+      yuanmongey:'',
+      youhuimoney:'',
       show_cancel_order: false,
       userInfoList: [],
       orderList: [],

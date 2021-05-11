@@ -221,6 +221,8 @@ export default {
             examProvince: this.form.examProvince,
             examCity: this.form.examCity,
             examCounty: this.form.examCounty,
+            className:'山东建筑',
+            schoolName:'网络162班',
             examYear: this.form.examYear,
             geography: submit.includes('地理') ? 1 : 0,
             history: submit.includes('历史') ? 1 : 0,

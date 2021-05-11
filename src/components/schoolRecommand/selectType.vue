@@ -914,54 +914,9 @@ export default {
           message: '已取消删除'
         })
       })
-
-      // this.showvolformdata = true
-      // this.volForm = []
-      // this.$forceUpdate()
     },
-    // 下一步按钮，转向新的界面
-    // clickToZhiyuanBiao () {
-    //   console.log('aaaaaaaaaaaaaaaa',parseInt(this.listId))
-    //   console.log('ccccccccccccccc',this.volForm)
-    //   let params={
-    //     listId:this.listId,
-    //     wishList:this.volForm
-    //   };
-    //   changeWishListPC(params).then((res)=>{
-    //     console.log('PPPPPPPPPPPPPPPPPPPP',res)
-    //   })
-
-    //   var url = "https://www.zytb.top/NEMT/gk/userPC/changeWishListPC";
-    //   axios.post(url,this.listId,JSON.stringify(this.volForm), {
-    //     headers: {
-    //       "Content-Type": "application/json;charset=UTF-8",
-    //       token: localStorage.getItem("token"),
-    //     },
-    //   }).then((res)=>{
-
-    //   })
-
-    //   this.$router.push('/zhiyuanBiao')
-    //   this.$router.push({
-    //       name: 'zhiyuanBiao',
-    //       params: {
-    //         zhiyuanTable: this.volForm
-    //       }
-    //     })
-    //   if (this.volForm.length > 10) {
-    //     this.$router.push({
-    //       name: 'zhiyuanBiao',
-    //       params: {
-    //         zhiyuanTable: this.volForm
-    //       }
-    //     })
-    //   } else {
-    //     this.$alert('<span style="font-size: .2rem">志愿表数据不能少于10条</span>', '', {
-    //       dangerouslyUseHTMLString: true
-    //     })
-    //   }
-    // },
     clickToZhiyuanBiao () { // 下一步按钮，转向新的界面
+      console.log('未规整前，已填入意向中的数据列表为：',this.volForm)
       if (this.volForm.length == 0) {
         this.dialogVisible3 = true
       } else {
@@ -969,12 +924,13 @@ export default {
           const map = {}
           map.chance = this.volForm[i].risk || this.volForm[i].chances
           map.id = 0
-          map.listId = 0
+          map.listId = this.volForm[i].listId
           map.rank = i
           map.wishId = this.volForm[i].id
           map.wishNum = i
           this.zhiyuanFormatList.push(map)
         }
+        console.log('规整后的数据列表为:',this.zhiyuanFormatList)
         var url = 'https://www.zytb.top/NEMT/gk/userPC/changeWishListPC'
         axios({
           method: 'post',
@@ -988,7 +944,15 @@ export default {
             token: localStorage.getItem('token')
           }
         }).then((res) => {
-          this.$router.push('/zhiyuanBiao')
+          // this.$router.push('/zhiyuanBiao')
+          console.log('发送给服务器后的返回结果',res)
+          this.$router.push({
+          path:"/zhiyuanBiao",
+          query:{
+            listId:this.listId,
+            wishNum:1,
+          }
+        })
         })
       }
     },
