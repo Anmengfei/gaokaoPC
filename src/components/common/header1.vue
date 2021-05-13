@@ -1260,12 +1260,14 @@ export default {
   /* inset: 20% auto auto 50%; */
   border: 1px solid rgb(204, 204, 204);
   outline: none;
-  padding-left: 0.9%;
+
+  padding: 25px 5px 20px 0;
+  padding-left: 2%;
   /* padding-bottom: 30px; */
   /* margin-right: -50%; */
   /* transform: translate(-50%, -50%); */
   min-width: 500px;
-  /* height: 65%; */
+   /*height: 70%;*/
 }
 
 .eldialog-parent /deep/ .el-dialog__title {

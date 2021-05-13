@@ -35,12 +35,14 @@
             label="所在高中:"
             prop="schoolName"
           >
-            <el-input
-              type="text"
-              placeholder="请填写所在高中"
-              v-model="form.schoolName"
-              style="width: 200px"
-            ></el-input>
+            <el-select v-model="form.schoolName" placeholder="请选择所在高中" style="width: 200px" :disabled="form.address == ''">
+              <el-option
+                v-for="item in highSchool"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
             <!-- <span class="hint" v-if="type !='view'">限制长度，3个字符</span> -->
           </el-form-item>
         </el-row>
@@ -92,7 +94,7 @@
           label="选择科目:"
           prop="checkSubjectList"
         >
-          <div v-if="address[0] == '河北省'">
+          <div v-if="form.address[0] == '河北省'">
             <el-checkbox-group
               size="mini"
               :max="1"
@@ -155,7 +157,7 @@
 </template>
 
 <script>
-import { getAllprovinces, getUserInfo } from '@/api/index'
+import { getAllprovinces, getUserInfo, getHighSchool } from '@/api/index'
 import { completeInformation } from '@/api/user'
 import CascaderArea from '@/components/CascaderArea/index'
 
@@ -176,6 +178,7 @@ export default {
       isShow1: false,
       btnUser: true,
       placeholder1: false,
+      highSchool: [],
       form: {
         address: [],
         examYear: '2021',
@@ -230,11 +233,25 @@ export default {
     }
   },
   mounted () {
+    // this.init()
     // this.getProvincesinit()
   },
   computed: {
     phoneNum () {
       return localStorage.getItem('phone')
+    }
+  },
+  watch: {
+    // 定义的变量名
+    form: {
+      handler () {
+        if (this.form.address[1] !== undefined) {
+          this.highSchool = []
+          console.log('34444343')
+          this.getHighSchoolName()
+        }
+      },
+      deep: true
     }
   },
   methods: {
@@ -329,6 +346,21 @@ export default {
       this.form.checkSubjectList2 = []
       // this.placeholder1 = true;
       // console.log(this.placeholder1);
+    },
+    getHighSchoolName () {
+      getHighSchool({
+        cityName: this.form.address[1],
+        countyName: this.form.address[2]
+      }).then(res => {
+        console.log('学校', res)
+        for (let i = 0; i < res.data.length; i++) {
+          let arr = {
+            value: res.data[i],
+            label: res.data[i]
+          }
+          this.highSchool.push(arr)
+        }
+      })
     }
 
   }

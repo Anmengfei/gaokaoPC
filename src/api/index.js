@@ -50,6 +50,14 @@ export function getFollowingList (data) {
     params: data
   })
 }
+// 获取对应市县下的高中列表
+export function getHighSchool (data) {
+  return request({
+    url: '/User/getSchoolNameListByCityAndCounty',
+    method: 'get',
+    params: data
+  })
+}
 // 模糊搜索，返回学校名字
 export function getsearchSchool (data) {
   return request({

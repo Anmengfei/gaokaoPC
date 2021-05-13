@@ -69,7 +69,7 @@
                   {{ item.majorName }}<br />
                   <!-- <span>(代码：{{ item.majorCode }})</span> -->
                 </td>
-                <td>{{ selectSubject(index) }}</td>
+                <td v-html="selectSubject(index)"></td>
                 <td>{{ item.enrollNum }}</td>
                 <td>{{ item.enrollNum21}}</td>
                 <td v-show='ModifyShow'>
