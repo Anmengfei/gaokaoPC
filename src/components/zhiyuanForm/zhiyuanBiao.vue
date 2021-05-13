@@ -131,7 +131,8 @@ export default {
   components: { TopHeader, HomeHeader, Footer },
   mounted () {
     // console.log('this.$route.query.voluntary',this.$route.query.voluntary)
-    this.initData(this.$route.query.wishNum, this.$route.query.listId)
+    this.listId=this.$route.query.listId
+    this.initData(this.$route.query.listId,this.$route.query.wishNum);
     // this.getAllData();
     this.setTableColor()
   },
@@ -153,11 +154,13 @@ export default {
     }
   },
   methods: {
-    initData (wishNum, listId) {
-      getUserInfo(localStorage.getItem('token')).then((res) => {
-        this.userInfoList = res.data
-        if (this.userInfoList.physics === 1) {
-          this.physics = '物理',
+    initData(listId,wishNum){
+      console.log('打印一下listID',listId)
+      console.log('打印一下wishNum',wishNum)
+      getUserInfo(localStorage.getItem("token")).then((res) => {
+        this.userInfoList = res.data;
+        if(this.userInfoList.physics===1){
+          this.physics="物理",
           this.majorList.push(this.physics)
         }
         if (this.userInfoList.chemistry === 1) {
@@ -181,8 +184,8 @@ export default {
           this.majorList.push(this.geography)
         }
       })
-      if (wishNum == 2) {
-        this.ModifyShow = false
+      if(wishNum!==1){
+        this.ModifyShow=false;
         getAllWishByListId2({
           listId: listId
         }).then((res) => {
@@ -194,54 +197,25 @@ export default {
               this.zhiyuanTableList[i].enrollNum21 = '暂无数据'
             }
           }
-        })
-      } else {
-        let params = {
-          phoneNum: localStorage.getItem('phone')
-        }
-        getAllHandleWishId(params).then((res) => {
-          this.listId = res.data
-          let params = {
-            listId: this.listId
-          }
-          getAllWishByListId2(params).then((res) => {
-            if (res.msg === '成功') {
-              this.zhiyuanTableList = res.data.wishes
-              console.log('获取的数据是', res)
-              for (let i = 0; i < this.zhiyuanTableList.length; i++) {
-                this.zhiyuanTableList[i].xuhao = i
-                this.zhiyuanTableList[i].enrollNum21 = '暂无数据'
-              }
+        });
+      }else{
+        getAllWishByListId2({
+          listId:listId
+        }).then((res) => {
+          if (res.msg === "成功") {
+            this.zhiyuanTableList = res.data.wishes;
+            console.log('获取的数据是',res) 
+            for(let i=0;i<this.zhiyuanTableList.length;i++){
+              this.zhiyuanTableList[i].xuhao=i;
+              this.zhiyuanTableList[i].enrollNum21='暂无数据'
             }
-          })
-        })
+          }
+        });
       }
-
-      // getWishListByphoneNum(localStorage.getItem("phone")).then((res) => {
-      //   console.log("res数据", res.data);
-      //   this.shuzuId= res.data
-      //   console.log('iddddddddddddddd',this.shuzuId[0].id);
-      //   this.listId=this.shuzuId[0].id
-      //   });
     },
-    // getAllData() {
-    //   console.log("router信息", this.$route.params.zhiyuanTable);
-    //   this.zhiyuanTableList = this.$route.params.zhiyuanTable;
-    //   window.sessionStorage.setItem(
-    //     "zhiyuanbiaodan",
-    //     JSON.stringify(this.zhiyuanTableList)
-    //   );
-    //   console.log(
-    //     "本地存储内容",
-    //     JSON.parse(sessionStorage.getItem("zhiyuanbiaodan"))
-    //   );
-    //   for (let i = 0; i < this.zhiyuanTableList.length; ++i) {
-    //     this.zhiyuanTableList[i].xuhao = i + 1;
-    //   }
-    //   console.log("志愿表单取得数据", this.zhiyuanTableList);
-    // },
-    indexMethod (index) {
-      return index + 1
+   
+    indexMethod(index) {
+      return index + 1;
     },
     gotoEdit () {
       this.$router.push('/SchoolRecommand')
@@ -278,9 +252,10 @@ export default {
           // 移除对应索引位置的数据，可以对row进行设置向后台请求删除数据
           this.zhiyuanTableList.splice(index, 1)
           this.$message({
-            type: 'success',
-            message: '删除成功!'
-          })
+            type: "success",
+            message: "删除成功!",
+          });
+          console.log('删除后的志愿表单',this.zhiyuanTableList)
         })
         .catch(() => {
           this.$message({
@@ -304,6 +279,7 @@ export default {
           map.wishNum = i
           this.zhiyuanFormatList.push(map)
         }
+        console.log('规整数据后的列表',this.zhiyuanFormatList)
       }
       console.log('！！！！', this.zhiyuanFormatList)
       var url = 'https://www.zytb.top/NEMT/gk/userPC/changeWishListPC'

@@ -60,8 +60,8 @@
                     >
                       <el-table-column label="志愿表" align="center">
                         <template slot-scope="scope">
-                          <span style="font-size:.12rem ; color:#409eff" v-if="willTable[scope.$index].wishNum==2">{{ '一键填报表' }}</span>
-                          <span style="font-size:.12rem ; color:#409eff" v-else>{{ '智能填报表' }}</span>
+                          <span style="font-size:.12rem ; color:#409eff" v-if="willTable[scope.$index].wishNum==1">{{ '智能填报表' }}</span>
+                          <span style="font-size:.12rem ; color:#409eff" v-else>{{ '一键填报表'+(willTable[scope.$index].wishNum-1) }}</span>
                         </template>
                       </el-table-column>
                       <el-table-column
@@ -91,7 +91,7 @@
                       <el-table-column prop="address" label="操作" align="center">
                         <template slot-scope="scope">
                           <!-- <span id="chakan" @click="gotoZhiyuanbiao(scope.row.id)">查看</span> -->
-                          <span id="chakan" @click="gotoZhiyuanbiao(willTable.length,willTable[scope.$index].wishNum)">查看</span>
+                          <span id="chakan" @click="gotoZhiyuanbiao(scope.$index)">查看</span>
                         </template>
                       </el-table-column>
                     </el-table>
@@ -174,8 +174,8 @@
                   <ul>
                     <li
                       v-for="(item, index) in AllFollowMajorList.slice(
-                        (currentPage - 1) * pageMajorsize,
-                        currentPage * pageMajorsize
+                        (currentMajorPage - 1) * pageMajorsize,
+                        currentMajorPage * pageMajorsize
                       )"
                       :key="index"
                       v-show="AllFollowMajorList.length > 0"
@@ -200,10 +200,10 @@
                   </div>
                   <div class="pagination">
                     <el-pagination
-                      :current-page="currentPage"
+                      :current-page="currentMajorPage"
                       :page-size="pageMajorsize"
                       :total="AllFollowMajorList.length"
-                      @current-change="handleCurrentChange"
+                      @current-change="handleCurrentChange1"
                       background
                       layout="total,prev, pager, next"
                       v-show="AllFollowMajorList.length > 0"
@@ -220,187 +220,165 @@
 </template>
 
 <script>
-import TopHeader from '@/components/common/topheader'
-import HomeHeader from '@/components/common/header1'
-import Footer from '@/components/common/footer1'
-import { getUserInfo, getAllFollowMajor, getAllFollowSchool, unfollowMajor } from '@/api/index.js'
-
-import { getWishListByphoneNum } from '@/api/WishList'
-// import { getAllHandleWishId } from "@/api/index";
-import { unfollowSchool } from '@/api/index.js'
-
+import TopHeader from "@/components/common/topheader";
+import HomeHeader from "@/components/common/header1";
+import Footer from "@/components/common/footer1";
+import { getUserInfo } from "@/api/index.js";
+import { getAllFollowMajor } from "@/api/index.js";
+import { getAllFollowSchool } from "@/api/index.js";
+import { getWishListByphoneNum } from "@/api/WishList";
+import { getAllHandleWishId } from "@/api/index";
+import { unfollowSchool } from "@/api/index.js";
+import { unfollowMajor } from "@/api/index.js";
 export default {
-  name: 'zhiyuan',
+  name: "zhiyuan",
   components: { TopHeader, HomeHeader, Footer},
-  data () {
+  data() {
     return {
-      tabPosition: 'left',
-      userInfoList: [],
-      AllFollowMajorList: [],
-      AllFollowSchoolList: [],
-      MajorLength: 0,
-      SchoolLength: 0,
-      vipbtn: false,
-      vipword: '开通vip',
-      endTime: [],
-      endtime: [],
-      willTable: [], // 志愿表数据
-      phoneNum: '',
-      volform: [], // 查看按钮取得的数据
-      listId: 0,
-      pageSchoolsize: 4,
-      pageMajorsize: 5,
-      currentPage: 1,
-      minHeight: 0
-    }
+        tabPosition: 'left',
+        userInfoList: [],
+        AllFollowMajorList: [],
+        AllFollowSchoolList: [],
+        MajorLength: 0,
+        SchoolLength: 0,
+        vipbtn: false,
+        vipword: "开通vip",
+        endTime:[],
+        endtime:[],
+        willTable: [], // 志愿表数据
+        phoneNum: "",
+        volform: [], // 查看按钮取得的数据
+        listId:0,
+        pageSchoolsize: 4,
+        pageMajorsize: 5,
+        currentPage: 1,
+        phoneNum: "",
+        minHeight:0,
+        currentMajorPage:1
+    };
   },
-  mounted () {
+  mounted() {
     // 动态设置内容高度，让footer始终居于底部
-    this.minHeight = document.documentElement.clientHeight - 150
+    this.minHeight=document.documentElement.clientHeight-150
     // 监听浏览器窗口变化
-    window.onresize = function () {
-      this.minHeight = document.documentElement.clientHeight - 150
+    window.onresize=function(){
+      this.minHeight=document.documentElement.clientHeight-150
     }
-    this.initData()
-    this.phoneNum = localStorage.getItem('phone')
-    this.getWishTable(this.phoneNum)
+    this.initData();
+    this.phoneNum = localStorage.getItem("phone");
+    this.getWishTable(this.phoneNum);
   },
   methods: {
-    initData () {
-      getUserInfo(localStorage.getItem('token')).then((res) => {
-        this.userInfoList = res.data
+    initData() {
+      getUserInfo(localStorage.getItem("token")).then((res) => {
+        this.userInfoList = res.data;
         if (this.userInfoList.vip == 0) {
-          this.vipbtn = false
+          this.vipbtn = false;
         } else {
-          this.vipbtn = true
+          this.vipbtn = true;
           // this.endTime=this.userInfoList.endTime.split("")
-          this.endTime = this.userInfoList.endTime.replace(/\"/g, '')
-          this.endtime = this.endTime.slice(0, 11)
+          this.endTime=this.userInfoList.endTime.replace(/\"/g, "")
+          this.endtime=this.endTime.slice(0,11)
           // this.vipword = "已开通VIP";
         }
         let params = {
-          phoneNum: parseInt(this.userInfoList.phoneNum)
-        }
+          phoneNum: parseInt(this.userInfoList.phoneNum),
+        };
         getAllFollowMajor(params).then((res) => {
-          this.AllFollowMajorList = res.data
-          if (res.data === null) {
-            this.AllFollowMajorList = []
-            this.MajorLength = 0
-          } else {
-            this.MajorLength = this.AllFollowMajorList.length
+          this.AllFollowMajorList=res.data;
+          if(res.data === null){
+            this.AllFollowMajorList=[];
+            this.MajorLength = 0;
+          }else{
+            this.MajorLength = this.AllFollowMajorList.length;
           }
-        })
+          
+        });
         getAllFollowSchool(params).then((res) => {
-          this.AllFollowSchoolList = res.data
-          // console.log('查看一下获取学校的数量',this.AllFollowSchoolList)
-          if (res.data === null) {
-            this.AllFollowSchoolList = []
-            this.SchoolLength = 0
-          } else {
-            this.SchoolLength = this.AllFollowSchoolList.length
+          this.AllFollowSchoolList=res.data
+          if(res.data === null){
+            this.AllFollowSchoolList=[];
+            this.SchoolLength=0;
+          }else{
+            this.SchoolLength= this.AllFollowSchoolList.length;
           }
-        })
-      })
+        });
+      });
     },
-    getWishTable (phoneNum) {
+    getWishTable(phoneNum) {
       getWishListByphoneNum(phoneNum).then((res) => {
-        if (res.data.msg === '成功') {
+        if (res.data.msg === "成功") {
           for (let i = 0; i < res.data.data.length; ++i) {
             res.data.data[i].userInformation = res.data.data[i].userInformation.split(
-              '|'
-            )
+              "|"
+            );
           }
-          this.willTable = res.data.data
-          console.log('this.willTable', this.willTable)
-          if (this.willTable.length === 2) {
-            if (this.willTable[0].wishNum < this.willTable[1].wishNum) {
-              let a = this.willTable[0]
-              this.willTable[0] = this.willTable[1]
-              this.willTable[1] = a
+          this.willTable = res.data.data;
+          // console.log('志愿表查看',this.willTable[1].wishNum)
+          for(let i=0;i<this.willTable.length;i++){
+            for(let j=0;j<this.willTable.length-1;j++){
+              if(this.willTable[j].wishNum>this.willTable[j+1].wishNum){
+                let a=this.willTable[j];
+                this.willTable[j]=this.willTable[j+1];
+                this.willTable[j+1]=a;
+              }
             }
-          } else {
-            this.willTable = res.data.data
           }
+          console.log('志愿表查看',this.willTable)
+        }
+      });
+    },
+    gotoZhiyuanbiao(index){
+        this.$router.push({
+          path:"/zhiyuanBiao",
+          query:{
+            listId:this.willTable[index].id,
+            wishNum:this.willTable[index].wishNum,
+          }
+        })
+      },
+    handleCurrentChange(currentPage) {
+      this.currentPage = currentPage;
+    },
+    handleCurrentChange1(currentMajorPage) {
+      this.currentMajorPage = currentMajorPage;
+    },
+    deleteSchoolClick(index) {
+      let params = {
+        phoneNum: this.phoneNum,
+        schoolName: this.AllFollowSchoolList[index].followName,
+      };
+      unfollowSchool(params).then((res) => {
+        this.AllFollowSchoolList.splice(index, 1);
+        this.SchoolLength=this.AllFollowSchoolList.length
+        if(this.AllFollowSchoolList.length>=this.pageSchoolsize&&this.AllFollowSchoolList.length%this.pageSchoolsize===0&&this.currentPage!==1){
+          this.currentPage=this.currentPage-1;
+        }else{
+          this.currentPage=this.currentPage
         }
       })
     },
-    gotoZhiyuanbiao (length, wishNum) {
-      if (wishNum == 2) {
-        this.$router.push({
-          path: '/zhiyuanBiao',
-          query: {
-            wishNum: 2,
-            listId: this.willTable[1].id
-          }
-        })
-      } else {
-        this.$router.push({
-          path: '/zhiyuanBiao',
-          query: {
-            wishNum: 1,
-            listId: this.willTable[0].id
-          }
-        })
-      }
-      // if (length === 2) {
-      //   if (wishNum === 2) {
-      //     this.$router.push({
-      //       path: '/zhiyuanBiao',
-      //       query: {
-      //         wishNum: 2,
-      //         listId: this.willTable[0].id
-      //       }
-      //     })
-      //   } else {
-      //     this.$router.push({
-      //       path: '/zhiyuanBiao',
-      //       query: {
-      //         wishNum: 1,
-      //         listId: this.willTable[1].id
-      //       }
-      //     })
-      //   }
-      // } else {
-      //   this.$router.push({
-      //     path: '/zhiyuanBiao',
-      //     query: {
-      //       wishNum: 1,
-      //       listId: this.willTable[0].id
-      //     }
-      //   })
-      // }
-    },
-    handleCurrentChange (currentPage) {
-      this.currentPage = currentPage
-    },
-    deleteSchoolClick (index) {
-      let params = {
-        phoneNum: this.phoneNum,
-        schoolName: this.AllFollowSchoolList[index].followName
-      }
-      unfollowSchool(params).then((res) => {
-        // console.log(res);
-        // console.log("删除成功");
-        this.AllFollowSchoolList.splice(index, 1)
-      })
-    },
-    deleteMajorClick (index) {
-      console.log('删除成功', index)
+    deleteMajorClick(index) {
+      console.log("删除成功",index);
       let params = {
         majorName: this.AllFollowMajorList[index].followName,
-        phoneNum: this.phoneNum
-      }
+        phoneNum: this.phoneNum,
+      };
       unfollowMajor(params).then((res) => {
-        // console.log(res);
-        console.log('删除成功')
-        this.AllFollowMajorList.splice(index, 1)
-      })
-    },
-    VIPClick () {
+        this.AllFollowMajorList.splice(index, 1);
+        this.MajorLength=this.AllFollowMajorList.length
+        if(this.AllFollowMajorList.length>=this.pageMajorsize&&this.AllFollowMajorList.length%this.pageMajorsize===0&&this.currentMajorPage!==1){
+          this.currentMajorPage=this.currentMajorPage-1;
+        }else{
+          this.currentMajorPage=this.currentMajorPage
+        }
+      });
+    }, 
+    VIPClick(){
       this.$router.push('/volunteerVIP')
-    }
-  }
-}
+    } 
+  } 
+};
 </script>
 <style scoped>
 
@@ -648,5 +626,6 @@ export default {
   float: right;
   margin-top: -0.4rem;
 }
+
 
 </style>

@@ -152,7 +152,7 @@ import { getAllMajor } from '../../api/schoolInfo'
 import { getUserInfo } from '../../api/index'
 export default {
   name: 'majorList',
-  props: ['selected', 'volform'],
+  props: ['selected', 'volform','majorselect'],
   mounted () {
     this.getAllMajorData(this.pageInfo.pagenum, this.riskFlag)
   },
@@ -188,6 +188,13 @@ export default {
           this.getAllMajorData(this.pageRecord, this.riskFlag)
         }
       }
+    },
+    majorselect:{
+      handler () {
+        this.getAllMajorData(this.pagenum, this.riskFlag)
+      },
+      immediate: true,
+      deep: true
     }
   },
   methods: {
@@ -201,6 +208,7 @@ export default {
         this.userInfoList = res.data
         getAllMajor({
           // feature: this.selected.levelSelect,
+          majorTypes: JSON.stringify(this.majorselect),
           page: pagenum,
           examProvince: this.userInfoList.examProvince,
           risk: riskflag,

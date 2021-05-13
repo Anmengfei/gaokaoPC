@@ -322,7 +322,7 @@
               <!-- schoolList.vue 心仪的院校 majorList.vue 喜欢的专业-->
               <el-col :span="19">
 <!--                <school-list :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-if="selectTabs == 'favoriteSchool'"></school-list>-->
-                <MajorList :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" ></MajorList>
+                <MajorList :selected="collegeselete" :volform="volForm" :majorselect="majorselect" @addform="getAddFormInfo" ></MajorList>
               </el-col>
               <!-- 已填入意向侧边栏 -->
               <el-col :span="5">
@@ -374,7 +374,7 @@
               <!-- schoolList.vue 心仪的院校 majorList.vue 喜欢的专业-->
               <el-col :span="19">
 <!--                <novipschool :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-if="selectTabs == 'favoriteSchool'" ></novipschool>-->
-                <novipmajor :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo"></novipmajor>
+                <novipmajor :selected="collegeselete" :volform="volForm" :majorselect="majorselect" @addform="getAddFormInfo"></novipmajor>
               </el-col>
               <!-- 已填入意向侧边栏 -->
               <el-col :span="5">
@@ -630,7 +630,6 @@ export default {
       checkAll: false,
       checkmajorAll: false,
       isIndeterminate: true,
-      // phoneNum: '18551452231',
       majorname: '',
       collegename: '',
       auto_fixed: {
@@ -661,7 +660,6 @@ export default {
       loginStatus: true,
       isVip: false,
       volForm: [], // 高考志愿表单
-      volForm2: [], // 高考志愿表单
       schooladvice: [],
       majoradvice: [],
       majorflag: '',
@@ -721,15 +719,12 @@ export default {
       }
       getAllHandleWishId(params).then((res) => {
         this.listId = res.data
-        console.log('id', this.listId)
         let params = {
           listId: this.listId
         }
         getAllWishByListId2(params).then((res) => {
           if (res.msg === '成功') {
-            console.log('cuowu', res)
             this.volForm = res.data.wishes
-            // console.log(this.volForm)
           }
         })
       })
@@ -789,6 +784,7 @@ export default {
       } else if (!this.collegeselete.provinceSelect.includes(item)) {
         this.collegeselete.provinceSelect.push(item)
       } else {
+        // 控制省份的删除
         for (let i = 0; i < this.collegeselete.provinceSelect.length; i++) {
           if (this.collegeselete.provinceSelect[i] == item) {
             this.collegeselete.provinceSelect.splice(i, 1)
@@ -873,6 +869,7 @@ export default {
     getProvincesinit () {
       getAllprovinces().then(res => {
         this.provincesList = res.data || []
+        console.log('this.procinceList',this.provincesList)
       })
     },
     getcollegeType () {
@@ -902,10 +899,7 @@ export default {
     },
     getAddFormInfo (message) {
       // 父子组件传值，父组件接收信息函数
-      // console.log(typeof message)
-      // let newdata = JSON.parse(JSON.stringify(message).replace(/id/g, 'wishId'))
-      // console.log('messagee,', message)
-      this.volForm.push((message))
+      this.volForm.push(message)
     },
     clearFormData () { // 清空志愿表单
       this.$confirm('此操作将全部清空已填入意向且无法恢复, 是否继续?', '警告', {
@@ -921,61 +915,15 @@ export default {
           message: '已取消删除'
         })
       })
-
-      // this.showvolformdata = true
-      // this.volForm = []
-      // this.$forceUpdate()
     },
-    // 下一步按钮，转向新的界面
-    // clickToZhiyuanBiao () {
-    //   console.log('aaaaaaaaaaaaaaaa',parseInt(this.listId))
-    //   console.log('ccccccccccccccc',this.volForm)
-    //   let params={
-    //     listId:this.listId,
-    //     wishList:this.volForm
-    //   };
-    //   changeWishListPC(params).then((res)=>{
-    //     console.log('PPPPPPPPPPPPPPPPPPPP',res)
-    //   })
-
-    //   var url = "https://www.zytb.top/NEMT/gk/userPC/changeWishListPC";
-    //   axios.post(url,this.listId,JSON.stringify(this.volForm), {
-    //     headers: {
-    //       "Content-Type": "application/json;charset=UTF-8",
-    //       token: localStorage.getItem("token"),
-    //     },
-    //   }).then((res)=>{
-
-    //   })
-
-    //   this.$router.push('/zhiyuanBiao')
-    //   this.$router.push({
-    //       name: 'zhiyuanBiao',
-    //       params: {
-    //         zhiyuanTable: this.volForm
-    //       }
-    //     })
-    //   if (this.volForm.length > 10) {
-    //     this.$router.push({
-    //       name: 'zhiyuanBiao',
-    //       params: {
-    //         zhiyuanTable: this.volForm
-    //       }
-    //     })
-    //   } else {
-    //     this.$alert('<span style="font-size: .2rem">志愿表数据不能少于10条</span>', '', {
-    //       dangerouslyUseHTMLString: true
-    //     })
-    //   }
-    // },
     clickToZhiyuanBiao () { // 下一步按钮，转向新的界面
+      console.log('未规整前，已填入意向中的数据列表为：',this.volForm)
       if (this.volForm.length == 0) {
         this.dialogVisible3 = true
       } else {
         for (let i = 0; i < this.volForm.length; i++) {
-          this.volForm[i] = JSON.parse(JSON.stringify(this.volForm[i]).replace(/id/g, 'wishId'))
+        this.volForm[i] = JSON.parse(JSON.stringify(this.volForm[i]).replace(/id/g, 'wishId'))
         }
-        console.log('volForm', this.volForm)
         for (let i = 0; i < this.volForm.length; i++) {
           const map = {}
           map.chance = this.volForm[i].risk || this.volForm[i].chances
@@ -986,7 +934,7 @@ export default {
           map.wishNum = i
           this.zhiyuanFormatList.push(map)
         }
-        console.log('this.zhiyuanFormatList', this.zhiyuanFormatList)
+        console.log('规整后的数据列表为:',this.zhiyuanFormatList)
         var url = 'https://www.zytb.top/NEMT/gk/userPC/changeWishListPC'
         axios({
           method: 'post',
@@ -1000,8 +948,15 @@ export default {
             token: localStorage.getItem('token')
           }
         }).then((res) => {
-          console.log('res', res)
-          this.$router.push('/zhiyuanBiao')
+          // this.$router.push('/zhiyuanBiao')
+          console.log('发送给服务器后的返回结果',res)
+          this.$router.push({
+          path:"/zhiyuanBiao",
+          query:{
+            listId:this.listId,
+            wishNum:1,
+          }
+        })
         })
       }
     },
@@ -1213,9 +1168,11 @@ li{
   -webkit-box-sizing: border-box;
   border-radius: 4px;
   cursor: pointer;
+  /* background-color: pink; */
 }
 
-.filter-list .filter-list-tags .tag.active, .filter-list .filter-list-tags .tag:hover {
+.filter-list .filter-list-tags .tag.active, 
+.filter-list .filter-list-tags .tag:hover {
   color: #e9302d;
 }
 

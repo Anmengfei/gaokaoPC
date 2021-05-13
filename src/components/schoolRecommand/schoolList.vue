@@ -204,6 +204,7 @@ export default {
       this.majorlist = majorls
     },
     getAllSchoolData (pagenum) {
+      console.log('请收到SchoolData的信息',this.selected)
       console.log('this.selected.provinceSelect', JSON.stringify(this.selected.provinceSelect))
       getUserInfo(localStorage.getItem('token')).then((res) => {
         this.userInfoList = res.data
