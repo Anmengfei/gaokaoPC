@@ -210,7 +210,6 @@ export default {
         this.userInfoList = res.data
         getAllSchool({
           provinces: JSON.stringify(this.selected.provinceSelect),
-          // provinces: this.selected.provinceSelect,
           schoolTypes: JSON.stringify(this.selected.typeSelect),
           feature: JSON.stringify(this.selected.levelSelect),
           page: pagenum,
