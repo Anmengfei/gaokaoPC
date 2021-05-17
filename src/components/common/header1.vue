@@ -470,12 +470,14 @@ export default {
         var url = `http://58.119.112.14:11020/cms/login?username=${this.ruleForm1.username}&password=${this.ruleForm1.password}`
         this.$axios.post(url).then((res) => {
           if (res.data.code === 200) {
+            console.log('登录成功后的数据',res.data)
             this.$message.success('登录成功！')
             localStorage.setItem('flag_class', '已登录')
             localStorage.setItem('userId', res.data.userid)
             localStorage.setItem('role', res.data.role)
             localStorage.setItem('name', res.data.username)
             localStorage.setItem('token', res.data.token)
+            localStorage.setItem('examProvince', res.data.examProvince)
             localStorage.setItem('schoolname', this.ruleForm2.class_name)
             localStorage.setItem('password', this.ruleForm1.password)
             // console.log("登录后的token是", localStorage.getItem("token"));
@@ -505,6 +507,7 @@ export default {
           localStorage.setItem('token', res.data.token)
           localStorage.setItem('token22', res.data.token)
           localStorage.setItem('phone', res.data.userInfo.phoneNum)
+          localStorage.setItem('examProvince', res.data.userInfo.examProvince)
           this.$store.dispatch('getShowLogin', false)
           getUserInfo().then((res) => {
             this.$store.dispatch('resUserInfo', res.data)

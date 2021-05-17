@@ -312,12 +312,17 @@ export default {
     }
   },
   mounted () {
-    getUserInfo().then((res) => {
-      console.log('resresres', res.data)
-      this.examProvince = res.data.examProvince !== undefined ? res.data.examProvince : ''
-    })
-    this.initData()
-    this.getarticle(this.examProvince)
+    // getUserInfo().then((res) => {
+    //   this.examProvince = res.data.examProvince !== undefined ? res.data.examProvince : ''
+    //   console.log('查看省份',this.examProvince)
+    // })
+    
+    //获取大家都在学的视频列表
+    this.initData ()
+    //获取大家都在关注的文章列表
+    this.getarticle(localStorage.getItem('examProvince'))
+    //获取院校推荐的学校列表
+    this.getSchool(localStorage.getItem('phone'))
     window.addEventListener('scroll', this.watchScroll)
     this.setBannerH()
     window.addEventListener(
@@ -327,10 +332,10 @@ export default {
       },
       false
     )
-    this.getSchool(localStorage.getItem('phone'))
   },
 
   methods: {
+     //获取大家都在学的视频列表
     initData () {
       let _this = this
       getAllIsLearning().then(function (response) {
@@ -341,6 +346,7 @@ export default {
         console.log('查看视频列表的情况', _this.threeVideoList)
       })
     },
+    //获取院校推荐的学校列表
     getSchool (phone) {
       getFitSchool({
         type: 0,
@@ -350,14 +356,15 @@ export default {
         console.log('this.recommandschoolList', this.recommandschoolList, phone)
       })
     },
+    //获取大家都在关注的文章列表
     getarticle (examProvince) {
+      console.log('examProvince',examProvince)
       let _this = this
       getFollowingList({
         // examProvince: this.userInfo.examProvince !== null ? this.userInfo.examProvince : '山东省'
         examProvince: examProvince
       }
       ).then(function (response) {
-        // console.log('省份省份省份',this.userInfo)
         _this.zixunList = response.data
         // 使用push不用等号
         for (var i = 0; i < 3; i++) {
@@ -380,7 +387,7 @@ export default {
       //   }
       // })
     },
-    // itemClick () {},
+    //未登录前，院校推荐旁边的登录按钮
     gotoAllschool () {
       if (localStorage.getItem('token') != null) {
         this.$router.push({
@@ -391,18 +398,6 @@ export default {
         this.msgWarning('请先登录！')
       }
     },
-    // getuserInfo () {
-    //   getUserInfo().then((res) => {
-    //     this.userInfo = res.data
-    //     console.log('获取学校的各种信息', this.userInfo)
-    //     this.userInfo.biology == 1 ? this.subject.push('生物') : ''
-    //     this.userInfo.chemistry == 1 ? this.subject.push('化学') : ''
-    //     this.userInfo.geography == 1 ? this.subject.push('地理') : ''
-    //     this.userInfo.history == 1 ? this.subject.push('历史') : ''
-    //     this.userInfo.physics == 1 ? this.subject.push('物理') : ''
-    //     this.userInfo.politics == 1 ? this.subject.push('政治') : ''
-    //   })
-    // },
     modifyScore () {
       this.scoreDialog = true
     },
@@ -415,14 +410,6 @@ export default {
       this.videoUrl = ''
       this.dialogVisible = false
     },
-    // handleClose1(done) {
-    //   this.$confirm("确认关闭？")
-    //     .then((_) => {
-    //       done();
-    //     })
-    //     .catch((_) => {});
-
-    // },
     selectZixun (item, index) {
       const { href } = this.$router.resolve({
         name: 'Article',
@@ -444,31 +431,10 @@ export default {
     openReport () {
       const { href } = this.$router.resolve({
         name: 'VideoList'
-        // query: {
-        //   article: item.id,
-        // },
       })
       window.open(href, '_blank')
     },
-    // selectZixun(item, index) {
-    //   const { href } = this.$router.resolve({
-    //     name: "Article",
-    //     query: {
-    //       article: item.id,
-    //     },
-    //   });
-    //   window.open(href, "_blank");
-    // },
     selectSchoolItem (index, item) {
-      // console.log("index", index);
-      // this.$router.push("/SchoolInfo");
-      // const { href } = this.$router.resolve({
-      //   name: "SchoolInfo",
-      //   query: {
-      //     SchoolName: item.schoolName,
-      //   },
-      // });
-      // window.open(href, "_blank");
       this.$router.push({
         path: '/SchoolInfo',
         query: {
@@ -491,15 +457,6 @@ export default {
         this.navBarFixed = false
       }
     },
-
-    // getInfo () {
-    //   getFitSchool({
-    //     type: 0,
-    //     user: this.userInfo.phoneNum
-    //   }).then((res) => {
-    //     this.recommandschoolList = res.data
-    //   })
-    // },
     login () {
       this.$store.dispatch('getShowLogin', true)
     },
