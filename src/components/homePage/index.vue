@@ -274,7 +274,8 @@ export default {
         'https://www.zytb.top/NEMT/gk/static/pc_img/lunbo01.png',
         'https://www.zytb.top/NEMT/gk/static/pc_img/lunbo03.png'
       ],
-      phoneNum: ''
+      phoneNum: '',
+      examProvince: ''
     }
   },
   // beforeCreate() {
@@ -312,11 +313,11 @@ export default {
   },
   mounted () {
     getUserInfo().then((res) => {
-      console.log('resresres',res.data)
-      this.examProvince=res.data.examProvince
-      this.getarticle(this.examProvince)
+      console.log('resresres', res.data)
+      this.examProvince = res.data.examProvince !== undefined ? res.data.examProvince : ''
     })
-    // this.initData()
+    this.initData()
+    this.getarticle(this.examProvince)
     window.addEventListener('scroll', this.watchScroll)
     this.setBannerH()
     window.addEventListener(
@@ -326,32 +327,30 @@ export default {
       },
       false
     )
-    // this.getSchool(localStorage.getItem("phone"))
-   
+    this.getSchool(localStorage.getItem('phone'))
   },
 
   methods: {
-    // initData () {
-    //   let _this = this
-    //   getAllIsLearning().then(function (response) {
-    //     _this.videoList = response.data
-    //     for (var i = 0; i < 3; i++) {
-    //       _this.threeVideoList.push(_this.videoList[i])
-    //     }
-    //     console.log('查看视频列表的情况',_this.threeVideoList)
-    //   });
-    // },
-    // getSchool(phone){
-    //    getFitSchool({
-    //         type: 0,
-    //         user: phone,
-    //       }).then((res) => {
-    //         this.recommandschoolList = res.data;
-    //         console.log('this.recommandschoolList',this.recommandschoolList,phone)
-    //       });
-
-    // },
-    getarticle(examProvince){
+    initData () {
+      let _this = this
+      getAllIsLearning().then(function (response) {
+        _this.videoList = response.data
+        for (var i = 0; i < 3; i++) {
+          _this.threeVideoList.push(_this.videoList[i])
+        }
+        console.log('查看视频列表的情况', _this.threeVideoList)
+      })
+    },
+    getSchool (phone) {
+      getFitSchool({
+        type: 0,
+        user: phone
+      }).then((res) => {
+        this.recommandschoolList = res.data
+        console.log('this.recommandschoolList', this.recommandschoolList, phone)
+      })
+    },
+    getarticle (examProvince) {
       let _this = this
       getFollowingList({
         // examProvince: this.userInfo.examProvince !== null ? this.userInfo.examProvince : '山东省'
@@ -365,21 +364,21 @@ export default {
           _this.threeList.push(_this.zixunList[i])
         }
       })
-      getAllIsLearning().then(function (response) {
-        _this.videoList = response.data
-        for (var i = 0; i < 3; i++) {
-          _this.threeVideoList.push(_this.videoList[i])
-        }
-      })
-      getFitSchool({
-        type: 0,
-        user: localStorage.getItem('phone')
-      }).then((res) => {
-        this.recommandschoolList = res.data
-        if (this.recommandschoolList.logo == null) {
-          this.recommandschoolList.logo = '@/assets/college.png'
-        }
-      })
+      // getAllIsLearning().then(function (response) {
+      //   _this.videoList = response.data
+      //   for (var i = 0; i < 3; i++) {
+      //     _this.threeVideoList.push(_this.videoList[i])
+      //   }
+      // })
+      // getFitSchool({
+      //   type: 0,
+      //   user: localStorage.getItem('phone')
+      // }).then((res) => {
+      //   this.recommandschoolList = res.data
+      //   if (this.recommandschoolList.logo == null) {
+      //     this.recommandschoolList.logo = '@/assets/college.png'
+      //   }
+      // })
     },
     // itemClick () {},
     gotoAllschool () {
