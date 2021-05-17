@@ -44,177 +44,178 @@
 </template>
 
 <script>
-import TopHeader from "@/components/common/topheader";
-import HomeHeader from "@/components/common/header1";
-import Footer from "@/components/common/footer1";
-import EditScore from "@/components/common/editScore";
+import TopHeader from '@/components/common/topheader'
+import HomeHeader from '@/components/common/header1'
+import Footer from '@/components/common/footer1'
+import EditScore from '@/components/common/editScore'
 // {}只引入这个方法
-import { getFollowingList } from "@/api/index.js";
+import { getFollowingList } from '@/api/index.js'
 // import $ from 'jquery'
 export default {
-  name: "guanzhu",
+  name: 'guanzhu',
   components: { TopHeader, HomeHeader, Footer, EditScore },
-  data() {
+  data () {
     return {
       scoreDialog: false,
       recommandList: [],
       zixunList: [],
       form: {
-        name: "",
+        name: ''
       },
       loginStatus: false,
-      value1: "5",
+      value1: '5',
       navBarFixed: false,
-      bannerH: "",
+      bannerH: '',
       page: 1,
       size: 100,
       list: [],
       infoState: false,
-      flag_class: "未登录",
+      flag_class: '未登录',
       flag_state: true,
 
-      selectProvince: "",
-      provincesList: ["北京", "上海", "广州", "深圳"],
-      searchValue: "",
+      selectProvince: '',
+      provincesList: ['北京', '上海', '广州', '深圳'],
+      searchValue: '',
       schna: [
-        "https://www.zhongkeruitong.top/CCZX_image/newBanner2.jpg",
-        "https://www.zhongkeruitong.top/CCZX_image/banner5.png",
-        "https://www.zhongkeruitong.top/CCZX_image/photo2.jpg",
+        'https://www.zhongkeruitong.top/CCZX_image/newBanner2.jpg',
+        'https://www.zhongkeruitong.top/CCZX_image/banner5.png',
+        'https://www.zhongkeruitong.top/CCZX_image/photo2.jpg'
       ],
-      minHeight:0
-    };
+      minHeight: 0
+    }
   },
-  created() {
-    if (localStorage.getItem("flag_class") === null) {
-      this.flag_state = true;
+  created () {
+    if (localStorage.getItem('flag_class') === null) {
+      this.flag_state = true
     } else {
-      this.flag_state = false;
+      this.flag_state = false
     }
   },
   computed: {
-    username() {
-      if (localStorage.getItem("name") === null) {
-        return "ceshi";
+    username () {
+      if (localStorage.getItem('name') === null) {
+        return 'ceshi'
       } else {
-        return localStorage.getItem("name");
+        return localStorage.getItem('name')
       }
-    },
-  },
-  mounted() {
-    this.minHeight=document.documentElement.clientHeight-200
-    // 监听浏览器窗口变化
-    window.onresize=function(){
-      this.minHeight=document.documentElement.clientHeight-200
     }
-    this.initData(this.$route.query.examProvince);
-    window.addEventListener("scroll", this.watchScroll);
-    this.setBannerH();
+  },
+  mounted () {
+    this.minHeight = document.documentElement.clientHeight - 200
+    // 监听浏览器窗口变化
+    window.onresize = function () {
+      this.minHeight = document.documentElement.clientHeight - 200
+    }
+    this.initData('山东省')
+    // this.initData(this.$route.query.examProvince);
+    window.addEventListener('scroll', this.watchScroll)
+    this.setBannerH()
     window.addEventListener(
-      "resize",
+      'resize',
       () => {
-        this.setBannerH();
+        this.setBannerH()
       },
       false
-    );
-    this.getInfo();
+    )
+    this.getInfo()
   },
   methods: {
-    initData(examProvince) {
-      //必须这样
-      let _this = this;
+    initData (examProvince) {
+      // 必须这样
+      let _this = this
       getFollowingList({
-        examProvince:examProvince
+        examProvince: examProvince
 
       }).then(function (response) {
-        console.log('获取到了数据',response.data);
-        _this.zixunList = response.data;
-        console.log(_this.zixunList);
-      });
+        console.log('获取到了数据', response.data)
+        _this.zixunList = response.data
+        console.log(_this.zixunList)
+      })
     },
     // 修改过
-    selectZixun(item, index) {
+    selectZixun (item, index) {
       const { href } = this.$router.resolve({
-        name: "Article",
+        name: 'Article',
         query: {
-          article: item.id,
-        },
-      });
-      window.open(href, "_blank");
+          article: item.id
+        }
+      })
+      window.open(href, '_blank')
     },
-    modifyScore() {
-      console.log("123");
-      this.scoreDialog = true;
+    modifyScore () {
+      console.log('123')
+      this.scoreDialog = true
     },
-    login() {
+    login () {
       // alert(1)
     },
-    selectSchoolItem(item, index) {
-      console.log("item", item);
-      console.log("index", index);
-      this.$router.push("/SchoolInfo");
+    selectSchoolItem (item, index) {
+      console.log('item', item)
+      console.log('index', index)
+      this.$router.push('/SchoolInfo')
     },
-    regist() {},
-    setBannerH() {
-      this.bannerH = document.body.clientWidth / 4;
+    regist () {},
+    setBannerH () {
+      this.bannerH = document.body.clientWidth / 4
     },
-    watchScroll() {
+    watchScroll () {
       var scrollTop =
         window.pageYOffset ||
         document.documentElement.scrollTop ||
-        document.body.scrollTop;
+        document.body.scrollTop
       if (scrollTop > 49) {
-        this.navBarFixed = true;
+        this.navBarFixed = true
       } else {
-        this.navBarFixed = false;
+        this.navBarFixed = false
       }
     },
 
-    getInfo() {
+    getInfo () {
       if (this.flag_state === false) {
         var url = `http://58.119.112.14:11020/cms/system/user/${localStorage.getItem(
-          "userId"
-        )}`;
+          'userId'
+        )}`
 
         this.$axios
           .get(
             url,
             {
               headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-              },
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+              }
             },
             {
               headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-              },
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+              }
             }
           )
           .then((res) => {
-            if (localStorage.getItem("userId")) {
-              this.infoState = false;
+            if (localStorage.getItem('userId')) {
+              this.infoState = false
             } else {
-              this.infoState = true;
+              this.infoState = true
             }
 
             if (this.infoState === true) {
-              this.openInfo();
+              this.openInfo()
             }
-          });
+          })
       }
     },
-    openInfo() {
-      this.$confirm("请尽快完善个人资料", "提示信息", {
-        confirmButtonText: "立即前往",
-        type: "warning",
-        center: true,
+    openInfo () {
+      this.$confirm('请尽快完善个人资料', '提示信息', {
+        confirmButtonText: '立即前往',
+        type: 'warning',
+        center: true
       })
         .then(() => {
-          this.$router.push("/userSetting/personalInformation");
+          this.$router.push('/userSetting/personalInformation')
         })
-        .catch(() => {});
-    },
-  },
-};
+        .catch(() => {})
+    }
+  }
+}
 </script>
 
 <style scoped>
