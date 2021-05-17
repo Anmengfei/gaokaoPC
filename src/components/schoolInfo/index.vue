@@ -32,6 +32,7 @@
     <div class="bodyboxContent">
       <div class="bodyContent">
         <div class="title">学校介绍</div>
+        <div class="schoolInfo"v-show="isShow">学校简介</div>
         <div
           id="school"
           class="schoolProfile"
@@ -58,6 +59,8 @@ export default {
       schoolDetail: [],
       schoolTags: [],
       schoolDetails: [],
+      abstract:'',
+      isShow:false
     };
   },
   mounted() {
@@ -67,6 +70,9 @@ export default {
     '$route'(to, from) {
       this.initData()
     },
+  },
+  computed:{
+    
   },
   methods: {
     initData() {
@@ -82,6 +88,12 @@ export default {
         _this.schoolTags = _this.schoolDetails.schoolDetail.tags;
         // console.log("这是修改好的");
         _this.schoolDetail = _this.schoolDetails.schoolDetail;
+        console.log('学校简介', _this.schoolDetail)
+        // _this.abstract=_this.schoolDetail.summary.substring(0,30)
+        _this.abstract=_this.schoolDetail.summary.replace(/<[^>]+>/g,"").substring(0,20);
+        if(_this.abstract.search('学校简介') === -1){
+           _this.isShow=true
+        }
         _this.majorList = _this.schoolDetails.majorList;
         // schoolProfile.innerHTML = _this.schoolDetails.schoolDetail.summary;
         _this.imgURL = _this.schoolDetail.logo;
@@ -152,9 +164,24 @@ export default {
   border-radius: 4px;
   content: "";
 }
+.bodyContent .schoolInfo {
+  margin-top: .7rem;
+  font-family: "STFangsong";
+  font-size: .36rem;
+  font-weight: 700;
+  text-align: center;
+  /* text-indent: .1rem; */
+  line-height: .5rem;
+
+
+}
 .bodyContent .schoolProfile {
   padding-top: .3rem;
-  font-size: 21px;
+  font-family: "STFangsong";
+  font-size: .27rem;
+  text-indent: .1rem;
+  line-height: .5rem;
+
 }
 .imgcolor {
   /* background-color: royalblue; */

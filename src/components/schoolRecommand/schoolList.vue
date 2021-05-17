@@ -86,9 +86,7 @@
 
                         <div class="desc">
                           <!-- <span>2020年招生人数{{ item1.enrollNum }}</span> -->
-                          <span
-                            >选考科目：{{ item1.selectionRequirement }}</span
-                          >
+                          <span>选考科目:</span><span v-html="item1.selectionRequirement"></span>
                           <!-- <span>2020年最低分:暂无数据</span>
                           <span>2020年最低位次：暂无数据</span> -->
                         </div>

@@ -6,7 +6,7 @@
           <el-row>
             <el-col :span="2">
               <div class="icon">
-                <img class="schoologo" :src="item.logoPath" />
+                <!-- <img class="schoologo" :src="item.logoPath" /> -->
                 <img v-if="!(item.logoPath==null || item.logoPath == '')" class="schoologo" :src="item.logoPath" />
                 <img v-else class="schoologo1" src="../../assets/学校.png">
               </div>

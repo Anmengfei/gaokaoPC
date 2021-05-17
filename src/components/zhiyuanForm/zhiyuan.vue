@@ -108,10 +108,7 @@
                   <div class="item">
                     <ul>
                       <li
-                        v-for="(item, index) in AllFollowSchoolList.slice(
-                          (currentPage - 1) * pageSchoolsize,
-                          currentPage * pageSchoolsize
-                        )"
+                        v-for="(item, index) in AllFollowSchoolList.slice((currentPage - 1) * pageSchoolsize,currentPage * pageSchoolsize)"
                         :key="index"
                         v-show="AllFollowSchoolList.length > 0"
                       >
