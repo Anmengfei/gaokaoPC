@@ -90,6 +90,15 @@
               </el-dropdown>
             </div>
           </div> -->
+               <!-- collegeselete: {
+        provinceSelect: [],
+        typeSelect: [],
+        levelSelect: [],
+        // sortSelect:[],
+        sortSelect: [],
+        followSelect: [],
+        followMajorSelect: []
+      }, -->
           <div class="myFilterRecordBlockRow">
             <div class="customer-selected-tags">
               <span class="title" style="line-height: 24px;">您已选择：</span>
@@ -778,11 +787,13 @@ export default {
       }
     },
     selecttag (item) {
+      console.log('执行了',item)
       this.active = item
       if (item == '') {
         this.collegeselete.provinceSelect = []
       } else if (!this.collegeselete.provinceSelect.includes(item)) {
         this.collegeselete.provinceSelect.push(item)
+        console.log('this.collegeselete',this.collegeselete.provinceSelect)
       } else {
         // 控制省份的删除
         for (let i = 0; i < this.collegeselete.provinceSelect.length; i++) {
@@ -847,6 +858,7 @@ export default {
         if (tag.category == item) {
           this.majorSecond = tag.firSubList
         }
+        console.log('this.majorType',this.majorType)
       })
     },
     selectmajorsecondtag (item) {
@@ -883,6 +895,7 @@ export default {
     getMajortypelist () {
       getAllMajorType().then(res => {
         this.majorType = res.data || []
+        console.log('this.majorType',this.majorType)
       })
     },
     handleClick (tab, event) {
