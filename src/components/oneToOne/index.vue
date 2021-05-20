@@ -40,7 +40,7 @@
         </div>
         <div>
           <span style="font-size:.2rem;color:rgba(40, 94, 165);font-weight:550">联系我们:</span>
-          <span style="font-size:.2rem;color:#E5623F;font-weight:550">13381173397</span>
+          <span style="font-size:.2rem;color:#E5623F;font-weight:550"> 400-168-6292</span>
         </div>
         <div>
           <span style="font-size:.2rem;color:rgba(40, 94, 165);font-weight:550">邮箱:</span>
@@ -53,30 +53,30 @@
 </template>
 
 <script>
-import TopHeader from "@/components/common/topheader";
-import HomeHeader from "@/components/common/header1";
-import Footer from "@/components/common/footer1";
+import TopHeader from '@/components/common/topheader'
+import HomeHeader from '@/components/common/header1'
+import Footer from '@/components/common/footer1'
 export default {
   loginStatus: true,
   components: {TopHeader, HomeHeader, Footer},
-  data() {
+  data () {
     return {
-      minHeight:0
+      minHeight: 0
 
-    };
+    }
   },
-  mounted(){
-    console.log('html高度是',document.documentElement.clientHeight)
+  mounted () {
+    console.log('html高度是', document.documentElement.clientHeight)
     // 动态设置内容高度，让footer始终居于底部
-    this.minHeight=document.documentElement.clientHeight-50
+    this.minHeight = document.documentElement.clientHeight - 50
     // 监听浏览器窗口变化
-    window.onresize=function(){
-      this.minHeight=document.documentElement.clientHeight-50
+    window.onresize = function () {
+      this.minHeight = document.documentElement.clientHeight - 50
     }
   },
   methods: {
-  },
-};
+  }
+}
 </script>
 
 <style scoped>
@@ -107,4 +107,3 @@ export default {
 
 }
 </style>
-

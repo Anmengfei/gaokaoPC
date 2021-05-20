@@ -106,8 +106,8 @@ export default {
     window.onresize = function () {
       this.minHeight = document.documentElement.clientHeight - 200
     }
-    this.initData('山东省')
-    // this.initData(this.$route.query.examProvince);
+    // this.initData('山东省')
+    this.initData(this.$route.query.examProvince)
     window.addEventListener('scroll', this.watchScroll)
     this.setBannerH()
     window.addEventListener(

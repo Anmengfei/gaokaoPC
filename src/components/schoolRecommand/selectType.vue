@@ -1171,7 +1171,7 @@ li{
   /* background-color: pink; */
 }
 
-.filter-list .filter-list-tags .tag.active, 
+.filter-list .filter-list-tags .tag.active,
 .filter-list .filter-list-tags .tag:hover {
   color: #e9302d;
 }
