@@ -1,5 +1,8 @@
 <template>
-  <div class="app-container">
+  <div class="app-container" v-loading="loading"
+       element-loading-text="院校推荐计算中"
+       element-loading-spinner="el-icon-loading"
+       element-loading-background="rgba(229, 98, 63, 0.1)">
     <div class="container">
       <ul>
         <li v-for="(item, index) in schoolList" :key="index">
@@ -79,7 +82,7 @@
                             >{{ item1.risk }}</span
                           >
                           <span class="name">{{ item1.majorName }}</span>
-                          <span class="evaluation">{{ item1.evaluation }}</span>
+<!--                          <span class="evaluation">{{ item1.evaluation }}</span>-->
                         </div>
 
                         <div class="desc">
@@ -132,6 +135,7 @@ export default {
   },
   data () {
     return {
+      loading: true,
       activeName: 'first',
       btnFlag: [true, true, true, true, true, true, true, true, true, true], // 控制显示“选择意向专业”“收起专业”
       majorShow: [
@@ -223,6 +227,7 @@ export default {
                 }
               }
             }
+            this.loading = false
           } else {
             this.$message.error('无法取得数据')
             // console.log('无法取得数据')

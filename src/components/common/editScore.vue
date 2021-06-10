@@ -17,6 +17,7 @@
               style="width: 200px"
               oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
               onafterpaste="value=value.replace(/^\.+|[^\d.]/g,'')"
+
             ></el-input>
             <!-- <span class="hint" v-if="type !='view'">限制长度，3个字符</span> -->
           </el-form-item>
@@ -30,7 +31,9 @@
               style="width: 200px"
               placeholder="请填写排名"
               v-model="form.rank"
+              @focus="getrank"
             />
+            <span class="hint" >可输入的位次范围：{{lowRank}}~{{highRank}}</span>
           </el-form-item>
         </el-row>
         <el-form-item
@@ -109,12 +112,26 @@
 </template>
 
 <script>
-import {getUserInfo} from '@/api/index'
+import {getUserInfo, testRank} from '@/api/index'
 import {completeInformation} from '@/api/login'
 export default {
   name: 'editScore',
   inject: ['reload'],
   data () {
+    var checkRank = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('位次不能为空'))
+      }
+      setTimeout(() => {
+        if (value < this.highRank) {
+          callback(new Error('请输入正确位次'))
+        } else if (value > this.lowRank) {
+          callback(new Error('请输入正确位次'))
+        } else {
+          callback()
+        }
+      }, 500)
+    }
     return {
       isShow: false,
       isShow1: false,
@@ -138,6 +155,7 @@ export default {
         politics: '0',
         checkSubjectList: [],
         checkSubjectList2: []
+
       },
       rules: {
         examYear: [
@@ -153,7 +171,7 @@ export default {
           { required: true, message: '请选择科目', trigger: 'change' }
         ],
         rank: [
-          { required: true, message: '请填写高考排名', trigger: 'blur' }
+          { validator: checkRank, trigger: 'blur' }
         ],
         score: [
           { required: true, message: '请填写高考总分', trigger: 'blur' }
@@ -163,7 +181,9 @@ export default {
       provinceList: [],
       subjects: ['物理', '化学', '生物', '政治', '历史', '地理'],
       subjects1: ['物理', '历史'],
-      subjects2: [ '化学', '生物', '政治', '地理']
+      subjects2: [ '化学', '生物', '政治', '地理'],
+      highRank: '',
+      lowRank: ''
     }
   },
   mounted () {
@@ -172,30 +192,40 @@ export default {
   methods: {
     init () {
       getUserInfo().then(res => {
+        if (res.code == 0) {
         // console.log(res)
-        this.form.score = res.data.score
-        this.form.rank = res.data.rank
-        this.form.phoneNum = res.data.phoneNum
-        this.form.examYear = res.data.examYear
-        this.form.schoolName = res.data.schoolName
-        this.form.className = res.data.className
-        this.form.examProvince = res.data.examProvince
-        this.form.examCounty = res.data.examCounty
-        this.form.examCity = res.data.examCity
-        if (this.form.examProvince == '河北省') {
-          res.data.biology == 1 ? this.form.checkSubjectList2.push('生物') : ''
-          res.data.chemistry == 1 ? this.form.checkSubjectList2.push('化学') : ''
-          res.data.geography == 1 ? this.form.checkSubjectList2.push('地理') : ''
-          res.data.history == 1 ? this.form.checkSubjectList.push('历史') : ''
-          res.data.physics == 1 ? this.form.checkSubjectList.push('物理') : ''
-          res.data.politics == 1 ? this.form.checkSubjectList2.push('政治') : ''
+          this.form.score = res.data.score
+          this.form.rank = res.data.rank
+          this.form.phoneNum = res.data.phoneNum
+          this.form.examYear = res.data.examYear
+          this.form.schoolName = res.data.schoolName
+          this.form.className = res.data.className
+          this.form.examProvince = res.data.examProvince
+          this.form.examCounty = res.data.examCounty
+          this.form.examCity = res.data.examCity
+          if (this.form.examProvince == '河北省') {
+            res.data.biology == 1 ? this.form.checkSubjectList2.push('生物') : ''
+            res.data.chemistry == 1 ? this.form.checkSubjectList2.push('化学') : ''
+            res.data.geography == 1 ? this.form.checkSubjectList2.push('地理') : ''
+            res.data.history == 1 ? this.form.checkSubjectList.push('历史') : ''
+            res.data.physics == 1 ? this.form.checkSubjectList.push('物理') : ''
+            res.data.politics == 1 ? this.form.checkSubjectList2.push('政治') : ''
+          } else {
+            res.data.biology == 1 ? this.form.checkSubjectList.push('生物') : ''
+            res.data.chemistry == 1 ? this.form.checkSubjectList.push('化学') : ''
+            res.data.geography == 1 ? this.form.checkSubjectList.push('地理') : ''
+            res.data.history == 1 ? this.form.checkSubjectList.push('历史') : ''
+            res.data.physics == 1 ? this.form.checkSubjectList.push('物理') : ''
+            res.data.politics == 1 ? this.form.checkSubjectList.push('政治') : ''
+          }
+          this.getrank()
         } else {
-          res.data.biology == 1 ? this.form.checkSubjectList.push('生物') : ''
-          res.data.chemistry == 1 ? this.form.checkSubjectList.push('化学') : ''
-          res.data.geography == 1 ? this.form.checkSubjectList.push('地理') : ''
-          res.data.history == 1 ? this.form.checkSubjectList.push('历史') : ''
-          res.data.physics == 1 ? this.form.checkSubjectList.push('物理') : ''
-          res.data.politics == 1 ? this.form.checkSubjectList.push('政治') : ''
+          localStorage.clear()
+          this.$store.dispatch('getVip', '')
+          this.$store.dispatch('resUserInfo', {})
+          this.$router.push('/appCon')
+          // this.loginflag = false;
+          this.$store.dispatch('getloginstate', false)
         }
       })
     },
@@ -246,6 +276,18 @@ export default {
           this.msgError('提交修改失败')
           return false
         }
+      })
+    },
+    getrank () {
+      var submit = this.form.checkSubjectList.concat(this.form.checkSubjectList2)
+      testRank({
+        physics: submit.includes('物理') ? 1 : 0,
+        province: this.form.examProvince,
+        score: this.form.score
+      }).then(res => {
+        console.log(res)
+        this.highRank = res.data.highRank
+        this.lowRank = res.data.lowRank
       })
     },
     resetForm (formName) {

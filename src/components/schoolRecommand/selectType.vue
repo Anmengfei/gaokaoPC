@@ -113,11 +113,11 @@
           <div class="schoollist" v-if="vip == 1">
             <el-row>
               <!-- schoolList.vue 心仪的院校 majorList.vue 喜欢的专业-->
-              <el-col :span="19">
+              <el-col :span="18">
                 <school-list :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" ></school-list>
               </el-col>
               <!-- 已填入意向侧边栏 -->
-              <el-col :span="5">
+              <el-col :span="6">
                 <div class="auto_fixed" :class="auto_fixed">
                   <div class="fudongBox">
                     <!-- <div class="head"><span>已填入意向</span><span class="subhead">(至少填报10个意向)</span></div> -->
@@ -164,12 +164,12 @@
           <div class="schoollist" v-else>
             <el-row>
               <!-- schoolList.vue 心仪的院校 majorList.vue 喜欢的专业-->
-              <el-col :span="19">
+              <el-col :span="18">
                 <novipschool :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo"></novipschool>
 <!--                <novipmajor :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-else></novipmajor>-->
               </el-col>
               <!-- 已填入意向侧边栏 -->
-              <el-col :span="5">
+              <el-col :span="6">
                 <div class="auto_fixed" :class="auto_fixed">
                   <div class="fudongBox">
                     <!-- <div class="head"><span>已填入意向</span><span class="subhead">(至少填报10个意向)</span></div> -->
@@ -329,12 +329,12 @@
           <div class="schoollist" v-if="vip == 1">
             <el-row>
               <!-- schoolList.vue 心仪的院校 majorList.vue 喜欢的专业-->
-              <el-col :span="19">
+              <el-col :span="18">
 <!--                <school-list :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-if="selectTabs == 'favoriteSchool'"></school-list>-->
                 <MajorList :selected="collegeselete" :volform="volForm" :majorselect="majorselect" @addform="getAddFormInfo" ></MajorList>
               </el-col>
               <!-- 已填入意向侧边栏 -->
-              <el-col :span="5">
+              <el-col :span="6">
                 <div class="auto_fixed" :class="auto_fixed">
                   <div class="fudongBox">
                     <!-- <div class="head"><span>已填入意向</span><span class="subhead">(至少填报10个意向)</span></div> -->
@@ -381,12 +381,12 @@
           <div class="schoollist" v-else>
             <el-row>
               <!-- schoolList.vue 心仪的院校 majorList.vue 喜欢的专业-->
-              <el-col :span="19">
+              <el-col :span="18">
 <!--                <novipschool :selected="collegeselete" :volform="volForm" @addform="getAddFormInfo" v-if="selectTabs == 'favoriteSchool'" ></novipschool>-->
                 <novipmajor :selected="collegeselete" :volform="volForm" :majorselect="majorselect" @addform="getAddFormInfo"></novipmajor>
               </el-col>
               <!-- 已填入意向侧边栏 -->
-              <el-col :span="5">
+              <el-col :span="6">
                 <div class="auto_fixed" :class="auto_fixed">
                   <div class="fudongBox">
                     <!-- <div class="head"><span>已填入意向</span><span class="subhead">(至少填报10个意向)</span></div> -->
@@ -787,13 +787,13 @@ export default {
       }
     },
     selecttag (item) {
-      console.log('执行了',item)
+      console.log('执行了', item)
       this.active = item
       if (item == '') {
         this.collegeselete.provinceSelect = []
       } else if (!this.collegeselete.provinceSelect.includes(item)) {
         this.collegeselete.provinceSelect.push(item)
-        console.log('this.collegeselete',this.collegeselete.provinceSelect)
+        console.log('this.collegeselete', this.collegeselete.provinceSelect)
       } else {
         // 控制省份的删除
         for (let i = 0; i < this.collegeselete.provinceSelect.length; i++) {
@@ -858,7 +858,7 @@ export default {
         if (tag.category == item) {
           this.majorSecond = tag.firSubList
         }
-        console.log('this.majorType',this.majorType)
+        console.log('this.majorType', this.majorType)
       })
     },
     selectmajorsecondtag (item) {
@@ -881,7 +881,7 @@ export default {
     getProvincesinit () {
       getAllprovinces().then(res => {
         this.provincesList = res.data || []
-        console.log('this.procinceList',this.provincesList)
+        console.log('this.procinceList', this.provincesList)
       })
     },
     getcollegeType () {
@@ -895,7 +895,7 @@ export default {
     getMajortypelist () {
       getAllMajorType().then(res => {
         this.majorType = res.data || []
-        console.log('this.majorType',this.majorType)
+        console.log('this.majorType', this.majorType)
       })
     },
     handleClick (tab, event) {
@@ -930,12 +930,12 @@ export default {
       })
     },
     clickToZhiyuanBiao () { // 下一步按钮，转向新的界面
-      console.log('未规整前，已填入意向中的数据列表为：',this.volForm)
+      console.log('未规整前，已填入意向中的数据列表为：', this.volForm)
       if (this.volForm.length == 0) {
         this.dialogVisible3 = true
       } else {
         for (let i = 0; i < this.volForm.length; i++) {
-        this.volForm[i] = JSON.parse(JSON.stringify(this.volForm[i]).replace(/id/g, 'wishId'))
+          this.volForm[i] = JSON.parse(JSON.stringify(this.volForm[i]).replace(/id/g, 'wishId'))
         }
         for (let i = 0; i < this.volForm.length; i++) {
           const map = {}
@@ -947,7 +947,7 @@ export default {
           map.wishNum = i
           this.zhiyuanFormatList.push(map)
         }
-        console.log('规整后的数据列表为:',this.zhiyuanFormatList)
+        console.log('规整后的数据列表为:', this.zhiyuanFormatList)
         var url = 'https://www.zytb.top/NEMT/gk/userPC/changeWishListPC'
         axios({
           method: 'post',
@@ -962,14 +962,14 @@ export default {
           }
         }).then((res) => {
           // this.$router.push('/zhiyuanBiao')
-          console.log('发送给服务器后的返回结果',res)
+          console.log('发送给服务器后的返回结果', res)
           this.$router.push({
-          path:"/zhiyuanBiao",
-          query:{
-            listId:this.listId,
-            wishNum:1,
-          }
-        })
+            path: '/zhiyuanBiao',
+            query: {
+              listId: this.listId,
+              wishNum: 1
+            }
+          })
         })
       }
     },

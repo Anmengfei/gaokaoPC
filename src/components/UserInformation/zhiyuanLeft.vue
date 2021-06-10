@@ -61,13 +61,11 @@
 </template>
 
 <script>
-import { getUserInfo } from "@/api/index.js";
-import { getAllFollowMajor } from "@/api/index.js";
-import { getAllFollowSchool } from "@/api/index.js";
+import { getUserInfo, getAllFollowMajor, getAllFollowSchool } from '@/api/index.js'
 
 export default {
-  name: "zhiyuanLeft",
-  data() {
+  name: 'zhiyuanLeft',
+  data () {
     return {
       userInfoList: [],
       AllFollowMajorList: [],
@@ -75,69 +73,78 @@ export default {
       vipbtn: false,
       MajorLength: 0,
       SchoolLength: 0,
-      vipword: "开通vip",
-    };
+      vipword: '开通vip'
+    }
   },
-  mounted() {
-    this.initData();
+  mounted () {
+    this.initData()
   },
   methods: {
-    initData() {
-      getUserInfo(localStorage.getItem("token")).then((res) => {
-        this.userInfoList = res.data;
-        if (this.userInfoList.vip == 0) {
-          this.vipbtn = false;
+    initData () {
+      getUserInfo(localStorage.getItem('token')).then((res) => {
+        if (res.code == 0) {
+          this.userInfoList = res.data
+          if (this.userInfoList.vip == 0) {
+            this.vipbtn = false
+          } else {
+            this.vipbtn = true
+            this.vipword = '已开通VIP'
+          }
+          let params = {
+            phoneNum: parseInt(this.userInfoList.phoneNum)
+          }
+          getAllFollowMajor(params).then((res) => {
+            this.AllFollowMajorList = res.data
+            this.MajorLength = this.AllFollowMajorList.length
+          })
+          getAllFollowSchool(params).then((res) => {
+            this.AllFollowSchoolList = res.data
+            this.SchoolLength = this.AllFollowSchoolList.length
+          })
         } else {
-          this.vipbtn = true;
-          this.vipword = "已开通VIP";
+          localStorage.clear()
+          this.$store.dispatch('getVip', '')
+          this.$store.dispatch('resUserInfo', {})
+          this.$router.push('/appCon')
+          // this.loginflag = false;
+          this.$store.dispatch('getloginstate', false)
         }
-        let params = {
-          phoneNum: parseInt(this.userInfoList.phoneNum),
-        };
-        getAllFollowMajor(params).then((res) => {
-          this.AllFollowMajorList = res.data;
-          this.MajorLength = this.AllFollowMajorList.length;
-        });
-        getAllFollowSchool(params).then((res) => {
-          this.AllFollowSchoolList = res.data;
-          this.SchoolLength = this.AllFollowSchoolList.length;
-        });
-      });
+      })
     },
-    headImgClick() {
+    headImgClick () {
       // console.log("headImgClick执行了");
-      this.$router.push("/touxiang");
+      this.$router.push('/touxiang')
     },
-    VIPClick() {
-      this.$router.push("/volunteerVIP");
+    VIPClick () {
+      this.$router.push('/volunteerVIP')
     },
-    zhiyuanClick() {
-      this.$router.push("/zhiyuanTable");
+    zhiyuanClick () {
+      this.$router.push('/zhiyuanTable')
     },
-    installClick() {
+    installClick () {
       // this.$router.push("/install");
-      this.$router.push("/updatePassword");
+      this.$router.push('/updatePassword')
     },
     // orderClick() {
     //   this.$router.push("/order");
     // },
-    followClick() {
-      this.$router.push("/follow");
+    followClick () {
+      this.$router.push('/follow')
     },
     // followClick() {
     //   this.$router.push("/updatePassword");
     // },
-    openVIPClick() {
-      this.$router.push("/openVIP");
+    openVIPClick () {
+      this.$router.push('/openVIP')
     },
-    AllFollowMajorClick() {
-      this.$router.push("/AllFollowMajor");
+    AllFollowMajorClick () {
+      this.$router.push('/AllFollowMajor')
     },
-    AllFollowSchoolClick() {
-      this.$router.push("/AllFollowSchool");
-    },
-  },
-};
+    AllFollowSchoolClick () {
+      this.$router.push('/AllFollowSchool')
+    }
+  }
+}
 </script>
 
 <style scoped>

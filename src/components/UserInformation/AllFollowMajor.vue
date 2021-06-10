@@ -54,58 +54,67 @@
 </template>
 
 <script>
-import VolunteerTable from "@/components/zhiyuanForm/zhiyuanLeft";
-import TopHeader from "@/components/common/topheader";
-import HomeHeader from "@/components/common/header1";
-import Footer from "@/components/common/footer1";
-import { getUserInfo, getAllFollowMajor, unfollowMajor } from "@/api/index.js";
+import VolunteerTable from '@/components/zhiyuanForm/zhiyuanLeft'
+import TopHeader from '@/components/common/topheader'
+import HomeHeader from '@/components/common/header1'
+import Footer from '@/components/common/footer1'
+import { getUserInfo, getAllFollowMajor, unfollowMajor } from '@/api/index.js'
 export default {
-  name: "install",
+  name: 'install',
   components: { TopHeader, HomeHeader, Footer, VolunteerTable },
-  data() {
+  data () {
     return {
       userInfoList: [],
       AllFollowMajorList: [],
       pagesize: 5,
       currentPage: 1,
-      phoneNum: "",
-    };
+      phoneNum: ''
+    }
   },
-  mounted() {
-    this.initData();
+  mounted () {
+    this.initData()
   },
   methods: {
-    initData() {
-      getUserInfo(localStorage.getItem("token")).then((res) => {
-        this.userInfoList = res.data;
-        this.phoneNum = this.userInfoList.phoneNum;
-        let params = {
-          phoneNum: this.userInfoList.phoneNum,
-        };
-        getAllFollowMajor(params).then((res) => {
-          // console.log("这是关注专业");
-          this.AllFollowMajorList = res.data;
-          // console.log(this.AllFollowMajorList);
-        });
-      });
+    initData () {
+      getUserInfo(localStorage.getItem('token')).then((res) => {
+        if (res.code == 0) {
+          this.userInfoList = res.data
+          this.phoneNum = this.userInfoList.phoneNum
+          let params = {
+            phoneNum: this.userInfoList.phoneNum
+          }
+          getAllFollowMajor(params).then((res) => {
+            // console.log("这是关注专业");
+            this.AllFollowMajorList = res.data
+            // console.log(this.AllFollowMajorList);
+          })
+        } else {
+          localStorage.clear()
+          this.$store.dispatch('getVip', '')
+          this.$store.dispatch('resUserInfo', {})
+          this.$router.push('/appCon')
+          // this.loginflag = false;
+          this.$store.dispatch('getloginstate', false)
+        }
+      })
     },
-    handleCurrentChange(currentPage) {
-      this.currentPage = currentPage;
+    handleCurrentChange (currentPage) {
+      this.currentPage = currentPage
       // console.log(this.currentPage); //点击第几页
     },
-    deleteClick(index) {
+    deleteClick (index) {
       let params = {
         majorName: this.AllFollowMajorList[index].followName,
-        phoneNum: this.phoneNum,
-      };
+        phoneNum: this.phoneNum
+      }
       unfollowMajor(params).then((res) => {
         // console.log(res);
         // console.log("删除成功");
-        this.AllFollowMajorList.splice(index, 1);
-      });
-    },
-  },
-};
+        this.AllFollowMajorList.splice(index, 1)
+      })
+    }
+  }
+}
 </script>
 <style scoped>
 li {

@@ -73,64 +73,73 @@
 </template>
 
 <script>
-import VolunteerTable from "@/components/zhiyuanForm/zhiyuanLeft";
-import TopHeader from "@/components/common/topheader";
-import HomeHeader from "@/components/common/header1";
-import Footer from "@/components/common/footer1";
+import VolunteerTable from '@/components/zhiyuanForm/zhiyuanLeft'
+import TopHeader from '@/components/common/topheader'
+import HomeHeader from '@/components/common/header1'
+import Footer from '@/components/common/footer1'
 import {
   getUserInfo,
   getAllFollowSchool,
-  unfollowSchool,
-} from "@/api/index.js";
+  unfollowSchool
+} from '@/api/index.js'
 export default {
-  name: "order",
+  name: 'order',
   components: { TopHeader, HomeHeader, Footer, VolunteerTable },
-  data() {
+  data () {
     return {
       userInfoList: [],
       AllFollowSchoolList: [],
       pagesize: 5,
       currentPage: 1,
-      phoneNum: "",
-    };
+      phoneNum: ''
+    }
   },
-  mounted() {
-    this.initData();
+  mounted () {
+    this.initData()
   },
   methods: {
-    initData() {
-      getUserInfo(localStorage.getItem("token")).then((res) => {
-        this.userInfoList = res.data;
-        this.phoneNum = this.userInfoList.phoneNum;
-        // console.log("这是我的手机号", this.phoneNum);
-        let params = {
-          phoneNum: this.userInfoList.phoneNum,
-        };
-        getAllFollowSchool(params).then((res) => {
-          this.AllFollowSchoolList = res.data;
+    initData () {
+      getUserInfo(localStorage.getItem('token')).then((res) => {
+        if (res.code == 0) {
+          this.userInfoList = res.data
+          this.phoneNum = this.userInfoList.phoneNum
+          // console.log("这是我的手机号", this.phoneNum);
+          let params = {
+            phoneNum: this.userInfoList.phoneNum
+          }
+          getAllFollowSchool(params).then((res) => {
+            this.AllFollowSchoolList = res.data
           // console.log("这是关注院校aaaaaaaaa");
           // console.log(this.AllFollowSchoolList);
           // console.log(this.followName);
-        });
-      });
+          })
+        } else {
+          localStorage.clear()
+          this.$store.dispatch('getVip', '')
+          this.$store.dispatch('resUserInfo', {})
+          this.$router.push('/appCon')
+          // this.loginflag = false;
+          this.$store.dispatch('getloginstate', false)
+        }
+      })
     },
-    handleCurrentChange(currentPage) {
-      this.currentPage = currentPage;
+    handleCurrentChange (currentPage) {
+      this.currentPage = currentPage
       // console.log(this.currentPage); //点击第几页
     },
-    deleteClick(index) {
+    deleteClick (index) {
       let params = {
         phoneNum: this.phoneNum,
-        schoolName: this.AllFollowSchoolList[index].followName,
-      };
+        schoolName: this.AllFollowSchoolList[index].followName
+      }
       unfollowSchool(params).then((res) => {
         // console.log(res);
         // console.log("删除成功");
-        this.AllFollowSchoolList.splice(index, 1);
-      });
-    },
-  },
-};
+        this.AllFollowSchoolList.splice(index, 1)
+      })
+    }
+  }
+}
 </script>
 <style scoped>
 .homeheader {

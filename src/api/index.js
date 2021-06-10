@@ -270,3 +270,12 @@ export function getyouhuimoney (data) {
     params: data
   })
 }
+
+// 获取优惠价格
+export function testRank (data) {
+  return request({
+    url: '/userWX/rankByScore',
+    method: 'get',
+    params: data
+  })
+}

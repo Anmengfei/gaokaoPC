@@ -16,9 +16,9 @@
             >
               <div class="bg-logo">
                 <img class="bg1-QQ" src="../../assets/QQ.png" alt="" />
-                <div>QQ扫一扫，惊喜更多</div>
+                <div>微信扫一扫，添加客服</div>
               </div>
-              <a class="a-erweima"  slot="reference">高考志愿填报QQ群</a>
+              <a class="a-erweima"  slot="reference">添加客服</a>
             </el-popover>
             <el-popover
               placement="top-start"

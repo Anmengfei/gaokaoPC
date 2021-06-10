@@ -285,15 +285,24 @@ export default {
     if (localStorage.getItem('token') != null && localStorage.getItem('token22') != null) {
       this.flag_state = true
       getUserInfo().then((res) => {
-        this.userInfo = res.data
-        this.$store.dispatch('resUserInfo', res.data).then(() => {
-          this.userInfo.biology == 1 ? this.subject.push('生物') : ''
-          this.userInfo.chemistry == 1 ? this.subject.push('化学') : ''
-          this.userInfo.geography == 1 ? this.subject.push('地理') : ''
-          this.userInfo.history == 1 ? this.subject.push('历史') : ''
-          this.userInfo.physics == 1 ? this.subject.push('物理') : ''
-          this.userInfo.politics == 1 ? this.subject.push('政治') : ''
-        })
+        if (res.code == 0) {
+          this.userInfo = res.data
+          this.$store.dispatch('resUserInfo', res.data).then(() => {
+            this.userInfo.biology == 1 ? this.subject.push('生物') : ''
+            this.userInfo.chemistry == 1 ? this.subject.push('化学') : ''
+            this.userInfo.geography == 1 ? this.subject.push('地理') : ''
+            this.userInfo.history == 1 ? this.subject.push('历史') : ''
+            this.userInfo.physics == 1 ? this.subject.push('物理') : ''
+            this.userInfo.politics == 1 ? this.subject.push('政治') : ''
+          })
+        } else {
+          localStorage.clear()
+          this.$store.dispatch('getVip', '')
+          this.$store.dispatch('resUserInfo', {})
+          this.$router.push('/appCon')
+          // this.loginflag = false;
+          this.$store.dispatch('getloginstate', false)
+        }
       })
     } else {
       this.flag_state = false
@@ -316,12 +325,12 @@ export default {
     //   this.examProvince = res.data.examProvince !== undefined ? res.data.examProvince : ''
     //   console.log('查看省份',this.examProvince)
     // })
-    
-    //获取大家都在学的视频列表
-    this.initData ()
-    //获取大家都在关注的文章列表
+
+    // 获取大家都在学的视频列表
+    this.initData()
+    // 获取大家都在关注的文章列表
     this.getarticle(localStorage.getItem('examProvince'))
-    //获取院校推荐的学校列表
+    // 获取院校推荐的学校列表
     this.getSchool(localStorage.getItem('phone'))
     window.addEventListener('scroll', this.watchScroll)
     this.setBannerH()
@@ -335,7 +344,7 @@ export default {
   },
 
   methods: {
-     //获取大家都在学的视频列表
+    // 获取大家都在学的视频列表
     initData () {
       let _this = this
       getAllIsLearning().then(function (response) {
@@ -346,7 +355,7 @@ export default {
         console.log('查看视频列表的情况', _this.threeVideoList)
       })
     },
-    //获取院校推荐的学校列表
+    // 获取院校推荐的学校列表
     getSchool (phone) {
       getFitSchool({
         type: 0,
@@ -356,9 +365,9 @@ export default {
         console.log('this.recommandschoolList', this.recommandschoolList, phone)
       })
     },
-    //获取大家都在关注的文章列表
+    // 获取大家都在关注的文章列表
     getarticle (examProvince) {
-      console.log('examProvince',examProvince)
+      console.log('examProvince', examProvince)
       let _this = this
       getFollowingList({
         // examProvince: this.userInfo.examProvince !== null ? this.userInfo.examProvince : '山东省'
@@ -387,7 +396,7 @@ export default {
       //   }
       // })
     },
-    //未登录前，院校推荐旁边的登录按钮
+    // 未登录前，院校推荐旁边的登录按钮
     gotoAllschool () {
       if (localStorage.getItem('token') != null) {
         this.$router.push({

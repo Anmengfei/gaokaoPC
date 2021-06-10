@@ -37,8 +37,8 @@
           >
             <el-select v-model="form.schoolName" placeholder="请选择所在高中" style="width: 200px" :disabled="form.address == ''">
               <el-option
-                v-for="item in highSchool"
-                :key="item.value"
+                v-for="(item,index) in highSchool"
+                :key="index"
                 :label="item.label"
                 :value="item.value">
               </el-option>
@@ -60,6 +60,63 @@
             <!-- <span class="hint" v-if="type !='view'">限制长度，3个字符</span> -->
           </el-form-item>
         </el-row>
+        <el-form-item
+          class="form-item-style"
+          label="选择科目:"
+          prop="checkSubjectList"
+        >
+          <div v-if="form.address[0] == '河北省'">
+            <el-checkbox-group
+              size="mini"
+              :max="1"
+              v-model="form.checkSubjectList"
+              @change="selectSubject1"
+            >
+              <el-checkbox-button
+                v-for="item in subjects1"
+                :label="item"
+                :key="item"
+              >{{ item }}</el-checkbox-button>
+            </el-checkbox-group>
+            <el-form-item
+              class="form-item-style"
+              prop="checkSubjectList"
+            >
+              <label slot="label">&nbsp;&emsp;&emsp;&emsp;&emsp;</label>
+              <el-checkbox-group
+                size="mini"
+                :max="2"
+                v-model="form.checkSubjectList2"
+                @change="selectSubject2"
+              >
+                <el-checkbox-button
+                  v-for="item in subjects2"
+                  :label="item"
+                  :key="item"
+                >{{ item }}</el-checkbox-button>
+              </el-checkbox-group>
+
+            </el-form-item>
+            <span class="hint" v-if="isShow1">高考选科3+1+2模式，物理历史必选一科，共需要选择三门学科</span>
+          </div>
+
+          <div v-else>
+            <el-checkbox-group
+              size="mini"
+              :max="3"
+              v-model="form.checkSubjectList"
+              @change="selectSubject"
+            >
+              <el-checkbox-button
+                v-for="item in subjects"
+                :label="item"
+                :key="item"
+              >{{ item }}</el-checkbox-button>
+            </el-checkbox-group>
+            <span class="hint" v-if="isShow">高考选科3+3模式，需要选择三门学科</span>
+          </div>
+
+        </el-form-item>
         <el-row :gutter="10">
             <el-form-item
               label="高考总分:"
@@ -86,66 +143,12 @@
                 style="width: 200px"
                 placeholder="请填写总分位次"
                 v-model="form.rank"
+                @focus="getrank"
               />
             </el-form-item>
+          <span class="hint" >可输入的位次范围：{{lowRank}}~{{highRank}}</span>
         </el-row>
-        <el-form-item
-          class="form-item-style"
-          label="选择科目:"
-          prop="checkSubjectList"
-        >
-          <div v-if="form.address[0] == '河北省'">
-            <el-checkbox-group
-              size="mini"
-              :max="1"
-              v-model="form.checkSubjectList"
-              @change="selectSubject1"
-            >
-              <el-checkbox-button
-                v-for="item in subjects1"
-                :label="item"
-                :key="item"
-              >{{ item }}</el-checkbox-button>
-            </el-checkbox-group>
-            <el-form-item
-              class="form-item-style"
-              prop="checkSubjectList"
-            >
-              <label slot="label">&nbsp;&emsp;&emsp;&emsp;&emsp;</label>
-            <el-checkbox-group
-              size="mini"
-              :max="2"
-              v-model="form.checkSubjectList2"
-              @change="selectSubject2"
-            >
-              <el-checkbox-button
-                v-for="item in subjects2"
-                :label="item"
-                :key="item"
-              >{{ item }}</el-checkbox-button>
-            </el-checkbox-group>
 
-            </el-form-item>
-            <span class="hint" v-if="isShow1">高考选科3+1+2模式，物理历史必选一科，共需要选择三门学科</span>
-          </div>
-
-          <div v-else>
-            <el-checkbox-group
-              size="mini"
-              :max="3"
-              v-model="form.checkSubjectList"
-              @change="selectSubject"
-            >
-              <el-checkbox-button
-                v-for="item in subjects"
-                :label="item"
-                :key="item"
-              >{{ item }}</el-checkbox-button>
-            </el-checkbox-group>
-            <span class="hint" v-if="isShow">高考选科3+3模式，需要选择三门学科</span>
-          </div>
-
-        </el-form-item>
         <el-form-item>
           <div style="text-align: center"> <el-button type="primary" @click="submitForm('form')">提交</el-button>
             <el-button @click="resetForm('form')">重置</el-button></div>
@@ -157,7 +160,7 @@
 </template>
 
 <script>
-import { getAllprovinces, getUserInfo, getHighSchool } from '@/api/index'
+import { getAllprovinces, getUserInfo, getHighSchool, testRank } from '@/api/index'
 import { completeInformation } from '@/api/user'
 import CascaderArea from '@/components/CascaderArea/index'
 
@@ -168,6 +171,20 @@ export default {
     CascaderArea
   },
   data () {
+    var checkRank = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('位次不能为空'))
+      }
+      setTimeout(() => {
+        if (value < this.highRank) {
+          callback(new Error('请输入正确位次'))
+        } else if (value > this.lowRank) {
+          callback(new Error('请输入正确位次'))
+        } else {
+          callback()
+        }
+      }, 500)
+    }
     return {
       pickerOptions: {
         disabledDate (time) {
@@ -213,7 +230,7 @@ export default {
           { required: true, message: '请选择科目', trigger: 'change' }
         ],
         rank: [
-          { required: true, message: '请填写总分位次', trigger: 'blur' }
+          { validator: checkRank, trigger: 'blur' }
         ],
         score: [
           { required: true, message: '请填写高考总分', trigger: 'blur' }
@@ -229,7 +246,9 @@ export default {
       subjects: ['物理', '化学', '生物', '政治', '历史', '地理'],
       subjects1: ['物理', '历史'],
       subjects2: [ '化学', '生物', '政治', '地理'],
-      checkSubjectList: []
+      checkSubjectList: [],
+      highRank: '1',
+      lowRank: '500000'
     }
   },
   mounted () {
@@ -308,6 +327,17 @@ export default {
           this.msgError('信息提交失败，请重新填写')
           // return false;
         }
+      })
+    },
+    getrank () {
+      var submit = this.form.checkSubjectList.concat(this.form.checkSubjectList2)
+      testRank({
+        physics: submit.includes('物理') ? 1 : 0,
+        province: this.form.address[0],
+        score: this.form.score
+      }).then(res => {
+        this.highRank = res.data.highRank
+        this.lowRank = res.data.lowRank
       })
     },
     resetForm (formName) {
